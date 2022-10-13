@@ -17,17 +17,13 @@ app.use(express.static(__dirname + "/public"));
 //Défini le moteur de vue
 app.engine('hbs', hbsEngine.engine({
     //Route au layout
-    defaultLayout: 'main',
+    layoutsDir: './views/layouts',
     extname: '.hbs'
 }));
 app.set("view engine", 'hbs');
-app.set("views", "./views");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-
-app.use("/", routes);
 
 app.use((req, res, next) => {
     /*console.log("IP : " + JSON.stringify(req.ip));
@@ -37,10 +33,10 @@ app.use((req, res, next) => {
     next();
 });
 
-//Redirige vers /list_laureates/
+app.use("/", routes);
+
 app.get("/", (req, res) => {
-    res.redirect("/list_categories/");
-    res.redirect("/list_categories/");
+    res.redirect("/home");
 });
 
 //Si chemin n'est pas dans les fonctions d'avant
