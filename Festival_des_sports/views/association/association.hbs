@@ -1,0 +1,336 @@
+<style>
+    @keyframes scale {
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    span {
+        display: inline-block;
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    span:nth-child(1) {
+        animation: fade-in 0.8s 0.0s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(2) {
+        animation: fade-in 1.8s 1.2s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(3) {
+        animation: fade-in 1.8s 1.4s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(4) {
+        animation: fade-in 1.8s 1.4s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(5) {
+        animation: fade-in 1.8s 1.5s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(6) {
+        animation: fade-in 1.8s 1.6s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(7) {
+        animation: fade-in 1.8s 1.7s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(8) {
+        animation: fade-in 1.8s 1.8s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(9) {
+        animation: fade-in 1.8s 1.9s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(10) {
+        animation: fade-in 0.8s 1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(11) {
+        animation: fade-in 1.8s 1.1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(12) {
+        animation: fade-in 1.8s 1.2s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(13) {
+        animation: fade-in 0.8s 1.3s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(14) {
+        animation: fade-in 0.8s 1.4s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(15) {
+        animation: fade-in 0.8s 1.5s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(16) {
+        animation: fade-in 0.8s 1.6s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(17) {
+        animation: fade-in 0.8s 1.7s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(18) {
+        animation: fade-in 0.8s 1.8s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    @keyframes fade-in {
+        100% {
+            opacity: 1;
+            filter: blur(0);
+        }
+    }
+
+    .wrapper .icon{
+        position: relative;
+        background-color: #ffffff;
+        border-radius: 50%;
+        margin: 10px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 22px;
+        display: inline-block;
+        align-items: center;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        color: #333;
+        text-decoration: none;
+    }
+    .wrapper .tooltip {
+        position: absolute;
+        top: 0;
+        line-height: 1.5;
+        font-size: 14px;
+        background-color: #ffffff;
+        color: #ffffff;
+        padding: 5px 8px;
+        border-radius: 5px;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .wrapper .tooltip::before {
+        position: absolute;
+        content: "";
+        height: 8px;
+        width: 8px;
+        background-color: #ffffff;
+        bottom: -3px;
+        left: 50%;
+        transform: translate(-50%) rotate(45deg);
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .wrapper .icon:hover .tooltip {
+        top: -45px;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+    .wrapper .icon:hover span,
+    .wrapper .icon:hover .tooltip {
+        text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+    }
+    .wrapper .facebook:hover,
+    .wrapper .facebook:hover .tooltip,
+    .wrapper .facebook:hover .tooltip::before {
+        background-color: #3b5999;
+        color: #ffffff;
+    }
+    .wrapper   .apf:hover,
+    .wrapper .apf:hover .tooltip,
+    .wrapper .apf:hover .tooltip::before {
+        background-color: #F79F16;
+        color: #ffffff;
+    }
+    .wrapper .twitter:hover,
+    .wrapper .twitter:hover .tooltip,
+    .wrapper .twitter:hover .tooltip::before {
+        background-color: #46c1f6;
+        color: #ffffff;
+    }
+    .wrapper .instagram:hover,
+    .wrapper .instagram:hover .tooltip,
+    .wrapper .instagram:hover .tooltip::before {
+        background-color: #e1306c;
+        color: #ffffff;
+    }
+    .wrapper .linkedin:hover,
+    .wrapper .linkedin:hover .tooltip,
+    .wrapper .linkedin:hover .tooltip::before {
+        background-color:  #495388;
+        color: #ffffff;
+    }
+    .wrapper .youtube:hover,
+    .wrapper .youtube:hover .tooltip,
+    .wrapper .youtube:hover .tooltip::before {
+        background-color: #de463b;
+        color: #ffffff;
+    }
+</style>
+
+<div class="slideshow-container">
+    <div class="mySlides fade">
+        <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1030395504175091722/APF_2.png"
+             style="width:100%">
+    </div>
+    <div class="mySlides fade">
+        <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1030395503759867924/APF_1.png"
+             style="width:100%">
+    </div>
+    <div class="mySlides fade">
+        <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1030395504573562930/APF_3.png"
+             style="width:100%">
+    </div>
+    <div class="mySlides fade">
+        <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1030395703471644682/APF_4.png"
+             style="width:100%">
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <br><br>
+    <div class="row paragraphe">
+        <a><h2>L’HISTOIRE D’APF FRANCE HANDICAP</h2>
+            <span>
+            APF France handicap (connue jusqu'en 2018 sous le nom d'Association des paralysés de France) a été créée en
+            1933 par quatre jeunes atteints de poliomyélite : <i>André Trannoy, Jacques Dubuisson, Jeanne Henry et
+                Clothilde Lamborot.</i>
+            Révoltés par l'exclusion dont ils étaient victimes et souhaitant rompre l'isolement des personnes en
+            situation de handicap, ils créent l'association en avril 1933.
+            </span>
+            <br>
+            <br>
+            <section class="vh-10" style="background-color: #495388;">
+                <div class="container py-5 h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col col-lg-10 col-xl-8">
+                            <div class="card rounded-3">
+                                <div class="card-body p-5">
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <img src="https://www.apf-francehandicap.org/sites/default/files/styles/testimony_widget/public/a_trannoy_copier.jpg?itok=eLAtiMj8p"
+                                             class="rounded-circle shadow-1-strong" width="100" height="100"/>
+                                    </div>
+                                    <figure class="text-center mb-0">
+                                        <blockquote class="blockquote mb-4">
+                                            <p>
+                  <span class="font-italic">Je souhaite que ceux qui viennent et viendront auprès d'APF France handicap
+                      trouvent toujours auprès d'elle cet « autre chose » qui est l'essentiel.</span>
+                                            </p>
+                                        </blockquote>
+                                        <figcaption class="blockquote-footer mb-0">
+                                            ANDRÉ TRANNOY, <cite title="Source Title">FONDATEUR DE L'ASSOCIATION</cite>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br>
+            <span>
+            Au fil des années, APF France handicap se développe : elle crée des établissements et services de soins,
+            elle s'engage pour faire évoluer la législation en matière de handicap et fédère de plus en plus de
+            personnes
+            en situation de handicap, mobilisées pour défendre leurs droits. La devise d'André Trannoy « risquer
+            l’impossible »
+            reste aujourd'hui d'actualité : plus de 93 000 acteurs sont mobilisés au quotidien pour faire vivre cet
+            engagement
+            et construire une société solidaire ouverte à tous.
+            </span>
+        </a>
+    </div>
+
+    <div class="row ligne"></div>
+    <br>
+    <!--<video tabindex="-1" class="video-stream html5-main-video" webkit-playsinline="" playsinline=""
+           controlslist="nodownload" type="video/mp4" style="width: 740px; height: 416px; left: 0px; top: 13px;"
+           src="/public/img/APF.mp4"></video>-->
+    <div class="container">
+        <div class="row paragraphe">
+            <a><h2>EN BREF</h2>
+                <span>
+                APF France handicap est la plus importante organisation française, reconnue d’utilité publique, de défense et de représentation des personnes en situation de handicap et de leurs proches.
+                </span>
+                <br>
+                <br>
+                <img src="https://www.apf-francehandicap.org/sites/default/files/j.deya-caravaneapf_47-lr.jpg"
+                     class="rounded-circle shadow-1-strong" width="200" height="200"/>
+                <img src="https://www.udaf16.org/wp-content/uploads/2014/06/associations-adherentes.jpg"
+                     class="rounded-circle shadow-1-strong" width="200" height="200"/>
+                <br>
+                <br>
+                <span>
+                    L'APF France porte des <i>valeurs humanistes, militantes et sociales</i> et un projet d’intérêt général, celui d’une société inclusive et solidaire.
+                    <br><br>
+                    L’association agit pour l’égalité des droits, la citoyenneté, la participation sociale et le libre choix du mode de vie des personnes en situation de handicap et de leur famille.
+                        </span>
+                <br><br>
+            </a>
+        </div>
+    </div>
+
+    <div class="row ligne"></div>
+    <br>
+    <div class="container">
+        <div class="row paragraphe">
+            <h2 style="color: #6ec8cb">CONTACT</h2>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row paragraphe">
+            <div class="wrapper">
+                <a href="https://www.apf-francehandicap.org/" class="icon apf">
+                    <div class="tooltip">APF FRANCE</div>
+                    <span><i class="bi bi-globe2"></i></span>
+                </a><a href="https://www.facebook.com/associationdesparalysesdefrance" class="icon facebook">
+                    <div class="tooltip">Facebook</div>
+                    <span><i class="fab fa-facebook-f"></i></span>
+                </a>
+                <a href="https://twitter.com/apfhandicap?lang=fr" class="icon twitter">
+                    <div class="tooltip">Twitter</div>
+                    <span><i class="fab fa-twitter"></i></span>
+                </a>
+                <a href="https://www.linkedin.com/company/apfhandicap/" class="icon linkedin">
+                    <div class="tooltip">Linkedin</div>
+                    <span><i class="bi bi-linkedin"></i></span>
+                </a>
+                <a href="https://www.youtube.com/user/APFhandicap" class="icon youtube">
+                    <div class="tooltip">Youtube</div>
+                    <span><i class="fab fa-youtube"></i></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div><br><br>
+
+<script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {
+            slideIndex = 1
+        }
+        slides[slideIndex - 1].style.display = "block";
+        setTimeout(showSlides, 20000);
+    }
+</script>
