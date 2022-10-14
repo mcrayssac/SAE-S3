@@ -33,9 +33,31 @@
             <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png">
         </a>
     </div>
-    <div class="row ligne"></div>
 
-    <h1>HOME</h1>
+    {{# if cagnotte}}
+        <div class="row ligne"></div>
+        <div class="row center">
+            <h1>Notre cagnotte</h1>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="circular-progress">
+                    <span class="progress-value">0%</span>
+                </div>
+            </div>
+            <div class="col my-auto" style="font-size: xx-large;
+            font-family: 'Montserrat', sans-serif; font-weight: 300; vertical-align: center;">
+                <div class="row center">
+                    <a><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{cagnotte.cagnotte}}</a> € récoltés</a>
+                </div>
+                <div class="row center">
+                    <a>Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{cagnotte.objectif}}</a> €</a>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+
+    <div class="row ligne"></div>
     <h3>Palettes de couleurs</h3>
     <div class="row" style="border: 2px solid #1a265a;">
         <div class="col text-center" style="background-color: #495388; height: 100px; width: 100px;"></div>
@@ -76,4 +98,31 @@
         slides[slideIndex-1].style.display = "block";
         setTimeout(showSlides, 20000);
     }
+
+    let n = {{cagnotte.cagnotte}};
+    let cpt = {{cagnotte.cagnotte}}-500;
+    let delta = Math.ceil((0.01 * 1000) / n);
+    function countdown() {
+        document.getElementById("objectif").innerHTML = ({{cagnotte.objectif}}).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById("compteur").innerHTML = (++cpt).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        if( cpt < n ) setTimeout(countdown, delta);
+    }
+    setTimeout(countdown, delta);
+
+    let circularProgress = document.querySelector(".circular-progress"),
+            progressValue = document.querySelector(".progress-value");
+
+    let progressStartValue = 0,
+            progressEndValue = {{cagnotte.pourcentage}};
+    speed = 100-progressEndValue;
+
+    let progress = setInterval(() => {
+        progressStartValue++;
+        progressValue.textContent = `${progressStartValue}%`
+        circularProgress.style.background = `conic-gradient(#6ec8cb ${progressStartValue * 3.6}deg, #ededed 0deg)`
+        if(progressStartValue == progressEndValue){
+            clearInterval(progress);
+        }
+    }, speed);
+
 </script>

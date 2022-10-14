@@ -141,6 +141,12 @@ h2{
     margin-right: auto;
 }
 
+.right{
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
 .paragraphe{
     font-size: 25px;
     text-align: center;
@@ -232,4 +238,32 @@ hr{
     text-align:center;
     font-size:13px;
     margin-bottom:0;
+}
+
+
+.circular-progress{
+    margin-left: auto;
+    margin-right: 15%;
+    position: relative;
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    background: conic-gradient(#6ec8cb 3.6deg, #ededed 0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.circular-progress::before{
+    content: "";
+    position: absolute;
+    height: 210px;
+    width: 210px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.progress-value{
+    position: relative;
+    font-size: 40px;
+    font-weight: 600;
+    color: #6ec8cb;
 }
