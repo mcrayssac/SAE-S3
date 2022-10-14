@@ -13,7 +13,7 @@
     </div>
 </div>
 <br>
-
+<script src="public/js/script.js"></script>
 <div class="container">
     <div class="row center">
         <h1 style="color: #021331">LAKESIDE SPORTS FESTIVAL</h1>
@@ -34,28 +34,30 @@
         </a>
     </div>
 
-    {{# if cagnotte}}
-        <div class="row ligne"></div>
-        <div class="row center">
-            <h1>Notre cagnotte</h1>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="circular-progress">
-                    <span class="progress-value">0%</span>
+    {{#ifCond cagnotte.cagnotte "!==" "0"}}
+        {{#ifCond cagnotte.objectif "!==" "0"}}
+            <div class="row ligne"></div>
+            <div class="row center">
+                <h1>Notre cagnotte</h1>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="circular-progress">
+                        <span class="progress-value">0%</span>
+                    </div>
+                </div>
+                <div class="col my-auto" style="font-size: xx-large;
+                font-family: 'Montserrat', sans-serif; font-weight: 300; vertical-align: center;">
+                    <div class="row center">
+                        <a><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{cagnotte.cagnotte}}</a> € récoltés</a>
+                    </div>
+                    <div class="row center">
+                        <a>Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{cagnotte.objectif}}</a> €</a>
+                    </div>
                 </div>
             </div>
-            <div class="col my-auto" style="font-size: xx-large;
-            font-family: 'Montserrat', sans-serif; font-weight: 300; vertical-align: center;">
-                <div class="row center">
-                    <a><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{cagnotte.cagnotte}}</a> € récoltés</a>
-                </div>
-                <div class="row center">
-                    <a>Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{cagnotte.objectif}}</a> €</a>
-                </div>
-            </div>
-        </div>
-    {{/if}}
+        {{/ifCond}}
+    {{/ifCond}}
 
     <div class="row ligne"></div>
     <h3>Palettes de couleurs</h3>
@@ -87,7 +89,8 @@
 
 <script>
     let slideIndex = 0;
-    showSlides();
+
+    showSlides()
     function showSlides() {
         let slides = document.getElementsByClassName("mySlides");
         for (let i = 0; i < slides.length; i++) {
@@ -99,22 +102,27 @@
         setTimeout(showSlides, 20000);
     }
 
-    let n = {{cagnotte.cagnotte}};
-    let cpt = {{cagnotte.cagnotte}}-500;
+    let n = 0;
+    let cpt = 0;
     let delta = Math.ceil((0.01 * 1000) / n);
-    function countdown() {
-        document.getElementById("objectif").innerHTML = ({{cagnotte.objectif}}).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        document.getElementById("compteur").innerHTML = (++cpt).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        if( cpt < n ) setTimeout(countdown, delta);
-    }
-    setTimeout(countdown, delta);
 
     let circularProgress = document.querySelector(".circular-progress"),
             progressValue = document.querySelector(".progress-value");
 
-    let progressStartValue = 0,
-            progressEndValue = {{cagnotte.pourcentage}};
+    let progressStartValue = 0
+    let progressEndValue = 0;
     speed = 100-progressEndValue;
+
+    n = typeof {{cagnotte.cagnotte}} === 'undefined' ? "" :  {{cagnotte.cagnotte}};
+    cpt = typeof {{cagnotte.cagnotte}} === 'undefined' ? "" :  {{cagnotte.cagnotte}}-500;
+    document.getElementById("objectif").innerHTML = typeof {{cagnotte.objectif}} === 'undefined' ? "" : ({{cagnotte.objectif}}).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    progressEndValue = typeof {{cagnotte.pourcentage}} === 'undefined' ? "" :  {{cagnotte.pourcentage}};
+
+    function countdown() {
+        document.getElementById("compteur").innerHTML = (++cpt).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        if( cpt < n ) setTimeout(countdown, delta);
+    }
+    setTimeout(countdown, delta);
 
     let progress = setInterval(() => {
         progressStartValue++;

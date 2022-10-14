@@ -16,7 +16,7 @@ exports.home = (req, res) => {
     console.log(services.getCagnotte((error, results) => {
         if (results) return results
         else return error
-    }));
+    }))
     res.render('home/home.hbs', {
         layout: 'mainHome.hbs',
         cagnotte: services.getCagnotte((error, results) => {
