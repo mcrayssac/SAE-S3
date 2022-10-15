@@ -21,3 +21,17 @@ exports.home = (req, res) => {
         })
     });
 }
+
+exports.signup = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour signup reçue.'));
+    res.render('signup/signup.hbs', {
+        layout: 'mainHome.hbs'
+    });
+}
+
+exports.login = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour login reçue.'));
+    res.render('login/login.hbs', {
+        layout: 'mainHome.hbs'
+    });
+}

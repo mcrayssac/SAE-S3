@@ -10,4 +10,8 @@ router.get("/surnameName", controller.surnameName)
 
 router.get("/home", controller.home)
 
+router.get("/signup", controller.signup)
+
+router.get("/login", controller.login)
+
 module.exports = router;

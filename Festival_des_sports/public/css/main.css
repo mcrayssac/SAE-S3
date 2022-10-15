@@ -114,6 +114,8 @@ body{
     font-weight: 300;
     letter-spacing:1px;
     color: #495388;
+    position: relative;
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -178,8 +180,28 @@ hr{
     text-indent: 30px;
 }
 
+.form{
+    padding-bottom: 20px;
+}
+
+label{
+    font-size: 20px;
+}
+
+.btn-success:hover{
+    background-color: white;
+    color: green;
+}
+
+.footer-space{
+    padding-top: 167px;
+}
+
 .footer-basic {
+    position: absolute;
+    bottom: 0;
     padding:15px ;
+    width: 100%;
     background-color: #6ec8cb;
     font-weight: bold;
     color: white;
