@@ -193,12 +193,7 @@ label{
     color: green;
 }
 
-.footer-space{
-    padding-top: 167px;
-}
-
 .footer-basic {
-    position: absolute;
     bottom: 0;
     padding:15px ;
     width: 100%;

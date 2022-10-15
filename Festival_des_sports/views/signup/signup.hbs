@@ -1,10 +1,18 @@
 <h1>Signup</h1>
 
 <div class="container">
-    <form id="login_form" method="post" class="col" action="/login/">
+    <form id="signup_form" method="post" class="col" action="/signup/">
+        <div class="row-auto form">
+            <label for="first_name">Prénom :</label>
+            <input type="text" name="first_name" class="form-control" id="first_name">
+        </div>
+        <div class="row-auto form">
+            <label for="surname">Nom :</label>
+            <input type="text" name="surname" class="form-control" id="surname">
+        </div>
         <div class="row-auto form">
             <label for="email">Email :</label>
-            <input type="text" name="email" class="form-control" id="email">
+            <input type="email" name="email" class="form-control" id="email">
         </div>
         <div class="row-auto form">
             <label for="user_name">Pseudo :</label>
@@ -12,7 +20,19 @@
         </div>
         <div class="row-auto form">
             <label for="password">Mot de passe :</label>
-            <input type="text" name="password" class="form-control" id="password">
+            <input type="password" name="password" class="form-control" id="password">
+        </div>
+        <div class="row-auto form">
+        <label for="password">Entrez de nouveau votre mot de passe :</label>
+        <input type="password" name="password" class="form-control" id="password">
+        </div>
+        <div class="row-auto form">
+            <label for="age">Age :</label>
+            <input type="number" name="age" class="form-control" id="age">
+        </div>
+        <div class="row-auto form">
+            <label for="sexe">Sexe :</label>
+
         </div>
         <div class="row justify-content-center form">
             <div class="form-check">
@@ -24,11 +44,9 @@
     </form><br><br>
 </div>
 
-<div class="footer-space"></div>
-
 <script>
     function formSubmit() {
-        if (document.getElementById("robot").checked === true) document.getElementById("login_form").submit();
+        if (document.getElementById("robot").checked === true) document.getElementById("signup_form").submit();
         else alert('Veuillez cochez la case "Je ne suis pas un robot" pour continuer.');
     }
 </script>
