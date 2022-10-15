@@ -16,8 +16,8 @@ exports.home = (req, res) => {
     res.render('home/home.hbs', {
         layout: 'mainHome.hbs',
         cagnotte: services.getCagnotte((error, results) => {
-            if (results) return results
-            else return error
+            if (error) return error
+            else return results
         })
     });
 }
@@ -25,7 +25,11 @@ exports.home = (req, res) => {
 exports.signup = (req, res) => {
     console.log(chalk.green.inverse('Requete pour signup reçue.'));
     res.render('signup/signup.hbs', {
-        layout: 'mainHome.hbs'
+        layout: 'mainHome.hbs',
+        sexe: services.getSexe((error, results) => {
+            if (error) return error
+            else return results
+        })
     });
 }
 

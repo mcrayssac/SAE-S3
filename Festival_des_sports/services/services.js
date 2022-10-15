@@ -12,6 +12,16 @@ const getCagnotte = (callback) => {
     }
 }
 
+const getSexe = (callback) => {
+    let resSexe = ["Femme", "Homme", "Neutre"]
+    if (resSexe.length > 0){
+        return callback(null, resSexe)
+    }else{
+        return callback([])
+    }
+}
+
 module.exports = {
-    getCagnotte : getCagnotte
+    getCagnotte : getCagnotte,
+    getSexe : getSexe
 }
