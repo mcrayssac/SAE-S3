@@ -13,7 +13,7 @@
     </div>
 </div>
 <br>
-<script src="public/js/script.js"></script>
+
 <div class="container">
     <div class="row center">
         <h1 style="color: #021331">LAKESIDE SPORTS FESTIVAL</h1>
@@ -58,6 +58,59 @@
             </div>
         {{/ifCond}}
     {{/ifCond}}
+
+    <div class="row ligne"></div>
+    <div class="row center">
+        <h1>Nos partenaires</h1>
+    </div>
+    <div class="row">
+        <div class="col align-self-center">
+            <div class="row">
+                <i class="bi bi-arrow-left-short slick-prev center"></i>
+            </div>
+        </div>
+        <div class="col align-self-center">
+            <section class="partenaires slider">
+                <div class="slide"><a href="https://www.decathlon.fr" target="_blank"><img alt="Decathlon"
+                        src="https://pbs.twimg.com/profile_images/1096041902351224833/KQKNxhzS_400x400.png"></a></div>
+                <div class="slide"><a href="https://www.intersport.fr" target="_blank"><img alt="InterSport"
+                        src="https://pbs.twimg.com/profile_images/1037247605724598274/Dt7llTkQ_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.go-sport.com" target="_blank"><img alt="GoSport"
+                        src="https://pbs.twimg.com/profile_images/1567498382062624771/3UmQRjqN_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.i-run.fr" target="_blank"><img alt="iRun"
+                        src="https://pbs.twimg.com/profile_images/844920305193832448/d_zVM1Ua_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.vittel.fr" target="_blank"><img alt="Vittel"
+                        src="https://pbs.twimg.com/media/D3acuknWAAYci9j.jpg"></a></div>
+                <div class="slide"><a href="https://www.specialized.com" target="_blank"><img alt="Specialized"
+                        src="https://pbs.twimg.com/profile_images/923284211917819904/C8DoeGEH_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.arenasport.com" target="_blank"><img alt="Arena"
+                        src="https://pbs.twimg.com/profile_images/1255923526294556676/l_pR-TGX_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.nike.com" target="_blank"><img alt="Nike"
+                        src="https://pbs.twimg.com/profile_images/1532044350019907585/Oo1-e1N2_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.adidas.fr" target="_blank"><img alt="Adidas"
+                        src="https://pbs.twimg.com/profile_images/1564299301123137545/d1yZqve6_400x400.png"></a></div>
+                <div class="slide"><a href="https://www.letour.fr" target="_blank"><img alt="TourDeFrance"
+                        src="https://pbs.twimg.com/profile_images/1182279755552428033/8mX_dsXW_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://eu.puma.com" target="_blank"><img alt="Puma"
+                        src="https://pbs.twimg.com/profile_images/1549763746398179329/CzTqIf6C_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.thenorthface.fr" target="_blank"><img alt="TheNorthFace"
+                        src="https://pbs.twimg.com/profile_images/1410536405005221889/ac3a_xm4_400x400.jpg"></a></div>
+                <div class="slide"><a href="https://www.columbiasportswear.fr" target="_blank"><img alt="Columbia"
+                        src="https://pbs.twimg.com/profile_images/1278340936066461696/JZ_qCeUw_400x400.png"></a></div>
+                <div class="slide"><a href="https://www.salomon.com" target="_blank"><img alt="Salomon"
+                        src="https://media.cdnws.com/_i/46016/5472/2489/76/stickers-salomon-ref2-autocollant-snow-snowboard-sticker-ski-neige-sport-extreme-logo-planche-autocollants-snowboarding-decals-snowboards-sponsors-min.jpeg"></a></div>
+                <div class="slide"><a href="https://www.scott-sports.com" target="_blank"><img alt="Scott"
+                        src="https://www.montania-sport.com/54657-thickbox_default/piece-detachee-bootfitting-chaussures-ski-scott.jpg"></a></div>
+                <div class="slide"><a href="https://www.picture-organic-clothing.com" target="_blank"><img alt="Picture"
+                        src="https://yt3.ggpht.com/ytc/AMLnZu8jvzx771u6SVIWEk2ovWfAft5VRHfpH1X7Xz9raw=s900-c-k-c0x00ffffff-no-rj"></a></div>
+            </section>
+        </div>
+        <div class="col align-self-center">
+            <div class="row">
+                <i class="bi bi-arrow-right-short slick-next center"></i>
+            </div>
+        </div>
+    </div>
 
     <div class="row ligne"></div>
     <h3>Palettes de couleurs</h3>
@@ -133,4 +186,28 @@
         }
     }, speed);
 
+    $(document).ready(function (){
+        $('.partenaires').slick({
+            slidesToShow: 7,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            arrows: true,
+            prevArrow: $(".slick-prev"),
+            nextArrow: $(".slick-next"),
+            dots: false,
+            pauseOnHover:true,
+            responsive:[{
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 4
+                    }
+            },{
+                breakpoint: 520,
+                settings: {
+                    slidesToShow: 3
+                }
+            }]
+        })
+    })
 </script>
