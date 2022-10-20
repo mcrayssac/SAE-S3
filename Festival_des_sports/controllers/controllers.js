@@ -3,12 +3,12 @@ const chalk = require("chalk");
 
 exports.association = (req, res) => {
     console.log(chalk.green.inverse('Requete pour association reçue.'));
-    res.render('association/association.hbs', {layout: 'mainHome.hbs'});
+    res.render('public/association/association.hbs', {layout: 'mainHome.hbs'});
 }
 
 exports.restaurants = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les restaurants reçue.'));
-    res.render('restaurants/restaurants.hbs', {layout: 'mainHome.hbs'});
+    res.render('prestataire/restaurants/restaurants.hbs', {layout: 'mainHome.hbs'});
 }
 
 exports.surnameName = (req, res) => {
@@ -29,7 +29,7 @@ exports.home = (req, res) => {
 
 exports.signup = (req, res) => {
     console.log(chalk.green.inverse('Requete pour signup reçue.'));
-    res.render('signup/signup.hbs', {
+    res.render('public/signup/signup.hbs', {
         layout: 'mainHome.hbs',
         sexe: services.getSexe((error, results) => {
             if (error) return error
@@ -40,7 +40,7 @@ exports.signup = (req, res) => {
 
 exports.login = (req, res) => {
     console.log(chalk.green.inverse('Requete pour login reçue.'));
-    res.render('login/login.hbs', {
+    res.render('public/login/login.hbs', {
         layout: 'mainHome.hbs'
     });
 }
