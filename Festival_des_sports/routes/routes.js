@@ -6,6 +6,8 @@ var router = express.Router();
 //...
 router.get("/association", controller.association);
 
+router.get("/restaurants", controller.restaurants);
+
 router.get("/surnameName", controller.surnameName)
 
 router.get("/home", controller.home)

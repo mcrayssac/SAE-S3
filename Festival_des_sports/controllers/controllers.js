@@ -6,6 +6,11 @@ exports.association = (req, res) => {
     res.render('association/association.hbs', {layout: 'mainHome.hbs'});
 }
 
+exports.restaurants = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour les restaurants reçue.'));
+    res.render('restaurants/restaurants.hbs', {layout: 'mainHome.hbs'});
+}
+
 exports.surnameName = (req, res) => {
     console.log(chalk.green.inverse('Requete pour surnameName reçue.'));
     res.render('surnameName/surnameName.hbs', {layout: 'mainSurnameName.hbs'});
