@@ -6,6 +6,17 @@ exports.association = (req, res) => {
     res.render('public/association/association.hbs', {layout: 'mainHome.hbs'});
 }
 
+exports.courses = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour courses reçue.'));
+    res.render('public/activites/competitions/courses.hbs', {
+        layout: 'mainHome.hbs',
+        course: services.getCourses((error, results) => {
+            if (error) return error
+            else return results
+        })
+    });
+}
+
 exports.restaurants = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les restaurants reçue.'));
     res.render('prestataire/restaurants/restaurants.hbs', {layout: 'mainHome.hbs'});

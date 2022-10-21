@@ -21,7 +21,19 @@ const getSexe = (callback) => {
     }
 }
 
+const getCourses = (callback) => {
+    let resCourse = [{"nom": "Course 1", "sport": "Course d'orientation", "distance": "12 km", "prix": "5€", "places": "200", "lieu": "Départ course à pied", "image":"https://www.astucedegrandmere.com/wp-content/uploads/Course-%C3%A0-pieds-les-astuces-pour-sy-mettre-300x300.jpg"},
+                    {"nom": "Course 2", "sport": "Course de natation", "distance": "8 km", "prix": "7€", "places": "58", "lieu": "Départ au lac","image": "https://contents.mediadecathlon.com/p1265270/k$6ddc26c476bbb8357c54f40477eebe83/800x0/3228pt2061/4303xcr4303/entrainement-pour-eau-libre.jpg?format=auto&quality=80"}
+                    ]
+    if (resCourse.length > 0){
+        return callback(null, resCourse)
+    }else{
+        return callback([])
+    }
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
-    getSexe : getSexe
+    getSexe : getSexe,
+    getCourses: getCourses
 }
