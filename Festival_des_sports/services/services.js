@@ -21,7 +21,39 @@ const getSexe = (callback) => {
     }
 }
 
+const getFiltres = (type, callback) => {
+    let getFiltres = null;
+    if (type === "restaurants"){
+        getFiltres = {"Spécialites":["Nuggets", "Burger"],
+            "Places":["200 places", "100 places", "50 places", "10 places"]
+        };
+    }
+    if (getFiltres){
+        return callback(null, getFiltres)
+    }else{
+        return callback([])
+    }
+}
+
+const getRestaurants = (callback) => {
+    let getRestaurants = [
+        ["Mcdo", {"Spécialites":"Nuggets", "Places":"200 places"}],
+        ["Burger King",{"Spécialites":"Burger", "Places":"100 places"}],
+        ["Mcdo",{"Spécialites":"Nuggets", "Places":"50 places"}],
+        ["Mcdo",{"Spécialites":"Nuggets", "Places":"50 places"}],
+        ["Mcdo",{"Spécialites":"Nuggets", "Places":"50 places"}],
+        ["Burger King",{"Spécialites":"Burger", "Places":"10 places"}]
+    ];
+    if (getRestaurants.length > 0){
+        return callback(null, getRestaurants)
+    }else{
+        return callback([])
+    }
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
-    getSexe : getSexe
+    getSexe : getSexe,
+    getFiltres : getFiltres,
+    getRestaurants : getRestaurants
 }

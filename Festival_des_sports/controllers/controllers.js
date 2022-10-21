@@ -8,7 +8,17 @@ exports.association = (req, res) => {
 
 exports.restaurants = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les restaurants reçue.'));
-    res.render('prestataire/restaurants/restaurants.hbs', {layout: 'mainHome.hbs'});
+    res.render('prestataire/restaurants/restaurants.hbs', {
+        layout: 'mainHome.hbs',
+        filtres: services.getFiltres("restaurants", (error, results) => {
+            if (error) return error
+            else return results
+        }),
+        restaurants: services.getRestaurants((error, results) => {
+            if (error) return error
+            else return results
+        })
+    });
 }
 
 exports.surnameName = (req, res) => {
