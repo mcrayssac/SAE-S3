@@ -42,19 +42,54 @@
 
     <div class="row ligne"></div>
 
-    <div class="row mx-auto">
-        {{# if course}}
-            {{# each course}}
+    <div class="row">
+        <div class="col my-auto">
+            <div class="d-flex justify-content-center">
+                <div class="form-inline">
+                    <input class="form-control" id="search" type="search" placeholder="Rechercher" aria-label="Search">
+                    <button class="btn my-2 my-sm-0" id="deselect"><i class="bi bi-x-square-fill"></i></button>
+                </div>
+            </div>
+        </div>
+        {{# if filtres}}
+            <div class="col my-auto">
+                <div class="d-flex justify-content-center">
+                    <div class="form-inline">
+                        {{# each filtres}}
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color: #6ec8cb; font-weight: bold; color: white;">
+                                        {{@key}}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        {{# each this}}
+                                            <div class="dropdown-item">
+                                                <a><input type="radio" name="option" value="{{this}}">{{this}}</a>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="row mx-auto" id="research">
+        {{# if courses}}
+            {{# each courses}}
                 <div class="col-md-6 py-4 ps-5 my-auto mx-auto">
                     <div class="card shadow-sm">
-                        <img src="{{this.image}}" class="card-img-top" alt="...">
+                        {{# each this.[2]}}
+                            <img src="{{this}}" class="card-img-top" alt="...">
+                        {{/each}}
                         <div class="card-body">
-                            <h3 class="card-title">{{this.nom}}</h3>
-                            <p class="card-text"><b> Sport : </b> {{this.sport}}</p>
-                            <p class="card-text"><b> Distance : </b> {{this.distance}}</p>
-                            <p class="card-text"><b> Prix : </b> {{this.prix}}</p>
-                            <p class="card-text"><b> Nombre de places restantes : </b> {{this.places}}</p>
-                            <p class="card-text"><b> Lieu : </b> {{this.lieu}}</p>
+                            <h3 class="card-title">{{this.[0]}}</h3>
+                            {{# each this.[1]}}
+                                <p class="card-text"> <b> {{@key}}  : </b> {{this}}</p>
+                            {{/each}}
                             <a href="#" class="btn btn-primary">Inscription</a>
                         </div>
                     </div>
@@ -64,3 +99,34 @@
     </div>
 </div>
 <br><br>
+
+<script>
+    $(document).ready(function(){
+        $("#search").on("keyup", function() {
+            $('input[name="option"]').prop('checked',false);
+            var value = $(this).val().toLowerCase();
+            $("#research .col-md-6").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $('input[name="option"]').on("click", function() {
+            var value = $(this).val().toLowerCase();
+            $("#research .col-md-6").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $('button[id="deselect"]').on("click", function() {
+            $('input[name="option"]').prop('checked',false);
+            var value = $(this).val().toLowerCase();
+            $("#research .col-md-6").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

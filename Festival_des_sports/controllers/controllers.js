@@ -10,7 +10,11 @@ exports.courses = (req, res) => {
     console.log(chalk.green.inverse('Requete pour courses reçue.'));
     res.render('public/activites/competitions/courses.hbs', {
         layout: 'mainHome.hbs',
-        course: services.getCourses((error, results) => {
+        filtres: services.getFiltresCourses("courses", (error, results) => {
+            if (error) return error
+            else return results
+        }),
+        courses: services.getCourses((error, results) => {
             if (error) return error
             else return results
         })
