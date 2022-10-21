@@ -52,6 +52,13 @@ hbs.handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 
+hbs.handlebars.registerHelper('times', function(n, block) {
+    var accum = '';
+    for(var i = 0; i < n; ++i)
+        accum += block.fn(i);
+    return accum;
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

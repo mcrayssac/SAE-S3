@@ -1,19 +1,113 @@
+<style>
+    .card {
+        flex-direction: row;
+    }
+    .card img {
+        width: 30%;
+    }
+    .card-text {
+        font-size: 15px;
+    }
+
+    .card-body {
+        flex: 1 1 auto;
+        padding: 1rem 2rem;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 3px;
+    }
+    .btn{
+        margin-top: 10px;
+    }
+
+</style>
 
 <div class="container">
     <div class="row">
         <div class="col"><h1>Restaurants</h1></div>
         <div class="col my-auto">
             <div class="d-flex justify-content-center">
-                <form id="search_form" method="post" class="form-inline" action="/search">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn" type="submit"><i class="bi bi-search"></i></button>
-                </form>
-                <form id="filter_form" method="post" class="form-inline" action="/filter">
-                    <select class="form-select-lg" name="filter" id="filter" onchange="formSubmit()">
-                        <option value="" selected>Filter</option>
-                    </select>
-                </form><br><br>
+                <div class="form-inline">
+                    <input class="form-control" id="search" type="search" placeholder="Rechercher" aria-label="Search">
+                    <button class="btn my-2 my-sm-0" id="deselect"><i class="bi bi-x-square-fill"></i></button>
+                </div>
             </div>
         </div>
+        {{# if filtres}}
+            <div class="col my-auto">
+                <div class="d-flex justify-content-center">
+                    <div class="form-inline">
+                        {{# each filtres}}
+                        <div class="col">
+                            <div class="dropdown">
+                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color: #6ec8cb; font-weight: bold; color: white;">
+                                    {{@key}}
+                                </button>
+                                <div class="dropdown-menu">
+                                    {{# each this}}
+                                    <div class="dropdown-item">
+                                        <a><input type="radio" name="option" value="{{this}}">{{this}}</a>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="row mx-auto" id="research">
+    {{# if restaurants}}
+        {{# each restaurants}}
+            <div class="col-md-6 py-4 ps-5 my-auto mx-auto">
+                <div class="card shadow-sm">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/410px-McDonald%27s_Golden_Arches.svg.png" class="card-img-top" alt="..." >
+                    <div class="card-body">
+                        <h3 class="card-title">{{this.[0]}} </h3>
+                        {{# each this.[1]}}
+                            <p class="card-text"> <b> {{@key}} : </b> {{this}}</p>
+                        {{/each}}
+                        <a href="#" class="btn btn-primary">Inscription</a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{/if}}
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $("#search").on("keyup", function() {
+            $('input[name="option"]').prop('checked',false);
+            var value = $(this).val().toLowerCase();
+            $("#research .col-md-6").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $('input[name="option"]').on("click", function() {
+            var value = $(this).val().toLowerCase();
+            $("#research .col-md-6").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $('button[id="deselect"]').on("click", function() {
+            $('input[name="option"]').prop('checked',false);
+            var value = $(this).val().toLowerCase();
+            $("#research .col-md-6").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
