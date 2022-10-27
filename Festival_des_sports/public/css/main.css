@@ -399,9 +399,10 @@ table{
     width: 60%;
 }
 
-.h2Presta{
+.h2Presta {
     margin-bottom: 20px;
-    color:#021331;
+    color: #021331;
+}
 
 .card {
     flex-direction: row;
@@ -431,4 +432,12 @@ p {
 
 .bi-x-square-fill{
     color: #1a265a;
+}
+
+.justified-text-center {
+    text-align-last: center; text-align: justify;-moz-text-align-last: center;
+}
+
+strong {
+    font-weight: bold;
 }
