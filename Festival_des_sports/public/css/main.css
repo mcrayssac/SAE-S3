@@ -406,13 +406,29 @@ table{
 
 .card {
     flex-direction: row;
-    height: 250px;
+}
+
+.card-horizontal{
+    display: flex;
+    flex: 1 1 auto;
+}
+
+@media (max-width: 800px) {
+    .card img{
+        display: none;
+    }
+}
+
+.btn-primary:hover{
+    color: #0048ff;
+    background-color: white;
 }
 
 .card img {
-    width: 250px;
-    height: 100%;
+    width: 300px;
+    height: 300px;
 }
+
 
 .card-text {
     font-size: 15px;
