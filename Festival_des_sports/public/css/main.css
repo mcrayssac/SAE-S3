@@ -393,3 +393,33 @@ label{
 .slick-arrow.slick-hidden{
     display: none;
 }
+
+.card {
+    flex-direction: row;
+}
+
+.card img {
+    width: 30%;
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 1rem 2rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 3px;
+}
+
+.btn{
+    margin-top: 10px;
+}
+
+.bi-x-square-fill{
+    color: #1a265a;
+}

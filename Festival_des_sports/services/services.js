@@ -55,7 +55,7 @@ const getFiltresCourses = (type, callback) => {
     }
 }
 
-const getFiltres = (type, callback) => {
+const getFiltresRestaurants = (type, callback) => {
     let getFiltres = null;
     if (type === "restaurants"){
         getFiltres = {"Spécialites":[" Nuggets", " Burger"],
@@ -85,11 +85,50 @@ const getRestaurants = (callback) => {
     }
 }
 
+const getFiltresClubs = (type, callback) => {
+    let getFiltres = null;
+    if (type === "restaurants"){
+        getFiltres = {
+            "Sport":["Basket", "Badminton"],
+            "Date création":["1880", "Burger"],
+            "Localisation":["Dijon (21000)", "100 places", "50 places", "10 places"],
+            "Niveau":["National/compétition"]
+        };
+    }
+    if (getFiltres){
+        return callback(null, getFiltres)
+    }else{
+        return callback([])
+    }
+}
+
+const getClubs = (callback) => {
+    let getRestaurants = [
+        ["JDA Dijon Basket",
+            {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
+        ["Chambly Badminton",
+            {"Sport":"Badminton", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
+        ["JDA Dijon Basket",
+            {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
+        ["JDA Dijon Basket",
+            {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
+        ["JDA Dijon Basket",
+            {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}]
+    ];
+    if (getRestaurants.length > 0){
+        return callback(null, getRestaurants)
+    }else{
+        return callback([])
+    }
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
     getSexe : getSexe,
     getCourses: getCourses,
-    getFiltres : getFiltres,
+    getFiltresRestaurants : getFiltresRestaurants,
     getRestaurants : getRestaurants,
-    getFiltresCourses: getFiltresCourses
+    getFiltresCourses: getFiltresCourses,
+    getClubs: getClubs,
+    getFiltresClubs: getFiltresClubs
 }

@@ -18,6 +18,8 @@ router.get("/home", controller.home)
 // --------- PRESTATAIRE
 router.get("/restaurants", controller.restaurants);
 
+router.get("/clubs", controller.clubs);
+
 
 
 router.get("/surnameName", controller.surnameName)
