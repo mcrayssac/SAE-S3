@@ -51,6 +51,17 @@ exports.clubs = (req, res) => {
     });
 }
 
+exports.JDA = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour JDA reçue.'));
+    res.render('prestataire/prestataires/JDA.hbs', {
+        layout: 'mainHome.hbs',
+        club: services.getClub("JDA", (error, results) =>{
+            if (error) return error
+            else return results
+        })
+    });
+}
+
 exports.surnameName = (req, res) => {
     console.log(chalk.green.inverse('Requete pour surnameName reçue.'));
     res.render('surnameName/surnameName.hbs', {layout: 'mainSurnameName.hbs'});
