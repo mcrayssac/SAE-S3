@@ -393,3 +393,12 @@ label{
 .slick-arrow.slick-hidden{
     display: none;
 }
+
+table{
+    width: 60%;
+}
+
+.h2Presta{
+    margin-bottom: 20px;
+    color:#021331;
+}
