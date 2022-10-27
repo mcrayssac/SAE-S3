@@ -89,10 +89,11 @@ const getFiltresClubs = (type, callback) => {
     let getFiltres = null;
     if (type === "restaurants"){
         getFiltres = {
-            "Sport":["Basket", "Badminton"],
-            "Date création":["1880", "Burger"],
-            "Localisation":["Dijon (21000)", "100 places", "50 places", "10 places"],
-            "Niveau":["National/compétition"]
+            "Sport":["Basket", "Badminton", "Escrime", "Tir à l'arc", "Natation", "Volley", "Karting"],
+            "Date création":["1880", "1980", "1971", "1928", "1921", "1940", "1970"],
+            "Localisation":["Dijon (21000)", "Chambly (60230)", "Clermont-Ferrand (63000)", "Noisy-le-Grand (93160)",
+                "Marseille (13000)", "Tours (37000)", "Le Castellet (83330)"],
+            "Niveau":["National/compétition", "Loisirs"]
         };
     }
     if (getFiltres){
@@ -106,14 +107,18 @@ const getClubs = (callback) => {
     let getRestaurants = [
         ["JDA Dijon Basket",
             {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
-        ["Chambly Badminton",
-            {"Sport":"Badminton", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
-        ["JDA Dijon Basket",
-            {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
-        ["JDA Dijon Basket",
-            {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}],
-        ["JDA Dijon Basket",
-            {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"}]
+        ["BCCO Badminton Club Chambly Oise",
+            {"Sport":"Badminton", "Date création":"1980", "Localisation":"Chambly (60230)", "Niveau":"National/Compétition"}],
+        ["SCE Stade Clermontois Escrime",
+            {"Sport":"Escrime", "Date création":"1971", "Localisation":"Clermont-Ferrand (63000)", "Niveau":"National/Compétition"}],
+        ["FFTA Fédération Française Tir à l'Arc",
+            {"Sport":"Tir à l'arc", "Date création":"1928", "Localisation":"Noisy-le-Grand(93160)", "Niveau":"National/Compétition"}],
+        ["CNM Club Natation Marseille",
+            {"Sport":"Natation", "Date création":"1921", "Localisation":"Marseille (13000)", "Niveau":"National/Compétition"}],
+        ["TVB Tours Volley Balls",
+            {"Sport":"Volley", "Date création":"1940", "Localisation":"Tours (37000)", "Niveau":"National/Compétition"}],
+        ["KCPR Karting Circuit Paul Ricard",
+            {"Sport":"Karting", "Date création":"1970", "Localisation":"Le Castellet (83330)", "Niveau":"Loisirs"}]
     ];
     if (getRestaurants.length > 0){
         return callback(null, getRestaurants)

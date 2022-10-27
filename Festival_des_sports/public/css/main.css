@@ -394,12 +394,24 @@ label{
     display: none;
 }
 
+
+table{
+    width: 60%;
+}
+
+.h2Presta {
+    margin-bottom: 20px;
+    color: #021331;
+}
+
 .card {
     flex-direction: row;
+    height: 250px;
 }
 
 .card img {
-    width: 30%;
+    width: 250px;
+    height: 100%;
 }
 
 .card-text {
