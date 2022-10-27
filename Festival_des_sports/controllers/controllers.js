@@ -25,11 +25,26 @@ exports.restaurants = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les restaurants reçue.'));
     res.render('prestataire/restaurants/restaurants.hbs', {
         layout: 'mainHome.hbs',
-        filtres: services.getFiltres("restaurants", (error, results) => {
+        filtres: services.getFiltresRestaurants("restaurants", (error, results) => {
             if (error) return error
             else return results
         }),
         restaurants: services.getRestaurants((error, results) => {
+            if (error) return error
+            else return results
+        })
+    });
+}
+
+exports.clubs = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour les restaurants reçue.'));
+    res.render('prestataire/clubs/clubs.hbs', {
+        layout: 'mainHome.hbs',
+        filtres: services.getFiltresClubs("restaurants", (error, results) => {
+            if (error) return error
+            else return results
+        }),
+        clubs: services.getClubs((error, results) => {
             if (error) return error
             else return results
         })
