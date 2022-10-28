@@ -20,7 +20,7 @@ router.get("/restaurants", controller.restaurants);
 
 router.get("/clubs", controller.clubs);
 
-router.get("/clubs/JDA", controller.JDA);
+router.post("/club", controller.club);
 
 
 

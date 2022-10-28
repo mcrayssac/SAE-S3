@@ -51,11 +51,11 @@ exports.clubs = (req, res) => {
     });
 }
 
-exports.JDA = (req, res) => {
-    console.log(chalk.green.inverse('Requete pour JDA reçue.'));
-    res.render('prestataire/prestataires/JDA.hbs', {
+exports.club = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour club reçue.'));
+    res.render('prestataire/prestataires/club.hbs', {
         layout: 'mainHome.hbs',
-        club: services.getClub("JDA", (error, results) =>{
+        club: services.getClub(req.body.club, (error, results) =>{
             if (error) return error
             else return results
         })

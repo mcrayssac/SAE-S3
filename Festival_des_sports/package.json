@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.1",
     "bootstrap-icons": "^1.9.1",
     "chalk": "^4.1.2",
     "dotenv": "^16.0.2",
