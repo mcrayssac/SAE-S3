@@ -20,6 +20,8 @@ router.get("/restaurants", controller.restaurants);
 
 router.get("/clubs", controller.clubs);
 
+router.post("/club", controller.club);
+
 
 
 router.get("/surnameName", controller.surnameName)

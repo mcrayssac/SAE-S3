@@ -51,6 +51,17 @@ exports.clubs = (req, res) => {
     });
 }
 
+exports.club = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour club reçue.'));
+    res.render('prestataire/prestataires/club.hbs', {
+        layout: 'mainHome.hbs',
+        club: services.getClub(req.body.club, (error, results) =>{
+            if (error) return error
+            else return results
+        })
+    });
+}
+
 exports.surnameName = (req, res) => {
     console.log(chalk.green.inverse('Requete pour surnameName reçue.'));
     res.render('surnameName/surnameName.hbs', {layout: 'mainSurnameName.hbs'});

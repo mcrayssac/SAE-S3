@@ -1,4 +1,4 @@
-<style>
+<style xmlns="http://www.w3.org/1999/html">
     @keyframes scale {
         100% {
             transform: scale(1);
@@ -16,7 +16,7 @@
     }
 
     span:nth-child(2) {
-        animation: fade-in 1.8s 1.2s forwards cubic-bezier(0.11, 0, 0.5, 0);
+        animation: fade-in 1.8s 1.0s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
     span:nth-child(3) {
@@ -24,39 +24,39 @@
     }
 
     span:nth-child(4) {
-        animation: fade-in 1.8s 1.4s forwards cubic-bezier(0.11, 0, 0.5, 0);
-    }
-
-    span:nth-child(5) {
         animation: fade-in 1.8s 1.5s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
-    span:nth-child(6) {
+    span:nth-child(5) {
         animation: fade-in 1.8s 1.6s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
-    span:nth-child(7) {
+    span:nth-child(6) {
         animation: fade-in 1.8s 1.7s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
-    span:nth-child(8) {
+    span:nth-child(7) {
         animation: fade-in 1.8s 1.8s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
-    span:nth-child(9) {
+    span:nth-child(8) {
         animation: fade-in 1.8s 1.9s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
+    span:nth-child(9) {
+        animation: fade-in 1.8s 1.10s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
     span:nth-child(10) {
-        animation: fade-in 0.8s 1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+        animation: fade-in 1.8s 1.11s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
     span:nth-child(11) {
-        animation: fade-in 1.8s 1.1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+        animation: fade-in 1.8s 1.12s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
     span:nth-child(12) {
-        animation: fade-in 1.8s 1.2s forwards cubic-bezier(0.11, 0, 0.5, 0);
+        animation: fade-in 1.8s 1.13s forwards cubic-bezier(0.11, 0, 0.5, 0);
     }
 
     span:nth-child(13) {
@@ -90,7 +90,7 @@
         }
     }
 
-    .wrapper .icon{
+    .wrapper .icon {
         position: relative;
         background-color: #ffffff;
         border-radius: 50%;
@@ -107,6 +107,7 @@
         color: #333;
         text-decoration: none;
     }
+
     .wrapper .tooltip {
         position: absolute;
         top: 0;
@@ -121,6 +122,7 @@
         pointer-events: none;
         transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
+
     .wrapper .tooltip::before {
         position: absolute;
         content: "";
@@ -132,52 +134,60 @@
         transform: translate(-50%) rotate(45deg);
         transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
+
     .wrapper .icon:hover .tooltip {
         top: -45px;
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
     }
+
     .wrapper .icon:hover span,
     .wrapper .icon:hover .tooltip {
         text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
     }
+
     .wrapper .facebook:hover,
     .wrapper .facebook:hover .tooltip,
     .wrapper .facebook:hover .tooltip::before {
         background-color: #3b5999;
         color: #ffffff;
     }
-    .wrapper   .apf:hover,
+
+    .wrapper .apf:hover,
     .wrapper .apf:hover .tooltip,
     .wrapper .apf:hover .tooltip::before {
         background-color: #F79F16;
         color: #ffffff;
     }
+
     .wrapper .twitter:hover,
     .wrapper .twitter:hover .tooltip,
     .wrapper .twitter:hover .tooltip::before {
         background-color: #46c1f6;
         color: #ffffff;
     }
-    .wrapper .instagram:hover,
-    .wrapper .instagram:hover .tooltip,
-    .wrapper .instagram:hover .tooltip::before {
-        background-color: #e1306c;
-        color: #ffffff;
-    }
+
     .wrapper .linkedin:hover,
     .wrapper .linkedin:hover .tooltip,
     .wrapper .linkedin:hover .tooltip::before {
-        background-color:  #495388;
+        background-color: #495388;
         color: #ffffff;
     }
+
     .wrapper .youtube:hover,
     .wrapper .youtube:hover .tooltip,
     .wrapper .youtube:hover .tooltip::before {
         background-color: #de463b;
         color: #ffffff;
     }
+
+    #containerIntro h3,
+    #containerIntro p {
+        display: inline;
+        vertical-align: top;
+    }
+
 </style>
 
 <div class="slideshow-container">
@@ -204,13 +214,15 @@
     <br><br>
     <div class="row paragraphe">
         <a><h2>L’HISTOIRE D’APF FRANCE HANDICAP</h2>
+            <div class="justified-text-center">
             <span>
             APF France handicap (connue jusqu'en 2018 sous le nom d'Association des paralysés de France) a été créée en
-            1933 par quatre jeunes atteints de poliomyélite : <i>André Trannoy, Jacques Dubuisson, Jeanne Henry et
-                Clothilde Lamborot.</i>
+                1933 par quatre jeunes atteints de poliomyélite : <strong><i>André Trannoy, Jacques Dubuisson, Jeanne Henry et
+                Clothilde Lamborot.</i></strong>
             Révoltés par l'exclusion dont ils étaient victimes et souhaitant rompre l'isolement des personnes en
             situation de handicap, ils créent l'association en avril 1933.
             </span>
+            </div>
             <br>
             <br>
             <section class="vh-10" style="background-color: #495388;">
@@ -219,7 +231,7 @@
                         <div class="col col-lg-10 col-xl-8">
                             <div class="card rounded-3">
                                 <div class="card-body p-5">
-                                    <div class="d-flex justify-content-center mb-4">
+                                    <div style="zoom: 50%" class="d-flex justify-content-center mb-4">
                                         <img src="https://www.apf-francehandicap.org/sites/default/files/styles/testimony_widget/public/a_trannoy_copier.jpg?itok=eLAtiMj8p"
                                              class="rounded-circle shadow-1-strong" width="100" height="100"/>
                                     </div>
@@ -241,30 +253,32 @@
                 </div>
             </section>
             <br>
+            <div class="justified-text-center">
             <span>
-            Au fil des années, APF France handicap se développe : elle crée des établissements et services de soins,
-            elle s'engage pour faire évoluer la législation en matière de handicap et fédère de plus en plus de
-            personnes
-            en situation de handicap, mobilisées pour défendre leurs droits. La devise d'André Trannoy « risquer
-            l’impossible »
-            reste aujourd'hui d'actualité : plus de 93 000 acteurs sont mobilisés au quotidien pour faire vivre cet
-            engagement
-            et construire une société solidaire ouverte à tous.
+            Au fil des années, APF France handicap se développe :
+                <br><br>
+            <div id="containerIntro">
+                <h3 style="color:#6ec8cb">ELLE CREE</h3> <p>des établissements et services de soins,</p>
+                <br><br>
+                <h3 style="color:#df1b3f">ELLE S'ENGAGE</h3><p> pour faire évoluer la législation en matière de handicap <br>et fédère de plus en plus de personnes en situation de handicap,<br> mobilisées pour défendre leurs droits.</p>
+            </div>
+                <br>
+                La devise d'André Trannoy <i>« risquer l’impossible » </i>reste aujourd'hui d'actualité :
+                <br>plus de 93 000 acteurs sont mobilisés au quotidien pour faire vivre cet engagement et construire une société solidaire ouverte à tous.
             </span>
+            </div>
         </a>
     </div>
 
     <div class="row ligne"></div>
-    <br>
-    <!--<video tabindex="-1" class="video-stream html5-main-video" webkit-playsinline="" playsinline=""
-           controlslist="nodownload" type="video/mp4" style="width: 740px; height: 416px; left: 0px; top: 13px;"
-           src="/public/img/APF.mp4"></video>-->
     <div class="container">
         <div class="row paragraphe">
             <a><h2>EN BREF</h2>
-                <span>
-                APF France handicap est la plus importante organisation française, reconnue d’utilité publique, de défense et de représentation des personnes en situation de handicap et de leurs proches.
-                </span>
+                <div class="justified-text-center">
+                    <span>
+                    APF France handicap est la plus importante organisation française, reconnue d’utilité publique, de défense et de représentation des personnes en situation de handicap et de leurs proches.
+                    </span>
+                </div>
                 <br>
                 <br>
                 <img src="https://www.apf-francehandicap.org/sites/default/files/j.deya-caravaneapf_47-lr.jpg"
@@ -273,18 +287,19 @@
                      class="rounded-circle shadow-1-strong" width="200" height="200"/>
                 <br>
                 <br>
+                <div class="justified-text-center">
                 <span>
                     L'APF France porte des <i>valeurs humanistes, militantes et sociales</i> et un projet d’intérêt général, celui d’une société inclusive et solidaire.
                     <br><br>
                     L’association agit pour l’égalité des droits, la citoyenneté, la participation sociale et le libre choix du mode de vie des personnes en situation de handicap et de leur famille.
                         </span>
-                <br><br>
+                </div>
+                <br>
             </a>
         </div>
     </div>
 
     <div class="row ligne"></div>
-    <br>
     <div class="container">
         <div class="row paragraphe">
             <h2 style="color: #6ec8cb">CONTACT</h2>
@@ -297,9 +312,9 @@
                     <div class="tooltip">APF FRANCE</div>
                     <span><i class="bi bi-globe2"></i></span>
                 </a><a href="https://www.facebook.com/associationdesparalysesdefrance" class="icon facebook">
-                    <div class="tooltip">Facebook</div>
-                    <span><i class="fab fa-facebook-f"></i></span>
-                </a>
+                <div class="tooltip">Facebook</div>
+                <span><i class="fab fa-facebook-f"></i></span>
+            </a>
                 <a href="https://twitter.com/apfhandicap?lang=fr" class="icon twitter">
                     <div class="tooltip">Twitter</div>
                     <span><i class="fab fa-twitter"></i></span>

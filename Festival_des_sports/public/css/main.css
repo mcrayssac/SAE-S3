@@ -133,7 +133,8 @@ h1{
 }
 h2{
     text-align: center;
-    margin-bottom: 50px;
+    margin-top: 4%;
+    margin-bottom: 4%;
     font-size: 40px;
 }
 
@@ -406,13 +407,29 @@ table{
 
 .card {
     flex-direction: row;
-    height: 250px;
+}
+
+.card-horizontal{
+    display: flex;
+    flex: 1 1 auto;
+}
+
+@media (max-width: 800px) {
+    .card img{
+        display: none;
+    }
+}
+
+.btn-primary:hover{
+    color: #0048ff;
+    background-color: white;
 }
 
 .card img {
-    width: 250px;
-    height: 100%;
+    width: 300px;
+    height: 300px;
 }
+
 
 .card-text {
     font-size: 15px;
@@ -434,4 +451,12 @@ p {
 
 .bi-x-square-fill{
     color: #1a265a;
+}
+
+.justified-text-center {
+    text-align-last: center; text-align: justify;-moz-text-align-last: center;
+}
+
+strong {
+    font-weight: bold;
 }

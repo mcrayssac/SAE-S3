@@ -1,26 +1,3 @@
-<style>
-    .card {
-        flex-direction: row;
-    }
-    .card img {
-        width: 30%;
-        height:auto;
-    }
-    .card-text {
-        font-size: 15px;
-    }
-    .card-body {
-        flex: 1 1 auto;
-        padding: 1rem 2rem;
-    }
-    p {
-        margin-top: 0;
-        margin-bottom: 3px;
-    }
-    .btn{
-        margin-top: 10px;
-    }
-</style>
 <div class="container">
     <div class="row m-4">
         <div class="col"><h1>Compétitions</h1></div>
@@ -61,17 +38,19 @@
     <div class="row mx-auto" id="research">
         {{# if courses}}
             {{# each courses}}
-                <div class="col-md-6 py-4 ps-5 my-auto mx-auto">
-                    <div class="card shadow-sm">
-                        {{# each this.[2]}}
-                            <img src="{{this}}" class="card-img-top" alt="...">
-                        {{/each}}
-                        <div class="card-body">
-                            <h3 class="card-title">{{this.[0]}}</h3>
-                            {{# each this.[1]}}
-                                <p class="card-text"> <b> {{@key}}  : </b> {{this}}</p>
-                            {{/each}}
-                            <a href="#" class="btn btn-primary">Inscription</a>
+                <div class="col-12 mt-3 py-4 ps-5 my-auto mx-auto">
+                    <div class="card">
+                        <div class="card-horizontal">
+                            <div>
+                                <img class="" src="{{this.[2]}}" alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">{{this.[0]}} </h3>
+                                {{# each this.[1]}}
+                                    <p class="card-text"> <b> {{@key}} : </b> {{this}}</p>
+                                {{/each}}
+                                <a href="#" class="btn btn-primary">Inscription</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,7 +65,7 @@
         $("#search").on("keyup", function() {
             $('input[name="option"]').prop('checked',false);
             var value = $(this).val().toLowerCase();
-            $("#research .col-md-6").filter(function() {
+            $("#research .col-12").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
@@ -95,7 +74,7 @@
     $(document).ready(function(){
         $('input[name="option"]').on("click", function() {
             var value = $(this).val().toLowerCase();
-            $("#research .col-md-6").filter(function() {
+            $("#research .col-12").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
@@ -105,7 +84,7 @@
         $('button[id="deselect"]').on("click", function() {
             $('input[name="option"]').prop('checked',false);
             var value = $(this).val().toLowerCase();
-            $("#research .col-md-6").filter(function() {
+            $("#research .col-12").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
