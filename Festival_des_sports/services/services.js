@@ -123,7 +123,7 @@ const getFiltresClubs = (type, callback) => {
 }
 
 const getClubs = (callback) => {
-    let getRestaurants = [
+    let getClubs = [
         ["JDA Dijon Basket",
             {"Sport":"Basket", "Date création":"1880", "Localisation":"Dijon (21000)", "Niveau":"National/Compétition"},
             "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/JDA_Dijon_Basket.png/1200px-JDA_Dijon_Basket.png",
@@ -150,8 +150,8 @@ const getClubs = (callback) => {
             {"Sport":"Karting", "Date création":"1970", "Localisation":"Le Castellet (83330)", "Niveau":"Loisirs"},
             "https://www.kart-center.com/media/data/files/circuits/circuit-paul-ricard.png"]
     ];
-    if (getRestaurants.length > 0){
-        return callback(null, getRestaurants)
+    if (getClubs.length > 0){
+        return callback(null, getClubs)
     }else{
         return callback([])
     }
