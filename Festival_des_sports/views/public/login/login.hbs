@@ -1,6 +1,19 @@
-<h1>Login</h1>
-
 <div class="container">
+    <div class="flashes my-2">
+        {{# if flashMessages}}
+            {{# if flashMessages.success}}
+                <div class="alert alert-success">
+                    {{flashMessages.success}}
+                </div>
+            {{/if}}
+            {{# if flashMessages.error}}
+                <div class="alert alert-danger">
+                    {{flashMessages.error}}
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+    <h1>Login</h1>
     <form id="login_form" method="post" class="col" action="/login/">
         <div class="row-auto form">
             <label for="user_name_email">Email/Pseudo :</label>
