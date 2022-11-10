@@ -1,5 +1,6 @@
 const fs = require('fs');
 const chalk = require('chalk');
+const bcrypt = require("bcrypt")
 
 const getCagnotte = (callback) => {
     let cagnotte = 3000000;
@@ -216,6 +217,39 @@ const getClub = (club, callback) => {
     }
 }
 
+const authenticate = (data,callback) => {
+    let users = loadUsers()
+    users = users.users;
+    const user = users.find((u) => u.username.toLowerCase() === data.username.toLowerCase())
+    if (user) {
+        //TODO COMPARE PASSWORDS
+        bcrypt.compare(data.password, user.password, (error, results) => {
+            if (results){
+                //Deux mots de passe sont pareils
+                console.log(chalk.inverse.green("Success !"));
+                return callback(null, user.username);
+            }
+            console.log("Votre mot de passe est incorrect !");
+            return callback("Votre mot de passe est incorrect !");
+        });
+    } else {
+        console.log('Utilisateur introuvable!')
+        return callback('Utilisateur introuvable!');
+    }
+}
+
+
+
+const loadUsers = () => {
+    try {
+        const dataBuffer = fs.readFileSync('users.json')
+        const dataJSON = dataBuffer.toString()
+        return JSON.parse(dataJSON)
+    } catch (e) {
+        return []
+    }
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
     getSexe : getSexe,
@@ -225,5 +259,6 @@ module.exports = {
     getFiltresCourses: getFiltresCourses,
     getClubs: getClubs,
     getFiltresClubs: getFiltresClubs,
+    authenticate: authenticate,
     getClub: getClub
 }

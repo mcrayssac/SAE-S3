@@ -22,7 +22,7 @@
                                 <div class="dropdown-menu">
                                     {{# each this}}
                                     <div class="dropdown-item">
-                                        <a><input type="radio" name="option" value="{{this}}">{{this}}</a>
+                                        <a><input type="radio" id="radio" name="{{@../key}}" value="{{this}}">{{this}}</a>
                                     </div>
                                     {{/each}}
                                 </div>
@@ -62,7 +62,7 @@
 <script>
     $(document).ready(function(){
         $("#search").on("keyup", function() {
-            $('input[name="option"]').prop('checked',false);
+            $('input[type="radio"]').prop('checked',false);
             var value = $(this).val().toLowerCase();
             $("#research .col-12").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -71,7 +71,7 @@
     });
 
     $(document).ready(function(){
-        $('input[name="option"]').on("click", function() {
+        $('input[type="radio"]').on("click", function() {
             var value = $(this).val().toLowerCase();
             $("#research .col-12").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -81,7 +81,7 @@
 
     $(document).ready(function(){
         $('button[id="deselect"]').on("click", function() {
-            $('input[name="option"]').prop('checked',false);
+            $('input[type="radio"]').prop('checked',false);
             var value = $(this).val().toLowerCase();
             $("#research .col-12").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)

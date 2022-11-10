@@ -10,7 +10,6 @@ const bodyParser = require("body-parser");
 dotEnv.config();
 const port = process.env.PORT;
 
-
 //Défini l'emplacement du CSS, IMG, JS
 app.use(express.static(__dirname + "/public"));
 

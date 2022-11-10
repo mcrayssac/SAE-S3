@@ -60,8 +60,7 @@
                     <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
                        data-toggle="dropdown"><i class="bi bi-list-check"></i> Activités</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Initiation</a>
-                        <a class="dropdown-item" href="#">Scène</a>
+                        <a class="dropdown-item" href="#">Initiation/Scène</a>
                         <a class="dropdown-item" href="/courses">Compétitions</a>
                     </div>
                 </li>
@@ -80,21 +79,32 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown active nav-item-right">
-                    <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
-                       data-toggle="dropdown"><i class="bi bi-person-fill"></i> Profil</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/login">Se connecter</a>
-                        <a class="dropdown-item" href="/signup">S'inscrire</a>
-                    </div>
-                </li>
+                {{# if session}}
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
+                           data-toggle="dropdown"><i class="bi bi-person-fill"></i> Bonjour {{session.username}}</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Planning</a>
+                            <a class="dropdown-item" href="#">Mes activités</a>
+                            <a class="dropdown-item" href="/logout">Déconnexion</a>
+                        </div>
+                    </li>
+                {{else}}
+                    <li class="nav-item dropdown active nav-item-right">
+                        <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
+                           data-toggle="dropdown"><i class="bi bi-person-fill"></i> Profil</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/login">Se connecter</a>
+                            <a class="dropdown-item" href="/signup">S'inscrire</a>
+                        </div>
+                    </li>
+                {{/if}}
                 <a class="dropdown-item d" href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/langfr-225px-Flag_of_France.svg.png" width="25px" height="15px" style="margin: auto; height: auto"></a>
                 <a class="dropdown-item d" href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/langfr-338px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" width="25px" height="15px"></a>
             </ul>
         </div>
     </div>
 </nav>
-
 
 
 
