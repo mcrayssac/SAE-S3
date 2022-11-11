@@ -135,6 +135,11 @@ exports.surnameName = (req, res) => {
     res.render('surnameName/surnameName.hbs', {layout: 'mainSurnameName.hbs'});
 }
 
+exports.orga = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour orga reçue.'));
+    res.render('surnameName/surnameName.hbs', {layout: 'mainOrga.hbs'});
+}
+
 exports.home = (req, res) => {
     console.log(chalk.green.inverse('Requete pour home reçue.'));
     let session = req.session; //Vérifier si une session active
