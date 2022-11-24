@@ -9,4 +9,4 @@ node_modules/
 *.iml
 
 # Database connection
-api/database/database.js
+./database/database.js
