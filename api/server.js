@@ -67,5 +67,5 @@ app.use("*", (req, res, next) => {
  * Port display
  */
 app.listen(port, () => {
-    console.log(chalk.inverse.black.bold.bgGreen(`${chalkServer} Welcome, api listen on port ${port}.`));
+    console.log(chalk.inverse.black.bold.bgGreen(`${chalkServer} Welcome, api listen on ${port} port.`));
 });
