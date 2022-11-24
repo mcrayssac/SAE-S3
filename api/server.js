@@ -1,66 +1,51 @@
+/**
+ * Usage :
+ *
+ */
+
+/**
+ * Import and define Node.js web framework
+ */
 const express = require("express");
-const hbsEngine = require("express-handlebars");
-const chalk = require("chalk");
 const app = express();
-const dotEnv = require("dotenv");
-const routes = require("./routes/routes");
+
+/**
+ * Import a terminal string styling
+ */
+const chalk = require("chalk");
+const chalkServer = chalk.inverse.blue.bold.bgWhite("[Server]");
+
+/**
+ * Import and define Node.js body parsing middleware
+ */
 const bodyParser = require("body-parser");
-
-//Configuration de l'environement/PORT
-dotEnv.config();
-const port = process.env.PORT;
-
-//Défini l'emplacement du CSS, IMG, JS
-app.use(express.static(__dirname + "/public"));
-
-//Défini le moteur de vue
-app.engine('hbs', hbsEngine.engine({
-    //Route au layout
-    layoutsDir: './views/layouts',
-    defaultLayout: 'mainHome',
-    extname: '.hbs'
-}));
-app.set("view engine", 'hbs');
-
-var hbs = hbsEngine.create({});
-
-hbs.handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-    switch (operator) {
-        case '==':
-            return (v1 == v2) ? options.fn(this) : options.inverse(this);
-        case '===':
-            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-        case '!=':
-            return (v1 != v2) ? options.fn(this) : options.inverse(this);
-        case '!==':
-            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-        case '<':
-            return (v1 < v2) ? options.fn(this) : options.inverse(this);
-        case '<=':
-            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-        case '>':
-            return (v1 > v2) ? options.fn(this) : options.inverse(this);
-        case '>=':
-            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-        case '&&':
-            return (v1 && v2) ? options.fn(this) : options.inverse(this);
-        case '||':
-            return (v1 || v2) ? options.fn(this) : options.inverse(this);
-        default:
-            return options.inverse(this);
-    }
-});
-
-hbs.handlebars.registerHelper('times', function(n, block) {
-    var accum = '';
-    for(var i = 0; i < n; ++i)
-        accum += block.fn(i);
-    return accum;
-});
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+/**
+ * Environment and Port configuration
+ */
+const dotEnv = require("dotenv");
+dotEnv.config();
+const port = process.env.PORT;
+
+/**
+ * If port not found then an error sent
+ */
+if (port === undefined || port === null){
+    console.log(port);
+    throw new Error(`Port not found ! : ${port}.`);
+}
+
+/**
+ * Import and define all routes
+ */
+const routes = require("./routes/routes");
+app.use("/", routes);
+
+/**
+ * Show user ip, browser and language
+ */
 app.use((req, res, next) => {
     /*console.log("IP : " + JSON.stringify(req.ip));
     console.log("Browser : " + req.headers["user-agent"]);
@@ -69,25 +54,18 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/", routes);
-
-app.get("/", (req, res) => {
-    res.redirect("/home");
-});
-
-//Si chemin n'est pas dans les fonctions d'avant
+/**
+ * If path not found before then an error sent
+ */
 app.use("*", (req, res, next) => {
     const err = new Error("Not found !");
     err.status = 404;
     next(err);
 });
-//On affiche l'erreur 404 : Not found !
-app.use((err, req, res, next) => {
-    //console.error(chalk.inverse.grey.bgRed.bold(err.stack));
-    res.render("error404.hbs");
-});
 
-//Pour connaître le port
+/**
+ * Port display
+ */
 app.listen(port, () => {
-    console.log(chalk.inverse.black.bold.bgGreen(` Bienvenue, l'application écoute sur le port ${port}. `));
+    console.log(chalk.inverse.black.bold.bgGreen(`${chalkServer} Welcome, api listen on port ${port}.`));
 });

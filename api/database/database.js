@@ -5,7 +5,7 @@ const Pool = require("pg").Pool;
 const user = 'max';
 const host = 'localhost';
 const password = 'max';
-const database = 'sae-s3';
+const database = 'sae_s3';
 const port = 5432;
 
 // Define a pool
