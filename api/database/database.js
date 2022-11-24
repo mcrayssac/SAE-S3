@@ -2,7 +2,7 @@
 const Pool = require("pg").Pool;
 
 // Define parameters
-const user = 'potgres';
+const user = 'postgres';
 const host = 'localhost';
 const password = '0310';
 const database = 'sae_s3';
