@@ -53,4 +53,6 @@ router.post("/club", controller.club);
 
 router.get("/surnameName", controller.surnameName)
 
+router.get("/orga", controller.orga)
+
 module.exports = router;
