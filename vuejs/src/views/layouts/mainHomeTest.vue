@@ -27,7 +27,8 @@ export default {
   }),
   methods:{
     changeBackgroundColor() {
-      this.backgroundColor.body = '#d9231a'
+      if (this.backgroundColor.body === '#d9231a') this.backgroundColor.body = '#6ec8cb'
+      else this.backgroundColor.body = '#d9231a'
     }
   }
 }
