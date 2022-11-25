@@ -15,6 +15,9 @@ Depending on the type of request and its associated data (JSON objects), the API
 ------------------------------------------------------------------------------------------------------
 ## User interface – How to run the server and view
 
+```
+npm install 
+```
 
 **Run NodeJs :** 
 ```
