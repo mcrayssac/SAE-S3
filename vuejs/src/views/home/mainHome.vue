@@ -11,10 +11,12 @@
           :img-src="item"
       ></b-carousel-slide>
     </b-carousel>
+
     <br>
+
     <div class="container">
       <div class="row center">
-        <h1 style="color: #021331">LAKESIDE SPORTS FESTIVAL</h1>
+        <h1 :style="darkBlue">LAKESIDE SPORTS FESTIVAL</h1>
       </div>
       <br><br>
       <div class="row paragraphe">
@@ -148,7 +150,8 @@ export default {
       "https://cdn.discordapp.com/attachments/894224051571138560/1028050754042351707/image_home_3_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028050937757040640/image_home_4_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028051419237994566/image_home_5_filter1.png"
-    ]
+    ],
+    darkBlue: "color: #021331"
   }),
   methods:{
 
