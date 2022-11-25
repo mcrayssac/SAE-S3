@@ -1,0 +1,143 @@
+-- set foreign_key_checks = 0;
+
+-- LOAD DATA LOCAL INFILE 'CONTRAINTE.csv' INTO TABLE CONTRAINTE FILEDS TERMINATED BY ',';
+-- select * from CONTRAINTE;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/CONTRAINTE.csv' DELIMITER AS ',';
+select * from CONTRAINTE;
+
+-- LOAD DATA LOCAL INFILE 'TYPE_PRESTATAIRE.csv' INTO TABLE TYPE_PRESTATAIRE FIELDS TERMINATED BY ',';
+-- select * from TYPE_PRESTATAIRE;
+
+COPY TYPE_PRESTATAIRE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/TYPE_PRESTATAIRE.csv' DELIMITER AS ',';
+select * from TYPE_PRESTATAIRE;
+
+-- LOAD DATA LOCAL INFILE 'LANGUES.csv' INTO TABLE LANGUES FIELDS TERMINATED BY ',';
+-- select * from LANGUES;
+
+COPY LANGUES FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/LANGUES.csv' DELIMITER AS ',';
+select * from LANGUES;
+
+-- LOAD DATA LOCAL INFILE 'STAND.csv' INTO TABLE STAND FIELDS TERMINATED BY ',';
+-- select * from STAND;
+
+COPY STAND FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/STAND.csv' DELIMITER AS ',';
+select * from STAND;
+
+-- LOAD DATA LOCAL INFILE 'PUBLIC.csv' INTO TABLE PUBLIC FIELDS TERMINATED BY ',';
+-- select * from PUBLIC;
+
+COPY PUBLIC FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/PUBLIC.csv' DELIMITER AS ',';
+select * from PUBLIC;
+
+-- LOAD DATA LOCAL INFILE 'ORGANISATEUR.csv' INTO TABLE ORGANISATEUR FIELDS TERMINATED BY ',';
+-- select * from ORGANISATEUR;
+
+COPY ORGANISATEUR FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/ORGANISATEUR.csv' DELIMITER AS ',';
+select * from ORGANISATEUR;
+
+-- LOAD DATA LOCAL INFILE 'LIEU.csv' INTO TABLE LIEU FIELDS TERMINATED BY ',';
+-- select * from LIEU;
+
+COPY LIEU FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/LIEU.csv' DELIMITER AS ',';
+select * from LIEU;
+
+-- LOAD DATA LOCAL INFILE 'SPORT.csv' INTO TABLE SPORT FIELDS TERMINATED BY ',';
+-- select * from SPORT;
+
+COPY SPORT FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/SPORT.csv' DELIMITER AS ',';
+select * from SPORT;
+
+-- LOAD DATA LOCAL INFILE 'PERIODE.csv' INTO TABLE PERIODE FIELDS TERMINATED BY ',';
+-- select * from PERIODE;
+
+COPY PERIODE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/PERIODE.csv' DELIMITER AS ',';
+select * from PERIODE;
+
+-- LOAD DATA LOCAL INFILE 'RESERVATION.csv' INTO TABLE RESERVATION FIELDS TERMINATED BY ',';
+-- select * from RESERVATION;
+
+COPY RESERVATION FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/RESERVATION.csv' DELIMITER AS ',';
+select * from RESERVATION;
+
+-- LOAD DATA LOCAL INFILE 'CARACTERISTIQUE.csv' INTO TABLE CARACTERISTIQUE FIELDS TERMINATED BY ',';
+-- select * from CARACTERISTIQUE;
+
+COPY CARACTERISTIQUE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/CARACTERISTIQUE.csv' DELIMITER AS ',';
+select * from CARACTERISTIQUE;
+
+-- LOAD DATA LOCAL INFILE 'PRESTATAIRE.csv' INTO TABLE PRESTATAIRE FIELDS TERMINATED BY ',';
+-- select * from PRESTATAIRE;
+
+COPY PRESTATAIRE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/PRESTATAIRE.csv' DELIMITER AS ',';
+select * from PRESTATAIRE;
+
+-- LOAD DATA LOCAL INFILE 'COURSES.csv' INTO TABLE COURSES FIELDS TERMINATED BY ',';
+-- select * from COURSES;
+
+COPY COURSES FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/COURSES.csv' DELIMITER AS ',';
+select * from COURSES;
+
+-- LOAD DATA LOCAL INFILE 'INITIATION.csv' INTO TABLE INITIATION FIELDS TERMINATED BY ',';
+-- select * from INITIATION;
+
+COPY INITIATION FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/INITIATION.csv' DELIMITER AS ',';
+select * from INITIATION;
+
+-- LOAD DATA LOCAL INFILE 'NOTE.csv' INTO TABLE NOTE FIELDS TERMINATED BY ',';
+-- select * from NOTE;
+
+COPY NOTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/NOTE.csv' DELIMITER AS ',';
+select * from NOTE;
+
+/*
+-- LOAD DATA LOCAL INFILE 'COMMENTAIRE.csv' INTO TABLE COMMENTAIRE FIELDS TERMINATED BY ',';
+-- select * from COMMENTAIRE;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/COMMENTAIRE.csv' DELIMITER AS ',';
+select * from COMMENTAIRE;
+
+-- LOAD DATA LOCAL INFILE 'Emet.csv' INTO TABLE Emet FIELDS TERMINATED BY ',';
+-- select * from Emet;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/Emet.csv' DELIMITER AS ',';
+select * from Emet;
+
+-- LOAD DATA LOCAL INFILE 'Possede.csv' INTO TABLE Possede FIELDS TERMINATED BY ',';
+-- select * from Possede;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/Possede.csv' DELIMITER AS ',';
+select * from Possede;
+
+-- LOAD DATA LOCAL INFILE 'Renseigne.csv' INTO TABLE Renseigne FIELDS TERMINATED BY ',';
+-- select * from Renseigne;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/Renseigne.csv' DELIMITER AS ',';
+select * from Renseigne;
+
+-- LOAD DATA LOCAL INFILE 'Participe.csv' INTO TABLE Participe FIELDS TERMINATED BY ',';
+-- select * from Participe;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/Participe.csv' DELIMITER AS ',';
+select * from Participe;
+
+-- LOAD DATA LOCAL INFILE 'A_Propos.csv' INTO TABLE A_Propos FIELDS TERMINATED BY ',';
+-- select * from A_Propos;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/A_Propos.csv' DELIMITER AS ',';
+select * from A_Propos;
+
+-- LOAD DATA LOCAL INFILE 'Pour.csv' INTO TABLE Pour FIELDS TERMINATED BY ',';
+-- select * from Pour;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/Pour.csv' DELIMITER AS ',';
+select * from Pour;
+
+-- LOAD DATA LOCAL INFILE 'Detient.csv' INTO TABLE Detient FIELDS TERMINATED BY ',';
+-- select * from Detient;
+
+COPY CONTRAINTE FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/Detient.csv' DELIMITER AS ',';
+select * from Detient;
+
+-- set foreign_key_checks = 1;
+*/
