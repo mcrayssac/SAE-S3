@@ -1,0 +1,57 @@
+.map_image{
+    float: left;
+}
+
+/* .map_image path{
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.map_image path:hover{
+    fill:blue;
+} */
+
+.map_image path:hover{
+    fill:blue;
+}
+
+/* .map_image rect:hover{
+    fill:red;
+} */
+
+
+.map_image .is-active rect{
+    /* fill:#ff8000; */
+    filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
+}
+
+.map_list a.is-active{
+    color:red;
+    font-weight:bold;
+}
+
+.map_list{
+    float:inline-start;
+}
+
+.map_list a{
+    color: inherit;
+    text-decoration: none;
+}
+
+
+
+.map_image .resto .is-active    {
+    /* fill:#021331; la couleur fixe pour les restos */
+    filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
+}
+
+.map_image .magasins .is-active    {
+    /* fill:#021331; la couleur fixe pour les restos */
+    filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
+}
+
+.map_image .clubs .is-active    {
+    /* fill:#021331; la couleur fixe pour les restos */
+    filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
+}
