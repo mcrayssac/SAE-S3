@@ -34,13 +34,7 @@
               <b-dropdown-item href="#">Vente</b-dropdown-item>
               <b-dropdown-item href="#">Devenir prestataire</b-dropdown-item>
             </b-nav-item-dropdown>
-            <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
-               data-toggle="dropdown"><i class="bi bi-trophy-fill"></i> Résultats</a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Course à pied</a>
-              <a class="dropdown-item" href="#">VTT</a>
-              <a class="dropdown-item" href="#">Natation</a>
-              <a class="dropdown-item" href="#">Course d'orientation</a>
+
 
           </b-navbar-nav>
 
