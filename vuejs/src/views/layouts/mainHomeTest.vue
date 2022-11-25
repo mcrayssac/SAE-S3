@@ -72,7 +72,7 @@
 export default {
   name: "mainHomeTest",
   data: () => ({
-    language: "English",
+    language: "French",
     allLanguage: [{"title":"English", "flag":""},{"title":"French", "flag":""}],
     session: {"username": "Max"},
     backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'}
