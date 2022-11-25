@@ -1,7 +1,7 @@
 <template>
     <div>
       <b-navbar :style="backgroundNavbarColor.title + backgroundNavbarColor.body" toggleable="lg" type="dark">
-        <b-navbar-brand href="http://localhost:8080/">
+        <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="55" height="50" class="d-inline-block align-text-top">
         </b-navbar-brand>
@@ -44,7 +44,7 @@
             </b-nav-item>
           </b-navbar-nav>
 
-          <b-navbar-nav class="ms-auto">
+          <b-navbar-nav class="ms-auto me-3">
             <b-nav-item-dropdown v-if="session" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{session.username}}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
@@ -59,12 +59,14 @@
               <b-dropdown-item href="/signup">S'inscrire</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item v-for="(item, index) in allLanguage" :key="index" right>{{item.title}} {{item.flag}}</b-nav-item>
+            <b-nav-item v-for="(item, index) in allLanguage" :key="index" right>{{item.title}} <img :src="item.flag" width="20px" height="15px"></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
 
       <button @click="changeSession()">Change session</button>
+
+      <home/>
     </div>
 </template>
 
@@ -73,7 +75,8 @@ export default {
   name: "mainHomeTest",
   data: () => ({
     language: "French",
-    allLanguage: [{"title":"English", "flag":""},{"title":"French", "flag":""}],
+    allLanguage: [{"title":"English", "flag":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/langfr-338px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"},
+      {"title":"French", "flag":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/langfr-225px-Flag_of_France.svg.png"}],
     session: {"username": "Max"},
     backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'}
   }),
