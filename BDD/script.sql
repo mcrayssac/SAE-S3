@@ -53,7 +53,7 @@ CREATE TABLE PAYS(
 );
 
 CREATE TABLE TAILLE(
-   id_taille INT,
+   id_taille SERIAL,
    libelle_taille VARCHAR(50),
    PRIMARY KEY(id_taille)
 );
@@ -66,8 +66,8 @@ CREATE TABLE SEXE(
 
 CREATE TABLE STAND (
    id_stand SERIAL,
-   id_taille INT NOT NULL,
-   CONSTRAINT pk_stand PRIMARY KEY (id_stand)
+   id_taille INT,
+   CONSTRAINT pk_stand PRIMARY KEY (id_stand),
    CONSTRAINT fk_taille_stand FOREIGN KEY (id_taille) REFERENCES TAILLE (id_taille)
 );
 

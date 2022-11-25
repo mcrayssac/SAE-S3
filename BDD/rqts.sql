@@ -135,26 +135,29 @@
 
 ============================================================ supression prestataire ============================================================
 
--- exist = select * from prestataire where id_prestataire = PARAMETRE;
+-- exist = 
+select * from prestataire where id_prestataire = 1;
 
 -- exist != []
---     var = select * from NOTE where id_prestataire = PARAMETRE;
---         var != []
---             delete from COMMENTAIRE where id_prestataire = PARAMETRE;
---             delete from NOTE where id_prestataire = PARAMETRE;
+    -- var = 
+    select * from NOTE where id_prestataire = 1;
+        -- var != []
+            delete from COMMENTAIRE where id_prestataire = 1;
+            delete from NOTE where id_prestataire = 1;
 
---     initiation = select id_initiation from INITIATION where id_prestataire = PARAMETRE;
---         initiation != []
---             id = select id_reservation from A_Propos where id_initiation in initiation;
---                 id != []
---                     delete from A_Propos where id_initiation in initiation;
---                     delete from RESERVATION where id_reservation in id;
---             delete from INITIATION where id_initiation = initiation;
+    -- initiation = 
+    select id_initiation from INITIATION where id_prestataire = 1;
+        -- initiation != []
+            -- id = 
+            select id_reservation from A_Propos where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1);
+                -- id != []
+                    delete from A_Propos where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1;);
+                    delete from RESERVATION where id_reservation in (select id_reservation from A_Propos where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1));
+            delete from INITIATION where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1;);
 
---     delete from Detient where id_prestataire = PARAMETRE; -- ================================================================================================================================================================================================================================================
+    delete from Detient where id_prestataire = 1; -- ================================================================================================================================================================================================================================================
 
---     username = select username from PRESTATAIRE where id_prestataire = PARAMETRE;
---     delete from PRESTATAIRE where id_prestataire = PARAMETRE; -- + suppression de tt ou celui à supprimer intervient;
+    delete from PRESTATAIRE where id_prestataire = 1; -- + suppression de tt ou celui à supprimer intervient;
 
 /* ==================== initiation ==================== */
 
@@ -192,11 +195,6 @@
 
 
 -- ============================================================ voir les contraintes d'un stand ============================================================
-select ctr.libelle_contrainte, (case when s.taille_stand < 100 then 'petit' when s.taille_stand > 300 then 'grand' else 'moyen' end) as taille
-from Possede as p
-inner join CONTRAINTE as ctr on ctr.id_contrainte = p.id_contrainte
-inner join STAND as s on s.id_stand = p.id_stand
-;
 
 
 -- stand avec contraintes
