@@ -19,9 +19,7 @@
               <a class="dropdown-item" href="/restaurants">Restaurant</a>
               <a class="dropdown-item" href="/clubs">Club</a>
               <a class="dropdown-item" href="#">Vente</a>
-              {{ # unless session }}
               <a class="dropdown-item" href="#">Devenir prestataire</a>
-              {{ /unless   }}
             </div>
           </li>
           <li class="nav-item dropdown active">
@@ -47,7 +45,6 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          {{ # if session }}
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
                data-toggle="dropdown"><i class="bi bi-person-fill"></i> Bonjour {{ session.username }}</a>
@@ -58,7 +55,6 @@
               <a class="dropdown-item" href="#">Supprimer le compte</a>
             </div>
           </li>
-          {{ else }}
           <li class="nav-item dropdown active nav-item-right">
             <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
                data-toggle="dropdown"><i class="bi bi-person-fill"></i> Profil</a>
@@ -67,7 +63,6 @@
               <a class="dropdown-item" href="/signup">S'inscrire</a>
             </div>
           </li>
-          {{ /if   }}
           <a class="dropdown-item d" href="#"><img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/langfr-225px-Flag_of_France.svg.png"
               width="25px" height="15px" style="margin: auto; height: auto"></a>
