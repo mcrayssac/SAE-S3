@@ -1,0 +1,42 @@
+.map_image{
+    float: left;
+}
+
+/* .map_image path{
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.map_image path:hover{
+    fill:blue;
+} */
+
+.map_image path:hover{
+    fill:blue;
+}
+
+/* .map_image rect:hover{
+    fill:red;
+} */
+
+.map_image .is-unavailable{
+    filter: invert(16%) sepia(87%) saturate(8000%) hue-rotate(335deg) brightness(90%) contrast(100%);
+}
+
+.map_image .is-active rect{
+    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+}
+
+.map_list a.is-active{
+    color:red;
+    font-weight:bold;
+}
+
+.map_list{
+    float:inline-start;
+}
+
+.map_list a{
+    color: inherit;
+    text-decoration: none;
+}
