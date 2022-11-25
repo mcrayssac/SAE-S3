@@ -1,6 +1,9 @@
 <template>
-  <b-navbar :style="backgroundColor.title + backgroundColor.body" toggleable>
-    <b-navbar-brand href="#" @click="changeBackgroundColor()">NavBar</b-navbar-brand>
+  <b-navbar :style="backgroundNavbarColor.title + backgroundNavbarColor.body" toggleable>
+    <b-navbar-brand href="http://localhost:8080/">
+      <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
+           alt="IUT LOGO" width="55" height="50" class="d-inline-block align-text-top">
+    </b-navbar-brand>
 
     <b-navbar-toggle target="navbar-toggle-collapse">
       <template #default="{ expanded }">
@@ -23,13 +26,10 @@
 export default {
   name: "mainHomeTest",
   data: () => ({
-    backgroundColor: {"title" : 'background-color :', "body" : '#6ec8cb'}
+    backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'}
   }),
   methods:{
-    changeBackgroundColor() {
-      if (this.backgroundColor.body === '#d9231a') this.backgroundColor.body = '#6ec8cb'
-      else this.backgroundColor.body = '#d9231a'
-    }
+
   }
 }
 </script>
