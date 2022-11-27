@@ -14,33 +14,35 @@
 
     <br>
 
-    <div class="container">
-      <div class="row center">
-        <h1 :style="darkBlue">LAKESIDE SPORTS FESTIVAL</h1>
-      </div>
+    <b-container>
+      <b-row align-h="center">
+        <b-col cols="auto"><h1 :style="darkBlue">LAKESIDE SPORTS FESTIVAL</h1></b-col>
+      </b-row>
       <br><br>
-      <div class="row paragraphe">
-        <a><h2>POURQUOI CET EVENEMENT ?</h2>
-          <div class="justified-text-center">
-            Venez participer au travers de nombreuses épreuves et récolter des fonds pour <br> <strong> l’APF (Association des paralysés de France) ! </strong> <br><br>
-            Natation, athlétisme, VTT et bien d’autres encore seront au rendez-vous pour vous faire passer un moment inoubliable entre amis, en famille ou en solitaire.<br>
-            Alors n’hésitez plus et ressortez vos vieilles baskets du placard pour venir vous challenger dans la bonne humeur !<br>
-            Tous les bénéfices de cet évènement seront reversés à l’association APF pour aider à inclure les personnes à mobilité réduite dans le monde du sport. <br><br>
-            Pour plus d’informations, voir sur la page d’APF.<br>
-          </div>
-        </a>
+      <b-row align-h="center">
+        <b-col cols="auto"><h2>POURQUOI CET EVENEMENT ?</h2></b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="auto"><div class="justified-text-center">
+          Venez participer au travers de nombreuses épreuves et récolter des fonds pour <br> <strong> l’APF (Association des paralysés de France) ! </strong> <br><br>
+          Natation, athlétisme, VTT et bien d’autres encore seront au rendez-vous pour vous faire passer un moment inoubliable entre amis, en famille ou en solitaire.<br>
+          Alors n’hésitez plus et ressortez vos vieilles baskets du placard pour venir vous challenger dans la bonne humeur !<br>
+          Tous les bénéfices de cet évènement seront reversés à l’association APF pour aider à inclure les personnes à mobilité réduite dans le monde du sport. <br><br>
+          Pour plus d’informations, voir sur la page d’APF.<br>
+        </div></b-col>
+      </b-row>
 
-      </div>
-      <div class="row" style="margin-top: 20px">
-        <a class="center" href="/association" target="_blank">
+      <b-row align-h="center" style="margin-top: 20px">
+        <b-col cols="auto"><a class="center" href="/association" target="_blank">
           <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png">
-        </a>
-      </div>
+        </a></b-col>
+      </b-row>
 
-      <div class="row ligne"></div>
-      <div class="row center">
-        <h1>Notre cagnotte</h1>
-      </div>
+      <b-row class="mt-5 mb-5 ligne"></b-row>
+      <b-row align-h="center">
+        <b-col cols="auto"><h1>Notre cagnotte</h1></b-col>
+      </b-row>
+
       <div class="row">
         <div class="col">
           <div class="circular-progress">
@@ -50,70 +52,25 @@
         <div class="col my-auto" style="font-size: xx-large;
                 font-family: 'Montserrat', sans-serif; font-weight: 300; vertical-align: center;">
           <div class="row center">
-            <a><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur"></a> € récoltés</a>
+            <a><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{cagnotteRecolte}}</a> € récoltés</a>
           </div>
           <div class="row center">
-            <a>Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;"></a> €</a>
+            <a>Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{cagnotteObjectif}}</a> €</a>
           </div>
         </div>
       </div>
 
-      <div class="row ligne"></div>
-      <div class="row center">
-        <h1>Nos partenaires</h1>
-      </div>
-      <div class="row">
-        <div class="col align-self-center">
-          <div class="row">
-            <i class="bi bi-arrow-left-short slick-prev center"></i>
-          </div>
-        </div>
-        <div class="col align-self-center">
-          <section class="partenaires slider">
-            <div class="slide"><a href="https://www.decathlon.fr" target="_blank"><img alt="Decathlon"
-                                                                                       src="https://pbs.twimg.com/profile_images/1096041902351224833/KQKNxhzS_400x400.png"></a></div>
-            <div class="slide"><a href="https://www.intersport.fr" target="_blank"><img alt="InterSport"
-                                                                                        src="https://pbs.twimg.com/profile_images/1037247605724598274/Dt7llTkQ_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.go-sport.com" target="_blank"><img alt="GoSport"
-                                                                                       src="https://pbs.twimg.com/profile_images/1567498382062624771/3UmQRjqN_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.i-run.fr" target="_blank"><img alt="iRun"
-                                                                                   src="https://pbs.twimg.com/profile_images/844920305193832448/d_zVM1Ua_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.vittel.fr" target="_blank"><img alt="Vittel"
-                                                                                    src="https://pbs.twimg.com/media/D3acuknWAAYci9j.jpg"></a></div>
-            <div class="slide"><a href="https://www.specialized.com" target="_blank"><img alt="Specialized"
-                                                                                          src="https://pbs.twimg.com/profile_images/923284211917819904/C8DoeGEH_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.arenasport.com" target="_blank"><img alt="Arena"
-                                                                                         src="https://pbs.twimg.com/profile_images/1255923526294556676/l_pR-TGX_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.nike.com" target="_blank"><img alt="Nike"
-                                                                                   src="https://pbs.twimg.com/profile_images/1532044350019907585/Oo1-e1N2_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.adidas.fr" target="_blank"><img alt="Adidas"
-                                                                                    src="https://pbs.twimg.com/profile_images/1564299301123137545/d1yZqve6_400x400.png"></a></div>
-            <div class="slide"><a href="https://www.letour.fr" target="_blank"><img alt="TourDeFrance"
-                                                                                    src="https://pbs.twimg.com/profile_images/1182279755552428033/8mX_dsXW_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://eu.puma.com" target="_blank"><img alt="Puma"
-                                                                                  src="https://pbs.twimg.com/profile_images/1549763746398179329/CzTqIf6C_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.thenorthface.fr" target="_blank"><img alt="TheNorthFace"
-                                                                                          src="https://pbs.twimg.com/profile_images/1410536405005221889/ac3a_xm4_400x400.jpg"></a></div>
-            <div class="slide"><a href="https://www.columbiasportswear.fr" target="_blank"><img alt="Columbia"
-                                                                                                src="https://pbs.twimg.com/profile_images/1278340936066461696/JZ_qCeUw_400x400.png"></a></div>
-            <div class="slide"><a href="https://www.salomon.com" target="_blank"><img alt="Salomon"
-                                                                                      src="https://media.cdnws.com/_i/46016/5472/2489/76/stickers-salomon-ref2-autocollant-snow-snowboard-sticker-ski-neige-sport-extreme-logo-planche-autocollants-snowboarding-decals-snowboards-sponsors-min.jpeg"></a></div>
-            <div class="slide"><a href="https://www.scott-sports.com" target="_blank"><img alt="Scott"
-                                                                                           src="https://www.montania-sport.com/54657-thickbox_default/piece-detachee-bootfitting-chaussures-ski-scott.jpg"></a></div>
-            <div class="slide"><a href="https://www.picture-organic-clothing.com" target="_blank"><img alt="Picture"
-                                                                                                       src="https://yt3.ggpht.com/ytc/AMLnZu8jvzx771u6SVIWEk2ovWfAft5VRHfpH1X7Xz9raw=s900-c-k-c0x00ffffff-no-rj"></a></div>
-          </section>
-        </div>
-        <div class="col align-self-center">
-          <div class="row">
-            <i class="bi bi-arrow-right-short slick-next center"></i>
-          </div>
-        </div>
-      </div>
+      <b-row class="mt-5 mb-5 ligne"></b-row>
+      <b-row align-h="center">
+        <b-col cols="auto"><h1>Nos partenaires</h1></b-col>
+      </b-row>
 
-      <div class="row ligne"></div>
-      <h3>Palettes de couleurs</h3>
-      <div class="row" style="border: 2px solid #1a265a;">
+
+      <b-row class="mt-5 mb-5 ligne"></b-row>
+      <b-row align-h="center">
+        <b-col cols="auto"><h3>Palettes de couleurs</h3></b-col>
+      </b-row>
+      <div class="row" style="border: 2px solid #1a265a; border-style: solid solid none solid;">
         <div class="col text-center" style="background-color: #495388; height: 100px; width: 100px;"></div>
         <div class="col text-center" style="background-color: #ffffff"></div>
         <div class="col text-center" style="background-color: #6ec8cb"></div>
@@ -137,7 +94,7 @@
           <a>#021331</a>
         </div>
       </div>
-    </div>
+    </b-container>
 
   </div>
 </template>
@@ -151,7 +108,9 @@ export default {
       "https://cdn.discordapp.com/attachments/894224051571138560/1028050937757040640/image_home_4_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028051419237994566/image_home_5_filter1.png"
     ],
-    darkBlue: "color: #021331"
+    darkBlue: "color: #021331",
+    cagnotteRecolte : 3000000,
+    cagnotteObjectif : 4000000
   }),
   methods:{
 
@@ -159,6 +118,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+@import '../../../public/css/cagnotte.css';
 </style>
