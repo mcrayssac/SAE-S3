@@ -1,9 +1,9 @@
 <template>
     <div>
-      <b-navbar :style="backgroundNavbarColor.title + backgroundNavbarColor.body" toggleable="lg" type="dark">
+      <b-navbar class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg" type="dark">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
-               alt="IUT LOGO" width="55" height="50" class="d-inline-block align-text-top">
+               alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
         </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -45,6 +45,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
+            <b-nav-item @click="changeSession()"><b-icon-arrow-left-right></b-icon-arrow-left-right></b-nav-item>
             <b-nav-item-dropdown v-if="session" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{session.username}}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
@@ -59,13 +60,13 @@
               <b-dropdown-item href="/signup">S'inscrire</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item v-for="(item, index) in allLanguage" :key="index" right>{{item.title}} <img :src="item.flag" width="20px" height="15px"></b-nav-item>
+            <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item v-if="language !== item.title" right>
+              <img :src="item.flag" width="20px" height="15px">
+            </b-nav-item></div>
+
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-
-      <button @click="changeSession()">Change session</button>
-
       <home/>
     </div>
 </template>
@@ -91,5 +92,16 @@ export default {
 </script>
 
 <style scoped>
+.rounded {
+  animation: 8s infinite alternate rotate;
+}
 
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>

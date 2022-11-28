@@ -1,15 +1,12 @@
 <template>
-  <div>
+  <div :style="layoutHeight">
     <b-carousel
         id="carousel-fade"
         fade
         indicators
         img-width="1024"
         img-height="480"
-    >
-      <b-carousel-slide v-for="(item, index) in slide" :key="index"
-          :img-src="item"
-      ></b-carousel-slide>
+    ><b-carousel-slide v-for="(item, index) in slide" :key="index" :img-src="item"><h1 :style="darkBlue" style="zoom: 350%;">15-08-2022</h1></b-carousel-slide>
     </b-carousel>
 
     <br>
@@ -23,13 +20,13 @@
         <b-col cols="auto"><h2>POURQUOI CET EVENEMENT ?</h2></b-col>
       </b-row>
       <b-row align-h="center">
-        <b-col cols="auto"><div class="justified-text-center">
-          Venez participer au travers de nombreuses épreuves et récolter des fonds pour <br> <strong> l’APF (Association des paralysés de France) ! </strong> <br><br>
+        <b-col class="justified-text-center" cols="10">
+          Venez participer au travers de nombreuses épreuves et récolter des fonds pour <strong> l’APF (Association des paralysés de France) ! </strong> <br><br>
           Natation, athlétisme, VTT et bien d’autres encore seront au rendez-vous pour vous faire passer un moment inoubliable entre amis, en famille ou en solitaire.<br>
           Alors n’hésitez plus et ressortez vos vieilles baskets du placard pour venir vous challenger dans la bonne humeur !<br>
           Tous les bénéfices de cet évènement seront reversés à l’association APF pour aider à inclure les personnes à mobilité réduite dans le monde du sport. <br><br>
-          Pour plus d’informations, voir sur la page d’APF.<br>
-        </div></b-col>
+          Pour plus d’informations, voir sur la page d’<a href="/association">APF</a>.<br>
+        </b-col>
       </b-row>
 
       <b-row align-h="center" style="margin-top: 20px">
@@ -65,6 +62,19 @@
         <b-col cols="auto"><h1>Nos partenaires</h1></b-col>
       </b-row>
 
+      <b-row align-h="center">
+        <b-col cols="12" style="padding-top: 30px"><vueper-slides slide-image-inside ref="myVueperSlides"
+                                        autoplay="true"
+                                        :arrows="false"
+                                        :visible-slides="5"
+                                        :dragging-distance="200"
+                                        :bullets="false"
+                                        duration="2000"
+                                        pauseOnHover="true"
+                                        fixedHeight="200px">
+          <vueper-slide v-for="(item, index) of slideSponsor" :link="item.src" :key="index" :image="item.photo"/>
+        </vueper-slides></b-col>
+      </b-row>
 
       <b-row class="mt-5 mb-5 ligne"></b-row>
       <b-row align-h="center">
@@ -100,13 +110,35 @@
 </template>
 
 <script>
+import { VueperSlides, VueperSlide } from 'vueperslides'
+import 'vueperslides/dist/vueperslides.css'
 export default {
   name: "mainHome",
+  components: { VueperSlides, VueperSlide },
   data: () => ({
+    layoutHeight: "margin-top : "+51+"px",
     slide: ["https://cdn.discordapp.com/attachments/894224051571138560/1028048900860428371/image_home_2_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028050754042351707/image_home_3_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028050937757040640/image_home_4_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028051419237994566/image_home_5_filter1.png"
+    ],
+    slideSponsor: [
+      {"titre": "Decathlon", "src": "https://www.decathlon.fr", "photo": "https://pbs.twimg.com/profile_images/1096041902351224833/KQKNxhzS_400x400.png"},
+      {"titre": "InterSport", "src": "https://www.intersport.fr", "photo": "https://pbs.twimg.com/profile_images/1037247605724598274/Dt7llTkQ_400x400.jpg"},
+      {"titre": "GoSport", "src": "https://www.go-sport.com", "photo": "https://pbs.twimg.com/profile_images/1567498382062624771/3UmQRjqN_400x400.jpg"},
+      {"titre": "iRun", "src": "https://www.i-run.fr", "photo": "https://pbs.twimg.com/profile_images/844920305193832448/d_zVM1Ua_400x400.jpg"},
+      {"titre": "Vittel", "src": "https://www.vittel.fr", "photo": "https://pbs.twimg.com/media/D3acuknWAAYci9j.jpg"},
+      {"titre": "Specialized", "src": "https://www.specialized.com", "photo": "https://pbs.twimg.com/profile_images/923284211917819904/C8DoeGEH_400x400.jpg"},
+      {"titre": "Arena", "src": "https://www.arenasport.com", "photo": "https://pbs.twimg.com/profile_images/1255923526294556676/l_pR-TGX_400x400.jpg"},
+      {"titre": "Nike", "src": "https://www.nike.com", "photo": "https://pbs.twimg.com/profile_images/1532044350019907585/Oo1-e1N2_400x400.jpg"},
+      {"titre": "Adidas", "src": "https://www.adidas.fr", "photo": "https://pbs.twimg.com/profile_images/1564299301123137545/d1yZqve6_400x400.png"},
+      {"titre": "TourDeFrance", "src": "https://www.letour.fr", "photo": "https://pbs.twimg.com/profile_images/1182279755552428033/8mX_dsXW_400x400.jpg"},
+      {"titre": "Puma", "src": "https://eu.puma.com", "photo": "https://pbs.twimg.com/profile_images/1549763746398179329/CzTqIf6C_400x400.jpg"},
+      {"titre": "TheNorthFace", "src": "https://www.thenorthface.fr", "photo": "https://pbs.twimg.com/profile_images/1410536405005221889/ac3a_xm4_400x400.jpg"},
+      {"titre": "Columbia", "src": "https://www.columbiasportswear.fr", "photo": "https://pbs.twimg.com/profile_images/1278340936066461696/JZ_qCeUw_400x400.png"},
+      {"titre": "Salomon", "src": "https://www.salomon.com", "photo": "https://media.cdnws.com/_i/46016/5472/2489/76/stickers-salomon-ref2-autocollant-snow-snowboard-sticker-ski-neige-sport-extreme-logo-planche-autocollants-snowboarding-decals-snowboards-sponsors-min.jpeg"},
+      {"titre": "Scott", "src": "https://www.scott-sports.com", "photo": "https://www.montania-sport.com/54657-thickbox_default/piece-detachee-bootfitting-chaussures-ski-scott.jpg"},
+      {"titre": "Picture", "src": "https://www.picture-organic-clothing.com", "photo": "https://yt3.ggpht.com/ytc/AMLnZu8jvzx771u6SVIWEk2ovWfAft5VRHfpH1X7Xz9raw=s900-c-k-c0x00ffffff-no-rj"}
     ],
     darkBlue: "color: #021331",
     cagnotteRecolte : 3000000,
@@ -120,4 +152,5 @@ export default {
 
 <style>
 @import '../../../public/css/cagnotte.css';
+@import '../../../public/css/home.css';
 </style>
