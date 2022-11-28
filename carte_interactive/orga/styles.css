@@ -27,6 +27,14 @@
     filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
 }
 
+.map_image .foret .is-active{
+    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+}
+
+.map_image .lac .is-active{
+    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+}
+
 .map_list a.is-active{
     color:red;
     font-weight:bold;

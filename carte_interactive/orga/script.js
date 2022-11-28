@@ -1,10 +1,15 @@
 var map = document.querySelector('#map')
-console.log(map)
 var paths = document.querySelectorAll('.map_image a')
-console.log(paths)
 var links = document.querySelectorAll('.map_list a')
-console.log(links)
+var buttonsEspace = document.querySelectorAll('.map_list .espace')
+var allButtons = document.querySelectorAll('input[type=checkbox]')
+var selectContraintes = document.querySelector('input[type=button]')
+console.log(selectContraintes)
 
+// Permet d'enlever toutes les cases cochées en reloadant la page
+allButtons.forEach(b => {
+    b.checked = false
+})
 
 var selectAreas = (id) => {
     map.querySelectorAll('.is-active').forEach(element => {
@@ -16,16 +21,13 @@ var selectAreas = (id) => {
         document.querySelector("#" + id).classList.add('is-active')
         console.log(document.querySelector('#list-' + id))
         console.log(document.querySelector("#" + id))
-        
     }
-
 }
 
 paths.forEach(path => {
     path.addEventListener('mouseenter', e => {
         console.log(e.target.id)
         var id = e.target.id
-        console.log(id)
         selectAreas(id)
     })
 
@@ -38,7 +40,6 @@ paths.forEach(path => {
 links.forEach(link =>  {
     link.addEventListener('mouseenter', e => {
         var id = e.target.id.replace("list-", "")
-        console.log(id)
         selectAreas(id)
     })
 
@@ -47,3 +48,36 @@ links.forEach(link =>  {
     })
 })
 
+buttonsEspace.forEach(button => {
+    button.addEventListener('click', () => {
+        if(button.checked){
+            buttonsEspace.forEach(b => {
+                b.checked = false
+            })
+            button.checked = true
+        }
+        else{
+            button.checked = true
+        }
+    })
+})
+
+
+selectContraintes.addEventListener('click', () => {
+    map.querySelectorAll('.is-active').forEach(element => {
+        element.classList.remove('is-active')
+    })
+
+    allButtons.forEach(button => {
+        if(button.checked){
+            var id = button.id
+            console.log(id)
+            let tabFilters = document.querySelectorAll('.map_image a .'+id)
+            
+            tabFilters.forEach(standSelectionne =>{
+                standSelectionne.classList.add('is-active')
+                console.log(standSelectionne)
+            })
+        }
+    })
+})
