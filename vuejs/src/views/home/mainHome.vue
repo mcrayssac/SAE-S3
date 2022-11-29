@@ -6,18 +6,20 @@
         indicators
         img-width="1024"
         img-height="480"
-    ><b-carousel-slide v-for="(item, index) in slide" :key="index" :img-src="item"><h1 :style="darkBlue" style="zoom: 350%;">15-08-2022</h1></b-carousel-slide>
+    ><b-carousel-slide v-for="(item, index) in slide" :key="index" :img-src="item">
+      <h6 style="zoom: 350%; text-shadow: 2px 2px 4px #021331; opacity: 100%; color: white;">LAKESIDE SPORTS FESTIVAL</h6>
+      <h7 style="zoom: 350%; text-shadow: 2px 2px 4px #021331; opacity: 100%; color: white;">15.08.2022 AU 16.08.2022</h7></b-carousel-slide>
     </b-carousel>
 
     <br>
 
     <b-container>
-      <b-row align-h="center">
-        <b-col cols="auto"><h1 :style="darkBlue">LAKESIDE SPORTS FESTIVAL</h1></b-col>
-      </b-row>
-      <br><br>
+      <br>
       <b-row align-h="center">
         <b-col cols="auto"><h2>POURQUOI CET EVENEMENT ?</h2></b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="auto"><h6>local time : {{localTime}}</h6></b-col>
       </b-row>
       <b-row align-h="center">
         <b-col class="justified-text-center" cols="10">
@@ -36,26 +38,38 @@
       </b-row>
 
       <b-row class="mt-5 mb-5 ligne"></b-row>
-      <b-row align-h="center">
+      <b-row align-h="center" style="margin-bottom: 25px;">
         <b-col cols="auto"><h1>Notre cagnotte</h1></b-col>
       </b-row>
 
-      <div class="row">
-        <div class="col">
-          <div class="circular-progress">
-            <span class="progress-value">0%</span>
-          </div>
-        </div>
-        <div class="col my-auto" style="font-size: xx-large;
+      <b-row align-h="center">
+        <b-col cols="auto">
+          <vue-ellipse-progress
+              :size="200"
+              color="#6ec8cb"
+              dot="12 #495388"
+              animation="default 6700 500"
+              :progress="Math.round((dotReplaced(cagnotteRecolte)/dotReplaced(cagnotteObjectif)*100) * 100) / 100"
+              :angle="-90"
+              :gap="10"
+              fontColor="#495388"
+              fontSize="3rem">
+            <template v-slot:legend-value>
+              <span style="color: #495388 ; font-size: 2rem;" slot="legend-value">%</span>
+            </template>
+          </vue-ellipse-progress>
+        </b-col>
+        <b-col cols="auto" style="font-size: xx-large;
                 font-family: 'Montserrat', sans-serif; font-weight: 300; vertical-align: center;">
-          <div class="row center">
-            <a><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{cagnotteRecolte}}</a> € récoltés</a>
-          </div>
-          <div class="row center">
-            <a>Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{cagnotteObjectif}}</a> €</a>
-          </div>
-        </div>
-      </div>
+          <b-row rows="auto" align-h="center">
+            <a style="color: #495388;"><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{placeDot(cagnotte)}}</a> € récoltés</a>
+          </b-row>
+          <b-row rows="auto" align-h="center">
+            <a style="color: #495388;">Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{placeDot(cagnotteObjectif)}}</a> €</a>
+          </b-row>
+        </b-col>
+      </b-row>
+
 
       <b-row class="mt-5 mb-5 ligne"></b-row>
       <b-row align-h="center">
@@ -64,14 +78,14 @@
 
       <b-row align-h="center">
         <b-col cols="12" style="padding-top: 30px"><vueper-slides slide-image-inside ref="myVueperSlides"
-                                        autoplay="true"
-                                        :arrows="false"
-                                        :visible-slides="5"
-                                        :dragging-distance="200"
-                                        :bullets="false"
-                                        duration="2000"
-                                        pauseOnHover="true"
-                                        fixedHeight="200px">
+          autoplay
+          :arrows="false"
+          :visible-slides="5"
+          :dragging-distance="200"
+          :bullets="false"
+          duration="2000"
+          pauseOnHover="true"
+          fixedHeight="150px">
           <vueper-slide v-for="(item, index) of slideSponsor" :link="item.src" :key="index" :image="item.photo"/>
         </vueper-slides></b-col>
       </b-row>
@@ -105,7 +119,6 @@
         </div>
       </div>
     </b-container>
-
   </div>
 </template>
 
@@ -127,8 +140,8 @@ export default {
       {"titre": "InterSport", "src": "https://www.intersport.fr", "photo": "https://pbs.twimg.com/profile_images/1037247605724598274/Dt7llTkQ_400x400.jpg"},
       {"titre": "GoSport", "src": "https://www.go-sport.com", "photo": "https://pbs.twimg.com/profile_images/1567498382062624771/3UmQRjqN_400x400.jpg"},
       {"titre": "iRun", "src": "https://www.i-run.fr", "photo": "https://pbs.twimg.com/profile_images/844920305193832448/d_zVM1Ua_400x400.jpg"},
-      {"titre": "Vittel", "src": "https://www.vittel.fr", "photo": "https://pbs.twimg.com/media/D3acuknWAAYci9j.jpg"},
       {"titre": "Specialized", "src": "https://www.specialized.com", "photo": "https://pbs.twimg.com/profile_images/923284211917819904/C8DoeGEH_400x400.jpg"},
+      {"titre": "Vittel", "src": "https://www.vittel.fr", "photo": "https://pbs.twimg.com/media/D3acuknWAAYci9j.jpg"},
       {"titre": "Arena", "src": "https://www.arenasport.com", "photo": "https://pbs.twimg.com/profile_images/1255923526294556676/l_pR-TGX_400x400.jpg"},
       {"titre": "Nike", "src": "https://www.nike.com", "photo": "https://pbs.twimg.com/profile_images/1532044350019907585/Oo1-e1N2_400x400.jpg"},
       {"titre": "Adidas", "src": "https://www.adidas.fr", "photo": "https://pbs.twimg.com/profile_images/1564299301123137545/d1yZqve6_400x400.png"},
@@ -141,11 +154,78 @@ export default {
       {"titre": "Picture", "src": "https://www.picture-organic-clothing.com", "photo": "https://yt3.ggpht.com/ytc/AMLnZu8jvzx771u6SVIWEk2ovWfAft5VRHfpH1X7Xz9raw=s900-c-k-c0x00ffffff-no-rj"}
     ],
     darkBlue: "color: #021331",
-    cagnotteRecolte : 3000000,
-    cagnotteObjectif : 4000000
+    cagnotteRecolte : 3843029,
+    cagnotteObjectif : 5000000,
+    gradient: {
+      radial: false,
+      colors: [
+        {
+          color: '#6ec8cb',
+          offset: "0",
+          opacity: '1',
+        },
+        {
+          color: '#d9231a',
+          offset: "100",
+          opacity: '1',
+        },
+      ]
+    },
+    progress: 75,
+    localTime: " ",
+    cagnotte: 3843029,
+    cagnotteTop: null,
+    counter: 0
   }),
   methods:{
-
+    dotReplaced(str){
+      return parseInt(str.toString().replace(/\./g, ''));
+    },
+    placeDot(str){
+      return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+    setCagnotte: function () {
+      let time = this;
+      setInterval(function () {
+        time.localTime = new Date().toLocaleTimeString();
+      }, 0);
+    },
+    showLocaleTime: function () {
+      let time = this;
+      setInterval(function () {
+        console.log(time.cagnotte);
+        let res = time.dotReplaced(time.cagnotte);
+        time.cagnotte = time.placeDot(res++);
+      }, 5);
+    },
+    timer: function() { setInterval(this.tikTok, 125); },
+    tikTok: function() {
+      if (this.cagnotte >= this.cagnotteTop) {
+        if (Math.random() > 0.95)
+          this.cagnotte += 1;
+      }
+      else {
+        if (this.cagnotte<this.cagnotteTop-999990)
+          this.cagnotte+=1;
+        else if (this.cagnotte<this.cagnotteTop-999900)
+          this.cagnotte+=10;
+        else if (this.cagnotte<this.cagnotteTop-999000)
+          this.cagnotte+=100;
+        else if (this.cagnotte<this.cagnotteTop-990000)
+          this.cagnotte+=1000;
+        else if (this.cagnotte<this.cagnotteTop-900000)
+          this.cagnotte+=10000;
+        else if (this.cagnotte<this.cagnotteTop)
+          this.cagnotte+=100000;
+      }
+    }
+  },mounted() {
+    this.cagnotteTop = this.cagnotte;
+    this.cagnotte-=1000000;
+    this.setCagnotte();
+    this.$nextTick(() => {
+      this.timer();
+    });
   }
 }
 </script>
@@ -153,4 +233,5 @@ export default {
 <style>
 @import '../../../public/css/cagnotte.css';
 @import '../../../public/css/home.css';
+
 </style>

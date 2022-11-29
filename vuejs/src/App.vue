@@ -1,15 +1,20 @@
 <template>
   <div>
-    <layout/>
-    <router-view/>
+    <app-layout></app-layout>
+    <router-view></router-view>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
-import layout from "@/views/layouts/mainHomeTest";
+import layout from "@/views/layouts/mainHomeTest.vue";
+import footer from "@/views/footer/footer.vue";
 export default {
   name: "app",
-  components: {layout}
+  components: {
+    'app-layout':layout,
+    'app-footer':footer
+  }
 }
 </script>
 
