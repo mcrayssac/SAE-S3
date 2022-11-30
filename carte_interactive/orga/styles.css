@@ -2,22 +2,9 @@
     float: left;
 }
 
-/* .map_image path{
-    stroke: black;
-    stroke-width: 1px;
-}
-
-.map_image path:hover{
-    fill:blue;
-} */
-
 .map_image path:hover{
     fill:blue;
 }
-
-/* .map_image rect:hover{
-    fill:red;
-} */
 
 .map_image .is-unavailable{
     filter: invert(16%) sepia(87%) saturate(8000%) hue-rotate(335deg) brightness(90%) contrast(100%);
@@ -47,4 +34,22 @@
 .map_list a{
     color: inherit;
     text-decoration: none;
+}
+
+.modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+
+.modal.right .modal-content {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal.right .modal-body {
+    padding: 15px 15px 80px;
 }
