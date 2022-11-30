@@ -2,6 +2,10 @@
     float: left;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .map_image path:hover{
     fill:blue;
 }

@@ -2,12 +2,14 @@ var map = document.querySelector('#map')
 var paths = document.querySelectorAll('.map_image a')
 var links = document.querySelectorAll('.map_list a')
 var buttonsEspace = document.querySelectorAll('.map_list .espace')
-var allButtons = document.querySelectorAll('input[type=checkbox]')
-var selectContraintes = document.querySelector('input[type=button]')
+var allCheckbox = document.querySelectorAll('input[type=checkbox]')
+var selectContraintes = document.querySelector('input[value=Valider]')
+var resetContraintes = document.querySelector('input[value=Reset]')
+
 console.log(selectContraintes)
 
 // Permet d'enlever toutes les cases cochées en reloadant la page
-allButtons.forEach(b => {
+allCheckbox.forEach(b => {
     b.checked = false
 })
 
@@ -68,7 +70,7 @@ selectContraintes.addEventListener('click', () => {
         element.classList.remove('is-active')
     })
 
-    allButtons.forEach(button => {
+    allCheckbox.forEach(button => {
         if(button.checked){
             var id = button.id
             console.log(id)
@@ -80,4 +82,11 @@ selectContraintes.addEventListener('click', () => {
             })
         }
     })
+})
+
+resetContraintes.addEventListener('click', () => {
+    allCheckbox.forEach(b => {
+        b.checked = false
+    })
+    selectAreas()
 })
