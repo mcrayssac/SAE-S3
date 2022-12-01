@@ -1,94 +1,98 @@
 <template>
   <div :style="layoutHeight">
-    <b-carousel
-        id="carousel-fade"
-        fade
-        indicators
-        img-width="1024"
-        img-height="480"
-    ><b-carousel-slide v-for="(item, index) in slide" :key="index" :img-src="item">
-      <h6 style="zoom: 350%; text-shadow: 2px 2px 4px #021331; opacity: 100%; color: white;">LAKESIDE SPORTS FESTIVAL</h6>
-      <h7 style="zoom: 350%; text-shadow: 2px 2px 4px #021331; opacity: 100%; color: white;">15.08.2022 AU 16.08.2022</h7></b-carousel-slide>
-    </b-carousel>
-
+    <app-home-slide-main :slide="slide" />
     <br>
-
     <b-container>
       <br>
-      <b-row align-h="center">
-        <b-col cols="auto"><h2>POURQUOI CET EVENEMENT ?</h2></b-col>
-      </b-row>
-      <b-row align-h="center">
-        <b-col cols="auto"><h6>local time : {{localTime}}</h6></b-col>
-      </b-row>
-      <b-row align-h="center">
-        <b-col class="justified-text-center" cols="10">
-          Venez participer au travers de nombreuses épreuves et récolter des fonds pour <strong> l’APF (Association des paralysés de France) ! </strong> <br><br>
-          Natation, athlétisme, VTT et bien d’autres encore seront au rendez-vous pour vous faire passer un moment inoubliable entre amis, en famille ou en solitaire.<br>
-          Alors n’hésitez plus et ressortez vos vieilles baskets du placard pour venir vous challenger dans la bonne humeur !<br>
-          Tous les bénéfices de cet évènement seront reversés à l’association APF pour aider à inclure les personnes à mobilité réduite dans le monde du sport. <br><br>
-          Pour plus d’informations, voir sur la page d’<a href="/association">APF</a>.<br>
-        </b-col>
-      </b-row>
+      <section class="Time">
+        <b-row align-h="center">
+          <b-col data-aos="fade-up-left"
+                 data-aos-offset="400"
+                 data-aos-duration="8000"
+                 cols="auto"><h1>3, 2, 1...PARTEZ !!</h1></b-col>
+        </b-row>
+        <b-row align-h="center">
+          <b-col data-aos="fade-up-right"
+                 data-aos-offset="300"
+                 data-aos-duration="1000"
+                 cols="auto"><h6>local time : {{localTime}}</h6></b-col>
+        </b-row>
+      </section>
 
-      <b-row align-h="center" style="margin-top: 20px">
-        <b-col cols="auto"><a class="center" href="/association" target="_blank">
-          <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png">
-        </a></b-col>
-      </b-row>
+      <section class='Introduction'>
+        <b-row class="mt-5 mb-5 ligne"></b-row>
+        <b-row align-h="center">
+          <b-col cols="auto"
+                 data-aos="fade-left"
+                 data-aos-offset="400"
+                 data-aos-duration="8000"><h2>POURQUOI CET EVENEMENT ?</h2></b-col>
+        </b-row>
+        <b-row align-h="center">
+          <b-col data-aos="fade-right"
+                 data-aos-offset="350"
+                 data-aos-duration="1000"
+              class="justified-text-center" cols="10">
+            Venez participer au travers de nombreuses épreuves et récolter des fonds pour <strong> l’APF (Association des paralysés de France) ! </strong> <br><br>
+            Natation, athlétisme, VTT et bien d’autres encore seront au rendez-vous pour vous faire passer un moment inoubliable entre amis, en famille ou en solitaire.<br>
+            Alors n’hésitez plus et ressortez vos vieilles baskets du placard pour venir vous challenger dans la bonne humeur !<br>
+            Tous les bénéfices de cet évènement seront reversés à l’association APF pour aider à inclure les personnes à mobilité réduite dans le monde du sport. <br><br>
+            Pour plus d’informations, voir sur la page d’<a href="/association">APF</a>.<br>
+          </b-col>
+        </b-row>
+        <b-row data-aos="zoom-in-up"
+               data-aos-offset="200"
+               data-aos-duration="1000"
+            align-h="center" style="margin-top: 20px">
+          <b-col cols="auto"><a class="center" href="/association" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png">
+          </a></b-col>
+        </b-row>
+      </section>
 
-      <b-row class="mt-5 mb-5 ligne"></b-row>
-      <b-row align-h="center" style="margin-bottom: 25px;">
-        <b-col cols="auto"><h1>Notre cagnotte</h1></b-col>
-      </b-row>
-
-      <b-row align-h="center">
-        <b-col cols="auto">
-          <vue-ellipse-progress
-              :size="200"
-              color="#6ec8cb"
-              dot="12 #495388"
-              animation="default 6700 500"
-              :progress="Math.round((dotReplaced(cagnotteRecolte)/dotReplaced(cagnotteObjectif)*100) * 100) / 100"
-              :angle="-90"
-              :gap="10"
-              fontColor="#495388"
-              fontSize="3rem">
-            <template v-slot:legend-value>
-              <span style="color: #495388 ; font-size: 2rem;" slot="legend-value">%</span>
-            </template>
-          </vue-ellipse-progress>
-        </b-col>
-        <b-col cols="auto" style="font-size: xx-large;
+      <section class="Cagnotte">
+        <b-row class="mt-5 mb-5 ligne"></b-row>
+        <b-row align-h="center" style="margin-bottom: 25px;">
+          <b-col data-aos="zoom-in-down"
+                 data-aos-offset="350"
+                 data-aos-duration="8000"
+              cols="auto"><h1>Notre cagnotte</h1></b-col>
+        </b-row>
+        <b-row align-h="center">
+          <app-home-circular-progress data-aos="zoom-in-right"
+                                      data-aos-offset="300"
+                                      data-aos-duration="1000"
+              :cagnotte-recolte="cagnotteRecolte" :cagnotte-objectif="cagnotteObjectif" />
+          <b-col cols="auto" style="font-size: xx-large;
                 font-family: 'Montserrat', sans-serif; font-weight: 300; vertical-align: center;">
-          <b-row rows="auto" align-h="center">
-            <a style="color: #495388;"><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{placeDot(cagnotte)}}</a> € récoltés</a>
-          </b-row>
-          <b-row rows="auto" align-h="center">
-            <a style="color: #495388;">Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{placeDot(cagnotteObjectif)}}</a> €</a>
-          </b-row>
-        </b-col>
-      </b-row>
+            <b-row data-aos="fade-left"
+                   data-aos-offset="300"
+                   data-aos-duration="1000"
+                rows="auto" align-h="center">
+              <a style="color: #495388;"><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{placeDot(cagnotte)}}</a> € récoltés</a>
+            </b-row>
+            <b-row data-aos="fade-right"
+                   data-aos-offset="200"
+                   data-aos-duration="1000"
+                rows="auto" align-h="center">
+              <a style="color: #495388;">Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{placeDot(cagnotteObjectif)}}</a> €</a>
+            </b-row>
+          </b-col>
+        </b-row>
+      </section>
 
-
-      <b-row class="mt-5 mb-5 ligne"></b-row>
-      <b-row align-h="center">
-        <b-col cols="auto"><h1>Nos partenaires</h1></b-col>
-      </b-row>
-
-      <b-row align-h="center">
-        <b-col cols="12" style="padding-top: 30px"><vueper-slides slide-image-inside ref="myVueperSlides"
-          autoplay
-          :arrows="false"
-          :visible-slides="5"
-          :dragging-distance="200"
-          :bullets="false"
-          duration="2000"
-          pauseOnHover="true"
-          fixedHeight="150px">
-          <vueper-slide v-for="(item, index) of slideSponsor" :link="item.src" :key="index" :image="item.photo"/>
-        </vueper-slides></b-col>
-      </b-row>
+      <section class="Sponsor">
+        <b-row class="mt-5 mb-5 ligne"></b-row>
+        <b-row align-h="center">
+          <b-col data-aos="zoom-in-up"
+                 data-aos-offset="400"
+                 data-aos-duration="8000"
+              cols="auto"><h1>Nos partenaires</h1></b-col>
+        </b-row>
+        <app-home-slide-sponsor data-aos="fade-right"
+                                data-aos-offset="250"
+                                data-aos-duration="2000"
+            :slide-sponsor="slideSponsor" />
+      </section>
 
       <b-row class="mt-5 mb-5 ligne"></b-row>
       <b-row align-h="center">
@@ -123,11 +127,16 @@
 </template>
 
 <script>
-import { VueperSlides, VueperSlide } from 'vueperslides'
-import 'vueperslides/dist/vueperslides.css'
+import appHomeSlideMain from "@/views/home/homeSlideMain/homeSlideMain.vue";
+import appHomeSlideSponsor from "@/views/home/homeSlideSponsor/homeSlideSponsor.vue";
+import appHomeCircularProgress from "@/views/home/homeCircularProgress/homeCircularProgress";
 export default {
   name: "mainHome",
-  components: { VueperSlides, VueperSlide },
+  components: {
+    'app-home-slide-main':appHomeSlideMain,
+    'app-home-slide-sponsor':appHomeSlideSponsor,
+    'app-home-circular-progress':appHomeCircularProgress
+  },
   data: () => ({
     layoutHeight: "margin-top : "+51+"px",
     slide: ["https://cdn.discordapp.com/attachments/894224051571138560/1028048900860428371/image_home_2_filter1.png",
@@ -171,11 +180,10 @@ export default {
         },
       ]
     },
-    progress: 75,
     localTime: " ",
     cagnotte: 3843029,
     cagnotteTop: null,
-    counter: 0
+    counter: 0,
   }),
   methods:{
     dotReplaced(str){
@@ -233,5 +241,16 @@ export default {
 <style>
 @import '../../../public/css/cagnotte.css';
 @import '../../../public/css/home.css';
-
+.Introduction{
+  overflow:hidden;
+}
+.Cagnotte{
+  overflow: hidden;
+}
+.Sponsor{
+  overflow: hidden;
+}
+.Time{
+  overflow: hidden;
+}
 </style>

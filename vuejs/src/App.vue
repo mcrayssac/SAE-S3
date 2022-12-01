@@ -1,3 +1,4 @@
+<head><link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" /></head>
 <template>
   <div>
     <app-layout></app-layout>
@@ -7,13 +8,13 @@
 </template>
 
 <script>
-import layout from "@/views/layouts/mainHomeTest.vue";
-import footer from "@/views/footer/footer.vue";
+import appLayout from "@/views/layouts/mainHomeTest.vue";
+import appFooter from "@/views/footer/appFooter.vue";
 export default {
   name: "app",
   components: {
-    'app-layout':layout,
-    'app-footer':footer
+    'app-layout':appLayout,
+    'app-footer':appFooter
   }
 }
 </script>

@@ -42,6 +42,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../public/css/footer.css';
+@import '../../../public/css/appFooter.css';
 @import '../../../public/css/home.css';
 </style>

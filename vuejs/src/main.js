@@ -9,8 +9,13 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import VueEllipseProgress from 'vue-ellipse-progress';
-
 Vue.use(VueEllipseProgress);
+
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
+import * as VueAos from 'vue-aos'
+Vue.use(VueAos);
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
@@ -23,5 +28,8 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  created() {
+    AOS.init();
+  },
   render: h => h(App)
 }).$mount('#app')

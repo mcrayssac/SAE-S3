@@ -61,13 +61,12 @@
             </b-nav-item-dropdown>
 
             <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item v-if="language !== item.title" right>
-              <img :src="item.flag" width="20px" height="15px">
+              <img @click="changeLanguage()" :src="item.flag" width="20px" height="15px">
             </b-nav-item></div>
 
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <home/>
     </div>
 </template>
 
@@ -86,6 +85,11 @@ export default {
       console.log("Session : "+this.session);
       if (this.session) this.session = null
       else this.session = {"username": "Max"}
+    },
+    changeLanguage(){
+      console.log("Language : "+this.language);
+      if (this.language === this.allLanguage[0].title) this.language = this.allLanguage[1].title
+      else this.language = this.allLanguage[0].title
     }
   }
 }
