@@ -40,33 +40,33 @@
 
 <!-- =================================================================================================================== style -->
 <style>
-  form * {
-    margin-top: 20px;
-  }
-  .btn-sub {
-    background-color: #495388;
-    font-weight: bold;
-  }
-  .btn-dgr {
-    background-color: #d9231a;
-    border-color: #d9231a;
-    font-weight: bold;
-  }
+form * {
+  margin-top: 20px;
+}
+.btn-sub {
+  background-color: #495388;
+  font-weight: bold;
+}
+.btn-dgr {
+  background-color: #d9231a;
+  border-color: #d9231a;
+  font-weight: bold;
+}
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        form: {
-          name: '',
-          email: '',
-          type: null,
-          checked: []
-        },
-        type: [{ text: 'Sélectioner', value: null }, 'Restaurants', 'Clubs', 'Magasins'],
-        show: true
-      }
+export default {
+  data() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        type: null,
+        checked: []
+      },
+      type: [{ text: 'Sélectioner', value: null }, 'Restaurants', 'Clubs', 'Magasins'],
+      show: true
     }
   }
+}
 </script>
