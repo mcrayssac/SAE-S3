@@ -6,27 +6,22 @@ ul {
     list-style-type: none;
 }
 
-/* .map_image path{
-    stroke: black;
-    stroke-width: 1px;
+/* Fonctionne que sur la balise asso1 mais la déplace en dehors de la carte, a corrigé */
+.map_image .stands image:hover{
+    transform: scale(1.5);
 }
 
-.map_image path:hover{
-    fill:blue;
-} */
-
-.map_image path:hover{
-    fill:blue;
+.map_image rect {
+    fill:#8b6c42;
 }
-
-/* .map_image rect:hover{
-    fill:red;
-} */
-
 
 .map_image .is-active rect{
     /* fill:#ff8000; */
     filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
+}
+
+.map_image #scene .is-active {
+    filter: invert(77%) sepia(69%) saturate(1579%) hue-rotate(359deg) brightness(105%) contrast(107%);
 }
 
 .map_list a.is-active{
@@ -61,17 +56,7 @@ ul {
     padding: 15px 15px 80px;
 }
 
-.map_image .resto .is-active    {
-    /* fill:#021331; la couleur fixe pour les restos */
-    filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
-}
-
-.map_image .magasins .is-active    {
-    /* fill:#021331; la couleur fixe pour les restos */
-    filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
-}
-
-.map_image .clubs .is-active    {
+.map_image .resto .is-active, .map_image .clubs .is-active, .map_image .magasins .is-active {
     /* fill:#021331; la couleur fixe pour les restos */
     filter: invert(55%) sepia(92%) saturate(2602%) hue-rotate(360deg) brightness(101%) contrast(105%);
 }

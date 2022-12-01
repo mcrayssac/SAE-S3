@@ -41,7 +41,7 @@ paths.forEach(path => {
         console.log(e.target.id)
         var id = e.target.id
         console.log(id)
-        selectAreas(id)
+        // selectAreas(id)
     })
 
     path.addEventListener('mouseleave', () => {
