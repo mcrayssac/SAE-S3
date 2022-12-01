@@ -9,7 +9,7 @@
           <b-col data-aos="fade-up-left"
                  data-aos-offset="400"
                  data-aos-duration="8000"
-                 cols="auto"><h1>3, 2, 1...PARTEZ !!</h1></b-col>
+                 cols="auto"><h1>3, 2, 1...PARTEZ !!!</h1></b-col>
         </b-row>
         <b-row align-h="center">
           <b-col data-aos="fade-up-right"
