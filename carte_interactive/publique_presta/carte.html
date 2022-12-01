@@ -4,6 +4,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="styles.css"> </link>   
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
     </head>
 
     <body>
@@ -12,9 +16,9 @@
        
                 <svg
                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                    width="297mm"
-                    height="179mm"
-                    viewBox="0 0 297 179">
+                    width="300mm"
+                    height="210mm"
+                    viewBox="0 0 300 210">
 <!-- =============================================================FOND============================================================= -->
                     <rect
                         style="display:inline;opacity:1;fill:#e1ce9a;fill-opacity:1;stroke:none;stroke-width:0.092705;stroke-dasharray:none;paint-order:markers stroke fill"
@@ -84,7 +88,7 @@
                         style="display:inline">
 
       <!-- ..........................................................Autre.................................................. -->
-                        <a xlink:title="Maquillage" id="maquillage">
+                        <a xlink:title="Maquillage" id="maquillage" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient3967);stroke-width:0.846623;stroke-linejoin:bevel;stroke-dasharray:none;fill:#996633;"
                            id="2Maquillage"
@@ -94,7 +98,7 @@
                            y="34.470402"
                            transform="translate(34.869889,46.014811), rotate(-14.004669)" />
                         </a>
-                        <a xlink:title="Premiers secours" id="secours">
+                        <a xlink:title="Premiers secours" id="secours" data-toggle="modal" data-target="#modalPopUp">
                         <g
                            id="standSecour"
                            transform="translate(34.869889,46.014811)">
@@ -112,7 +116,7 @@
                            d="m 139.14573,98.637622 3.56414,-0.0623 m -1.81575,-1.59522 0.0581,3.247388" />
                         </g>
                         </a>
-                        <a xlink:title="Association" id="asso">
+                        <a xlink:title="Association" id="asso" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient3975);stroke-width:1.29576;stroke-linejoin:bevel;stroke-dasharray:none; fill:#df1b3f"
                            id="0Asso"
@@ -125,7 +129,7 @@
                         </a>
 
       <!-- ..........................................................Resto.................................................. -->
-                        <a xlink:title="Sandwich" id="sandwich" class="resto">
+                        <a xlink:title="Sandwich" id="sandwich" class="resto" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="resto"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:none;stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers stroke fill;fill:#021331;"
@@ -137,7 +141,7 @@
                            transform="translate(-4.4864862,33.88109)" />
                         </a>
 
-                        <a xlink:title="Produits régionaux" id="regions" class="resto">
+                        <a xlink:title="Produits régionaux" id="regions" class="resto" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="resto" 
                            style="display:inline;opacity:1;fill-opacity:1;stroke:none;stroke-width:0.987462;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers stroke fill; fill:#021331;"
@@ -151,7 +155,7 @@
                            transform="translate(-4.4864862,33.88109), rotate(-54.083009)" />
                         </a>
 
-                        <a xlink:title="Food Truck" id="truck" class="resto">
+                        <a xlink:title="Food Truck" id="truck" class="resto" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="resto"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:none;stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers stroke fill; fill:#021331;"
@@ -163,7 +167,7 @@
                            transform="translate(-4.4864862,33.88109)" />
                         </a>
                         
-                        <a xlink:title="Grillades" id="grillades" class="resto">
+                        <a xlink:title="Grillades" id="grillades" class="resto" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="resto"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:none;stroke-width:1.14796;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers stroke fill; fill:#021331"
@@ -175,7 +179,7 @@
                            transform="translate(-4.4864862,33.88109)" />
                         </a>
                         
-                        <a xlink:title="Buvette" id="buvette" class="resto">
+                        <a xlink:title="Buvette" id="buvette" class="resto" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="resto"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:none;stroke-width:1.38602;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers stroke fill; fill:#021331;"
@@ -188,7 +192,7 @@
                         </a>
 
       <!-- ..........................................................Magasins spécialiste.................................................. -->  
-                        <a xlink:title="Magasin Automobile" id="automobile" class="magasins individuel">
+                        <a xlink:title="Magasin Automobile" id="automobile" class="magasins individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="magasins individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4295);fill:#495388;"
@@ -200,7 +204,7 @@
                            transform="translate(6.2370194,44.95503)" />
                         </a>
 
-                        <a xlink:title="Magasin Basket" id="basket" class="magasins sportCo">
+                        <a xlink:title="Magasin Basket" id="basket" class="magasins sportCo" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="magasins sportCo"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4279);fill:#495388;"
@@ -212,7 +216,7 @@
                            transform="translate(6.2370194,44.95503)"/>
                         </a>
 
-                        <a xlink:title="Magasin Escrime" id="escrime" class="magasins individuel">
+                        <a xlink:title="Magasin Escrime" id="escrime" class="magasins individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="magasins individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4263);stroke-width:0.980063;fill:#495388;"
@@ -224,7 +228,7 @@
                            transform="translate(6.2370194,44.95503), rotate(-8.4528839)" />
                         </a>
 
-                        <a xlink:title="Magasin Raquettes" id="raquettes" class="magasins raquettes">
+                        <a xlink:title="Magasin Raquettes" id="raquettes" class="magasins raquettes" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="magasins raquettes "
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4247);fill:#495388;"
@@ -236,7 +240,7 @@
                            transform="translate(6.2370194,44.95503)" />
                         </a>
 
-                        <a xlink:title="Magasin Vélos" id="velos" class="magasins individuel sportCo">
+                        <a xlink:title="Magasin Vélos" id="velos" class="magasins individuel sportCo" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="magasins individuel sportCo"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4231);fill:#495388;"
@@ -249,7 +253,7 @@
                         </a>
 
       <!-- ..........................................................Clubs.................................................. -->                  
-                        <a xlink:title="Equitation Club" id="equitationClub" class="clubs individuel">
+                        <a xlink:title="Equitation Club" id="equitationClub" class="clubs individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4479);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -262,7 +266,7 @@
                            transform="translate(22.404134,30.669995),rotate(-89.628241)" />
                         </a>
 
-                        <a xlink:title="Tennis de table Club" id="tennisTableClub" class="clubs raquettes individuel">
+                        <a xlink:title="Tennis de table Club" id="tennisTableClub" class="clubs raquettes individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs raquettes individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4469);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -274,7 +278,7 @@
                            transform="translate(22.404134,30.669995)" />
                         </a>
 
-                        <a xlink:title="Pétanque Club" id="petanqueClub" class="clubs sportCo">
+                        <a xlink:title="Pétanque Club" id="petanqueClub" class="clubs sportCo" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs sportCo"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4459);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -286,7 +290,7 @@
                            transform="translate(22.404134,30.669995), rotate(-8.0755516)" />
                         </a>
 
-                        <a xlink:title="Judo Club" id="judoClub" class="clubs combat individuel">
+                        <a xlink:title="Judo Club" id="judoClub" class="clubs combat individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs combat individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4449);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -298,7 +302,7 @@
                            transform="translate(22.404134,30.669995)" />
                         </a>
 
-                        <a xlink:title="Karting Club" id="kartingClub" class="clubs individuel">
+                        <a xlink:title="Karting Club" id="kartingClub" class="clubs individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4439);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -310,7 +314,7 @@
                            transform="translate(22.404134,30.669995)" />
                         </a>
 
-                        <a xlink:title="Volley Club" id="volleyClub" class="clubs sportCo">
+                        <a xlink:title="Volley Club" id="volleyClub" class="clubs sportCo" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs sportCo"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4429);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -322,7 +326,7 @@
                            transform="translate(22.404134,30.669995), rotate(-52.629304)" />
                         </a>
 
-                        <a xlink:title="Natation Club" id="natationClub" class="clubs individuel">
+                        <a xlink:title="Natation Club" id="natationClub" class="clubs individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4419);stroke-width:1.08057;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -335,7 +339,7 @@
                            transform="translate(22.404134,30.669995), rotate(-38.442562)" />
                         </a>
 
-                        <a xlink:title="Tir à l'arc Club" id="tirArcClub" class="clubs individuel">
+                        <a xlink:title="Tir à l'arc Club" id="tirArcClub" class="clubs individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4409);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -347,7 +351,7 @@
                            transform="translate(22.404134,30.669995)" />
                         </a>
 
-                        <a xlink:title="Escrime Club" id="escrimeClub" class="clubs individuel">
+                        <a xlink:title="Escrime Club" id="escrimeClub" class="clubs individuel" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs individuel"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4399);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -359,7 +363,7 @@
                            transform="translate(22.404134,30.669995)" />
                         </a>
 
-                        <a xlink:title="Badminton Club" id="badClub" class="clubs individuel raquettes">
+                        <a xlink:title="Badminton Club" id="badClub" class="clubs individuel raquettes" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs individuel raquettes"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4389);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -371,7 +375,7 @@
                            transform="translate(22.404134,30.669995)" />
                         </a>
 
-                        <a xlink:title="BasketBall Club" id="basketClub" class="clubs sportCo">
+                        <a xlink:title="BasketBall Club" id="basketClub" class="clubs sportCo" data-toggle="modal" data-target="#modalPopUp">
                         <rect
                            class="clubs sportCo"
                            style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient4379);stroke-width:1.05261;stroke-linejoin:bevel;stroke-dasharray:none;fill:#6ec8cb"
@@ -390,7 +394,7 @@
                         id="etoile"
                         inkscape:label="scène"
                         style="display:inline;fill:#ffd700;">
-                        <a xlink:title="Scène" id="scene">
+                        <a xlink:title="Scène" id="scene" data-toggle="modal" data-target="#modalPopUp">
                        <path
                           sodipodi:type="star"
                           style="opacity:0.83;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.244462;stroke-linejoin:bevel;stroke-dasharray:none;stroke-dashoffset:0;paint-order:normal"
@@ -565,7 +569,7 @@
                         </g>
                         <g
                            id="g2535"
-                           transform="translate(8.4666669,45.508356)">
+                           transform="translate(225.07016,13.432093)">
                            <ellipse
                               style="fill:#d90000;fill-opacity:1;stroke-width:0.128115;paint-order:stroke fill markers"
                               id="ellipse2531"
@@ -601,7 +605,7 @@
                         </g>
                         <g
                            id="g2535-2-6"
-                           transform="translate(145.54713,47.151086)">
+                           transform="translate(144.47529,14.610664)">
                            <ellipse
                               style="fill:#d90000;fill-opacity:1;stroke-width:0.128115;paint-order:stroke fill markers"
                               id="ellipse2531-7-0"
@@ -619,7 +623,7 @@
                         </g>
                         <g
                            id="g2535-2-6-1"
-                           transform="translate(236.54137,33.637456)">
+                           transform="translate(13.063853,16.269053)">
                            <ellipse
                               style="fill:#d90000;fill-opacity:1;stroke-width:0.128115;paint-order:stroke fill markers"
                               id="ellipse2531-7-0-8"
@@ -656,40 +660,80 @@
                      <option value="list-individuel" id="list-individuel">Sport individuel</option>
                      <option value="list-combat" id="list-combat">Sport de combat</option>
                   </select>
-               <ul>
-                  <li> <a href="bla" id="list-maquillage"> Maquillage</a></li>
-                  <li> <a href="bla" id="list-secours"> Premier secours</a></li>
-                  <li> <a href="bla" id="list-asso"> Asso</a></li>
-                  <br>
-                  <li> <a href="bla" id="list-sandwich"> Sandwicherie</a></li>
-                  <li> <a href="bla" id="list-regions"> Produits régionaux</a></li>
-                  <li> <a href="bla" id="list-truck"> Food truck</a></li>
-                  <li> <a href="bla" id="list-grillades"> Grillades</a></li>
-                  <li> <a href="bla" id="list-buvette"> Buvette</a></li>
-                  <br>
-                  <li> <a href="bla" id="list-automobile"> automobile</a></li>
-                  <li> <a href="bla" id="list-basket"> basket</a></li>
-                  <li> <a href="bla" id="list-escrime"> escrime</a></li>
-                  <li> <a href="bla" id="list-raquettes"> Raquettes</a></li>
-                  <li> <a href="bla" id="list-velos"> Vélos</a></li>
-                  <br>
-                  <li> <a href="bla" id="list-equitationClub"> equitationClub</a></li>
-                  <li> <a href="bla" id="list-tennisTableClub"> tennisTableClub</a></li>
-                  <li> <a href="bla" id="list-petanqueClub"> petanqueClub</a></li>
-                  <li> <a href="bla" id="list-judoClub"> judoClub</a></li>
-                  <li> <a href="bla" id="list-kartingClub"> kartingClub</a></li>
-                  <li> <a href="bla" id="list-volleyClub"> volleyClub</a></li>
-                  <li> <a href="bla" id="list-natationClub"> natationClub</a></li>
-                  <li> <a href="bla" id="list-tirArcClub"> tirArcClub</a></li>
-                  <li> <a href="bla" id="list-escrimeClub"> escrimeClub</a></li>
-                  <li> <a href="bla" id="list-badClub"> badClub</a></li>
-                  <li> <a href="bla" id="list-basketClub"> basketClub</a></li>
-                  <br>
-                  <li> <a href="bla" id="list-scene"> Scene</a></li>
-                  <br>
-               </ul>
-            </div>
+               
+               <br>
+               <button type="button" class="btn btn-demo" data-toggle="modal" data-target="#modalPresta" data-backdrop="false">
+                  Liste des prestataires
+               </button>
+               
+                  <!-- Modal -->
+                  <div class="modal right" id="modalPresta" tabindex="-1" role="dialog" aria-labelledby="modalLabelPresta">
+                     <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+         
+                           <div class="modal-header">
+                              <h4 class="modal-title" id="modalLabelPresta">Liste des prestataires</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                           </div>
+         
+                           <div class="modal-body">
+                              <ul>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-maquillage"> Maquillage</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-secours"> Premier secours</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-asso"> Asso</a></li>
+                                 <br>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-sandwich"> Sandwicherie</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-regions"> Produits régionaux</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-truck"> Food truck</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-grillades"> Grillades</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-buvette"> Buvette</a></li>
+                                 <br>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-automobile"> automobile</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-basket"> basket</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-escrime"> escrime</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-raquettes"> Raquettes</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-velos"> Vélos</a></li>
+                                 <br>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-equitationClub"> equitationClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-tennisTableClub"> tennisTableClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-petanqueClub"> petanqueClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-judoClub"> judoClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-kartingClub"> kartingClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-volleyClub"> volleyClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-natationClub"> natationClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-tirArcClub"> tirArcClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-escrimeClub"> escrimeClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-badClub"> badClub</a></li>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-basketClub"> basketClub</a></li>
+                                 <br>
+                                 <li> <a data-toggle="modal" data-target="#modalPopUp" id="list-scene"> Scene</a></li>
+                              </ul>
+                           </div>
+         
+                        </div><!-- modal-content -->
+                     </div><!-- modal-dialog -->
+                  </div><!-- modal -->
 
+               <div class="modal" id="modalPopUp" tabindex="-1" role="dialog" aria-labelledby="modalPopUpTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="modalPopUpTitle">Prestataire 1</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                     <div class="modal-body">
+                        ...
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary">Voir page du prestataire</button>
+                     </div>
+                  </div>
+                  </div>
+               </div>
+            </div>
         </div>
 
     </body>
