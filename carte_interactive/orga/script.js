@@ -90,3 +90,10 @@ resetContraintes.addEventListener('click', () => {
     })
     selectAreas()
 })
+
+$('#modalPresta').on('show.bs.modal', function (e) {
+    console.log("hello")
+    $('#modalPresta').addClass("open");
+}).on('hide.bs.modal', function (e) {
+    $('#modalPresta').removeClass("open");
+})
