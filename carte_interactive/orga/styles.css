@@ -54,6 +54,10 @@ ul {
     overflow-y: auto;
 }
 
+.open .modal-backdrop {
+    background-color:red;
+}
+
 .modal.right .modal-body {
     padding: 15px 15px 80px;
 }

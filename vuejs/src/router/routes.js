@@ -15,6 +15,11 @@ const routes = [
     component: () => import('../views/test.vue')
   },
   {
+    path: '/devenirPrestataire',
+    name: 'devenirPrestataire',
+    component: () => import('../views/public/formulaire_devenir_prestataire.vue')
+  },
+  {
     path: '/association',
     name: 'association',
     component: () => import('../views/association/association.vue')

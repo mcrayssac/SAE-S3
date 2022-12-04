@@ -1,4 +1,4 @@
-/* ==================== inscription public ==================== */
+==================== inscription public ====================
 -- var = select * from PUBLIC where email_public like '%public1@gmail.com%';
 -- var != []
 --     return "adresse mail déjà utilisée"
@@ -8,7 +8,7 @@
 --     values (default, 'PARAMETRE', 'PARAMETRE', 'PARAMETRE', 'PARAMETRE', 1)
 --     ;
 
-/* ==================== inscription prestataire ==================== */
+==================== inscription prestataire ====================
 -- insert into PRESTATAIRE -- (nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, passwd_prestataire, id_stand, id_type)
 -- value (default, PARAMETRE, PARAMETRE, PARAMETRE, PARAMETRE, PARAMETRE, NULL, PARAMETRE)
 -- ;
@@ -19,7 +19,7 @@
 -- values (PARAMETRE, id, PARAMETRE)
 -- ;
 
-/* ==================== connection ==================== */
+==================== connection ====================
 
 -- var = [] : "email ou password invalide"
 
@@ -38,7 +38,7 @@
 --         where email_public like '%PARAMETRE%' and passwd_public like '%PARAMETRE'
 --         ;
 
-/* ==================== reservation d'un public a course / initiation ==================== */
+==================== reservation d un public a course / initiation ====================
 
 -- insert into RESERVATION -- (date_heure_reservation, id_public)
 -- values (default, 'PARAMETRE', PARAMETRE)
@@ -54,7 +54,7 @@
 -- values (PARAMETRE, (select max(id_reservation) from RESERVATION), PARAMETRE)
 -- ;
 
--- ============================================================ visualisation des reservations de la journée ============================================================
+============================================================ visualisation des reservations de la journée ============================================================
 
 /* ==================== visualisation initiations ==================== */
 -- select i.libelle_initiation, a.nb_reserve_initiation
@@ -67,7 +67,7 @@
 -- )
 -- ;
 
-/* ==================== visualisation courses ==================== */
+==================== visualisation courses ====================
 -- select c.libelle_course, c.nb_km, c.prix, p.nb_reserve_course, c.prix*p.nb_reserve_course as montant_total
 -- from Pour as p
 -- left join COURSES as c on c.id_course = p.id_course
@@ -78,7 +78,7 @@
 -- )
 -- ;
 
--- ============================================================ visualisation pos classmt ============================================================
+============================================================ visualisation pos classmt ============================================================
 -- select c.libelle_course, pa.position_classement, p.prenom_public, p.nom_public
 -- from Participe as pa
 -- inner join COURSES as c on c.id_course = pa.id_course
@@ -95,7 +95,7 @@
 -- where p.prenom_public like '%PARAMETRE%' and p.nom_public like '%PARAMETRE%' and pa.id_course = PARAMETRE
 -- ;
 
--- ============================================================ supression commentaire par public ============================================================
+============================================================ supression commentaire par public ============================================================
 -- var = select * from COMMENTAIRE where id_public = PARAMETRE;
 --     var != []
 --         delete from COMMENTAIRE where id_public = PARAMETRE;
@@ -103,7 +103,7 @@
 --     var.length = 1:
 --         delete from NOTE where id_public = PARAMETRE;
 
--- ============================================================ supression compte public ============================================================
+============================================================ supression compte public ============================================================
 -- var = select * from NOTE where id_public = PARAMETRE;
 --     var != []
 --         delete from COMMENTAIRE where id_public = PARAMETRE;
@@ -125,7 +125,7 @@
 -- username = select username from PUBLIC where id_public = PARAMETRE;
 -- delete from PUBLIC where id_public = PARAMETRE;
 
--- ============================================================ supression reservation ============================================================
+============================================================ supression reservation ============================================================
 -- course = select * from Pour where id_reservation = PARAMETRE;
 --     course != []
 --         delete from Pour where id_reservation = PARAMETRE;
@@ -135,38 +135,34 @@
 
 ============================================================ supression prestataire ============================================================
 
--- exist = 
-select * from prestataire where id_prestataire = 1;
+-- exist = select * from prestataire where id_prestataire = PARAMETRE;
 
 -- exist != []
-    -- var = 
-    select * from NOTE where id_prestataire = 1;
+    -- var = select * from NOTE where id_prestataire = PARAMETRE;
         -- var != []
-            delete from COMMENTAIRE where id_prestataire = 1;
-            delete from NOTE where id_prestataire = 1;
+    --         delete from COMMENTAIRE where id_prestataire = PARAMETRE;
+    --         delete from NOTE where id_prestataire = PARAMETRE;
 
-    -- initiation = 
-    select id_initiation from INITIATION where id_prestataire = 1;
-        -- initiation != []
-            -- id = 
-            select id_reservation from A_Propos where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1);
-                -- id != []
-                    delete from A_Propos where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1;);
-                    delete from RESERVATION where id_reservation in (select id_reservation from A_Propos where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1));
-            delete from INITIATION where id_initiation in (select id_initiation from INITIATION where id_prestataire = 1;);
+    -- -- initiation = select id_initiation from INITIATION where id_prestataire = PARAMETRE;
+    --     -- initiation != []
+    --         -- id = select id_reservation from A_Propos where id_initiation in initiation;
+    --             -- id != []
+    --                 delete from A_Propos where id_initiation in initiation;
+    --                 delete from RESERVATION where id_reservation in id;
+    --         delete from INITIATION where id_initiation in initiation;
 
-    delete from Detient where id_prestataire = 1; -- ================================================================================================================================================================================================================================================
-
-    delete from PRESTATAIRE where id_prestataire = 1; -- + suppression de tt ou celui à supprimer intervient;
+    -- delete from Detient where id_prestataire = PARAMETRE; -- ================================================================================================================================================================================================================================================
+    -- delete from Emet where id_prestataire = PARAMETRE;
+    -- delete from PRESTATAIRE where id_prestataire = PARAMETRE;
 
 /* ==================== initiation ==================== */
 
--- ============================================================ prestataire propose initiation ============================================================
+============================================================ prestataire propose initiation ============================================================
 -- insert into INITIATION -- (libelle_initiation, etat_initiation, date_periode, id_lieu, id_prestataire)
 -- values (default, 'PARAMETRE', 1, 'PARAMETRE', PARAMETRE, PARAMETRE)
 -- ;
 
--- ============================================================ organisateur accepte initiation ============================================================
+============================================================ organisateur accepte initiation ============================================================
 -- select presta.nom_prestataire, i.libelle_initiation, p.date_periode, l.libelle_lieu, (case when i.etat_initiation = 0 then 'acceptée' else 'en attente' end) as état
 -- from INITIATION as i
 -- inner join PRESTATAIRE as presta on presta.id_prestataire = i.id_prestataire
@@ -176,7 +172,7 @@ select * from prestataire where id_prestataire = 1;
 
 -- update INITIATION set etat_initiation = 0 where id_initiation = PARAMETRE;
 
--- ============================================================ visualiser les activites de la scene ============================================================
+============================================================ visualiser les activites de la scene ============================================================
 -- select  init.libelle_initiation, presta.nom_prestataire, p.date_periode
 -- from INITIATION as init
 -- inner join PRESTATAIRE as presta on presta.id_prestataire = init.id_prestataire
@@ -185,7 +181,7 @@ select * from prestataire where id_prestataire = 1;
 -- where l.libelle_lieu like 'scene'
 -- ;
 
--- ============================================================ prestataire regarde ses initiations ============================================================
+============================================================ prestataire regarde ses initiations ============================================================
 -- select init.libelle_initiation, p.date_periode, l.libelle_lieu
 -- from INITIATION as init
 -- inner join PERIODE as p on p.date_periode = init.date_periode
@@ -193,9 +189,15 @@ select * from prestataire where id_prestataire = 1;
 -- where init.id_prestataire = PARAMETRE
 -- ;
 
-
--- ============================================================ voir les contraintes d'un stand ============================================================
-
+============================================================ visualiser la page d un prestataire ============================================================
+-- select p.id_prestataire, p.nom_prestataire, p.email_prestataire, p.telephone_prestataire, p.site_web_prestataire, tp.etat_type,
+--         i.libelle_initiation, i.date_periode, (case when l.libelle_lieu = 'Stand' then 'Directement sur place !' end)
+-- from PRESTATAIRE as p
+-- inner join TYPE_PRESTATAIRE as tp on tp.id_type = p.id_type
+-- inner join INITIATION as i on i.id_prestataire = p.id_prestataire
+-- inner join LIEU as l on l.id_lieu = i.id_lieu
+-- where p.id_prestataire = $1
+-- ;
 
 -- stand avec contraintes
 -- filtres contraintes prestataire
