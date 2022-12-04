@@ -20,8 +20,8 @@
       </b-row>
       <b-row align-h="center">
         <ul class="list-inline" style="max-width: 1270px;">
-          <li class="list-inline-item"><a>Maxime CRAYSSAC</a></li>
-          <li class="list-inline-item"><a>Léna ABEL</a></li>
+          <li class="list-inline-item"><a><b-avatar src="https://media-exp1.licdn.com/dms/image/C5603AQHgSf33mmhjww/profile-displayphoto-shrink_200_200/0/1662910489004?e=1675296000&v=beta&t=eR95ZRkWndZCVWCuTNWxZnpi66Mr_XszaGH-9O4p3fA"></b-avatar> Maxime CRAYSSAC</a></li>
+          <li class="list-inline-item"><a><b-avatar src="https://media-exp1.licdn.com/dms/image/C4D03AQHuQ9PtrtwOAg/profile-displayphoto-shrink_800_800/0/1645984268259?e=1675296000&v=beta&t=x9yfZMUJbtc9AjPYwC5BLWdqi1niv40ZQJD0uie8-XY"></b-avatar> Léna ABEL</a></li>
           <li class="list-inline-item"><a>Messaline BEAUDRU</a></li>
           <li class="list-inline-item"><a>Mélanie BENOIT</a></li>
           <li class="list-inline-item"><a>Giuliana GODAIL FABRIZIO</a></li>
@@ -37,11 +37,10 @@
 
 <script>
 export default {
-  name: "footer"
+  name: "appFooter"
 }
 </script>
 
 <style scoped>
-@import '../../../public/css/appFooter.css';
-@import '../../../public/css/home.css';
+@import '../../../public/css/footer/appFooter.css';
 </style>

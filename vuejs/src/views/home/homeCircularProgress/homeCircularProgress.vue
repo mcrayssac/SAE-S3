@@ -21,8 +21,8 @@
 export default {
   name: "homeCircularProgress",
   props: {
-    cagnotteRecolte: String,
-    cagnotteObjectif: String
+    cagnotteRecolte: Number,
+    cagnotteObjectif: Number
   },
   methods: {
     dotReplaced(str) {

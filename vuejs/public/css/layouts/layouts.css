@@ -1,0 +1,28 @@
+.nav-item:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    width: auto;
+    height: auto;
+    white-space: nowrap;
+}
+
+.dropdown-item{
+    white-space: nowrap;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    display:block;
+}
+
+.rounded {
+    animation: 8s infinite alternate rotate;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -28,31 +28,14 @@ router.use((req, res, next) => {
 
 //...
 // --------- PUBLIC
-router.get("/courses", controller.courses);
-
-router.get("/association", controller.association);
-
-router.get("/signup", controller.signup)
-
-router.get("/login", controller.login)
-
-router.post("/login", controller.authenticateUser, controller.redirectView);
-
-router.get("/logout", controller.logout);
-
-router.get("/home", controller.home)
-
-// --------- PRESTATAIRE
 router.get("/restaurants", controller.restaurants);
 
 router.get("/clubs", controller.clubs);
 
-router.post("/club", controller.club);
+router.get("/jdadijonbasket", controller.club);
 
 
+// --------- PRESTATAIRE
 
-router.get("/surnameName", controller.surnameName)
-
-router.get("/orga", controller.orga)
 
 module.exports = router;

@@ -1,0 +1,30 @@
+.justified-text-center {
+    text-align-last: center;
+    text-align: justify;
+    -moz-text-align-last: center;
+}
+
+.Introduction{
+    overflow:hidden;
+}
+.Cagnotte{
+    overflow: hidden;
+}
+.Sponsor{
+    overflow: hidden;
+}
+.Time{
+    overflow: hidden;
+}
+
+@keyframes scaleInlineItem {
+    0% {
+        transform: scale(100%);
+    }
+    50% {
+        transform: scale(150%);
+    }
+    100% {
+        transform: scale(100%);
+    }
+}

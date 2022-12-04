@@ -1,5 +1,33 @@
 <template>
-  <main id="app">
+  <main id="app" style="margin-top: 100px;">
+    <b-row align-h="center">
+      <b-col cols="auto"><h3>Palettes de couleurs</h3></b-col>
+    </b-row>
+    <div class="row" style="border: 2px solid #1a265a; border-style: solid solid none solid;">
+      <div class="col text-center" style="background-color: #495388; height: 100px; width: 100px;"></div>
+      <div class="col text-center" style="background-color: #ffffff"></div>
+      <div class="col text-center" style="background-color: #6ec8cb"></div>
+      <div class="col text-center" style="background-color: #d9231a"></div>
+      <div class="col text-center" style="background-color: #021331"></div>
+    </div>
+    <div class="row" style="border: 2px solid #1a265a;">
+      <div class="col text-center">
+        <a>#495388</a>
+      </div>
+      <div class="col text-center">
+        <a>#ffffff</a>
+      </div>
+      <div class="col text-center">
+        <a>#6ec8cb</a>
+      </div>
+      <div class="col text-center">
+        <a>#d9231a</a>
+      </div>
+      <div class="col text-center">
+        <a>#021331</a>
+      </div>
+    </div>
+
     <section class='intro'>
       <div class='introDescription' data-aos="zoom-in" data-aos-ease = 'ease'
            data-aos-duration="1500"

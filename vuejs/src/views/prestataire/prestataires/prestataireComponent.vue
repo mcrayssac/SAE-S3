@@ -1,0 +1,208 @@
+<template>
+  <b-container fluid :style="layoutHeight" v-if="data !== null">
+    <section class="Title">
+      <b-row align-h="center">
+        <b-col class="mt-5 ms-5 me-5" cols="auto">
+          <h1 data-aos="zoom-in-down"
+              data-aos-delay="200"
+              data-aos-duration="500"
+              data-aos-anchor-placement="top-center">
+            <b-link href="https://www.jdadijon.com/basket/">
+              <b-img :src="data.Image.Titre" width="150"></b-img>
+            </b-link>
+            {{data.Titre}}
+          </h1>
+        </b-col>
+      </b-row>
+    </section>
+
+    <section class="Description">
+      <b-row class="me-2 ms-2 mt-5 mb-5">
+        <b-col class="ml-3" style="background-color: #1a265a;">
+          <b-row class="m-4" align-h="center">
+            <b-col cols="auto">
+              <h1 data-aos="fade-right"
+                  data-aos-delay="400"
+                  data-aos-duration="500"
+                  data-aos-anchor-placement="top-center" style="color: white;">A PROPOS</h1>
+            </b-col>
+          </b-row>
+          <b-row class="mx-4 mb-5" v-for="(items, index) in data.Texte.Gauche" :key="index">
+            <p data-aos="fade-left"
+               data-aos-delay="200"
+               data-aos-duration="500"
+               data-aos-anchor-placement="top-bottom" style="text-indent: 40px; color: white; text-align: justify;">{{ items }}</p>
+          </b-row>
+        </b-col>
+        <b-col class="my-auto mr-3">
+          <b-row class="mx-5 my-5" align-h="center">
+            <b-col data-aos="flip-up"
+                   data-aos-delay="400"
+                   data-aos-duration="500"
+                   data-aos-anchor-placement="top-bottom" cols="auto">
+              <a><b-img :src="data.Image.Body" width="300" height="300" style="border-radius: 50%;"></b-img></a>
+            </b-col>
+          </b-row>
+          <b-row data-aos="zoom-in-up"
+                 data-aos-delay="400"
+                 data-aos-duration="500"
+                 data-aos-anchor-placement="top-bottom" class="mx-4 my-5">
+            <p style="color: black; font-weight: bold;text-align: justify;">
+              {{data.Texte.Droite}}
+            </p>
+          </b-row>
+        </b-col>
+      </b-row>
+    </section>
+
+    <hr class="m-5 ligne">
+
+    <section class="Initiation/Activites">
+      <b-row align-h="center">
+        <b-col data-aos="zoom-in-left"
+               data-aos-delay="200"
+               data-aos-duration="500"
+               data-aos-anchor-placement="top-bottom" cols="auto">
+          <h2 class="my-4">Initiation/Activités</h2>
+        </b-col>
+      </b-row>
+
+      <b-row align-h="center">
+        <b-col data-aos="fade-right"
+               data-aos-delay="300"
+               data-aos-duration="500"
+               data-aos-anchor-placement="top-bottom" cols="auto">
+          <a>{{data.Initiation}}</a>
+        </b-col>
+      </b-row>
+    </section>
+
+    <hr class="m-5 ligne">
+
+    <section class="Calendrier">
+      <b-row align-h="center">
+        <b-col data-aos="zoom-in-right"
+               data-aos-delay="200"
+               data-aos-duration="500"
+               data-aos-anchor-placement="top-bottom" cols="auto">
+          <h2 class="my-4">Calendrier sur le stand</h2>
+        </b-col>
+      </b-row>
+
+      <b-row align-h="center">
+        <b-col cols="auto" class="mx-5">
+          <table data-aos="flip-right"
+                 data-aos-delay="200"
+                 data-aos-duration="500"
+                 data-aos-anchor-placement="top-bottom" class="table table-bordered p-5 text-center">
+            <thead>
+            <tr class="align-middle text-center">
+              <th></th>
+              <th>8h</th>
+              <th>9h</th>
+              <th>10h</th>
+              <th>11h</th>
+              <th>12h</th>
+              <th>13h</th>
+              <th>14h</th>
+              <th>15h</th>
+              <th>16h</th>
+              <th>17h</th>
+              <th>18h</th>
+              <th>19h</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th>Samedi</th>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+            </tr>
+            <tr>
+              <th>Dimanche</th>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+              <td>Initiation</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </b-col>
+      </b-row>
+    </section>
+
+    <hr class="m-5 ligne">
+
+    <section class="Commentaire">
+      <b-row align-h="center">
+        <b-col data-aos="zoom-in-down"
+               data-aos-delay="200"
+               data-aos-duration="500"
+               data-aos-anchor-placement="top-bottom" cols="auto">
+          <h2 class="my-4">Commentaires</h2>
+        </b-col>
+      </b-row>
+      <div class="container">
+        <div class="row me-4">
+          <div data-aos="flip-right"
+               data-aos-delay="200"
+               data-aos-duration="500"
+               data-aos-anchor-placement="top-bottom" class="col-md-4 py-4 ps-5" v-for="(items, index) in data.Commentaires" :key="index">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h3 class="card-title">{{items.Nom}}</h3>
+                <p class="card-text"><b> Commentaire : {{items.Commentaire}}</b></p>
+                <p class="text-right red"> {{items.Note}}/10</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </b-container>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "prestataireComponent",
+  data: () => ({
+    layoutHeight: "margin-top : "+59+"px",
+    data: null
+  }),
+  async created() {
+    await axios.get('http://localhost:3000/jdadijonbasket')
+        .then(result => {
+          this.data = result.data.getClub;
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

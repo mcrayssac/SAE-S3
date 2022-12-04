@@ -1,69 +1,33 @@
 <template>
-  <div class="container">
-    <div class="row m-4">
-      <div class="col"><h1>Restaurants</h1></div>
-      <div class="col my-auto">
-        <div class="d-flex justify-content-center">
-          <div class="form-inline">
-            <input class="form-control" id="search" type="search" placeholder="Rechercher" aria-label="Search">
-            <button class="btn my-2 my-sm-0" id="deselect"><i class="bi bi-x-square-fill"></i></button>
-          </div>
-        </div>
-      </div>
-      {{# if filtres}}
-      <div class="col my-auto">
-        <div class="d-flex justify-content-center">
-          <div class="form-inline">
-            {{# each filtres}}
-            <div class="col">
-              <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color: #6ec8cb; font-weight: bold; color: white;">
-                  {{@key}}
-                </button>
-                <div class="dropdown-menu">
-                  {{# each this}}
-                  <div class="dropdown-item">
-                    <a><input type="radio" id="radio" name="{{@../key}}" value="{{this}}">{{this}}</a>
-                  </div>
-                  {{/each}}
-                </div>
-              </div>
-            </div>
-            {{/each}}
-          </div>
-        </div>
-      </div>
-      {{/if}}
-    </div>
-
-    <div class="row mx-auto" id="research">
-      {{# if restaurants}}
-      {{# each restaurants}}
-      <div class="col-12 mt-3 py-4 ps-5 my-auto mx-auto">
-        <div class="card">
-          <div class="card-horizontal">
-            <div>
-              <img class="" src="{{this.[2]}}" alt="Card image cap">
-            </div>
-            <div class="card-body">
-              <h3 class="card-title">{{this.[0]}} </h3>
-              {{# each this.[1]}}
-              <p class="card-text"> <b> {{@key}} : </b> {{this}}</p>
-              {{/each}}
-              <a href="#" class="btn btn-primary">Inscription</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/each}}
-      {{/if}}
-    </div>
-  </div>
+  <prestataire-presentation-component :layout-height="layoutHeight" :title="title" :get-filtres="getFiltres" :get-cards="getCards"/>
 </template>
 
 <script>
+import axios from "axios";
+import prestatairePresentationComponent from "@/views/prestataire/prestataires/prestatairePresentationComponent.vue";
 export default {
-  name: "restaurants"
+  name: "restaurants",
+  components: {
+    'prestataire-presentation-component':prestatairePresentationComponent
+  },
+  data: () => ({
+    layoutHeight: "margin-top : "+59+"px",
+    title: null,
+    getFiltres: null,
+    getCards: null
+  }),
+  async created() {
+    await axios.get('http://localhost:3000/restaurants')
+        .then(result => {
+          this.title = result.data.title;
+          this.getFiltres = result.data.getFiltres;
+          this.getCards = result.data.getCards;
+        })
+        .catch((err) => {
+      let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+      console.warn("error", message);
+    });
+  }
 }
 </script>
 

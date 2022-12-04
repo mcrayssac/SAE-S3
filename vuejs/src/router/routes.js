@@ -16,8 +16,23 @@ const routes = [
   },
   {
     path: '/association',
-    name: 'associationVue',
-    component: () => import('../views/public/association/association')
+    name: 'association',
+    component: () => import('../views/association/association.vue')
+  },
+  {
+    path: '/clubs',
+    name: 'clubs',
+    component: () => import('../views/prestataire/clubs/clubs.vue')
+  },
+  {
+    path: '/restaurants',
+    name: 'restaurants',
+    component: () => import('../views/prestataire/restaurants/restaurants.vue')
+  },
+  {
+    path: '/jdadijonbasket',
+    name: 'jdadijonbasket',
+    component: () => import('../views/prestataire/prestataires/prestataireComponent.vue')
   },
     // At the end
   {

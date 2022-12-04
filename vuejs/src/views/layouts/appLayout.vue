@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-navbar class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg" type="dark">
+      <b-navbar class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
@@ -8,12 +8,12 @@
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-        <b-collapse class="white" id="nav-collapse" is-nav>
+        <b-collapse id="nav-collapse" is-nav>
 
           <b-navbar-nav>
-            <b-nav-item href="/"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</b-nav-item>
+            <b-nav-item href="/" ><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
-            <b-nav-item-dropdown>
+            <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-shop></b-icon-shop> Prestataires</template>
               <b-dropdown-item href="/restaurants"> Restaurant</b-dropdown-item>
               <b-dropdown-item href="/clubs">Club</b-dropdown-item>
@@ -21,13 +21,13 @@
               <b-dropdown-item href="#">Devenir prestataire</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item-dropdown>
+            <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-list-check></b-icon-list-check> Activités</template>
               <b-dropdown-item href="#"> Initiation/Scène</b-dropdown-item>
               <b-dropdown-item href="/courses">Compétitions</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item-dropdown>
+            <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-trophy-fill></b-icon-trophy-fill> Résultats</template>
               <b-dropdown-item href="#"> Course à pied</b-dropdown-item>
               <b-dropdown-item href="#">VTT</b-dropdown-item>
@@ -35,18 +35,20 @@
               <b-dropdown-item href="#">Course d'orientation</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item href="/association">
+            <b-nav-item href="/association" toggle-class="text-white">
+              <span class="text-light">
               <b-iconstack>
                 <b-icon stacked icon="heart-fill" shift-v="-2.5" scale="0.5"></b-icon>
                 <b-icon stacked icon="house" scale="1.3"></b-icon>
               </b-iconstack>
               Association
+              </span>
             </b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <b-nav-item @click="changeSession()"><b-icon-arrow-left-right></b-icon-arrow-left-right></b-nav-item>
-            <b-nav-item-dropdown v-if="session" right>
+            <b-nav-item @click="changeSession()"><span class="text-light"><b-icon-arrow-left-right></b-icon-arrow-left-right></span></b-nav-item>
+            <b-nav-item-dropdown class="nav-item" v-if="session" right toggle-class="text-white">
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{session.username}}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
@@ -54,7 +56,7 @@
               <b-dropdown-item href="#">Supprimer le compte</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item-dropdown v-else right>
+            <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-item href="/login">Se connecter</b-dropdown-item>
               <b-dropdown-item href="/signup">S'inscrire</b-dropdown-item>
@@ -96,16 +98,5 @@ export default {
 </script>
 
 <style scoped>
-.rounded {
-  animation: 8s infinite alternate rotate;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+@import '../../../public/css/layouts/layouts.css';
 </style>

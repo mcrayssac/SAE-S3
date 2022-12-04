@@ -5,9 +5,13 @@
     position: absolute;
 }
 
+.vueperslide__image {
+
+}
+
 @media (min-width: 1200px) {
     .vueperslides--fixed-height {
-        height: 1000px;
+        height: 800px;
     }
 
     .vueperslide__title {
