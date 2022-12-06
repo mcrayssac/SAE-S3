@@ -85,7 +85,7 @@ export default new Vuex.Store({
           }).catch(function (error){
       });
     }
-    //createAccount:
+    //createAccount
   },
   modules: {
   }
