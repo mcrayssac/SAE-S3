@@ -1,11 +1,15 @@
 const services = require("../services/services");
 const chalk = require("chalk");
 
-exports.restaurants = (req, res) => {
-    console.log(chalk.green.inverse('Requete pour les restaurants reçue.'));
-    let type = "restaurants";
+
+exports.getCategorie = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
+    let type = req.params.nomCategorie;
     res.send({
-        title: "Restaurants",
+        title: services.getCategories(type, (error, results) => {
+            if (error) return error
+            else return results
+        }),
         getFiltres: services.getFiltres(type, (error, results) => {
             if (error) return error
             else return results
@@ -17,25 +21,19 @@ exports.restaurants = (req, res) => {
     });
 }
 
-exports.clubs = (req, res) => {
-    console.log(chalk.green.inverse('Requete pour les clubs reçue.'));
-    let type = "clubs";
+exports.getCategories = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour les categories reçue.'));
     res.send({
-        title: "Clubs",
-        getFiltres: services.getFiltres(type, (error, results) => {
-            if (error) return error
-            else return results
-        }),
-        getCards: services.getPrestataire(type, (error, results) => {
+        getCategories: services.getCategories(null, (error, results) => {
             if (error) return error
             else return results
         })
     });
 }
 
-exports.club = (req, res) => {
-    console.log(chalk.green.inverse('Requete pour les clubs reçue.'));
-    let type = "jdadijonbasket";
+exports.getPrestataire = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
+    let type = req.params.nomPrestataire;
     res.send({
         getClub: services.getClub(type, (error, results) => {
             if (error) return error
@@ -60,6 +58,11 @@ exports.login = (req, res) => {
     let session = req.session;
     console.log(session);
     if(session.username === 'admin'){
+        res.send(req.session);
+    } else {
+        res.send(null);
+    }
+    /*if(session.username === 'admin'){
         res.locals.flashMessages.success = session.username // Modifie directement le champ dans flashmessage
         res.redirect("/orga");
     } else if(session.username){
@@ -69,22 +72,25 @@ exports.login = (req, res) => {
         res.render('public/login/login.hbs', {
             layout: 'mainHome.hbs'
         });
-    }
+    }*/
 }
 
-exports.authenticateUser = (req, res, next) => {
-    let data = {username: req.body.user_name_email, password: req.body.password};
+exports.authenticateUser = (req, res) => {
+    let data = {email: req.params.email, password: req.params.password}
+    console.log(data);
+    //let data = {username: req.body.user_name_email, password: req.body.password};
     services.authenticate(data, (error, results) => {
         if (error){
-            req.flash("error", error); //Envoi un flash
-            res.locals.redirect = "/login"; //Redirect vers login
-            next();
+            /*req.flash("error", error); //Envoi un flash
+            res.locals.redirect = "/login"; //Redirect vers login*/
+            res.send(error);
+        } else {
+            /*req.flash("success", `${results}`);
+            res.locals.redirect = "/";*/
+            req.session.username = data.email; //Créer la session
+            console.log(req.session);
+            res.send(req.session);
         }
-        req.flash("success", `${results}`);
-        res.locals.redirect = "/";
-        req.session.username = data.username; //Créer la session
-        console.log(req.session);
-        next();
     });
 }
 

@@ -15,29 +15,24 @@ const routes = [
     component: () => import('../views/test.vue')
   },
   {
-    path: '/devenirPrestataire',
-    name: 'devenirPrestataire',
-    component: () => import('../views/public/formulaire_devenir_prestataire.vue')
-  },
-  {
     path: '/association',
     name: 'association',
     component: () => import('../views/association/association.vue')
   },
   {
-    path: '/clubs',
-    name: 'clubs',
-    component: () => import('../views/prestataire/clubs/clubs.vue')
+    path: '/devenirPrestataire',
+    name: 'devenirPrestataire',
+    component: () => import('../views/public/formulaire_devenir_prestataire.vue')
   },
   {
-    path: '/restaurants',
-    name: 'restaurants',
-    component: () => import('../views/prestataire/restaurants/restaurants.vue')
+    path: '/categories/:nomCategorie',
+    name: 'categories/nomCategorie',
+    component: () => import('../views/prestataire/prestataires/categories.vue')
   },
   {
-    path: '/jdadijonbasket',
-    name: 'jdadijonbasket',
-    component: () => import('../views/prestataire/prestataires/prestataireComponent.vue')
+    path: '/prestataires/:nomPrestataire',
+    name: 'prestataires/nomPrestataire',
+    component: () => import('../views/prestataire/prestataires/prestataire.vue')
   },
     // At the end
   {

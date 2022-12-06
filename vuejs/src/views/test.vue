@@ -10,6 +10,7 @@
       <div class="col text-center" style="background-color: #d9231a"></div>
       <div class="col text-center" style="background-color: #021331"></div>
     </div>
+
     <div class="row" style="border: 2px solid #1a265a;">
       <div class="col text-center">
         <a>#495388</a>
@@ -27,7 +28,20 @@
         <a>#021331</a>
       </div>
     </div>
+    <br><br>
 
+
+    <b-row align-h="center">
+      <b-col cols="auto">
+        <b-img src="https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif" height="150" >
+        </b-img>
+      </b-col>
+    </b-row>
+
+
+
+
+    <br><br>
     <section class='intro'>
       <div class='introDescription' data-aos="zoom-in" data-aos-ease = 'ease'
            data-aos-duration="1500"

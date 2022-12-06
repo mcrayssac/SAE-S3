@@ -4,7 +4,7 @@
 
 <script>
 import axios from "axios";
-import prestatairePresentationComponent from "@/views/prestataire/prestataires/prestatairePresentationComponent.vue";
+import prestatairePresentationComponent from "@/views/prestataire/prestataires/categories.vue";
 export default {
   name: "restaurants",
   components: {
