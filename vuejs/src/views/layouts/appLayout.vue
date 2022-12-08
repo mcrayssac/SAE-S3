@@ -47,7 +47,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <span>{{user}}</span>
+
             <b-nav-item-dropdown v-if="$store.state.user.id < 0" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
