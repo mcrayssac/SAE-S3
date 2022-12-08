@@ -1,5 +1,6 @@
 <template>
   <vueper-slides fade ref="myVueperSlides2"
+                 style="background-size: 100% auto; background-position: center; background-repeat: no-repeat;"
                  :autoplay="true"
                  :parallax="1"
                  :parallax-fixed-content="true"

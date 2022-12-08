@@ -42,7 +42,7 @@
             <a class="nav-link active" href="#"><i class="bi bi-megaphone"></i> Scène</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/association"><i class="bi bi-house-heart-fill"></i> Association</a>
+            <a class="nav-link active" href="/vuejs/src/views/association"><i class="bi bi-house-heart-fill"></i> Association</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">

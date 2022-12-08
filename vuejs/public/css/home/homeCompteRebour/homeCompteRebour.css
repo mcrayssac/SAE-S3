@@ -1,0 +1,107 @@
+.nbGroup{
+    background-color: #495388;
+    color: white;
+    border-radius: 20px;
+}
+
+@media (min-width: 1200px) {
+    .nbGroup{
+        padding: 20px 40px 20px;
+        margin: 0 10px 0;
+        width: 250px;
+        height: 250px;
+    }
+
+    .nbTitle{
+        font-size: 6em;
+    }
+
+    .nbContent{
+        font-size: 1.5em;
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1200px){
+    .nbGroup{
+        padding: 20px 40px 20px;
+        margin: 0 10px 0;
+        width: 220px;
+        height: 200px;
+    }
+
+    .nbTitle{
+        font-size: 5em;
+    }
+
+    .nbContent{
+        font-size: 1.5em;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 1000px){
+    .nbGroup{
+        padding: 10px 20px 10px;
+        margin: 0 5px 0;
+        width: 150px;
+        height: 150px;
+    }
+
+    .nbTitle{
+        font-size: 4em;
+    }
+
+    .nbContent{
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 800px){
+    .nbGroup{
+        padding: 10px 20px 10px;
+        margin: 0 5px 0;
+        width: 120px;
+        height: 104px;
+    }
+
+    .nbTitle{
+        font-size: 3em;
+    }
+
+    .nbContent{
+        font-size: 0.5em;
+    }
+}
+
+@media (min-width: 450px) and (max-width: 600px){
+    .nbGroup{
+        padding: 5px 0px 5px;
+        margin: 0 5px 0;
+        width: 95px;
+        height: 80px;
+    }
+
+    .nbTitle{
+        font-size: 2em;
+    }
+
+    .nbContent{
+        font-size: 0.5em;
+    }
+}
+
+@media (min-width: 0px) and (max-width: 450px){
+    .nbGroup{
+        padding: 5px 0px 5px;
+        margin: 0 5px 0;
+        width: 63px;
+        height: 50px;
+    }
+
+    .nbTitle{
+        font-size: small;
+    }
+
+    .nbContent{
+        font-size: xx-small;
+    }
+}

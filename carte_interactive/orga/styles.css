@@ -1,3 +1,6 @@
+/******************************************************/
+/* Basic settings on the map */
+
 .map_image{
     float: left;
 }
@@ -6,39 +9,95 @@ ul {
     list-style-type: none;
 }
 
-.map_image path:hover{
-    fill:blue;
+#fondBeige {
+    fill:#e1ce9a;
 }
 
-.map_image .is-unavailable{
-    filter: invert(16%) sepia(87%) saturate(8000%) hue-rotate(335deg) brightness(90%) contrast(100%);
+#lac {
+    fill:#6699ff;
 }
 
-.map_image .is-active rect{
-    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+#zoneParking {
+    opacity:0.83;
+    fill:#778899;
+    stroke:#021331;
+    stroke-width:0.5;
 }
 
-.map_image .foret .is-active{
-    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+#textParking {
+    font-size:21.3333px;
+    opacity:0.83;
 }
 
-.map_image .lac .is-active{
-    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+#foret {
+    fill:#99cc66;
 }
 
-.map_list a.is-active{
-    color:red;
-    font-weight:bold;
+#chemins {
+    fill:none;
+    stroke:#8b6c42;
+    stroke-width:0.554803;
 }
 
-.map_list{
-    float:inline-start;
+#routes {
+    fill:none;
+    stroke:#ffffff;
+    stroke-width:0.9;
 }
 
-.map_list a{
-    color: inherit;
-    text-decoration: none;
+#courses {
+    display:none;
+    fill:none;
+    stroke:#df1b3f;
+    stroke-width:1.2;
+    stroke-dasharray:1.2, 4.8;
 }
+
+#stands {
+    fill:#808080;
+}
+
+#zoneStandSecours {
+    stroke:#df1b3f;
+    stroke-width:0.3;
+    fill:#ffffff;
+    paint-order:stroke fill;
+}
+
+#croixSecours, #association {
+    fill:#df1b3f;
+}
+
+#croixSecours {
+    stroke-width:0.899999;
+    stroke:#df1b3f;
+}
+
+#toilettes2 path, #toilettesParking path {
+    fill:#ffffff;
+    stroke:#df1b3f;
+    stroke-width:0.441241;
+    paint-order:stroke fill
+}
+
+#toilettes2 text, #toilettesParking text {
+    font-size:12px;
+    font-family:Gargi;
+    fill:#df1b3f;
+    stroke-width:0.623622;
+}
+
+#sensInterdit ellipse{
+    fill:#d90000;
+}
+
+#sensInterdit rect {
+    fill:#ffffff;
+    
+}
+
+/******************************************************/
+/* Modal */
 
 .modal.right .modal-dialog {
     position: fixed;
@@ -54,6 +113,25 @@ ul {
     overflow-y: auto;
 }
 
+.open .modal-backdrop {
+    background-color:red;
+}
+
 .modal.right .modal-body {
     padding: 15px 15px 80px;
+}
+
+/******************************************************/
+/* Interactivity */
+
+.map_image .is-unavailable{
+    filter: invert(16%) sepia(87%) saturate(8000%) hue-rotate(335deg) brightness(90%) contrast(100%);
+}
+
+.map_image .is-active rect, .foret .is-active, .lac .is-active{
+    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+}
+
+.map_list a.is-active{
+    font-weight:bold;
 }

@@ -36,6 +36,39 @@ if (port === undefined || port === null){
     console.log(port);
     throw new Error(`Port not found ! : ${port}.`);
 }
+const cors = require('cors');
+const corsOptions ={
+    origin:'http://localhost:8080',
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Import and define all routes

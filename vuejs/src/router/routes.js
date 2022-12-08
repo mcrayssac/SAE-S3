@@ -15,14 +15,24 @@ const routes = [
     component: () => import('../views/test.vue')
   },
   {
+    path: '/association',
+    name: 'association',
+    component: () => import('../views/association/association.vue')
+  },
+  {
     path: '/devenirPrestataire',
     name: 'devenirPrestataire',
     component: () => import('../views/public/formulaire_devenir_prestataire.vue')
   },
   {
-    path: '/association',
-    name: 'associationVue',
-    component: () => import('../views/public/association/association')
+    path: '/categories/:nomCategorie',
+    name: 'categories/nomCategorie',
+    component: () => import('../views/prestataire/prestataires/categories.vue')
+  },
+  {
+    path: '/prestataires/:nomPrestataire',
+    name: 'prestataires/nomPrestataire',
+    component: () => import('../views/prestataire/prestataires/prestataire.vue')
   },
     // At the end
   {
