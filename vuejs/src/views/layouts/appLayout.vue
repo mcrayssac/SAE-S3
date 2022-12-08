@@ -65,7 +65,7 @@
                       </span>
                       <span v-else>Se connecter</span>
                     </b-button>
-                    <span>{{status}} {{alert}}</span>
+                    <span>{{status}}  {{alert}}</span>
                   </b-col>
                 </b-row>
               </b-dropdown-form>
