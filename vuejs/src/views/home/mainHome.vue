@@ -2,6 +2,9 @@
   <div :style="layoutHeight">
     <app-home-slide-main :slide="slide" />
     <b-container fluid>
+      <b-alert v-model="alert" variant="danger" dismissible>
+        Alert!
+      </b-alert>
 
       <section class="ScrollBar">
         <b-row align-h="center" style="background-color: #495388; width: auto">
@@ -140,6 +143,7 @@ import appHomeSlideMain from "@/views/home/homeSlideMain/homeSlideMain.vue";
 import appHomeSlideSponsor from "@/views/home/homeSlideSponsor/homeSlideSponsor.vue";
 import appHomeCircularProgress from "@/views/home/homeCircularProgress/homeCircularProgress.vue";
 import appHomeCompteRebour from "@/views/home/homeCompteRebour/homeCompteRebour.vue";
+import {mapState} from "vuex";
 export default {
   name: "mainHome",
   components: {

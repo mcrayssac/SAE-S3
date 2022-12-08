@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {fastKey} from "core-js/internals/internal-metadata";
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ let user = localStorage.getItem('user');
 if (!user){
   user = {
     id: -1,
-        accessToken: ''
+    name: '',
+    accessToken: ''
   }
 } else {
   try {
@@ -22,6 +24,7 @@ if (!user){
   } catch (e){
     user = {
       id: -1,
+      name: '',
       accessToken: ''
     }
   }
@@ -30,6 +33,7 @@ if (!user){
 export default new Vuex.Store({
   state: {
     status: '',
+    alert: null,
     user: user,
     userInfos: {
       id: -1,
@@ -44,8 +48,9 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
-    setStatus: function (state, status){
+    setStatus: function (state, status, alert){
       state.status = status;
+      state.alert = alert;
     },
     logUser: function (state, user){
       instanceAuth.defaults.headers.common['authorization'] = user.accessToken;
@@ -58,6 +63,7 @@ export default new Vuex.Store({
     logout: function (state){
       state.user = {
         id: -1,
+        name: '',
         accessToken: ''
       }
       localStorage.removeItem('user');
@@ -65,15 +71,15 @@ export default new Vuex.Store({
   },
   actions: {
     login: ({commit}, user) => {
-      commit('setStatus', 'loading');
+      commit('setStatus', 'loading', null);
       return new Promise((resolve, reject) => {
         instanceAuth.post('/login', user)
             .then(function (response){
-              commit('setStatus', '');
+              commit('setStatus', '', null);
               commit('logUser', response.data);
               resolve(response);
             }).catch(function (error){
-              commit('setStatus', 'error');
+              commit('setStatus', 'error', 'une erreur');
               reject(error);
             });
       });

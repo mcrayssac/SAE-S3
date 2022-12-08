@@ -46,6 +46,7 @@ router.post('/api/login', (req, res) => {
     const refreshToken = generateRefreshToken(user);
     res.send({
         id: user.id,
+        name: user.name,
         accessToken,
         //refreshToken
     })

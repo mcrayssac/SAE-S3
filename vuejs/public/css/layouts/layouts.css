@@ -14,8 +14,28 @@
     display:block;
 }
 
+.removePadding > a{
+    padding: 4px 8px !important;
+}
+
 .rounded {
     animation: 8s infinite alternate rotate;
+}
+
+.button{
+    border: 0 !important;
+    background-color: #6ec8cb !important;
+}
+
+.button:hover{
+    background-color: #d9231a !important;
+    color: white !important;
+}
+
+.ConnectLabel > legend {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing:1px;
+    color: #495388;
 }
 
 @keyframes rotate {
