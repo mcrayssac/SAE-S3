@@ -2,13 +2,6 @@ var map = document.querySelector('#map')
 var paths = document.querySelectorAll('.map_image a')
 var links = document.querySelectorAll('.map_list a')
 var selects = document.querySelectorAll('.map_list select')
-var allCheckbox = document.querySelectorAll('input[type=checkbox]')
-var resetContraintes = document.querySelector('input[value=Reset]')
-
-// Permet d'enlever toutes les cases cochées en reloadant la page
-allCheckbox.forEach(b => {
-    b.checked = false
-})
 
 var selectAreas = (id) => {
     map.querySelectorAll('.is-active').forEach(element => {
@@ -48,7 +41,7 @@ paths.forEach(path => {
         console.log(e.target.id)
         var id = e.target.id
         console.log(id)
-        selectAreas(id)
+        // selectAreas(id)
     })
 
     path.addEventListener('mouseleave', () => {
