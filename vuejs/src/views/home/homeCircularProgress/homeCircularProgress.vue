@@ -5,7 +5,7 @@
         color="#6ec8cb"
         dot="12 #495388"
         animation="default 6700 500"
-        :progress="Math.round((dotReplaced(cagnotteRecolte)/dotReplaced(cagnotteObjectif)*100) * 100) / 100"
+        :progress="pourcentage"
         :angle="-90"
         :gap="10"
         fontColor="#495388"
@@ -21,16 +21,7 @@
 export default {
   name: "homeCircularProgress",
   props: {
-    cagnotteRecolte: Number,
-    cagnotteObjectif: Number
-  },
-  methods: {
-    dotReplaced(str) {
-      return parseInt(str.toString().replace(/\./g, ''));
-    },
-    placeDot(str) {
-      return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
+    pourcentage: Number
   }
 }
 </script>

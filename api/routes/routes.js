@@ -16,6 +16,8 @@ router.get("/categories", controller.getCategories);
 
 router.get("/prestataires/:nomPrestataire", controller.getPrestataire);
 
+router.get("/cagnotte", controller.getCagnotte);
+
 
 // --------- PRESTATAIRE
 
