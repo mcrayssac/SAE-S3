@@ -11,7 +11,7 @@
         <b-collapse id="nav-collapse" is-nav>
 
           <b-navbar-nav>
-            <b-nav-item href="/" ><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
+            <b-nav-item href="/map" ><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-shop></b-icon-shop> Prestataires</template>

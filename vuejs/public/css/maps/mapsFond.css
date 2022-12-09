@@ -1,0 +1,122 @@
+/******************************************************/
+/* Basic settings on the map */
+
+.map_image{
+    float: left;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#fondBeige {
+    fill:#e1ce9a;
+}
+
+#lac {
+    fill:#6699ff;
+}
+
+#zoneParking {
+    opacity:0.83;
+    fill:#778899;
+    stroke:#021331;
+    stroke-width:0.5;
+}
+
+#textParking {
+    font-size:21.3333px;
+    opacity:0.83;
+}
+
+#foret {
+    fill:#99cc66;
+}
+
+#chemins {
+    fill:none;
+    stroke:#8b6c42;
+    stroke-width:0.554803;
+}
+
+#routes {
+    fill:none;
+    stroke:#ffffff;
+    stroke-width:0.9;
+}
+
+#courses {
+    display:none;
+    fill:none;
+    stroke:#df1b3f;
+    stroke-width:1.2;
+    stroke-dasharray:1.2, 4.8;
+}
+
+#stands {
+    fill:#808080;
+}
+
+#zoneStandSecours {
+    stroke:#df1b3f;
+    stroke-width:0.3;
+    fill:#ffffff;
+    paint-order:stroke fill;
+}
+
+#croixSecours, #association {
+    fill:#df1b3f;
+}
+
+#croixSecours {
+    stroke-width:0.899999;
+    stroke:#df1b3f;
+}
+
+#toilettes2 path, #toilettesParking path {
+    fill:#ffffff;
+    stroke:#df1b3f;
+    stroke-width:0.441241;
+    paint-order:stroke fill
+}
+
+#toilettes2 text, #toilettesParking text {
+    font-size:12px;
+    font-family:Gargi;
+    fill:#df1b3f;
+    stroke-width:0.623622;
+}
+
+#sensInterdit ellipse{
+    fill:#d90000;
+}
+
+#sensInterdit rect {
+    fill:#ffffff;
+
+}
+
+/******************************************************/
+/* Modal */
+
+.modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+
+.modal.right .modal-content {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.open .modal-backdrop {
+    background-color:red;
+}
+
+.modal.right .modal-body {
+    padding: 15px 15px 80px;
+}
