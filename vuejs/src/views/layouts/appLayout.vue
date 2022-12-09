@@ -34,16 +34,6 @@
               <b-dropdown-item href="#">Natation</b-dropdown-item>
               <b-dropdown-item href="#">Course d'orientation</b-dropdown-item>
             </b-nav-item-dropdown>
-
-            <b-nav-item href="/association" toggle-class="text-white">
-              <span class="text-light">
-              <b-iconstack>
-                <b-icon stacked icon="heart-fill" shift-v="-2.5" scale="0.5"></b-icon>
-                <b-icon stacked icon="house" scale="1.3"></b-icon>
-              </b-iconstack>
-              Association
-              </span>
-            </b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
