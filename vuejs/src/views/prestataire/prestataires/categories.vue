@@ -31,10 +31,12 @@
                  data-aos-duration="500"
                  data-aos-anchor-placement="top-center">
             <b-row align-h="center">
-              <b-col cols="auto">
-                <b-dropdown variant="lightBlue" toggle-class="text-white" class="button" v-for="(items, index) in data.getFiltres" right :key="index" :text="index">
-                  <b-dropdown-item variant="lightBlue" v-for="(item, jIndex) in items" :key="jIndex">{{item}}</b-dropdown-item>
-                </b-dropdown>
+              <b-col cols="auto" v-for="(items, index) in data.getFiltres" :key="index">
+                <b-form-select v-model="selected" text-field="lol" :options="items" size="lg">
+                  <template #first>
+                    <b-form-select-option :value="null" disabled>{{index}}</b-form-select-option>
+                  </template>
+                </b-form-select>
               </b-col>
             </b-row>
           </b-col>
@@ -89,6 +91,7 @@ export default {
   data: () => ({
     layoutHeight: "margin-top : "+59+"px",
     inputFilter: '',
+    selected:null,
     data: null
   }),
   computed: {

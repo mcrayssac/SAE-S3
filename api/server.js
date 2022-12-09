@@ -44,36 +44,12 @@ const corsOptions ={
 }
 app.use(cors(corsOptions));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Import and define all routes
  */
 const routes = require("./routes/routes");
+const authRoutes = require("./routes/authentification_routes");
+app.use("/api/", authRoutes);
 app.use("/", routes);
 
 /**

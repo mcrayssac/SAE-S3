@@ -65,7 +65,7 @@
                       </span>
                       <span v-else>Se connecter</span>
                     </b-button>
-                    <span>{{status}}  {{alert}}</span>
+                    <span>{{status}} {{alert}}</span>
                   </b-col>
                 </b-row>
               </b-dropdown-form>
@@ -74,7 +74,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{$store.state.user.name}} {{$store.state.user.id}}</template>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{$store.state.user.name}}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>

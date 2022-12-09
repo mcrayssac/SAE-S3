@@ -1,6 +1,6 @@
 <template>
   <div :style="layoutHeight">
-    <app-home-slide-main :slide="slide" />
+    <app-home-slide-main :slide="images" />
     <b-container fluid>
       <b-alert v-model="alert" variant="danger" dismissible>
         Alert!
@@ -154,8 +154,6 @@ export default {
   },
   data: () => ({
     layoutHeight: "margin-top : "+51+"px",
-    slide: ["https://media.discordapp.net/attachments/894224051571138560/1047903822997102592/Composition_1_0000000.jpg?width=321&height=586",
-    "https://cutewallpaper.org/21/marathon-wallpaper/Chase-a-runners-high-perks-of-cannabis-in-marathon-running-.jpg"],
     slide1: ["https://cdn.discordapp.com/attachments/894224051571138560/1028048900860428371/image_home_2_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028050754042351707/image_home_3_filter1.png",
       "https://cdn.discordapp.com/attachments/894224051571138560/1028050937757040640/image_home_4_filter1.png",
@@ -231,7 +229,14 @@ export default {
           this.cagnotte+=100000;
       }
     }
-  },mounted() {
+  },
+  computed: {
+    images () {
+      const path = require.context('../home/picture', false, /\.jpg$/)
+      return path.keys().map(path)
+    }
+  },
+  mounted() {
     this.cagnotteTop = this.cagnotte;
     this.cagnotte-=1000000;
     /*this.$nextTick(() => {
