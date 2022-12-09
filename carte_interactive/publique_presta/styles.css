@@ -8,7 +8,11 @@ ul {
 
 /* Fonctionne que sur la balise asso1 mais la déplace en dehors de la carte, a corrigé */
 .map_image .stands image:hover{
-    transform: scale(1.5);
+    /* transform-origin: bottom center; */
+    transform-origin: 50% 60%;
+    transform: scale(1.3);
+    
+    
 }
 
 .map_image rect {
