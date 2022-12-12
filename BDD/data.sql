@@ -43,7 +43,7 @@ select * from RESERVATION;
 COPY CARACTERISTIQUE (libelle_caracteristique, id_type) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/CARACTERISTIQUE.csv' DELIMITER AS ',';
 select * from CARACTERISTIQUE;
 
-COPY PRESTATAIRE (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, id_stand, id_type) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/PRESTATAIRE.csv' DELIMITER AS ',';
+COPY PRESTATAIRE (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/PRESTATAIRE.csv' DELIMITER AS ',';
 select * from PRESTATAIRE;
 
 COPY COURSES (libelle_course, nb_km, nb_place, prix, date_periode, id_sport, id_lieu) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/COURSES.csv' DELIMITER AS ',';

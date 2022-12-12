@@ -15,6 +15,11 @@ const routes = [
     component: () => import('../views/test.vue')
   },
   {
+    path: '/test_giu',
+    name: 'test_giu',
+    component: () => import('../views/test_giu.vue')
+  },
+  {
     path: '/association',
     name: 'association',
     component: () => import('../views/association/association.vue')
@@ -23,6 +28,11 @@ const routes = [
     path: '/devenirPrestataire',
     name: 'devenirPrestataire',
     component: () => import('../views/public/formulaire_devenir_prestataire.vue')
+  },
+  {
+    path: '/voir_demandes',
+    name: 'voir_demandes',
+    component: () => import('../views/organisateur/visualiser_toutes_demandes_devenir_prestataire.vue')
   },
   {
     path: '/categories/:nomCategorie',
