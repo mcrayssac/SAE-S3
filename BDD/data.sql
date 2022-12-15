@@ -75,3 +75,9 @@ select * from Pour;
 
 \COPY Detient FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAE-S3/BDD/Detient.csv' DELIMITER AS ',';
 select * from Detient;
+
+
+select nom_prestataire, coordonne_x, coordonne_y, rotation
+from PRESTATAIRE
+inner join STAND as s on s.id_stand = PRESTATAIRE.id_stand
+;
