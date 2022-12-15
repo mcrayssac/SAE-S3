@@ -1,5 +1,5 @@
 <template>
-  <main id="app" style="margin-top: 100px;">
+  <main id="app">
     <b-row align-h="center">
       <b-col cols="auto"><h3>Palettes de couleurs</h3></b-col>
     </b-row>
@@ -29,100 +29,29 @@
       </div>
     </div>
     <br><br>
-
-
-    <b-row align-h="center">
-      <b-col cols="auto">
-        <b-img src="https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif" height="150" >
-        </b-img>
-      </b-col>
-    </b-row>
-
-
-
-
     <br><br>
-    <section class='intro'>
-      <div class='introDescription' data-aos="zoom-in" data-aos-ease = 'ease'
-           data-aos-duration="1500"
-           data-aos-delay='500' >
-        A student's Guide
-        <br>
-        <p>  to Learning from Home </p>
-      </div>
-      <img  class='introImage' src='https://res.cloudinary.com/dsderm9xw/image/upload/v1622028117/3D%20Illustrations/3d-illustration4_usckww.png' alt='3d illustration of boy with a flag'/>
-
-    </section>
-
-    <section class='guide1'>
-      <img class='guide1Image' src='https://res.cloudinary.com/dsderm9xw/image/upload/v1622028085/3D%20Illustrations/3d-illustration2_ykuua3.png'
-           alt='3d illustration of boy sitting with legs crossed'
-           data-aos="slide-down"
-           data-aos-ease = 'ease'
-           data-aos-duration="1500"
-           data-aos-delay='500'/>
-      <div class='guide1Description'
-           data-aos="slide-up"
-           data-aos-ease = 'ease'
-           data-aos-duration="1500"
-           data-aos-delay='1000'>
-        <h1> Set up your  <br> study space. </h1>
-        <div>
-          Find an area in your house where
-          <br>
-          you can sit comfortably and focus.
-          <br>
-          Make it separate to your relaxation space.
-          <br>
-          Ideally away from a TV screen
-          <br>
-          or other distractions.
-        </div>
-      </div>
-
-
-    </section>
-
-    <section class='guide2'>
-      <div class='guide2Description'
-           data-aos="slide-down"
-           data-aos-ease = 'ease'
-           data-aos-duration="1500"
-           data-aos-delay='1000'>
-        <h1> Plan your  <br> day ahead. </h1>
-        <div>
-          If you have one,
-          <br>
-          follow the schedule provided by your school.
-          <br>
-          If you just have a list of things to study,
-          <br>
-          break it down into small tasks and
-          <br>
-          plan to do the hardest ones
-          <br>
-          when you have the most energy.
-        </div>
-      </div>
-      <img class='guide2Image' src='https://res.cloudinary.com/dsderm9xw/image/upload/v1622028057/3D%20Illustrations/3d-illustration1_j06j0a.png'
-           alt='3d illustration of boy with laptop sitting'
-           data-aos="slide-up"
-           data-aos-duration="1500"
-           data-aos-ease = 'ease'
-           data-aos-delay='1000'
-      />
-
-      <div class='guide2Description'
-           data-aos="slide-down"
-           data-aos-ease = 'ease'
-           data-aos-duration="1500"
-           data-aos-delay='1000'><h1>AKZFAOAFFA</h1></div>
-
-    </section>
-
-    <footer>
-      Developed by FAE
-    </footer>
+    <b-modal body-text-variant="danger" ref="login-error-modal" title="Lakeside Sports Festival">
+      <b-col class="my-3">
+        <b-row class="my-1" align-h="center">
+          <b-col cols="auto">
+            <span style="font-size: x-large; font-family: 'Montserrat', sans-serif;">Email ou mot de passe erroné !</span>
+          </b-col>
+        </b-row>
+        <b-row class="my-1" align-h="center">
+          <b-col cols="auto">
+            <span style="font-size: large; font-family: 'Montserrat', sans-serif;">Veuillez réessayer</span>
+          </b-col>
+        </b-row>
+      </b-col>
+      <template #modal-footer >
+        <b-row class="mx-auto" align-h="center">
+          <b-col cols="auto">
+            <b-button @click="hideLoginErrorModal">Close</b-button>
+          </b-col>
+        </b-row>
+      </template>
+    </b-modal>
+    <button @click="showLoginErrorModal">show</button>
   </main>
 </template>
 
@@ -132,10 +61,15 @@
 export default {
   name: "test",
   data: () => ({
-    layoutHeight: "margin-top : "+76+"px"
+    modalShow: false
   }),
   methods:{
-
+    showLoginErrorModal() {
+      this.$refs['login-error-modal'].show()
+    },
+    hideLoginErrorModal() {
+      this.$refs['login-error-modal'].hide()
+    }
   },
   created() {
 

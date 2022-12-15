@@ -21,7 +21,7 @@
 
     .vueperslide__content {
         font-size: 2em;
-        top: 50%;
+        top: 40%;
 
     }
 }
@@ -38,73 +38,90 @@
 
     .vueperslide__content {
         font-size: 2em;
-        top: 50%;
+        top: 38%;
 
     }
 }
 
 @media (min-width: 800px) and (max-width: 1000px){
-
+    .vueperslides--fixed-height {
+        height: 600px;
+    }
 
     .vueperslide__title {
         font-size: 3em;
-        top: 25%;
+        top: 30%;
     }
 
     .vueperslide__content {
         font-size: 1em;
-        top: 50%;
+        top: 42%;
 
     }
 }
 
 @media (min-width: 600px) and (max-width: 800px){
-
+    .vueperslides--fixed-height {
+        height: 600px;
+    }
 
     .vueperslide__title {
         font-size: xx-large;
-        top: 25%;
+        top: 35%;
     }
 
     .vueperslide__content {
         font-size: large;
-        top: 45%;
+        top: 43%;
 
     }
 }
 
 @media (min-width: 500px) and (max-width: 600px){
+    .vueperslides--fixed-height {
+        height: 400px;
+    }
+
+
     .vueperslide__title {
         font-size: xx-large;
-        top: 25%;
+        top: 30%;
     }
 
     .vueperslide__content {
-        top: 50%;
+        top: 43%;
 
     }
 }
 
 @media (min-width: 400px) and (max-width: 500px){
+    .vueperslides--fixed-height {
+        height: 400px;
+    }
+
     .vueperslide__title {
         font-size: x-large;
-        top: 25%;
+        top: 30%;
     }
 
     .vueperslide__content {
-        top: 50%;
+        top: 40%;
 
     }
 }
 
 @media (min-width: 0px) and (max-width: 400px){
+    .vueperslides--fixed-height {
+        height: 200px;
+    }
+
     .vueperslide__title {
-        top: 25%;
+        top: 30%;
     }
 
     .vueperslide__content {
         font-size: small;
-        top: 50%;
+        top: 43%;
 
     }
 }

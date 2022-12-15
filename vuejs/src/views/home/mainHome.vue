@@ -1,11 +1,7 @@
 <template>
-  <div :style="layoutHeight">
-    <app-home-slide-main :slide="slide" />
+  <div :style="$store.state.layoutHeight">
+    <app-home-slide-main :slide="images" />
     <b-container fluid>
-      <b-alert v-model="alert" variant="danger" dismissible>
-        Alert!
-      </b-alert>
-
       <section class="ScrollBar">
         <b-row align-h="center" style="background-color: #495388; width: auto">
           <b-col class="m-4" cols="auto">
@@ -72,34 +68,7 @@
       </section>
 
       <section class="Cagnotte">
-        <b-row class="m-5 ligne"></b-row>
-        <b-row align-h="center">
-          <b-col data-aos="zoom-in-down"
-                 data-aos-offset="350"
-                 data-aos-duration="8000"
-              cols="auto" class="m-5"><h1>Notre cagnotte</h1></b-col>
-        </b-row>
-        <b-row align-h="center">
-          <app-home-circular-progress data-aos="zoom-in-right"
-                                      data-aos-offset="300"
-                                      data-aos-duration="1000"
-              :cagnotte-recolte="cagnotteRecolte" :cagnotte-objectif="cagnotteObjectif" class="mb-5" />
-          <b-col cols="auto" class="mb-5" style="font-size: xx-large;
-                font-family: 'Montserrat', sans-serif; font-weight: 300; vertical-align: center;">
-            <b-row data-aos="fade-left"
-                   data-aos-offset="300"
-                   data-aos-duration="1000"
-                align-h="center">
-              <a style="color: #495388;"><a style="color: #6ec8cb; font-size: xxx-large;" id="compteur">{{placeDot(cagnotte)}}</a> € récoltés</a>
-            </b-row>
-            <b-row data-aos="fade-right"
-                   data-aos-offset="200"
-                   data-aos-duration="1000"
-                align-h="center">
-              <a style="color: #495388;">Objectif : <a id="objectif" style="color: #6ec8cb; font-size: xxx-large;">{{placeDot(cagnotteObjectif)}}</a> €</a>
-            </b-row>
-          </b-col>
-        </b-row>
+        <app-home-cagnotte/>
       </section>
 
       <section class="Carte">
@@ -141,26 +110,17 @@
 <script>
 import appHomeSlideMain from "@/views/home/homeSlideMain/homeSlideMain.vue";
 import appHomeSlideSponsor from "@/views/home/homeSlideSponsor/homeSlideSponsor.vue";
-import appHomeCircularProgress from "@/views/home/homeCircularProgress/homeCircularProgress.vue";
 import appHomeCompteRebour from "@/views/home/homeCompteRebour/homeCompteRebour.vue";
-import {mapState} from "vuex";
+import appHomeCagnotte from "@/views/home/homeCagnotte/homeCagnotte.vue";
 export default {
   name: "mainHome",
   components: {
     'app-home-slide-main':appHomeSlideMain,
     'app-home-slide-sponsor':appHomeSlideSponsor,
-    'app-home-circular-progress':appHomeCircularProgress,
-    'app-home-compte-rebour':appHomeCompteRebour
+    'app-home-compte-rebour':appHomeCompteRebour,
+    'app-home-cagnotte':appHomeCagnotte,
   },
   data: () => ({
-    layoutHeight: "margin-top : "+51+"px",
-    slide: ["https://media.discordapp.net/attachments/894224051571138560/1047903822997102592/Composition_1_0000000.jpg?width=321&height=586",
-    "https://cutewallpaper.org/21/marathon-wallpaper/Chase-a-runners-high-perks-of-cannabis-in-marathon-running-.jpg"],
-    slide1: ["https://cdn.discordapp.com/attachments/894224051571138560/1028048900860428371/image_home_2_filter1.png",
-      "https://cdn.discordapp.com/attachments/894224051571138560/1028050754042351707/image_home_3_filter1.png",
-      "https://cdn.discordapp.com/attachments/894224051571138560/1028050937757040640/image_home_4_filter1.png",
-      "https://cdn.discordapp.com/attachments/894224051571138560/1028051419237994566/image_home_5_filter1.png"
-    ],
     slideSponsor: [
       {"titre": "Decathlon", "src": "https://www.decathlon.fr", "photo": "https://pbs.twimg.com/profile_images/1096041902351224833/KQKNxhzS_400x400.png"},
       {"titre": "InterSport", "src": "https://www.intersport.fr", "photo": "https://pbs.twimg.com/profile_images/1037247605724598274/Dt7llTkQ_400x400.jpg"},
@@ -180,63 +140,13 @@ export default {
       {"titre": "Picture", "src": "https://www.picture-organic-clothing.com", "photo": "https://yt3.ggpht.com/ytc/AMLnZu8jvzx771u6SVIWEk2ovWfAft5VRHfpH1X7Xz9raw=s900-c-k-c0x00ffffff-no-rj"}
     ],
     darkBlue: "color: #021331",
-    cagnotteRecolte : 3843029,
-    cagnotteObjectif : 5000000,
-    gradient: {
-      radial: false,
-      colors: [
-        {
-          color: '#6ec8cb',
-          offset: "0",
-          opacity: '1',
-        },
-        {
-          color: '#d9231a',
-          offset: "100",
-          opacity: '1',
-        },
-      ]
-    },
-    cagnotte: 3843029,
-    cagnotteTop: null,
     counter: 0,
   }),
-  methods:{
-    dotReplaced(str){
-      return parseInt(str.toString().replace(/\./g, ''));
-    },
-    placeDot(str){
-      return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    },
-    timer: function() {
-      setInterval(this.tikTok, 125);
-      },
-    tikTok: function() {
-      if (this.cagnotte >= this.cagnotteTop) {
-        if (Math.random() > 0.95)
-          this.cagnotte += 1;
-      }
-      else {
-        if (this.cagnotte<this.cagnotteTop-999990)
-          this.cagnotte+=1;
-        else if (this.cagnotte<this.cagnotteTop-999900)
-          this.cagnotte+=10;
-        else if (this.cagnotte<this.cagnotteTop-999000)
-          this.cagnotte+=100;
-        else if (this.cagnotte<this.cagnotteTop-990000)
-          this.cagnotte+=1000;
-        else if (this.cagnotte<this.cagnotteTop-900000)
-          this.cagnotte+=10000;
-        else if (this.cagnotte<this.cagnotteTop)
-          this.cagnotte+=100000;
-      }
+  computed: {
+    images () {
+      const path = require.context('../home/picture', false, /\.jpg$/)
+      return path.keys().map(path)
     }
-  },mounted() {
-    this.cagnotteTop = this.cagnotte;
-    this.cagnotte-=1000000;
-    /*this.$nextTick(() => {
-      this.timer();
-    });*/
   }
 }
 </script>

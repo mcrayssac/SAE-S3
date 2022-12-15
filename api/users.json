@@ -1,11 +1,11 @@
 {
   "users": [{
-    "name": "admin",
+    "Name": "admin",
     "username" : "admin",
     "passwordPlain": "admin",
     "password": "$2b$10$8NbApUVnL5l2V7QZLodU8.JO8fnX6LK6AOYM30YzMDH0YpcK4PNSC"
   }, {
-    "name": "elon musk",
+    "Name": "elon musk",
     "username" : "elonmusk",
     "passwordPlain": "elon123",
     "password": "$2b$10$AUysLrQJBkNn5lwLhWE4z.CYZs0JWD/KHb6c0clJzRSitUqx1kI3m"

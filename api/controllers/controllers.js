@@ -42,7 +42,23 @@ exports.getPrestataire = (req, res) => {
     });
 }
 
-exports.signup = (req, res) => {
+exports.getCagnotte = (req, res) => {
+    console.log(chalk.green.inverse('Requete pour getCagnotte reçue.'));
+    res.send({
+        getCagnotte: services.getCagnotte((error, results) => {
+            if (error) return error
+            else return results
+        })
+    });
+}
+
+
+
+
+
+
+
+/*exports.signup = (req, res) => {
     console.log(chalk.green.inverse('Requete pour signup reçue.'));
     res.render('public/signup/signup.hbs', {
         layout: 'mainHome.hbs',
@@ -72,7 +88,7 @@ exports.login = (req, res) => {
         res.render('public/login/login.hbs', {
             layout: 'mainHome.hbs'
         });
-    }*/
+    }*//*
 }
 
 exports.authenticateUser = (req, res) => {
@@ -82,11 +98,11 @@ exports.authenticateUser = (req, res) => {
     services.authenticate(data, (error, results) => {
         if (error){
             /*req.flash("error", error); //Envoi un flash
-            res.locals.redirect = "/login"; //Redirect vers login*/
+            res.locals.redirect = "/login"; //Redirect vers login*//*
             res.send(error);
         } else {
             /*req.flash("success", `${results}`);
-            res.locals.redirect = "/";*/
+            res.locals.redirect = "/";*//*
             req.session.username = data.email; //Créer la session
             console.log(req.session);
             res.send(req.session);
@@ -107,4 +123,4 @@ exports.redirectView = (req, res) => {
 exports.logout = (req, res) => {
     req.session.destroy();
     res.redirect("/home");
-}
+}*/

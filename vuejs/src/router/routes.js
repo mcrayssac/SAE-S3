@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+
 const routes = [
   {
     path: '/',
@@ -44,6 +45,16 @@ const routes = [
     name: 'prestataires/nomPrestataire',
     component: () => import('../views/prestataire/prestataires/prestataire.vue')
   },
+  {
+    path: '/map',
+    name:'map',
+    component: () => import('../views/maps/mapPublicPresta.vue')
+  },
+  {
+    path: '/map-orga',
+    name: 'map-orga',
+    component: () => import('../views/maps/mapOrga.vue')
+  },
     // At the end
   {
     path: '*',
@@ -57,5 +68,12 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+const DEFAULT_TITLE = 'Lakeside Sports Festival';
+router.afterEach((to, from) => {
+  Vue.nextTick(() => {
+    document.title = to.meta.title || DEFAULT_TITLE;
+  });
+});
 
 export default router

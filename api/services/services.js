@@ -4,13 +4,13 @@ const bcrypt = require("bcrypt")
 const {callback} = require("pg/lib/native/query");
 
 const getCagnotte = (callback) => {
-    let cagnotte = 3000000;
-    let objectif = 4000000;
-    let pourcentage = cagnotte/objectif*100;
+    let cagnotte = 2435984;
+    let objectif = 5000000;
+    let pourcentage = Math.round((cagnotte/objectif*100)*100)/100;
     if (cagnotte && objectif && pourcentage){
         return callback(null, {cagnotte : cagnotte, objectif : objectif, pourcentage : pourcentage});
     }else{
-        return callback({cagnotte : "0", objectif : "0", pourcentage : "0"});
+        return callback([]);
     }
 }
 
@@ -24,9 +24,6 @@ const getSexe = (callback) => {
 }
 
 const getCourses = (callback) => {
-    /*let resCourse = [{"nom": "Course 1", "sport": "Course d'orientation", "distance": "12 km", "prix": "5€", "places": "200", "lieu": "Départ course à pied", "image":"https://www.astucedegrandmere.com/wp-content/uploads/Course-%C3%A0-pieds-les-astuces-pour-sy-mettre-300x300.jpg"},
-                    {"nom": "Course 2", "sport": "Course de natation", "distance": "8 km", "prix": "7€", "places": "58", "lieu": "Départ au lac","image": "https://contents.mediadecathlon.com/p1265270/k$6ddc26c476bbb8357c54f40477eebe83/800x0/3228pt2061/4303xcr4303/entrainement-pour-eau-libre.jpg?format=auto&quality=80"}
-                    ]*/
     let resCourses =    [
         ["ORIENTATION",
             {"Sport":" Running", "Distance": "12 km", "Age":" 18 à 25 ans", "Prix": "5€", "Places": "200", "Lieu": "Départ course à pied"},

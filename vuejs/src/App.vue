@@ -1,12 +1,3 @@
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lakeside Sports Festival</title>
-  <meta name="description" content="Festival des sports">
-  <meta name="author" content="SAE-S3">
-  <link rel="icon" href="https://cdn.discordapp.com/attachments/1019997748344406146/1027862895041720360/logo_3_2.png">
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-</head>
 <template>
   <div>
     <app-layout></app-layout>
