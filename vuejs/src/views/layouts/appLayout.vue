@@ -107,7 +107,7 @@
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-trophy-fill></b-icon-trophy-fill> Résultats</template>
-              <b-dropdown-item href="#"> Course à pied</b-dropdown-item>
+              <b-dropdown-item href="#">Course à pied</b-dropdown-item>
               <b-dropdown-item href="#">VTT</b-dropdown-item>
               <b-dropdown-item href="#">Natation</b-dropdown-item>
               <b-dropdown-item href="#">Course d'orientation</b-dropdown-item>
