@@ -1,7 +1,6 @@
 const services = require("../services/services");
 const chalk = require("chalk");
 
-
 exports.getCategorie = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
     let type = req.params.nomCategorie;
@@ -50,6 +49,17 @@ exports.getCagnotte = (req, res) => {
             else return results
         })
     });
+}
+
+exports.getStands = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour les stands'));
+    await services.getStands( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+
 }
 
 

@@ -20,6 +20,7 @@ router.get("/cagnotte", controller.getCagnotte);
 
 
 // --------- PRESTATAIRE
-
+// --------- MAP
+router.get("/map/stands", controller.getStands);
 
 module.exports = router;

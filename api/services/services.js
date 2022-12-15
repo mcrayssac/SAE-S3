@@ -2,6 +2,8 @@ const fs = require('fs');
 const chalk = require('chalk');
 const bcrypt = require("bcrypt")
 const {callback} = require("pg/lib/native/query");
+const pool = require("../database/db");
+const mapQueries = require("../queries/maps_queries");
 
 const getCagnotte = (callback) => {
     let cagnotte = 2435984;
@@ -291,6 +293,16 @@ const authenticate = (data,callback) => {
     }
 }
 
+const getStands = async (callback) => {
+    await pool.query(mapQueries.getStands, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 const loadUsers = () => {
     try {
         const dataBuffer = fs.readFileSync('users.json')
@@ -310,5 +322,6 @@ module.exports = {
     getClub: getClub,
     getFiltres: getFiltres,
     getPrestataire: getPrestataire,
-    getCategories: getCategories
+    getCategories: getCategories,
+    getStands: getStands
 }

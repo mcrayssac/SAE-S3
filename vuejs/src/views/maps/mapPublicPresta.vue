@@ -216,24 +216,50 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  name: "map",
+  name: "mapPublicPresta",
   data: () => ({
-    tabCords: [{x: 193, y: 117}, {x: 147, y: 147}, {x: 84, y: 50, r: -60},
-      {x: 149, y: 95, r: 90}, {x: 88, y: 92, r: -11}]
+    // tabCords: [{x: 193, y: 117}, {x: 147, y: 147}, {x: 84, y: 50, r: -60},
+    //   {x: 149, y: 95, r: 90}, {x: 88, y: 92, r: -11}]
+    data: []
   }),
   methods:{
     deg_to_rad(degree){
       return (degree*Math.PI)/180
     }
   },
+  // async created() {
+  //   await axios.get(`http://localhost:3000/map/stands`)
+  //       .then(result => {
+  //         this.data = result.data
+  //         console.log("etest")
+  //         console.log(result.data)
+  //       })
+  //       .catch((err) => {
+  //         let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+  //         console.warn("error", message);
+  //       });
+  // },
   async mounted(){
+    await axios.get(`http://localhost:3000/map/stands`)
+        .then(result => {
+          this.data = result.data
+          console.log(result.data)
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+
+
+    
     let svgT = this.$refs.stands;
     console.log(svgT);
     let svgNS = svgT.namespaceURI;
 
-
-    this.tabCords.forEach(stand =>{
+    // console.log(this.data)
+    this.data.data.forEach(stand =>{
 
       //pour les a
       let a= document.createElementNS(svgNS,'a');
@@ -245,20 +271,20 @@ export default {
 
       //Pour les stands
       let rect = document.createElementNS(svgNS,'rect');
-      console.log(stand.x + " "  + stand.y)
-      rect.setAttribute('x',stand.x);
-      rect.setAttribute('y',stand.y);
+      // console.log(stand.coordonne_x + " "  + stand.coordonne_y)
+      rect.setAttribute('x',stand.coordonne_x);
+      rect.setAttribute('y',stand.coordonne_y);
       rect.setAttribute('width',6);
       rect.setAttribute('height',5);
       rect.setAttribute('fill','#95B3D7'); // couleur à modifier
-      console.log(stand)
+      // console.log(stand)
       // if(stand.hasOwnProperty('r')){
-      if(stand.r != null){
-        rect.setAttribute('transform','rotate('+stand.r+','+stand.x+', '+stand.y + ')');
+      if(stand.rotation != null){
+        rect.setAttribute('transform','rotate('+stand.rotation+','+stand.coordonne_x+', '+stand.coordonne_y + ')');
       }
       a.appendChild(rect);
 
-      console.log(document.getElementsByTagName("svg"))
+      // console.log(document.getElementsByTagName("svg"))
 
       //pour les balises
       //rajouter un if pour choisir la bonne image en fonction resto/club...
@@ -269,14 +295,18 @@ export default {
       balise.setAttribute('href','https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496') // a modifier selon type de prestataire
       balise.setAttribute('id','dfghj') //à modifier en fonction bdd
       // if(stand.hasOwnProperty('r')){
-      if(stand.r != null){
-        balise.setAttribute('x',3*Math.cos(this.deg_to_rad(stand.r)) - 2.5*Math.sin(this.deg_to_rad(stand.r)) +stand.x-9.7/2)
-        balise.setAttribute('y',3*Math.sin(this.deg_to_rad(stand.r)) + 2.5*Math.cos(this.deg_to_rad(stand.r)) +stand.y-14)
+      if(stand.rotation != null){
+        balise.setAttribute('x',3*Math.cos(this.deg_to_rad(stand.rotation)) - 2.5*Math.sin(this.deg_to_rad(stand.rotation)) +parseFloat(stand.coordonne_x-9.7/2))
+        balise.setAttribute('y',3*Math.sin(this.deg_to_rad(stand.rotation)) + 2.5*Math.cos(this.deg_to_rad(stand.rotation)) +parseFloat(stand.coordonne_y-14))
       }
       else{
-        balise.setAttribute('x',stand.x+(6/2)-(9.7/2))
-        balise.setAttribute('y',stand.y+5/2-14)
+        balise.setAttribute('x',stand.coordonne_x+(6/2)-(9.7/2))
+        balise.setAttribute('y',stand.coordonne_y+5/2-14)
       }
+      let po = 3*Math.sin(this.deg_to_rad(stand.rotation)) + 2.5*Math.cos(this.deg_to_rad(stand.rotation)) +stand.coordonne_y-14
+      console.log("x = " + balise.getAttribute('x'))
+      console.log("y = " + balise.getAttribute('y'))
+      // console.log(2.5*Math.cos(this.deg_to_rad(stand.rotation)) + stand.coordonne_y)
       a.appendChild(balise);
       svgT.appendChild(a);
 
