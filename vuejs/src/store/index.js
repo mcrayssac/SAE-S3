@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {fastKey} from "core-js/internals/internal-metadata";
 
 Vue.use(Vuex)
 
@@ -14,7 +13,6 @@ let user = localStorage.getItem('user');
 if (!user){
   user = {
     id: -1,
-    name: '',
     accessToken: ''
   }
 } else {
@@ -24,7 +22,6 @@ if (!user){
   } catch (e){
     user = {
       id: -1,
-      name: '',
       accessToken: ''
     }
   }
@@ -32,12 +29,12 @@ if (!user){
 
 export default new Vuex.Store({
   state: {
+    layoutHeight: "margin-top: 51px;",
     status: '',
-    alert: null,
     user: user,
     userInfos: {
       id: -1,
-      name: '',
+      Name: null,
       email: '',
       password: '',
       admin: '',
@@ -48,9 +45,8 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
-    setStatus: function (state, status, alert){
+    setStatus: function (state, status){
       state.status = status;
-      state.alert = alert;
     },
     logUser: function (state, user){
       instanceAuth.defaults.headers.common['authorization'] = user.accessToken;
@@ -63,32 +59,44 @@ export default new Vuex.Store({
     logout: function (state){
       state.user = {
         id: -1,
-        name: '',
         accessToken: ''
       }
       localStorage.removeItem('user');
+      state.userInfos = {
+        id: -1,
+        Name: null,
+        email: '',
+        password: '',
+        admin: '',
+        iat: '',
+        exp: ''
+      }
     }
   },
   actions: {
     login: ({commit}, user) => {
-      commit('setStatus', 'loading', null);
+      commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         instanceAuth.post('/login', user)
             .then(function (response){
-              commit('setStatus', '', null);
-              commit('logUser', response.data);
+              console.log("data", response.data.data);
+              commit('setStatus', '');
+              commit('logUser', response.data.data);
               resolve(response);
             }).catch(function (error){
-              commit('setStatus', 'error', 'une erreur');
+              commit('setStatus', 'error');
               reject(error);
             });
       });
     },
     getUserInfos: ({commit}) => {
-      instanceAuth.post('/me')
+      instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
+      instanceAuth.post('/user',)
           .then(function (response){
             commit('userInfos', response.data);
           }).catch(function (error){
+            commit('logout')
+            console.log("Token error : ",error)
       });
     }
     //createAccount

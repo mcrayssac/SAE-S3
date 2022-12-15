@@ -43,7 +43,7 @@ select * from RESERVATION;
 \copy CARACTERISTIQUE (libelle_caracteristique, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\CARACTERISTIQUE.csv' DELIMITER AS ',';
 select * from CARACTERISTIQUE;
 
-\copy PRESTATAIRE (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, id_stand, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\PRESTATAIRE.csv' DELIMITER AS ',';
+\copy PRESTATAIRE (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\PRESTATAIRE.csv' DELIMITER AS ',';
 select * from PRESTATAIRE;
 
 \copy COURSES (libelle_course, nb_km, nb_place, prix, date_periode, id_sport, id_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\COURSES.csv' DELIMITER AS ',';

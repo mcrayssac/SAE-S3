@@ -7,7 +7,7 @@ let router = express.Router();
 //Routes d'authentification
 router.post('/login', controller.login)
 
-router.get('/user', controller.authenticateToken, controller.user)
+router.post('/user', controller.authenticateToken, controller.user)
 
 router.get('/user/create', controller.create)
 

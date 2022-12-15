@@ -5,18 +5,21 @@ const services = require("../services/authentification_services");
 
 //Define users
 const jwt = require("jsonwebtoken");
+const pool = require("../database/db");
+const queries = require("../queries/authentification_queries");
 const user = {id: 42, name: "max", email:"max@gmail.com", password: 'max', admin: true}
 
 //Function to access token generate
 async function generateAccessToken (user) {
     console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} Access token generation.`));
-    return await jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '600s'});
+    return await jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1800s'});
 }
 
 //Function to user authenticate
 exports.authenticateToken = async function (req, res, next){
     console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} User authentification belongs to a token.`));
     const authHeader = req.headers['authorization'];
+    console.log(authHeader);
     const token = authHeader && authHeader.split(' ')[1];
     if (!token){
         return res.sendStatus(401);
@@ -29,39 +32,26 @@ exports.authenticateToken = async function (req, res, next){
 }
 
 exports.login = async (req, res) => {
-    //TODO: Check dans BDD user
     console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} Login user request received.`));
-    /*if (req.body.email !== user.email) {
-        res.status(401).send('invalid credentials');
-        return;
-    }
-    if (req.body.password !== user.password) {
-        res.status(401).send('invalid credentials');
-        return;
-    }*/
-
-    console.log('users')
-    const usr = await services.getUser(req.body.email, (error, results) => {
+    await services.getUser(req.body.email, req.body.password, async (error, results) => {
         if(error){
             console.log(chalk.red.inverse(`${chalkController} ERROR : No user found`));
-            return res.status(400).send({success:0, data: `ERROR : No user found`});
+            return res.status(401).send({success:0, data: `ERROR : No user found`});
         } else {
-            console.log(chalk.green.inverse(`${chalkController} Request to getUser`));
-            return res.status(200).send({success:1, data:results});
+            console.log(chalk.green.inverse(`${chalkController} Request to login`));
+            const accessToken = await generateAccessToken(results);
+            let data = {
+                id: results.id,
+                accessToken
+            }
+            return res.status(200).send({success:1, data});
         }
     });
-    console.log(usr);
-
-    /*const accessToken = await generateAccessToken(user);
-    res.send({
-        id: user.id,
-        name: user.name,
-        accessToken
-    })*/
 }
 
 exports.user = async (req, res) => {
     console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} User request received.`));
+    console.log(req.user);
     await res.send(req.user);
 }
 

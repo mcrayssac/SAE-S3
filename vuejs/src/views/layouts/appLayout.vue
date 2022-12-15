@@ -1,6 +1,84 @@
 <template>
     <div>
-      <b-navbar class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+      <b-navbar v-if="$store.state.userInfos.admin === 'organisateur'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+        <b-navbar-brand href="http://localhost:8080/" class="ms-3">
+          <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
+               alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
+        </b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+
+          <b-navbar-nav>
+            <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
+              <template #button-content><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</template>
+              <b-dropdown-item href="#">Modifier stands</b-dropdown-item>
+              <b-dropdown-item href="#">Affectation stands</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
+              <template #button-content><b-icon-shop></b-icon-shop> Prestataires</template>
+              <b-dropdown-item href="#">Gestion des comptes</b-dropdown-item>
+              <b-dropdown-item href="#">Validation des activités</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
+              <template #button-content><b-icon-graph-up></b-icon-graph-up> Statistiques</template>
+              <b-dropdown-item href="#"> Graphiques</b-dropdown-item>
+              <b-dropdown-item href="#"> Gestion</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <b-nav-item href="/" ><span class="text-light"><b-icon-trophy-fill></b-icon-trophy-fill> Courses</span></b-nav-item>
+
+            <b-nav-item href="/" ><span class="text-light"><b-icon-megaphone></b-icon-megaphone> Scène</span></b-nav-item>
+          </b-navbar-nav>
+
+          <b-navbar-nav class="ms-auto me-3">
+            <b-nav-item :href="null" ><span class="text-light">{{$store.state.userInfos.admin}}</span></b-nav-item>
+
+            <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
+              <b-dropdown-form>
+                <b-form-group class="ConnectLabel" label="Email">
+                  <b-form-input placeholder="email@example.com" v-model="Email"></b-form-input>
+                </b-form-group>
+                <b-form-group class="ConnectLabel mt-2" label="Password">
+                  <b-form-input type="password" placeholder="Password" v-model="Password"></b-form-input>
+                </b-form-group>
+                <b-row align-h="center">
+                  <b-col class="mt-2" cols="auto">
+                    <b-button class="button" @click="login()">
+                      <span v-if="status === 'loading'">
+                        <b-icon icon="arrow-repeat" animation="spin"></b-icon> En cours
+                      </span>
+                      <span v-else>Se connecter</span>
+                    </b-button>
+                  </b-col>
+                </b-row>
+              </b-dropdown-form>
+
+              <b-dropdown-item href="/signup">Créer un compte ici</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
+              <template #button-content><b-icon-person-fill style="color: #fffb00"></b-icon-person-fill>Bonjour</template>
+              <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item @click="changeLanguage()" v-if="language !== item.title" right>
+              <img :src="item.flag" width="20px" height="15px">
+            </b-nav-item></div>
+
+            <b-nav-item class="removePadding"><b-link href="/association" target="_blank">
+              <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
+            </b-link></b-nav-item>
+
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+
+      <b-navbar v-else class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
@@ -37,8 +115,9 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
+            <b-nav-item :href="null" ><span class="text-light">{{$store.state.userInfos.admin}}</span></b-nav-item>
 
-            <b-nav-item-dropdown v-if="$store.state.user.id < 0" toggle-class="text-white" right>
+            <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
                 <b-form-group class="ConnectLabel" label="Email">
@@ -55,7 +134,6 @@
                       </span>
                       <span v-else>Se connecter</span>
                     </b-button>
-                    <span>{{status}} {{alert}}</span>
                   </b-col>
                 </b-row>
               </b-dropdown-form>
@@ -64,7 +142,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{$store.state.user.name}}</template>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{ $store.state.userInfos.name }}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
@@ -82,6 +160,28 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
+
+      <b-modal body-text-variant="danger" ref="login-error-modal" title="Lakeside Sports Festival" hide-header-close>
+        <b-col class="my-3">
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: x-large; font-family: 'Montserrat', sans-serif;">Email ou mot de passe erroné !</span>
+            </b-col>
+          </b-row>
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: large; font-family: 'Montserrat', sans-serif;">Veuillez réessayer</span>
+            </b-col>
+          </b-row>
+        </b-col>
+        <template #modal-footer >
+          <b-row class="mx-auto" align-h="center">
+            <b-col cols="auto">
+              <b-button class="button" @click="hideLoginErrorModal">Close</b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-modal>
     </div>
 </template>
 
@@ -95,12 +195,12 @@ export default {
     allLanguage: [{"title":"English", "flag":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/langfr-338px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"}],
     backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'},
     data: null,
-    session2: null,
     Email: null,
-    Password: null
+    Password: null,
+    modalShow: false
   }),
   computed: {
-    ...mapState(['status', 'alert', "user"]),
+    ...mapState(['status', "user"]),
   },
   methods:{
     login: function (){
@@ -109,19 +209,36 @@ export default {
         email: this.Email,
         password: this.Password
       }).then(function (response){
-        console.log(response);
-        self.session2 = self.$store.state.user.id;
+        self.getUserInfos();
+        console.log("Login valide : ",response);
       }, function (error){
-        console.log(error);
+        self.showLoginErrorModal();
+        console.log("Login invalide : ",error);
       })
     },
     logout: function (){
       this.$store.commit('logout');
     },
+    getUserInfos: async function (){
+      await this.$store.dispatch('getUserInfos')
+          .then(function (response){
+            /* Token valide
+            console.log("Token valide : ",response);*/
+          }, function (error){
+            /* Token invalide
+            console.log("Token invalide : ",error);*/
+          });
+    },
     changeLanguage(){
       console.log("Language : "+this.language);
       if (this.language === this.allLanguage[0].title) this.language = this.allLanguage[1].title
       else this.language = this.allLanguage[0].title
+    },
+    showLoginErrorModal() {
+      this.$refs['login-error-modal'].show()
+    },
+    hideLoginErrorModal() {
+      this.$refs['login-error-modal'].hide()
     }
   },
   async created() {
@@ -133,6 +250,7 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
+    await this.getUserInfos();
   }
 }
 </script>

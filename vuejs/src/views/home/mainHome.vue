@@ -1,11 +1,7 @@
 <template>
-  <div :style="layoutHeight">
+  <div :style="$store.state.layoutHeight">
     <app-home-slide-main :slide="images" />
     <b-container fluid>
-      <b-alert v-model="alert" variant="danger" dismissible>
-        Alert!
-      </b-alert>
-
       <section class="ScrollBar">
         <b-row align-h="center" style="background-color: #495388; width: auto">
           <b-col class="m-4" cols="auto">
@@ -116,7 +112,6 @@ import appHomeSlideMain from "@/views/home/homeSlideMain/homeSlideMain.vue";
 import appHomeSlideSponsor from "@/views/home/homeSlideSponsor/homeSlideSponsor.vue";
 import appHomeCompteRebour from "@/views/home/homeCompteRebour/homeCompteRebour.vue";
 import appHomeCagnotte from "@/views/home/homeCagnotte/homeCagnotte.vue";
-import {mapState} from "vuex";
 export default {
   name: "mainHome",
   components: {
@@ -126,7 +121,6 @@ export default {
     'app-home-cagnotte':appHomeCagnotte,
   },
   data: () => ({
-    layoutHeight: "margin-top : "+51+"px",
     slideSponsor: [
       {"titre": "Decathlon", "src": "https://www.decathlon.fr", "photo": "https://pbs.twimg.com/profile_images/1096041902351224833/KQKNxhzS_400x400.png"},
       {"titre": "InterSport", "src": "https://www.intersport.fr", "photo": "https://pbs.twimg.com/profile_images/1037247605724598274/Dt7llTkQ_400x400.jpg"},
