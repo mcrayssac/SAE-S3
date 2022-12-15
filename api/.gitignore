@@ -7,6 +7,7 @@ node_modules/
 # dotenv environment variables file
 .idea/*
 *.iml
+package-lock.json
 
 # Database connection
 ./database/database.js
