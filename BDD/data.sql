@@ -19,7 +19,7 @@ select * from LANGUES;
 COPY TAILLE (libelle_taille) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/TAILLE.csv' DELIMITER AS ',';
 select * from TAILLE;
 
-COPY STAND (id_taille) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/STAND.csv' DELIMITER AS ',';
+COPY STAND (id_stand, coordonne_x, coordonne_y, rotation, id_taille) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/STAND.csv' DELIMITER AS ',';
 select * from STAND;
 
 COPY PUBLIC (prenom_public, nom_public, email_public, passwd_public, id_langue, id_age, id_sexe, id_pays) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAUV_SAE-S3/PUBLIC.csv' DELIMITER AS ',';
