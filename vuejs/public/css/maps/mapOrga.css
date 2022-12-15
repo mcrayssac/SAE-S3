@@ -1,0 +1,18 @@
+#stands {
+    fill:#808080;
+}
+
+/******************************************************/
+/* Interactivity */
+
+.map_image .is-unavailable{
+    filter: invert(16%) sepia(87%) saturate(8000%) hue-rotate(335deg) brightness(90%) contrast(100%);
+}
+
+.map_image .is-active rect, .foret .is-active, .lac .is-active{
+    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+}
+
+.map_list a.is-active{
+    font-weight:bold;
+}

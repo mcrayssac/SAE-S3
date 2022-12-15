@@ -35,6 +35,16 @@ const routes = [
     name: 'prestataires/nomPrestataire',
     component: () => import('../views/prestataire/prestataires/prestataire.vue')
   },
+  {
+    path: '/map',
+    name:'map',
+    component: () => import('../views/maps/mapPublicPresta.vue')
+  },
+  {
+    path: '/map-orga',
+    name: 'map-orga',
+    component: () => import('../views/maps/mapOrga.vue')
+  },
     // At the end
   {
     path: '*',
