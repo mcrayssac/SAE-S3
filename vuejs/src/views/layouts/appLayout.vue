@@ -35,8 +35,6 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <b-nav-item :href="null" ><span class="text-light">{{$store.state.userInfos.admin}}</span></b-nav-item>
-
             <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
@@ -63,6 +61,70 @@
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
               <template #button-content><span style="color: #fffb00"><b-icon-person-fill></b-icon-person-fill>Organisateur</span></template>
+              <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item @click="changeLanguage()" v-if="language !== item.title" right>
+              <img :src="item.flag" width="20px" height="15px">
+            </b-nav-item></div>
+
+            <b-nav-item class="removePadding"><b-link href="/association" target="_blank">
+              <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
+            </b-link></b-nav-item>
+
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+
+      <b-navbar v-else-if="$store.state.userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+        <b-navbar-brand href="http://localhost:8080/" class="ms-3">
+          <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
+               alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
+        </b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+
+          <b-navbar-nav>
+            <b-nav-item href="/map" ><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
+
+            <b-nav-item href="#" ><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
+
+            <b-nav-item href="#" ><span class="text-light"><b-icon-list-ul></b-icon-list-ul> Initiations</span></b-nav-item>
+
+            <b-nav-item href="#" ><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Réservations</span></b-nav-item>
+
+            <b-nav-item href="#" ><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
+          </b-navbar-nav>
+
+          <b-navbar-nav class="ms-auto me-3">
+            <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
+              <b-dropdown-form>
+                <b-form-group class="ConnectLabel" label="Email">
+                  <b-form-input placeholder="email@example.com" v-model="Email"></b-form-input>
+                </b-form-group>
+                <b-form-group class="ConnectLabel mt-2" label="Password">
+                  <b-form-input type="password" placeholder="Password" v-model="Password"></b-form-input>
+                </b-form-group>
+                <b-row align-h="center">
+                  <b-col class="mt-2" cols="auto">
+                    <b-button class="button" @click="login()">
+                      <span v-if="status === 'loading'">
+                        <b-icon icon="arrow-repeat" animation="spin"></b-icon> En cours
+                      </span>
+                      <span v-else>Se connecter</span>
+                    </b-button>
+                  </b-col>
+                </b-row>
+              </b-dropdown-form>
+
+              <b-dropdown-item href="/signup">Créer un compte ici</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> {{$store.state.userInfos.name}}</template>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -115,8 +177,6 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <b-nav-item :href="null" ><span class="text-light">{{$store.state.userInfos.admin}}</span></b-nav-item>
-
             <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
