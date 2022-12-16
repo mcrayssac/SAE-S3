@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container fluid :style="$store.state.layoutHeight">
     <div class="map" id="map">
       <div class="map_image" id="map_image">
 
@@ -96,6 +96,43 @@
           </g>
           <!-- =============================================================STAND============================================================= -->
           <g id="stands" ref="stands">
+            <a xlink:title="Association" id="asso" data-toggle="modal" data-target="#modalPopUp">
+              <rect
+                  style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient3975);stroke-width:1.29576;stroke-linejoin:bevel;stroke-dasharray:none;"
+                  width="14.066713"
+                  height="4.7733784"
+                  x="125.09771"
+                  y="80"
+                  ry="0.53774071"
+                  transform="translate(34.869889,46.014811)" />
+              <image
+                  width="9.6899996"
+                  height="15.042416"
+                  preserveAspectRatio="none"
+                  xlink:href="https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496"
+                  id="image6922"
+                  x="162.23665"
+                  y="114"
+                  style="display:inline" />
+            </a>
+
+            <a xlink:title="Premiers secours" id="secours" data-toggle="modal" data-target="#modalPopUp">
+              <g
+                  id="standSecour"
+                  transform=" matrix(0.73897544,0,0,1.0174021,71.646031,44.299198)">
+                <rect
+                    style="display:inline;opacity:1;fill-opacity:1;stroke:#df1b3f;stroke-width:0.3;stroke-linejoin:bevel;stroke-dasharray:none; fill:#ffffff;"
+                    width="8.8329029"
+                    height="5.0165253"
+                    x="136.47505"
+                    y="96.078079"
+                    ry="0.53774071" />
+                <path
+                    id="croixSecour"
+                    style="display:inline;opacity:1;fill:#df1b3f;fill-opacity:1;stroke:#df1b3f;stroke-width:0.899999;stroke-dasharray:none;stroke-dashoffset:0;paint-order:markers stroke fill"
+                    d="m 139.14573,98.637622 3.56414,-0.0623 m -1.81575,-1.59522 0.0581,3.247388" />
+              </g>
+            </a>
 
           </g>
 
@@ -107,9 +144,9 @@
                   width="24.164036"
                   height="14.654137"
                   preserveAspectRatio="none"
-                  xlink:href="scene.svg"
+                  xlink:href="https://cdn.discordapp.com/attachments/1030117715534434334/1047856764437147658/scene.png"
                   x="154.85576"
-                  y="95.91536"/>
+                  y="97"/>
             </a>
           </g>
 
@@ -260,42 +297,51 @@ export default {
     console.log(this.$route.params)
 
     // console.log(this.data)
-    this.data.data.forEach(stand =>{
+    this.data.data.forEach(stand => {
 
       //pour les a
-      let a= document.createElementNS(svgNS,'a');
-      a.setAttribute('xlink:title','test'); // à modifier en fonction bdd
+      let a = document.createElementNS(svgNS, 'a');
+      a.setAttribute('xlink:title', 'test'); // à modifier en fonction bdd
       a.setAttribute('id', 'test'); // à modifier en fonction bdd
       a.setAttribute('class', 'clubs'); // à modifier en fonction bdd
-      a.setAttribute('data-toggle','modal')
-      a.setAttribute('data-target','#modalPopUp')
+      a.setAttribute('data-toggle', 'modal')
+      a.setAttribute('data-target', '#modalPopUp')
 
       //Pour les stands
-      let rect = document.createElementNS(svgNS,'rect');
-      // console.log(stand.coordonne_x + " "  + stand.coordonne_y)
-      rect.setAttribute('x',stand.coordonne_x);
-      rect.setAttribute('y',stand.coordonne_y);
-      rect.setAttribute('width',6);
-      rect.setAttribute('height',5);
-      rect.setAttribute('fill','#95B3D7'); // couleur à modifier
-      // console.log(stand)
-      // if(stand.hasOwnProperty('r')){
-      if(stand.rotation != null){
-        rect.setAttribute('transform','rotate('+stand.rotation+','+stand.coordonne_x+', '+stand.coordonne_y + ')');
+      let rect = document.createElementNS(svgNS, 'rect');
+      rect.setAttribute('x', stand.coordonne_x);
+      rect.setAttribute('y', stand.coordonne_y);
+      rect.setAttribute('width', 6);
+      rect.setAttribute('height', 5);
+      rect.setAttribute('fill', '#95B3D7'); // couleur à modifier
+      if (stand.rotation != null) {
+        rect.setAttribute('transform', 'rotate(' + stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y + ')');
       }
       a.appendChild(rect);
 
-      // console.log(document.getElementsByTagName("svg"))
 
       //pour les balises
-      //rajouter un if pour choisir la bonne image en fonction resto/club...
-      let balise = document.createElementNS(svgNS,'image');
-      balise.setAttribute('width','9.7')
-      balise.setAttribute('height','15')
-      balise.setAttribute('preserveAspectRatio','none')
-      balise.setAttribute('href','https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496') // a modifier selon type de prestataire
-      balise.setAttribute('id','dfghj') //à modifier en fonction bdd
-      // if(stand.hasOwnProperty('r')){
+      let balise = document.createElementNS(svgNS, 'image');
+      balise.setAttribute('width', '9.7')
+      balise.setAttribute('height', '15')
+      balise.setAttribute('preserveAspectRatio', 'none')
+      switch (stand.id_type){
+        case 1:
+          balise.setAttribute('href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883334505730049/rest_logo.png');
+          break;
+        case 2:
+          balise.setAttribute('href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883721564495972/shop.png');
+          break;
+        case 3:
+          balise.setAttribute('href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883572855439431/logo_sport.png');
+          break;
+        default:
+          break
+      }
+      //image asso
+      // balise.setAttribute('href', 'https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496');
+      balise.setAttribute('id',stand.id_prestataire)
+      console.log(balise.getAttribute('id'))
       if(stand.rotation != null){
         balise.setAttribute('x',3*Math.cos(this.deg_to_rad(stand.rotation)) - 2.5*Math.sin(this.deg_to_rad(stand.rotation)) +parseFloat(stand.coordonne_x-9.7/2))
         balise.setAttribute('y',3*Math.sin(this.deg_to_rad(stand.rotation)) + 2.5*Math.cos(this.deg_to_rad(stand.rotation)) +parseFloat(stand.coordonne_y-14))
@@ -304,7 +350,6 @@ export default {
         balise.setAttribute('x',stand.coordonne_x+(6/2)-(9.7/2))
         balise.setAttribute('y',stand.coordonne_y+5/2-14)
       }
-      let po = 3*Math.sin(this.deg_to_rad(stand.rotation)) + 2.5*Math.cos(this.deg_to_rad(stand.rotation)) +stand.coordonne_y-14
       a.appendChild(balise);
       svgT.appendChild(a);
 
