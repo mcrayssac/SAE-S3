@@ -33,6 +33,7 @@ exports.authenticateToken = async function (req, res, next){
 
 exports.login = async (req, res) => {
     console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} Login user request received.`));
+    console.log(req.body.email, req.body.password);
     await services.getUser(req.body.email, req.body.password, async (error, results) => {
         if(error){
             console.log(chalk.red.inverse(`${chalkController} ERROR : No user found`));

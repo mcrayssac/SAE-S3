@@ -12,11 +12,11 @@ const getUser = async (email, pwd, callback) => {
                 console.log("error");
                 return callback(error);
             } else if (results.rowCount === 0){
-                /*await pool.query(queries.getPrestataire, [email, pwd], async (error, results) => {
+                await pool.query(queries.getPrestataire, [email, pwd], async (error, results) => {
                     if (error) {
                         console.log("error");
                         return callback(error);
-                    } else if (results.rowCount === 0){*/
+                    } else if (results.rowCount === 0){
                         await pool.query(queries.getOrganisateur, [email, pwd], async (error, results) => {
                             if (error) {
                                 console.log("error");
@@ -30,12 +30,14 @@ const getUser = async (email, pwd, callback) => {
                                 console.log(results.rows[0]);
                                 return callback(null, results.rows[0]);
                             }
-                        });/*
+                        });
                     } else {
                         console.log('success');
+                        results.rows[0].admin = 'prestataire';
+                        console.log(results.rows[0]);
                         return callback(null, results.rows[0]);
                     }
-                });*/
+                });
             } else {
                 console.log('success');
                 results.rows[0].admin = null;

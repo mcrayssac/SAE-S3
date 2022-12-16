@@ -62,7 +62,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill style="color: #fffb00"></b-icon-person-fill>Bonjour</template>
+              <template #button-content><span style="color: #fffb00"><b-icon-person-fill></b-icon-person-fill>Organisateur</span></template>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
             </b-nav-item-dropdown>
 
