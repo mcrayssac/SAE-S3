@@ -257,6 +257,7 @@ export default {
     let svgT = this.$refs.stands;
     console.log(svgT);
     let svgNS = svgT.namespaceURI;
+    console.log(this.$route.params)
 
     // console.log(this.data)
     this.data.data.forEach(stand =>{
@@ -304,9 +305,6 @@ export default {
         balise.setAttribute('y',stand.coordonne_y+5/2-14)
       }
       let po = 3*Math.sin(this.deg_to_rad(stand.rotation)) + 2.5*Math.cos(this.deg_to_rad(stand.rotation)) +stand.coordonne_y-14
-      console.log("x = " + balise.getAttribute('x'))
-      console.log("y = " + balise.getAttribute('y'))
-      // console.log(2.5*Math.cos(this.deg_to_rad(stand.rotation)) + stand.coordonne_y)
       a.appendChild(balise);
       svgT.appendChild(a);
 
