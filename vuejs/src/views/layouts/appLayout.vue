@@ -213,9 +213,9 @@
               <img :src="item.flag" width="20px" height="15px">
             </b-nav-item></div>
 
-            <b-nav-item class="removePadding"><b-link href="/association" target="_blank">
+            <b-nav-item href="/association" class="removePadding">
               <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
-            </b-link></b-nav-item>
+            </b-nav-item>
 
           </b-navbar-nav>
         </b-collapse>

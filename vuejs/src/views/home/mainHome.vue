@@ -71,24 +71,6 @@
         <app-home-cagnotte/>
       </section>
 
-      <section class="Carte">
-        <b-row class="m-5 ligne"></b-row>
-        <b-row align-h="center">
-          <b-col data-aos="fade-down"
-                 data-aos-anchor-placement="bottom-bottom"
-                 data-aos-duration="1000"
-                 cols="auto" class="m-5"><h1>Notre Carte</h1></b-col>
-        </b-row>
-        <b-row align-h="center">
-          <b-col data-aos="fade-left"
-                 data-aos-anchor-placement="center-bottom"
-                 data-aos-duration="500"
-                 cols="auto" class="mb-5">
-            <img src="https://media.discordapp.net/attachments/1030117715534434334/1047946254191165490/image.png?width=771&height=468">
-          </b-col>
-        </b-row>
-      </section>
-
       <section class="Sponsor">
         <b-row class="mt-5 mb-5 ligne"></b-row>
         <b-row align-h="center">
