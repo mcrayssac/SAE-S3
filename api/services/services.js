@@ -288,6 +288,4 @@ module.exports = {
     getPrestataire: getPrestataire,
     getCategories: getCategories,
     getStands: getStands,
-    getResto,
-    getFiltreResto
 }
