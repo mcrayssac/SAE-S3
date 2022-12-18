@@ -1,5 +1,5 @@
 <template>
-  <main id="app">
+  <main id="app" :style="$store.state.layoutHeight">
     <b-row align-h="center">
       <b-col cols="auto"><h3>Palettes de couleurs</h3></b-col>
     </b-row>
@@ -30,52 +30,77 @@
     </div>
     <br><br>
     <br><br>
-    <b-modal body-text-variant="danger" ref="login-error-modal" title="Lakeside Sports Festival">
-      <b-col class="my-3">
-        <b-row class="my-1" align-h="center">
-          <b-col cols="auto">
-            <span style="font-size: x-large; font-family: 'Montserrat', sans-serif;">Email ou mot de passe erroné !</span>
-          </b-col>
-        </b-row>
-        <b-row class="my-1" align-h="center">
-          <b-col cols="auto">
-            <span style="font-size: large; font-family: 'Montserrat', sans-serif;">Veuillez réessayer</span>
-          </b-col>
-        </b-row>
+
+    <b-row align-h="center" align-v="center">
+      <b-col cols="auto">
+        <b-form inline>
+          <b-form-input placeholder="Rechercher" v-model="filrs[filrs.length - 1]"></b-form-input>
+        </b-form>
       </b-col>
-      <template #modal-footer >
-        <b-row class="mx-auto" align-h="center">
-          <b-col cols="auto">
-            <b-button @click="hideLoginErrorModal">Close</b-button>
-          </b-col>
-        </b-row>
-      </template>
-    </b-modal>
-    <button @click="showLoginErrorModal">show</button>
+      <b-col cols="auto" v-for="(items, index) in data.getFiltres" :key="index">
+        <b-form-select v-model="filrs[index]" size="lg">
+          <template #first>
+            <b-form-select-option :value="''" disabled>{{items[0]}}</b-form-select-option>
+          </template>
+          <b-form-select-option :value="''">Tous[{{items[1].length}}]</b-form-select-option>
+          <b-form-select-option v-for="(item, jndex) in items[1]" :key="jndex" :value="item">{{item}}</b-form-select-option>
+        </b-form-select>
+      </b-col>
+    </b-row>
+
+    <ul><li v-for="(list, index) in filterCards" :key="index">{{list.title}}</li></ul>
+
+    {{filrs}}
   </main>
 </template>
 
 
 <script>
-
+import _ from 'lodash';
+import axios from "axios";
 export default {
   name: "test",
-  data: () => ({
-    modalShow: false
-  }),
-  methods:{
-    showLoginErrorModal() {
-      this.$refs['login-error-modal'].show()
-    },
-    hideLoginErrorModal() {
-      this.$refs['login-error-modal'].hide()
+  data(){
+    return{
+      data: null,
+      filrs: null,
     }
   },
-  created() {
+  computed:{
+    filterCards() {
+      let vm = this, lists = vm.data.getCards
+      return _.filter(lists, function (query) {
+        let temp;
+        let res = true;
+        if (vm.filrs[vm.filrs.length - 1] == ""){
+          for (let i = 0; i < vm.filrs.length; i++) {
+            temp = vm.filrs[i] ? (query.filtres.body[i] == vm.filrs[i]) : true;
+            res = res && temp;
+          }
+        } else res = vm.filrs[vm.filrs.length - 1] ? (query.title.toLowerCase().match(vm.filrs[vm.filrs.length - 1].toLowerCase())) : true;
+        return res;
+      })
+    }
+  },
+  mounted(){
 
   },
-  mounted() {
+  methods:{
 
+  },
+  async created() {
+    await axios.get(`http://localhost:3000/categories/restaurants/test`)
+        .then(result => {
+          this.data = result.data
+          this.filrs = []
+          for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
+            this.filrs.push("");
+          }
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
   },
   destroyed() {
 
@@ -83,101 +108,6 @@ export default {
 }
 </script>
 
-<style>
-*{
-  margin:0;
-  padding:0;
-}
-.intro{
-  display:flex;
-  background: #fff3e2;
-  justify-content: space-evenly;
-  padding-top:80px;
-  height: 500px;
-}
-.introDescription {
-  font-size:30px;
-  color:#632b2b;
-  padding-top:120px;
-}
-.introDescription p{
-  font-size:60px;
-  color:#632b2b;
-  font-weight: 900;
-}
-.guide1{
-  display:flex;
-  background: #ffd4a9;
-  justify-content: space-evenly;
-  padding-top:80px;
-  height: 500px;
-  overflow:hidden;
-}
-.guide1Description h1{
-  font-size:48px;
-  color:#632b2b;
-  padding: 120px 0px 20px 0px;
-}
-.guide1Description div{
-  background:#fff3e2 ;
-  color:#632b2b;
-  font-size:20px;
-  padding:10px;
-  border-radius:10px;
-}
-.guide2{
-  display:flex;
-  background: #fff3e2;
-  justify-content: space-evenly;
-  padding-top:80px;
-  height: 500px;
-  overflow:hidden;
-}
-.guide2Description h1{
-  font-size:48px;
-  color:#632b2b;
-  padding: 120px 0px 20px 0px;
-}
-.guide2Description div{
-  background:#ffd4a9 ;
-  color:#632b2b;
-  font-size:20px;
-  padding:10px;
-  border-radius:10px;
-}
-footer{
-  background: #ffd4a9;
-  color:#632b2b;
-  padding:10px;
-  text-align: right;
-  font-weight: 900;
-}
-/* responsiveness */
-@media screen and (max-width: 500px){
-  .intro{
-    display:block;
-    padding-top:10px;
-    height:auto;
-  }
-  .introImage{
-    width:100%;
-  }
-  .introDescription {
-    padding: 30px 0px 0px 20px;
-  }
-  .guide1{
-    display:block;
-    padding-top:10px;
-    height:auto;
-  }
-  .guide1Image{
-    width:100%;
-  }
-  .guide1Description {
-    padding: 20px;
-  }
-  .guide1Description h1{
-    padding:30px 0px;
-  }
-}
+<style scoped>
+
 </style>
