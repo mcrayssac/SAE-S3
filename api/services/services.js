@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt")
 const {callback} = require("pg/lib/native/query");
 const pool = require("../database/db");
 const mapQueries = require("../queries/maps_queries");
+const queries = require("../queries/authentification_queries");
+const signupQueries = require("../queries/signup_queries");
 
 const getCagnotte = (callback) => {
     let cagnotte = 2435984;
@@ -277,6 +279,63 @@ const loadUsers = () => {
     }
 }
 
+const getInscriptionChoix = async (callback) => {
+    let res = {};
+    await pool.query(signupQueries.getLangues, async (error, results) => {
+        if (error) {
+            console.log("error");
+            return callback(error);
+        } else if (results.rowCount === 0){
+            console.log("No languages found");
+            return callback("No languages found");
+        } else {
+            console.log('success');
+            res.langues = results.rows;
+            console.log(res);
+            await pool.query(signupQueries.getAge, async (error, results) => {
+                if (error) {
+                    console.log("error");
+                    return callback(error);
+                } else if (results.rowCount === 0){
+                    console.log("No years found");
+                    return callback("No years found");
+                } else {
+                    console.log('success');
+                    res.years = results.rows;
+                    console.log(res);
+                    await pool.query(signupQueries.getSexe, async (error, results) => {
+                        if (error) {
+                            console.log("error");
+                            return callback(error);
+                        } else if (results.rowCount === 0){
+                            console.log("No gender found");
+                            return callback("No gender found");
+                        } else {
+                            console.log('success');
+                            res.gender = results.rows;
+                            console.log(res);
+                            await pool.query(signupQueries.getPays, async (error, results) => {
+                                if (error) {
+                                    console.log("error");
+                                    return callback(error);
+                                } else if (results.rowCount === 0){
+                                    console.log("No country found");
+                                    return callback("No country found");
+                                } else {
+                                    console.log('success');
+                                    res.countries = results.rows;
+                                    console.log(res);
+                                    return callback(null, res);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
     getSexe : getSexe,
@@ -288,4 +347,5 @@ module.exports = {
     getPrestataire: getPrestataire,
     getCategories: getCategories,
     getStands: getStands,
+    getInscriptionChoix
 }

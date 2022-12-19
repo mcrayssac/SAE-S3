@@ -1,5 +1,6 @@
 const services = require("../services/services");
 const chalk = require("chalk");
+const chalkController = chalk.inverse.blue.bold.bgWhite("[Controllers]");
 
 exports.getCategorie = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
@@ -60,6 +61,19 @@ exports.getStands = async (req, res) =>{
         return res.status(200).send({success:1, data: results})
     })
 
+}
+
+exports.getInscriptionChoix = async (req, res) => {
+    console.log(chalk.green.inverse("requete pour les choix d'insciption"));
+    await services.getInscriptionChoix( async (error, results) => {
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERROR : No chooses found`));
+            return res.status(401).send({success:0, data: `ERROR : No chooses found`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Request to inscription chooses`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
 }
 
 

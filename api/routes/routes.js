@@ -18,6 +18,8 @@ router.get("/prestataires/:nomPrestataire", controller.getPrestataire);
 
 router.get("/cagnotte", controller.getCagnotte);
 
+router.get("/inscription/choix", controller.getInscriptionChoix);
+
 
 // --------- PRESTATAIRE
 // --------- MAP

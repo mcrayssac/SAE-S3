@@ -46,6 +46,11 @@ const routes = [
     component: () => import('../views/prestataire/prestataires/prestataire.vue')
   },
   {
+    path: '/signup',
+    name:'signup',
+    component: () => import('../views/signup/signup.vue')
+  },
+  {
     path: '/map',
     name:'map',
     component: () => import('../views/maps/mapPublicPresta.vue')
