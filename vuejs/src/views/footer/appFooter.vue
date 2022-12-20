@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-5 footer-basic">
+    <div class="footer-basic">
       <b-row align-h="center" style="margin-bottom: 8px;">
         <b-col cols="auto">
           <a href="https://github.com/mcrayssac/SAE-S3" target="_blank" style="font-size: x-large;">

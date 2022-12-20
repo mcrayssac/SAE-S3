@@ -31,26 +31,7 @@
     <br><br>
     <br><br>
 
-    <b-row align-h="center" align-v="center">
-      <b-col cols="auto">
-        <b-form inline>
-          <b-form-input placeholder="Rechercher" v-model="filrs[filrs.length - 1]"></b-form-input>
-        </b-form>
-      </b-col>
-      <b-col cols="auto" v-for="(items, index) in data.getFiltres" :key="index">
-        <b-form-select v-model="filrs[index]" size="lg">
-          <template #first>
-            <b-form-select-option :value="''" disabled>{{items[0]}}</b-form-select-option>
-          </template>
-          <b-form-select-option :value="''">Tous[{{items[1].length}}]</b-form-select-option>
-          <b-form-select-option v-for="(item, jndex) in items[1]" :key="jndex" :value="item">{{item}}</b-form-select-option>
-        </b-form-select>
-      </b-col>
-    </b-row>
 
-    <ul><li v-for="(list, index) in filterCards" :key="index">{{list.title}}</li></ul>
-
-    {{filrs}}
   </main>
 </template>
 

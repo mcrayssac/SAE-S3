@@ -1,0 +1,75 @@
+.label{
+    font-family: 'Montserrat', sans-serif !important;
+    letter-spacing:1px !important;
+    color: #495388 !important;
+}
+
+.button-submit{
+    font-family: 'Work Sans', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    border-radius: 5px !important;
+    border: solid 2px #6ec8cb !important;
+    background-color: #6ec8cb !important;
+}
+
+.button-submit:hover{
+    background-color: white !important;
+    border: solid 2px #6ec8cb !important;
+    color: #6ec8cb !important;
+}
+
+.button-reset{
+    font-family: 'Work Sans', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    border-radius: 5px !important;
+    border: solid 2px #d9231a !important;
+    background-color: #d9231a !important;
+}
+
+.button-reset:hover{
+    background-color: white !important;
+    border: solid 2px #d9231a !important;
+    color: #d9231a !important;
+}
+
+.description{
+    font-size: xx-small;
+    color: grey;
+}
+
+@media (min-width: 1000px) {
+    .background {
+        animation: wheelHueColor 20s infinite;
+        background-color: currentColor;
+    }
+
+    @supports (background-blend-mode: overlay) {
+        .background {
+            background-image: linear-gradient(45deg, white 10%, black 90%);
+            background-blend-mode: overlay;
+        }
+    }
+
+    @keyframes wheelHueColor {
+        from, to      { color: white }
+        17%      { color: #6ec8cb }
+        33%      { color: #495388 }
+        50%      { color: #021331 }
+        66%      { color: #495388 }
+        83%      { color: #6ec8cb }
+        100%      { color: white }
+    }
+
+    .Form{
+        border-radius: 20px;
+        margin-right: 200px;
+        margin-left: 200px;
+        background-color: white;
+    }
+
+    .footer-basic{
+        margin-top: 0 !important;
+    }
+}
