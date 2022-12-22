@@ -92,24 +92,23 @@ ul {
 /******************************************************/
 /* Modal */
 
-.modal.right .modal-dialog {
-    position: fixed;
-    margin: auto;
-    width: 320px;
-    height: 100%;
-    right: 0px;
-}
+/*#modal-presta {*/
+/*    width: 320px;*/
+/*    height: 100%;*/
+/*    left: 1500px;*/
+/*    top: 30px;*/
+/*}*/
 
-.modal.right .modal-content {
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
+/*b-modal {*/
+/*    height: 100%;*/
+/*    overflow-x: hidden;*/
+/*    overflow-y: auto;*/
+/*}*/
 
-.open .modal-backdrop {
-    background-color:red;
-}
+/*b-modal{*/
+/*    background-color:red;*/
+/*}*/
 
-.modal.right .modal-body {
-    padding: 15px 15px 80px;
-}
+/*.modal.right .modal-body {*/
+/*    padding: 15px 15px 80px;*/
+/*}*/
