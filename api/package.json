@@ -23,7 +23,9 @@
     "jsonwebtoken": "^8.5.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "swagger-jsdoc": "^6.2.7",
+    "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

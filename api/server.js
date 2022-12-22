@@ -16,6 +16,28 @@ const chalk = require("chalk");
 const chalkServer = chalk.inverse.blue.bold.bgWhite("[Server]");
 
 /**
+ * Import and define swagger doc
+ */
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express")
+
+/** Swagger Initialization - START */
+const swaggerOption = {
+    swaggerDefinition: (swaggerJsdoc.Options = {
+        info: {
+            title: "REST API SAE-S3",
+            description: "API documentation",
+            servers: ["http://localhost:3000/"],
+        },
+    }),
+    apis: ["server.js", "./routes/*.js"],
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOption);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+
+/**
  * Import and define Node.js body parsing middleware
  */
 const bodyParser = require("body-parser");
