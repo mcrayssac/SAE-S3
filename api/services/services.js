@@ -332,6 +332,20 @@ const getInscriptionChoix = async (callback) => {
     });
 }
 
+const getContraintes = async callback => {
+    await pool.query(mapQueries.getContraintes, (err, results) => {
+        if(err) return callback(err)
+        return callback(null, results.rows)
+    })
+}
+
+const getContraintesByStand = async callback => {
+    await pool.query(mapQueries.getContraintesByStand, (err, results) => {
+        if(err) return callback(err)
+        return callback(null, results.rows)
+    })
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
     getSexe : getSexe,
@@ -343,5 +357,7 @@ module.exports = {
     getPrestataire: getPrestataire,
     getCategories: getCategories,
     getStands: getStands,
-    getInscriptionChoix
+    getInscriptionChoix,
+    getContraintes: getContraintes,
+    getContraintesByStand: getContraintesByStand
 }

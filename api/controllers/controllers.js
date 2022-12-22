@@ -77,9 +77,26 @@ exports.getInscriptionChoix = async (req, res) => {
 }
 
 
+exports.getContraintes = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour les contraintes'));
+    await services.getContraintes( (error, results) => {
+        if(error){
+            return res.status(400).send({success:0, data:error})
+        }
+        return res.status(200).send({success:1, data:results})
+    })
+}
 
 
-
+exports.getContraintesByStand = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour les contraintes des stands'));
+    await services.getContraintesByStand( (error, results) => {
+        if(error){
+            return res.status(400).send({success:0, data:error})
+        }
+        return res.status(200).send({success:1, data:results})
+    })
+}
 
 
 /*exports.signup = (req, res) => {

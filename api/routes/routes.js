@@ -56,4 +56,8 @@ router.get("/inscription/choix", controller.getInscriptionChoix);
 // --------- MAP
 router.get("/map/stands", controller.getStands);
 
+router.get("/map/contraintes", controller.getContraintes)
+
+router.get("/map/stands/contraintes", controller.getContraintesByStand)
+
 module.exports = router;
