@@ -4,33 +4,56 @@
     <section v-if="show" class="Form my-5">
       <b-row align-h="center">
         <b-col cols="auto" class="mx-5 my-5"
-               data-aos="fade-left"
-               data-aos-offset="400"
-               data-aos-duration="8000"><h1>S'inscrire</h1></b-col>
+               data-aos="zoom-out-left"
+               data-aos-anchor-placement="top-bottom"
+               data-aos-duration="800"><h1>S'inscrire</h1></b-col>
       </b-row>
       <b-form class="mx-5" @submit="onSubmit" @reset="onReset">
 
-        <b-form-group class="mx-5 my-3" label="Prénom* :" label-class="label">
+        <b-form-group class="mx-5 my-3" label="Prénom* :" label-class="label"
+                      data-aos="fade-left"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-duration="800">
           <b-form-input v-model="form.firstname" type="text" placeholder="Entrer votre prénom" required></b-form-input>
         </b-form-group>
 
-        <b-form-group class="mx-5 my-3" label="Nom* :" label-class="label">
+        <b-form-group class="mx-5 my-3" label="Nom* :" label-class="label"
+                      data-aos="fade-right"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-delay="300"
+                      data-aos-duration="800">
           <b-form-input v-model="form.name" type="text" placeholder="Entrer votre nom" required></b-form-input>
         </b-form-group>
 
-        <b-form-group class="mx-5 my-3" label="Email* :" label-class="label">
+        <b-form-group class="mx-5 my-3" label="Email* :" label-class="label"
+                      data-aos="fade-left"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-delay="600"
+                      data-aos-duration="800">
           <b-form-input v-model="form.email" type="email" placeholder="Entrer votre email" required></b-form-input>
         </b-form-group>
 
-        <b-form-group class="mx-5 my-3" label="Mot de passe* :" label-class="label">
+        <b-form-group class="mx-5 my-3" label="Mot de passe* :" label-class="label"
+                      data-aos="fade-right"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-delay="900"
+                      data-aos-duration="800">
           <b-form-input v-model="form.password" type="password" placeholder="Entrer votre mot de passe" required></b-form-input>
         </b-form-group>
 
-        <b-form-group class="mx-5 my-3" label="Entrez à nouveau votre mot de passe* :" label-class="label">
+        <b-form-group class="mx-5 my-3" label="Entrez à nouveau votre mot de passe* :" label-class="label"
+                      data-aos="fade-left"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-delay="1200"
+                      data-aos-duration="800">
           <b-form-input v-model="form.password2" type="password" placeholder="Entrer votre mot de passe" required></b-form-input>
         </b-form-group>
 
-        <b-form-group class="mx-5 my-3" label="Choisir une langue, un age, un sexe et un pays* :" label-class="label">
+        <b-form-group class="mx-5 my-3" label="Choisir une langue, un age, un sexe et un pays* :" label-class="label"
+                      data-aos="fade-right"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-delay="1500"
+                      data-aos-duration="800">
           <b-row align-h="center" align-v="center">
             <b-col cols="auto">
               <b-form-select
@@ -79,8 +102,15 @@
 
         <b-row class="m-5" align-h="center" align-v="center">
           <b-col cols="auto">
-            <b-button class="mx-2 button-submit" type="submit">Envoyer</b-button>
-            <b-button class="mx-2 button-reset" type="reset">Réinitialiser</b-button>
+            <b-button class="mx-2 button-submit" type="submit"
+                      data-aos="flip-left"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-duration="400">Envoyer</b-button>
+            <b-button class="mx-2 button-reset" type="reset"
+                      data-aos="flip-right"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-delay="400"
+                      data-aos-duration="400">Réinitialiser</b-button>
           </b-col>
         </b-row>
 
