@@ -98,8 +98,22 @@ export default new Vuex.Store({
             commit('logout')
             console.log("Token error : ",error)
       });
+    },
+    createAccount: ({commit}, userInfos) => {
+      commit('setStatus', 'loading');
+      return new Promise((resolve, reject) => {
+        commit;
+        instanceAuth.post('/user/create', userInfos)
+            .then(function (response){
+              commit('setStatus', 'created');
+              resolve(response);
+            })
+            .catch(function (error){
+              commit('setStatus', 'error_created');
+              reject(error);
+            })
+      })
     }
-    //createAccount
   },
   modules: {
   }

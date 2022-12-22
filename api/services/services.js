@@ -139,7 +139,7 @@ const getPrestataire = (type, callback) => {
             },
             {
                 "title": "FFTA Fédération Française Tir à l'Arc",
-                "filtres": {"title" : ["Sport", "Date création", "Localisation","Niveau"], "body" : ["Tir à l'arc", "1928", "Noisy-le-Grand(93160)", "National/Compétition"]},
+                "filtres": {"title" : ["Sport", "Date création", "Localisation","Niveau"], "body" : ["Tir à l'arc", "1928", "Noisy-le-Grand (93160)", "National/Compétition"]},
                 "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Logo_FFTA_Quadri.png/800px-Logo_FFTA_Quadri.png",
             },
             {
@@ -291,7 +291,6 @@ const getInscriptionChoix = async (callback) => {
         } else {
             console.log('success');
             res.langues = results.rows;
-            console.log(res);
             await pool.query(signupQueries.getAge, async (error, results) => {
                 if (error) {
                     console.log("error");
@@ -302,7 +301,6 @@ const getInscriptionChoix = async (callback) => {
                 } else {
                     console.log('success');
                     res.years = results.rows;
-                    console.log(res);
                     await pool.query(signupQueries.getSexe, async (error, results) => {
                         if (error) {
                             console.log("error");
@@ -313,7 +311,6 @@ const getInscriptionChoix = async (callback) => {
                         } else {
                             console.log('success');
                             res.gender = results.rows;
-                            console.log(res);
                             await pool.query(signupQueries.getPays, async (error, results) => {
                                 if (error) {
                                     console.log("error");
@@ -324,7 +321,6 @@ const getInscriptionChoix = async (callback) => {
                                 } else {
                                     console.log('success');
                                     res.countries = results.rows;
-                                    console.log(res);
                                     return callback(null, res);
                                 }
                             });

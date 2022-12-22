@@ -100,12 +100,12 @@
         <b-col class="my-3">
           <b-row class="my-1" align-h="center">
             <b-col cols="auto">
-              <span style="font-size: x-large; font-family: 'Montserrat', sans-serif;">Email ou mot de passe erroné !</span>
+              <span style="font-size: large; font-family: 'Montserrat', sans-serif;">Erreur lors de la création de compte !</span>
             </b-col>
           </b-row>
           <b-row class="my-1" align-h="center">
             <b-col cols="auto">
-              <span style="font-size: large; font-family: 'Montserrat', sans-serif;">Veuillez réessayer</span>
+              <span style="font-size: medium; font-family: 'Montserrat', sans-serif;">{{modalMessage}}</span>
             </b-col>
           </b-row>
         </b-col>
@@ -134,6 +134,8 @@ export default {
       data: null,
       show: false,
       modalShow: false,
+      modalMessage: null,
+      emailExisting: null,
       form: {
         firstname: null,
         name: null,
@@ -148,13 +150,20 @@ export default {
     }
   },
   methods: {
-    onSubmit(event) {
+    async onSubmit(event) {
       if (this.form.password === this.form.password2){
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
+        await this.checkEmail();
+        if (!this.emailExisting){
+          this.modalMessage = "L'email est déjà relié à un compte !";
+          await this.showLoginErrorModal();
+        } else {
+          await event.preventDefault()
+          await this.createAccount();
+        }
       } else {
-        //Todo: else alert(password != password2)
-        this.showLoginErrorModal();
+        await event.preventDefault()
+        this.modalMessage = "Les mots de passe ne sont pas égaux !";
+        await this.showLoginErrorModal();
       }
     },
     onReset(event) {
@@ -169,14 +178,62 @@ export default {
       this.form.gender = null;
       this.form.country = null;
     },
+    async checkEmail(){
+      const self = this;
+      await axios.post(`http://localhost:3000/api/check/email`, {email: this.form.email})
+          .then((result) => {
+            self.emailExisting = true;
+          })
+          .catch((error) => {
+            self.emailExisting = false;
+          });
+    },
+    getUserInfos: async function (){
+      await this.$store.dispatch('getUserInfos')
+          .then(function (response){
+            /* Token valide
+            console.log("Token valide : ",response);*/
+          }, function (error){
+            /* Token invalide
+            console.log("Token invalide : ",error);*/
+          });
+    },
+    login: async function (){
+      const self = this;
+      await this.$store.dispatch('login', {
+        email: this.form.email,
+        password: this.form.password
+      }).then(function (response){
+        self.getUserInfos();
+        console.log("Login valide : ",response);
+        window.location.href = "http://localhost:8080/";
+      }, function (error){
+        self.modalMessage = "Erreur ";
+        self.showLoginErrorModal();
+        console.log("Login invalide : ",error);
+      })
+    },
+    createAccount: async function () {
+      const self = this;
+      await this.$store.dispatch('createAccount', {form: this.form})
+          .then(function (response) {
+            console.log(response);
+            self.login();
+          }, function (error) {
+            console.log(error);
+          })
+    },
     showLoginErrorModal() {
-      this.$refs['login-error-modal'].show()
+      this.$refs['login-error-modal'].show();
     },
     hideLoginErrorModal() {
-      this.$refs['login-error-modal'].hide()
+      this.$refs['login-error-modal'].hide();
     }
   },
   async created() {
+    if (this.$store.state.user.id !== -1){
+      window.location.href = "http://localhost:8080/";
+    }
     await axios.get(`http://localhost:3000/inscription/choix`)
         .then(result => {
           this.data = result.data;

@@ -10,8 +10,10 @@ const getOrganisateur = "select o.id_organisateur as id, o.nom_organisateur as n
     "       o.telephone_organisateur as telephone, o.passwd_organisateur as password\n" +
     "from organisateur as o where o.email_organisateur like $1 and o.passwd_organisateur like $2;";
 
+const getEmail = "select * from PUBLIC where email_public like $1;";
+
+const createUser = "insert into PUBLIC values (default, $1, $2, $3, $4, $5, $6, $7, $8);";
+
 module.exports = {
-    getPublic,
-    getPrestataire,
-    getOrganisateur
+    getPublic, getPrestataire, getOrganisateur, getEmail, createUser
 }
