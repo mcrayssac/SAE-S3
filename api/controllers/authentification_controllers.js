@@ -56,11 +56,30 @@ exports.user = async (req, res) => {
     await res.send(req.user);
 }
 
+exports.checkEmail = async (req, res) => {
+    console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} Email check request received.`));
+    console.log(req.body.email);
+    await services.checkEmail(req.body.email, async (error, results) => {
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERROR : Email existing`));
+            return res.status(401).send({success:0, data: `ERROR : Email existing`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Request to login`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
+}
+
 exports.create = async (req, res) => {
     console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} Create user request received.`));
-    if (req.body.email && req.body.password) {
-        await res.send(user);
-        return;
-    }
-    await res.status(401).send('invalid credentials');
+    console.log(req.body.form);
+    await services.create(req.body.form, async (error, results) => {
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERROR : Create user error`));
+            return res.status(401).send({success:0, data: `ERROR : Create user error`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Request to create user`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
 }
