@@ -235,8 +235,8 @@
 
             <br>
             <span style="margin-top: 10px" v-for="(contrainte, index) in tabContraintes" :key="index">
-              <label :for="contrainte.libelle_contrainte">
-                <input type="checkbox" :id="contrainte.libelle_contrainte" :name="contrainte.libelle_contrainte" @change="filtreStands(index)"> {{contrainte.libelle_contrainte}} </label> <br>
+              <label :for="contrainte">
+                <input type="checkbox" :id="contrainte" :name="contrainte" @change="filtreStands(index)"> {{contrainte}} </label> <br>
             </span>
 
             <!------------------------------------------------------------ Modal liste de prestataires ------------------------------------------------------------------>
@@ -384,29 +384,36 @@ export default {
       }
     },
     filtreStands(id){
+      this.interactivityReset();
       this.filterChecked[id] = !this.filterChecked[id]
       // Récupère toutes les balises rect
       let stands = Array.from(this.$refs.stands.getElementsByTagName('rect'))
-      let filtered = stands.filter(stand => {
-        let temp;
-        let res = true;
-        for(let i = 0; i < this.filterChecked.length; i++){
+      let checkedContraintes = []
+      for(let i = 0; i < this.filterChecked.length; i++){
+        if (this.filterChecked[i])
+          checkedContraintes.push(this.tabContraintes[i])
+      }
+      if(checkedContraintes.length != 0){
+        let filtered = stands.filter(stand => {
+          let temp;
+          let res = true;
           // Concatène les classes d'un stand
           let classes = Object.values(stand.classList).join(' ')
-          // Si une contrainte est sélectionnée, regarde si le stand possède cette contrainte dans ses classes
-          temp = this.filterChecked[i] ? (classes.toLowerCase().match(this.tabContraintes[i].libelle_contrainte.toLowerCase())) : false;
-          res = res && temp
-        }
-        return res;
-      })
-      console.log(filtered)
-      this.interactivityReset();
-      filtered.forEach(stand => stand.classList.add('is-active'))
+          for(let i = 0; i < checkedContraintes.length; i++){
+            // Si le stand possède la contrainte dans ses classes et que la contrainte est sélectionnée, return true sinon false
+            temp = (classes.toLowerCase().match(checkedContraintes[i].toLowerCase())) && this.filterChecked[this.tabContraintes.indexOf(checkedContraintes[i])] ? true : false;
+            res = res && temp
+          }
+          return res;
+        })
+        console.log(filtered)
+        filtered.forEach(stand => stand.classList.add('is-active'))
+      }
     },
     getClasses(id){
       let classes = ""
       let filtered = this.tabContraintesClasses.filter(contrainte => contrainte.id_stand === id+1)
-      filtered.forEach(filter => classes+= filter.libelle_contrainte+ " ")
+      filtered.forEach(filter => classes += filter.libelle_contrainte + " ")
       return classes
     },
     placePrestataire(){
@@ -431,6 +438,8 @@ export default {
     await axios.get(`http://localhost:3000/map/contraintes`)
         .then(result => {
           this.tabContraintes = result.data.data
+          this.tabContraintes = this.tabContraintes.map(c => c.libelle_contrainte);
+          console.log(this.tabContraintes)
           for(let i = 0; i < this.tabContraintes.length; i++){
             this.filterChecked.push(false)
           }
