@@ -1,8 +1,9 @@
+SET CLIENT_ENCODING TO 'UTF8';
 \COPY AGE (libelle_age) FROM 'C:\Users\mlcra\SAE-S3\BDD\AGE.csv' DELIMITER AS ',';
 select * from AGE;
 
 \COPY CONTRAINTE (libelle_contrainte) FROM 'C:\Users\mlcra\SAE-S3\BDD\CONTRAINTE.csv' DELIMITER AS ',';
-select * from CONTRAINTE;
+select * from CONTRAINTE;   
 
 \COPY PAYS (libelle_pays) FROM 'C:\Users\mlcra\SAE-S3\BDD\PAYS.csv' DELIMITER AS ',';
 select * from PAYS;

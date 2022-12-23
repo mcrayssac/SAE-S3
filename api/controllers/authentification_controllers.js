@@ -78,7 +78,21 @@ exports.create = async (req, res) => {
             console.log(chalk.red.inverse(`${chalkController} ERROR : Create user error`));
             return res.status(401).send({success:0, data: `ERROR : Create user error`});
         } else {
-            console.log(chalk.green.inverse(`${chalkController} Request to create user`));
+            console.log(chalk.green.inverse(`${chalkController} Request to create user successful`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
+}
+
+exports.userDelete = async (req, res) => {
+    console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} Delete user request received.`));
+    console.log(req.params.id);
+    await services.userDelete(req.params.id, async (error, results) => {
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERROR : Delete user error`));
+            return res.status(401).send({success:0, data: `ERROR : Delete user error`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Request to delete user successful`));
             return res.status(200).send({success:1, data: results});
         }
     });

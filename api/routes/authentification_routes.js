@@ -13,4 +13,6 @@ router.post('/check/email', controller.checkEmail);
 
 router.post('/user/create', controller.create);
 
+router.delete('/user/delete/:id', controller.userDelete);
+
 module.exports = router;

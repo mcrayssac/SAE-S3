@@ -206,7 +206,7 @@
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
-              <b-dropdown-item href="#">Supprimer le compte</b-dropdown-item>
+              <b-dropdown-item @click="showLoginErrorModal('login-after-error-modal')">Supprimer le compte</b-dropdown-item>
             </b-nav-item-dropdown>
 
             <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item @click="changeLanguage()" v-if="language !== item.title" right>
@@ -237,7 +237,30 @@
         <template #modal-footer >
           <b-row class="mx-auto" align-h="center">
             <b-col cols="auto">
-              <b-button class="button" @click="hideLoginErrorModal">Close</b-button>
+              <b-button class="button" @click="hideLoginErrorModal('login-error-modal')">Close</b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-modal>
+
+      <b-modal body-text-variant="danger" ref="login-after-error-modal" title="Lakeside Sports Festival" hide-header-close>
+        <b-col class="my-3">
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: large; font-family: 'Montserrat', sans-serif;">Vous aller supprimer votre compte</span>
+            </b-col>
+          </b-row>
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: small; font-family: 'Montserrat', sans-serif;">Voulez-vous supprimer définitivement votre compte ?</span>
+            </b-col>
+          </b-row>
+        </b-col>
+        <template #modal-footer >
+          <b-row class="mx-auto" align-h="center">
+            <b-col cols="auto">
+              <b-button class="button" @click="deleteAccount()">Oui</b-button>
+              <b-button class="button" @click="hideLoginErrorModal('login-after-error-modal')">Non</b-button>
             </b-col>
           </b-row>
         </template>
@@ -256,8 +279,7 @@ export default {
     backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'},
     data: null,
     Email: null,
-    Password: null,
-    modalShow: false
+    Password: null
   }),
   computed: {
     ...mapState(['status', "user"]),
@@ -271,8 +293,9 @@ export default {
       }).then(function (response){
         self.getUserInfos();
         console.log("Login valide : ",response);
+        window.location.href = "http://localhost:8080/";
       }, function (error){
-        self.showLoginErrorModal();
+        self.showLoginErrorModal('login-error-modal');
         console.log("Login invalide : ",error);
       })
     },
@@ -294,11 +317,25 @@ export default {
       if (this.language === this.allLanguage[0].title) this.language = this.allLanguage[1].title
       else this.language = this.allLanguage[0].title
     },
-    showLoginErrorModal() {
-      this.$refs['login-error-modal'].show()
+    showLoginErrorModal(modal) {
+      this.$refs[modal].show()
     },
-    hideLoginErrorModal() {
-      this.$refs['login-error-modal'].hide()
+    hideLoginErrorModal(modal) {
+      this.$refs[modal].hide()
+    },
+    async deleteAccount() {
+      let id = this.$store.state.user.id;
+      const self = this;
+      await axios.delete(`http://localhost:3000/api/user/delete/${id}`)
+          .then(result => {
+            self.logout();
+            window.location.href = "http://localhost:8080/";
+            console.log('Result deleteAccount', result)
+          })
+          .catch((err) => {
+            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+            console.warn("error", message);
+          });
     }
   },
   async created() {

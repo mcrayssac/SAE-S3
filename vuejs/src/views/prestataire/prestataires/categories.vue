@@ -112,6 +112,7 @@ export default {
         if (vm.filrs[vm.filrs.length - 1] == ""){
           for (let i = 0; i < vm.filrs.length; i++) {
             temp = vm.filrs[i] ? (query.filtres.body[i] == vm.filrs[i]) : true;
+            console.log(temp);
             res = res && temp;
           }
         } else res = vm.filrs[vm.filrs.length - 1] ? (query.title.toLowerCase().match(vm.filrs[vm.filrs.length - 1].toLowerCase())) : true;
