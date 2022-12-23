@@ -5,8 +5,8 @@
 /******************************************************/
 /* Interactivity */
 
-.map_image .is-unavailable{
-    filter: invert(16%) sepia(87%) saturate(8000%) hue-rotate(335deg) brightness(90%) contrast(100%);
+.map_image .is-available{
+    filter: invert(33%) sepia(100%) saturate(1056%) hue-rotate(89deg) brightness(84%) contrast(94%);
 }
 
 .map_image .is-active, .foret .is-active, .lac .is-active{

@@ -99,14 +99,14 @@
               <!-- =============================================================STAND============================================================= -->
               <g id="stands" ref="stands">
                 <a v-for="(stand, index) in tabStands" :key="index"
-                   :xlink:title="stand.id_prestataire" :ref="stand.id_prestataire"
+                   :xlink:title="stand.nom_prestataire" :ref="stand.id_prestataire"
                    v-b-modal.modal-stand-dispo
                    @mouseover="interactivityHover(stand.id_prestataire)"
                    @mouseleave="interactivityLeave(stand.id_prestataire)">
+<!--                  :ref="stand.id_prestataire === undefined ? stand.id_stand : stand.id_prestataire"-->
                   <rect :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
                       :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)">
                   </rect>
-<!--                  <img :href="functionI(stand)[0]" :x="functionI(stand)[1]">-->
                 </a>
               </g>
 
@@ -248,7 +248,7 @@
                   @mouseenter="interactivityHover(presta.id_prestataire)"
                   @mouseleave="interactivityLeave(presta.id_prestataire)">
                   <a data-toggle="modal" v-b-modal.modal-stand-dispo>
-                    {{presta.id_prestataire}} </a>
+                    {{presta.nom_prestataire}} </a>
                 </li>
                 <br>
                 <li> <a id="list-scene" v-b-modal.modal-scene
@@ -357,6 +357,7 @@ export default {
       this.$refs['modal-scene'].hide()
     },
     interactivityHover(id){
+      this.interactivityReset()
       if(id=== 'scene'){
         this.$refs[id].classList.add('is-active')
       }
@@ -374,6 +375,14 @@ export default {
         this.$refs[id][1].classList.remove('is-active')
       }
     },
+    interactivityReset(){
+      for(let i = 1; i < this.tabStands.length+1; i++){
+        // console.log(this.tabStands[i-1].id_prestataire)
+        // console.log(this.tabStands[i-1].nom_prestataire)
+        this.$refs[i][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+        this.$refs[i][1].classList.remove('is-active')
+      }
+    },
     filtreStands(id){
       this.filterChecked[id] = !this.filterChecked[id]
       // Récupère toutes les balises rect
@@ -385,12 +394,13 @@ export default {
           // Concatène les classes d'un stand
           let classes = Object.values(stand.classList).join(' ')
           // Si une contrainte est sélectionnée, regarde si le stand possède cette contrainte dans ses classes
-          temp = this.filterChecked[i] ? (classes.toLowerCase().match(this.tabContraintes[i].libelle_contrainte.toLowerCase())) : true;
+          temp = this.filterChecked[i] ? (classes.toLowerCase().match(this.tabContraintes[i].libelle_contrainte.toLowerCase())) : false;
           res = res && temp
         }
         return res;
       })
       console.log(filtered)
+      this.interactivityReset();
       filtered.forEach(stand => stand.classList.add('is-active'))
     },
     getClasses(id){
