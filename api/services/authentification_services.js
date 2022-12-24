@@ -51,10 +51,10 @@ const getUser = async (email, pwd, callback) => {
     }
 }
 
-const checkEmail = async (email, callback) => {
+const checkEmailPublic = async (email, callback) => {
     if (email){
         email = '%'+email
-        await pool.query(queries.getEmail, [email], async (error, results) => {
+        await pool.query(queries.getEmailPublic, [email], async (error, results) => {
             if (error) {
                 console.log("error");
                 return callback(error);
@@ -69,17 +69,47 @@ const checkEmail = async (email, callback) => {
     }
 }
 
-const create = async (form, callback) => {
-    if (form){
-        await pool.query(queries.createUser, [form.firstname, form.name, form.email, form.password, form.language, form.year, form.gender, form.country], async (error, results) => {
+const checkEmailPrestataire = async (email, callback) => {
+    if (email){
+        email = '%'+email
+        await pool.query(queries.getEmailPrestataire, [email], async (error, results) => {
             if (error) {
                 console.log("error");
                 return callback(error);
+            } else if (results.rowCount === 0){
+                console.log("success");
+                return callback(null, true);
             } else {
-                console.log('success');
-                return callback(null, results);
+                console.log('Email existing');
+                return callback('Email existing');
             }
         });
+    }
+}
+
+const create = async (form, admin, callback) => {
+    if (form){
+        if (admin === "prestataire"){
+            await pool.query(queries.createPrestataire, [form.name, form.email, form.number, form.site, form.password, form.type], async (error, results) => {
+                if (error) {
+                    console.log("error");
+                    return callback(error);
+                } else {
+                    console.log('success');
+                    return callback(null, results);
+                }
+            });
+        } else {
+            await pool.query(queries.createPublic, [form.firstname, form.name, form.email, form.password, form.language, form.year, form.gender, form.country], async (error, results) => {
+                if (error) {
+                    console.log("error");
+                    return callback(error);
+                } else {
+                    console.log('success');
+                    return callback(null, results);
+                }
+            });
+        }
     }
 }
 
@@ -116,23 +146,21 @@ const userDelete = async (id, callback) => {
                 });
 
                 /* Commentaires */
-                await pool.query(queries.selectCommentaire, [id], async (error, results) => {
-                    if (error) {
-                        console.log("error selectCommentaire");
-                        return callback(error);
-                    } else if (results.rowCount === 0){
+                await pool.query(queries.selectCommentaire, [id]).then(function (results) {
+                    if (results.rowCount === 0){
                         console.log("No commentaires");
                     } else {
                         console.log('success selectCommentaire');
-                        await pool.query(queries.deleteCommentaire, [id], async (error, results) => {
-                            if (error) {
-                                console.log("error deleteCommentaire");
-                                return callback(error);
-                            } else {
-                                console.log('success deleteCommentaire');
-                            }
+                        pool.query(queries.deleteCommentaire, [id]).then(function () {
+                            console.log('success deleteCommentaire');
+                        }, function (error) {
+                            console.log("error deleteCommentaire");
+                            return callback(error);
                         });
                     }
+                }, function (error) {
+                    console.log("error selectCommentaire");
+                    return callback(error);
                 });
 
                 /* Participe */
@@ -231,5 +259,5 @@ const userDelete = async (id, callback) => {
 }
 
 module.exports = {
-    getUser, checkEmail, create, userDelete
+    getUser, checkEmailPublic, checkEmailPrestataire, create, userDelete
 }

@@ -147,7 +147,7 @@ CREATE TABLE PRESTATAIRE (
    telephone_prestataire VARCHAR(20),
    site_web_prestataire VARCHAR(100),
    passwd_prestataire VARCHAR(100),
-   etat_inscription INT,
+   etat_inscription BOOLEAN,
    id_stand INT,
    id_type INT NOT NULL,
    CONSTRAINT pk_prestataire PRIMARY KEY (id_prestataire),

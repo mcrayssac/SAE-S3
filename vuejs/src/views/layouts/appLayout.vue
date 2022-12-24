@@ -293,7 +293,12 @@ export default {
       }).then(function (response){
         self.getUserInfos();
         console.log("Login valide : ",response);
-        window.location.href = "http://localhost:8080/";
+        if (!self.$store.state.userInfos.admin || self.$store.state.userInfos.admin === "organisateur"){
+          window.location.href = "http://localhost:8080/";
+        } else if (self.$store.state.userInfos.admin === "prestataire"){
+          // Redirection page presta
+          window.location.href = "http://localhost:8080/";
+        }
       }, function (error){
         self.showLoginErrorModal('login-error-modal');
         console.log("Login invalide : ",error);
@@ -301,11 +306,12 @@ export default {
     },
     logout: function (){
       this.$store.commit('logout');
+      window.location.href = "http://localhost:8080/";
     },
     getUserInfos: async function (){
       await this.$store.dispatch('getUserInfos')
           .then(function (response){
-            /* Token valide
+            /*Token valide
             console.log("Token valide : ",response);*/
           }, function (error){
             /* Token invalide

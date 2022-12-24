@@ -332,6 +332,21 @@ const getInscriptionChoix = async (callback) => {
     });
 }
 
+const getInscriptionChoixPrestataire = async (callback) => {
+    await pool.query(signupQueries.getTypes, async (error, results) => {
+        if (error) {
+            console.log("error");
+            return callback(error);
+        } else if (results.rowCount === 0){
+            console.log("No types found");
+            return callback("No types found");
+        } else {
+            console.log('success');
+            return callback(null, {type: results.rows})
+        }
+    });
+}
+
 const getContraintes = async callback => {
     await pool.query(mapQueries.getContraintes, (err, results) => {
         if(err) return callback(err)
@@ -359,5 +374,6 @@ module.exports = {
     getStands: getStands,
     getInscriptionChoix,
     getContraintes: getContraintes,
-    getContraintesByStand: getContraintesByStand
+    getContraintesByStand: getContraintesByStand,
+    getInscriptionChoixPrestataire
 }

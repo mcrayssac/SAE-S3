@@ -10,9 +10,11 @@ const getOrganisateur = "select o.id_organisateur as id, o.nom_organisateur as n
     "       o.telephone_organisateur as telephone, o.passwd_organisateur as password\n" +
     "from organisateur as o where o.email_organisateur like $1 and o.passwd_organisateur like $2;";
 
-const getEmail = "select * from PUBLIC where email_public like $1;";
+const getEmailPublic = "select * from PUBLIC where email_public like $1;";
+const getEmailPrestataire = "select * from prestataire where prestataire.email_prestataire like $1;";
 
-const createUser = "insert into PUBLIC values (default, $1, $2, $3, $4, $5, $6, $7, $8);";
+const createPublic = "insert into PUBLIC values (default, $1, $2, $3, $4, $5, $6, $7, $8);";
+const createPrestataire = "insert into prestataire values (default, $1, $2, $3, $4, $5, false, null, $6);";
 
 /* Select User */
 const selectUser = "select * from PUBLIC where id_public = $1;";
@@ -41,7 +43,7 @@ const deleteReservation = "delete from RESERVATION where id_public = $1;";
 const deleteUser = "delete from public where id_public = $1;";
 
 module.exports = {
-    getPublic, getPrestataire, getOrganisateur, getEmail, createUser, selectUser, selectNote, deleteNote,
-    selectCommentaire, deleteCommentaire, selectParticipe, deleteParticipe, selectReservation, selectPour, deletePour,
-    selectA_propos, deleteA_propos, deleteReservation, deleteUser
+    getPublic, getPrestataire, getOrganisateur, getEmailPublic, getEmailPrestataire, createPublic, createPrestataire,
+    selectUser, selectNote, deleteNote, selectCommentaire, deleteCommentaire, selectParticipe, deleteParticipe,
+    selectReservation, selectPour, deletePour, selectA_propos, deleteA_propos, deleteReservation, deleteUser
 }

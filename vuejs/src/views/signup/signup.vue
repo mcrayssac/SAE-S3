@@ -182,12 +182,12 @@ export default {
   methods: {
     async onSubmit(event) {
       if (this.form.password === this.form.password2){
+        await event.preventDefault()
         await this.checkEmail();
         if (!this.emailExisting){
           this.modalMessage = "L'email est déjà relié à un compte !";
           await this.showLoginErrorModal();
         } else {
-          await event.preventDefault()
           await this.createAccount();
         }
       } else {
@@ -210,7 +210,7 @@ export default {
     },
     async checkEmail(){
       const self = this;
-      await axios.post(`http://localhost:3000/api/check/email`, {email: this.form.email})
+      await axios.post(`http://localhost:3000/api/check/email/public`, {email: this.form.email})
           .then((result) => {
             self.emailExisting = true;
           })
@@ -264,7 +264,7 @@ export default {
     if (this.$store.state.user.id !== -1){
       window.location.href = "http://localhost:8080/";
     }
-    await axios.get(`http://localhost:3000/inscription/choix`)
+    await axios.get(`http://localhost:3000/inscription/choix/public`)
         .then(result => {
           this.data = result.data;
           this.show = true;
