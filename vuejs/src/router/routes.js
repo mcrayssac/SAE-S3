@@ -65,6 +65,11 @@ const routes = [
     name: 'map/orga',
     component: () => import('../views/maps/mapOrga.vue')
   },
+  {
+    path: '/scene',
+    name: 'scene',
+    component: () => import('../components/Planning.vue')
+  },
     // At the end
   {
     path: '*',

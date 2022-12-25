@@ -1,5 +1,5 @@
 <template>
-{{this.$store.state.userInfos}}
+<div> Hello </div>
 </template>
 
 <script>

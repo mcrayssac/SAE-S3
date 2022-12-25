@@ -163,7 +163,7 @@
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-list-check></b-icon-list-check> Activités</template>
-              <b-dropdown-item href="#"> Initiation/Scène</b-dropdown-item>
+              <b-dropdown-item href="/scene"> Initiation/Scène</b-dropdown-item>
               <b-dropdown-item href="/courses">Compétitions</b-dropdown-item>
             </b-nav-item-dropdown>
 

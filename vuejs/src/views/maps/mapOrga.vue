@@ -98,6 +98,7 @@
               </g>
               <!-- =============================================================STAND============================================================= -->
               <g id="stands" ref="stands">
+
                 <a v-for="(stand, index) in tabStands" :key="index"
                    :xlink:title="stand.nom_prestataire" :ref="stand.id_prestataire"
                    v-b-modal.modal-stand-dispo
@@ -243,7 +244,7 @@
             <b-sidebar ref="sidebar-presta" right shadow :style="$store.state.layoutHeight"
                        id="sidebar-presta" title="Liste des prestataires">
               <ul>
-                <li> <a v-b-modal.modal-stand-occupe id="list-stand1"> Premiers secours</a></li>
+                <li> <a v-b-modal.modal-stand-occupe id="list-stand1"> Association </a></li>
                 <li v-for="(presta, index) in tabStands" :key="index" :ref="presta.id_prestataire"
                   @mouseenter="interactivityHover(presta.id_prestataire)"
                   @mouseleave="interactivityLeave(presta.id_prestataire)">
@@ -282,7 +283,12 @@
 
             <!------------------------------------------------------------ Modal scène ------------------------------------------------------------------>
             <b-modal ref="modal-scene" hide-backdrop no-fade no-stacking centered id="modal-scene" title="Scene">
-              ...
+              <div
+                  class="ma-4"
+                  style="height: 100%"
+              >
+                <v-calendar></v-calendar>
+              </div>
               <template #modal-footer >
                 <b-row class="mx-auto" align-h="center">
                   <b-col cols="auto">
@@ -302,7 +308,7 @@
               <template #modal-footer >
                 <b-row class="mx-auto" align-h="center">
                   <b-col cols="auto">
-                    <b-button variant="danger" @click="hideStandDispoModal">Fermer</b-button>
+                    <b-button variant="danger" @click="hideStandOccupeModal">Fermer</b-button>
                     <b-button variant="success" @click="redirectionPresta">Voir la page du prestataire</b-button>
                   </b-col>
                 </b-row>
@@ -341,7 +347,8 @@ export default {
     tabStands: [],
     tabContraintes: [],
     filterChecked: [],
-    tabContraintesClasses: []
+    tabContraintesClasses: [],
+    currentStands: null
   }),
   methods:{
     deg_to_rad(degree){
@@ -355,6 +362,9 @@ export default {
     },
     hideSceneModal() {
       this.$refs['modal-scene'].hide()
+    },
+    hideStandOccupeModal() {
+      this.$refs['modal-stand-occupe'].hide()
     },
     interactivityHover(id){
       this.interactivityReset()
@@ -439,7 +449,6 @@ export default {
         .then(result => {
           this.tabContraintes = result.data.data
           this.tabContraintes = this.tabContraintes.map(c => c.libelle_contrainte);
-          console.log(this.tabContraintes)
           for(let i = 0; i < this.tabContraintes.length; i++){
             this.filterChecked.push(false)
           }
