@@ -62,4 +62,8 @@ router.get("/map/contraintes", controller.getContraintes)
 
 router.get("/map/stands/contraintes", controller.getContraintesByStand)
 
+router.get("/map/stands/all", controller.getAllStands);
+
+router.get("/prestataires", controller.getAllPrestataires);
+
 module.exports = router;

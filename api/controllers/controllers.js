@@ -111,6 +111,26 @@ exports.getContraintesByStand = async (req, res) => {
     })
 }
 
+exports.getAllStands = async (req, res) =>{
+    console.log(chalk.green.inverse('requete de tous les stands'));
+    await services.getAllStands( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.getAllPrestataires = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour tous les prestataires'));
+    await services.getAllPrestataires( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
 
 /*exports.signup = (req, res) => {
     console.log(chalk.green.inverse('Requete pour signup reçue.'));

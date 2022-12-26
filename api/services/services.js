@@ -269,6 +269,16 @@ const getStands = async (callback) => {
     }))
 }
 
+const getAllStands = async (callback) => {
+    await pool.query(mapQueries.getAllStands, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 const loadUsers = () => {
     try {
         const dataBuffer = fs.readFileSync('users.json')
@@ -361,6 +371,16 @@ const getContraintesByStand = async callback => {
     })
 }
 
+const getAllPrestataires = async (callback) => {
+    await pool.query(mapQueries.getAllPrestataires, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
     getSexe : getSexe,
@@ -375,5 +395,7 @@ module.exports = {
     getInscriptionChoix,
     getContraintes: getContraintes,
     getContraintesByStand: getContraintesByStand,
-    getInscriptionChoixPrestataire
+    getInscriptionChoixPrestataire,
+    getAllStands,
+    getAllPrestataires
 }
