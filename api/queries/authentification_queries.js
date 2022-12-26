@@ -3,7 +3,8 @@ const getPublic = "select p.id_public as id, p.prenom_public as name, p.nom_publ
     "from public as p where p.email_public like $1 and p.passwd_public like $2;";
 
 const getPrestataire ="select p.id_prestataire as id, p.nom_prestataire as name, p.email_prestataire as email,\n" +
-    "       p.telephone_prestataire as telephone, p.site_web_prestataire as site, p.passwd_prestataire as password\n" +
+    "       p.telephone_prestataire as telephone, p.site_web_prestataire as site, p.passwd_prestataire as password," +
+    "       p.etat_inscription as etat\n" +
     "from prestataire as p where p.email_prestataire like $1 and p.passwd_prestataire like $2;";
 
 const getOrganisateur = "select o.id_organisateur as id, o.nom_organisateur as name, o.email_organisateur as email,\n" +

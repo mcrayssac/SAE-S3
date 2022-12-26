@@ -60,7 +60,7 @@ if (port === undefined || port === null){
 }
 const cors = require('cors');
 const corsOptions ={
-    origin:'http://localhost:8080',
+    origin:process.env.LOCALHOST_PORT,
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }

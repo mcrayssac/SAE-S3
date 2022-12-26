@@ -18,17 +18,17 @@
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Email* :" label-class="label"
-                      data-aos="fade-left"
+                      data-aos="fade-right"
                       data-aos-anchor-placement="top-bottom"
-                      data-aos-delay="600"
+                      data-aos-delay="300"
                       data-aos-duration="800">
           <b-form-input v-model="form.email" type="email" placeholder="Entrer votre email" required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Téléphone* :" label-class="label"
-                      data-aos="fade-right"
+                      data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
-                      data-aos-delay="300"
+                      data-aos-delay="600"
                       data-aos-duration="800">
           <b-form-input v-model="form.number" type="number" placeholder="Saisir votre numéro de téléphone" required></b-form-input>
         </b-form-group>
@@ -43,22 +43,23 @@
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Mot de passe* :" label-class="label"
-                      data-aos="fade-right"
+                      data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
-                      data-aos-delay="900"
+                      data-aos-delay="1200"
                       data-aos-duration="800">
           <b-form-input v-model="form.password" type="password" placeholder="Entrer votre mot de passe" required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Entrez à nouveau votre mot de passe* :" label-class="label"
-                      data-aos="fade-left"
+                      data-aos="fade-right"
                       data-aos-anchor-placement="top-bottom"
+                      data-aos-delay="1500"
                       data-aos-duration="800">
           <b-form-input v-model="form.password2" type="password" placeholder="Entrer votre mot de passe" required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Choisissez le type de votre établissement* :" label-class="label"
-                      data-aos="fade-right"
+                      data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
           <b-row align-h="center" align-v="center">

@@ -1,0 +1,49 @@
+.main-col{
+    background-color: #495388 !important;
+    color: white !important;
+    border-radius: 15px !important;
+}
+.etat-label{
+    font-family: 'Work Sans', sans-serif !important;
+    font-size: medium !important;
+}
+.etat-text{
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: small !important;
+}
+.etat-description{
+    color: grey !important;
+    font-size: xx-small !important;
+}
+.etat-title{
+    animation: titleWheelHueColor 20s infinite;
+}
+@keyframes titleWheelHueColor {
+    from, to      { color: #495388 }
+    50%      { color: white }
+    100%      { color: #495388 }
+}
+@media (min-width: 1000px) {
+    .background {
+        animation: wheelHueColor 20s infinite;
+        background-color: currentColor;
+    }
+    @supports (background-blend-mode: overlay) {
+        .background {
+            background-image: linear-gradient(45deg, white 10%, black 90%);
+            background-blend-mode: overlay;
+        }
+    }
+    @keyframes wheelHueColor {
+        from, to      { color: white }
+        17%      { color: #6ec8cb }
+        33%      { color: #495388 }
+        50%      { color: #021331 }
+        66%      { color: #495388 }
+        83%      { color: #6ec8cb }
+        100%      { color: white }
+    }
+    .footer-basic{
+        margin-top: 0 !important;
+    }
+}

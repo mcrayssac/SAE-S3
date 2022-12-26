@@ -77,7 +77,12 @@
       </b-navbar>
 
       <b-navbar v-else-if="$store.state.userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
-        <b-navbar-brand href="http://localhost:8080/" class="ms-3">
+        <b-navbar-brand v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false" href="http://localhost:8080/" class="ms-3" disabled>
+          <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
+               alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
+        </b-navbar-brand>
+
+        <b-navbar-brand v-else href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
         </b-navbar-brand>
@@ -86,7 +91,19 @@
 
         <b-collapse id="nav-collapse" is-nav>
 
-          <b-navbar-nav>
+          <b-navbar-nav v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false">
+            <b-nav-item href="/map" disabled><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-list-ul></b-icon-list-ul> Initiations</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Réservations</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
+          </b-navbar-nav>
+
+          <b-navbar-nav v-else>
             <b-nav-item href="/map" ><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
             <b-nav-item href="#" ><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
@@ -132,7 +149,11 @@
               <img :src="item.flag" width="20px" height="15px">
             </b-nav-item></div>
 
-            <b-nav-item class="removePadding"><b-link href="/association" target="_blank">
+            <b-nav-item v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false" disabled class="removePadding"><b-link href="/association" target="_blank">
+              <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
+            </b-link></b-nav-item>
+
+            <b-nav-item v-else class="removePadding"><b-link href="/association" target="_blank">
               <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
             </b-link></b-nav-item>
 
@@ -290,15 +311,18 @@ export default {
       this.$store.dispatch('login', {
         email: this.Email,
         password: this.Password
-      }).then(function (response){
-        self.getUserInfos();
+      }).then(async function (response){
+        await self.getUserInfos();
         console.log("Login valide : ",response);
-        if (!self.$store.state.userInfos.admin || self.$store.state.userInfos.admin === "organisateur"){
-          window.location.href = "http://localhost:8080/";
-        } else if (self.$store.state.userInfos.admin === "prestataire"){
-          // Redirection page presta
-          window.location.href = "http://localhost:8080/";
-        }
+        setTimeout(() => {
+          console.log("Window : ", self.$store.state.userInfos.admin);
+          if (!self.$store.state.userInfos.admin || self.$store.state.userInfos.admin === "organisateur"){
+            window.location.href = "http://localhost:8080/";
+          } else if (self.$store.state.userInfos.admin === "prestataire"){
+            // Redirection page presta
+            window.location.href = "http://localhost:8080/etatInscription";
+          }
+        }, "1000");
       }, function (error){
         self.showLoginErrorModal('login-error-modal');
         console.log("Login invalide : ",error);

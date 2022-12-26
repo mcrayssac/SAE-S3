@@ -40,6 +40,7 @@ exports.login = async (req, res) => {
             return res.status(401).send({success:0, data: `ERROR : No user found`});
         } else {
             console.log(chalk.green.inverse(`${chalkController} Request to login`));
+            console.log('getUser : ', results);
             const accessToken = await generateAccessToken(results);
             let data = {
                 id: results.id,
