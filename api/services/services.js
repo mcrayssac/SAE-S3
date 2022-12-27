@@ -238,27 +238,6 @@ const getCategories = (type, callback) => {
     }
 }
 
-const authenticate = (data,callback) => {
-    let users = loadUsers()
-    users = users.users;
-    const user = users.find((u) => u.username.toLowerCase() === data.email.toLowerCase())
-    if (user) {
-        //TODO COMPARE PASSWORDS
-        bcrypt.compare(data.password, user.password, (error, results) => {
-            if (results){
-                //Deux mots de passe sont pareils
-                console.log(chalk.inverse.green("Success !"));
-                return callback(null, user.email);
-            }
-            console.log("Votre mot de passe est incorrect !");
-            return callback("Votre mot de passe est incorrect !");
-        });
-    } else {
-        console.log('Utilisateur introuvable!')
-        return callback('Utilisateur introuvable!');
-    }
-}
-
 const getStands = async (callback) => {
     await pool.query(mapQueries.getStands, ((error, results)=>{
         if (error)
@@ -361,12 +340,55 @@ const getContraintesByStand = async callback => {
     })
 }
 
+const getDemandesPrestataires = async (callback) => {
+    await pool.query(signupQueries.getDemandesPrestataires, async (error, results) => {
+        if (error) {
+            console.log("error getDemandesPrestataires");
+            return callback(error);
+        } else if (results.rowCount === 0){
+            console.log('success getDemandesPrestataires');
+            return callback(null, 0);
+        } else {
+            console.log('success getDemandesPrestataires');
+            return callback(null, results.rows);
+        }
+    });
+}
+
+const postDemandesPrestataires = async (choice, id, callback) => {
+    console.log(choice, id);
+    if (choice === "accept" && id){
+        await pool.query(signupQueries.postDemandesPrestatairesTrue, [id], async (error, results) => {
+            if (error) {
+                console.log("error postDemandesPrestatairesTrue");
+                return callback(error);
+            } else {
+                console.log('success postDemandesPrestatairesTrue');
+                return callback(null, "success");
+            }
+        });
+    } else if (choice === "decline" && id){
+        await pool.query(signupQueries.postDemandesPrestatairesFalse, [id], async (error, results) => {
+            if (error) {
+                console.log("error postDemandesPrestatairesFalse");
+                return callback(error);
+            } else {
+                console.log('success postDemandesPrestatairesFalse');
+                return callback(null, "success");
+            }
+        });
+    } else {
+        console.log("error postDemandesPrestatairesTrue");
+        return callback("error postDemandesPrestatairesTrue");
+    }
+
+}
+
 module.exports = {
     getCagnotte : getCagnotte,
     getSexe : getSexe,
     getCourses: getCourses,
     getFiltresCourses: getFiltresCourses,
-    authenticate: authenticate,
     getClub: getClub,
     getFiltres: getFiltres,
     getPrestataire: getPrestataire,
@@ -375,5 +397,7 @@ module.exports = {
     getInscriptionChoix,
     getContraintes: getContraintes,
     getContraintesByStand: getContraintesByStand,
-    getInscriptionChoixPrestataire
+    getInscriptionChoixPrestataire,
+    getDemandesPrestataires,
+    postDemandesPrestataires
 }

@@ -36,9 +36,9 @@ const routes = [
     component: () => import('../views/prestataire/etatInscription.vue')
   },
   {
-    path: '/voir_demandes',
-    name: 'voir_demandes',
-    component: () => import('../views/organisateur/visualiser_toutes_demandes_devenir_prestataire.vue')
+    path: '/demandesPrestataires',
+    name: 'demandesPrestataires',
+    component: () => import('../views/organisateur/demandesPrestataires.vue')
   },
   {
     path: '/categories/:nomCategorie',

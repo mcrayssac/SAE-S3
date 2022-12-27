@@ -151,10 +151,10 @@ export default {
     ...mapState(['userInfos'])
   },
   async updated() {
-    if (this.$store.state.userInfos.etat === null || this.$store.state.userInfos.etat === undefined){
+    if (this.userInfos.etat === null || this.userInfos.etat === undefined){
       window.location.href = "http://localhost:8080/";
     } else {
-      if (this.$store.state.userInfos.etat) window.location.href = "http://localhost:8080/";
+      if (this.userInfos.etat) window.location.href = "http://localhost:8080/";
     }
   }
 }

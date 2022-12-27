@@ -99,7 +99,7 @@
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="400">Envoyer
             </b-button>
-            <b-button class="mx-2 button-reset" type="reset"
+            <b-button class="mx-2 button-decline" type="reset"
                       data-aos="flip-right"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-delay="400"

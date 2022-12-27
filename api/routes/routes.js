@@ -49,6 +49,10 @@ router.get("/cagnotte", controller.getCagnotte);
  *              description: Bad request
  */
 
+router.get('/demandes/prestataires', controller.getDemandesPrestataires);
+
+router.post('/demandes/prestataires/:choice', controller.postDemandesPrestataires)
+
 router.get("/inscription/choix/public", controller.getInscriptionChoix);
 
 router.get("/inscription/choix/prestataire", controller.getInscriptionChoixPrestataire);
