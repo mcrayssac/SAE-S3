@@ -6,7 +6,7 @@
         <b-progress :variant="alertVariant" :max="alertMax" :value="alertCountDown" height="4px"></b-progress>
       </b-alert>
     </section>
-    <section v-if="data" class="Body">
+    <section v-if="data !== null" class="Body">
       <section class="Title">
         <b-row align-h="center" align-v="center">
           <b-col cols="auto">
