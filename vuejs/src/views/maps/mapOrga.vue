@@ -98,15 +98,47 @@
               </g>
               <!-- =============================================================STAND============================================================= -->
               <g id="stands" ref="stands">
+                <a xlink:title="Premiers secours">
+                  <g
+                      id="standSecours"
+                      transform="translate(34.869889,46.014811)">
+                    <rect
+                        id="zoneStandSecours"
+                        width="8.8329029"
+                        height="5.0165253"
+                        x="136.47505"
+                        y="96.078079"/>
+                    <path
+                        id="croixSecours"
+                        d="m 139.14573,98.637622 3.56414,-0.0623 m -1.81575,-1.59522 0.0581,3.247388" />
+                  </g>
+                </a>
 
-                <a v-for="(stand, index) in tabStands" :key="index"
-                   :xlink:title="stand.nom_prestataire" :ref="stand.id_prestataire"
-                   v-b-modal.modal-stand-dispo
-                   @mouseover="interactivityHover(stand.id_prestataire)"
-                   @mouseleave="interactivityLeave(stand.id_prestataire)">
-<!--                  :ref="stand.id_prestataire === undefined ? stand.id_stand : stand.id_prestataire"-->
-                  <rect :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
-                      :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)">
+                <a xlink:title="Association" ref="asso" v-b-modal.modal-asso>
+                  <rect
+                      id="association"
+                      width="14.066713"
+                      height="4.7733784"
+                      x="125.09771"
+                      y="80.633087"
+                      transform="translate(34.869889,46.014811)" />
+                </a>
+
+                <a v-for="(stand, index) in tabStands" :key="index" :xlink:title="stand.id_prestataire == null ? stand.id_stand : stand.nom_prestataire"
+                   :ref="stand.id_prestataire == null ? stand.id_stand : stand.nom_prestataire">
+                  <rect v-if="stand.id_prestataire != null"
+                      :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
+                      :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
+                      v-b-modal.modal-stand-occupe
+                      @mouseover="interactivityHover(stand.nom_prestataire)"
+                      @mouseleave="interactivityLeave(stand.nom_prestataire)">
+                  </rect>
+                  <rect v-else
+                        :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
+                        :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
+                        v-b-modal.modal-stand-dispo
+                        @mouseover="interactivityHover(stand.id_stand)"
+                        @mouseleave="interactivityLeave(stand.id_stand)">
                   </rect>
                 </a>
               </g>
@@ -244,12 +276,17 @@
             <b-sidebar ref="sidebar-presta" right shadow :style="$store.state.layoutHeight"
                        id="sidebar-presta" title="Liste des prestataires">
               <ul>
-                <li> <a v-b-modal.modal-stand-occupe id="list-stand1"> Association </a></li>
-                <li v-for="(presta, index) in tabStands" :key="index" :ref="presta.id_prestataire"
-                  @mouseenter="interactivityHover(presta.id_prestataire)"
-                  @mouseleave="interactivityLeave(presta.id_prestataire)">
-                  <a data-toggle="modal" v-b-modal.modal-stand-dispo>
+                <h5> Prestataires placés </h5>
+                <li> <a v-b-modal.modal-asso ref="asso"> Association </a></li>
+                <li v-for="(presta, index) in tabStands" :key="index" :ref="presta.nom_prestataire"
+                  @mouseenter="interactivityHover(presta.nom_prestataire)"
+                  @mouseleave="interactivityLeave(presta.nom_prestataire)">
+                  <a v-if="presta.id_prestataire != null" data-toggle="modal" v-b-modal.modal-stand-occupe>
                     {{presta.nom_prestataire}} </a>
+                </li>
+                <h5> Prestataires non placés </h5>
+                <li v-for="(presta, i) in tabPrestataires" :key="'A'+ i" :ref="presta.nom_prestataire">
+                  <a v-if="presta.id_stand == null"> {{presta.nom_prestataire}} </a>
                 </li>
                 <br>
                 <li> <a id="list-scene" v-b-modal.modal-scene
@@ -281,14 +318,21 @@
               </template>
             </b-modal>
 
+            <!------------------------------------------------------------ Modal asso ------------------------------------------------------------------>
+            <b-modal ref="modal-asso" hide-backdrop no-fade no-stacking centered id="modal-asso" title="Scene">
+              ...
+              <template #modal-footer >
+                <b-row class="mx-auto" align-h="center">
+                  <b-col cols="auto">
+                    <b-button variant="danger" @click="hideAssoModal">Fermer</b-button>
+                  </b-col>
+                </b-row>
+              </template>
+            </b-modal>
+
             <!------------------------------------------------------------ Modal scène ------------------------------------------------------------------>
             <b-modal ref="modal-scene" hide-backdrop no-fade no-stacking centered id="modal-scene" title="Scene">
-              <div
-                  class="ma-4"
-                  style="height: 100%"
-              >
-                <v-calendar></v-calendar>
-              </div>
+              ...
               <template #modal-footer >
                 <b-row class="mx-auto" align-h="center">
                   <b-col cols="auto">
@@ -348,7 +392,7 @@ export default {
     tabContraintes: [],
     filterChecked: [],
     tabContraintesClasses: [],
-    currentStands: null
+    tabPrestataires: []
   }),
   methods:{
     deg_to_rad(degree){
@@ -365,6 +409,9 @@ export default {
     },
     hideStandOccupeModal() {
       this.$refs['modal-stand-occupe'].hide()
+    },
+    hideAssoModal(){
+      this.$refs['modal-asso'].hide()
     },
     interactivityHover(id){
       this.interactivityReset()
@@ -386,11 +433,14 @@ export default {
       }
     },
     interactivityReset(){
-      for(let i = 1; i < this.tabStands.length+1; i++){
-        // console.log(this.tabStands[i-1].id_prestataire)
-        // console.log(this.tabStands[i-1].nom_prestataire)
-        this.$refs[i][0].getElementsByTagName('rect')[0].classList.remove('is-active')
-        this.$refs[i][1].classList.remove('is-active')
+      for(let i = 0; i < this.tabStands.length; i++){
+        if(this.tabStands[i].id_prestataire == undefined) {
+          this.$refs[this.tabStands[i].id_stand][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+        }
+        else{
+          this.$refs[this.tabStands[i].nom_prestataire][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+          this.$refs[this.tabStands[i].nom_prestataire][1].classList.remove('is-active')
+        }
       }
     },
     filtreStands(id){
@@ -424,6 +474,9 @@ export default {
       let classes = ""
       let filtered = this.tabContraintesClasses.filter(contrainte => contrainte.id_stand === id+1)
       filtered.forEach(filter => classes += filter.libelle_contrainte + " ")
+      if(this.tabStands[id].id_prestataire == null){
+        classes += "is-available"
+      }
       return classes
     },
     placePrestataire(){
@@ -435,7 +488,7 @@ export default {
   },
   async created(){
     // Données globales d'un stand (x, y, prestataire, ...)
-    await axios.get(`http://localhost:3000/map/stands`)
+    await axios.get(`http://localhost:3000/map/stands/all`)
         .then(result => {
           this.tabStands = result.data.data
         })
@@ -462,6 +515,18 @@ export default {
     await axios.get(`http://localhost:3000/map/stands/contraintes`)
         .then(result => {
           this.tabContraintesClasses = result.data.data
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+
+    // Liste de tous les prestataires
+    await axios.get(`http://localhost:3000/prestataires`)
+        .then(result => {
+          console.log(result)
+          this.tabPrestataires = result.data.data
+          console.log(this.tabPrestataires)
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
