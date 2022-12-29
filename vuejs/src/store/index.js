@@ -40,9 +40,26 @@ export default new Vuex.Store({
       admin: '',
       iat: '',
       exp: ''
-    }
+    },
+    events: [
+      {
+        id: 1,
+        title: 'The Title',
+        start: new Date('2023-01-13T12:00:00.000Z').toJSON(),
+        end: new Date('2023-01-13T13:00:00.000Z').toJSON()
+        // url: // à préciser pour faire la redirection sur la réservation ?
+      },
+      {
+        id: 2,
+        title: 'The Title2',
+        start: new Date('2023-01-14T16:00:00.000Z').toJSON(),
+        end: new Date('2023-01-14T17:00:00.000Z').toJSON()
+        // url: // à préciser pour faire la redirection sur la réservation ?
+      }
+    ]
   },
   getters: {
+    getEvents: state => state.events
   },
   mutations: {
     setStatus: function (state, status){
@@ -71,6 +88,17 @@ export default new Vuex.Store({
         iat: '',
         exp: ''
       }
+    },
+    addEvent: (state, event) => {
+      state.events.push(event)
+    },
+    removeEvent: (state, event) => {
+      state.events = state.events.filter(e => e.id != event.event.id)
+    },
+    updateEvent: (state, event) => {
+      let indexEvent = state.events.findIndex(e => e.id == event.event.id)
+      state.events[indexEvent].end = event.event.end.toJSON()
+      state.events[indexEvent].start = event.event.start.toJSON()
     }
   },
   actions: {

@@ -98,13 +98,47 @@
               </g>
               <!-- =============================================================STAND============================================================= -->
               <g id="stands" ref="stands">
-                <a v-for="(stand, index) in tabStands" :key="index" class="clubs"
-                   :xlink:title="stand.id_prestataire" :ref="stand.id_prestataire"
-                   v-b-modal.modal-stand-dispo
-                   @mouseover="interactivityHover(stand.id_prestataire)"
-                   @mouseleave="interactivityLeave(stand.id_prestataire)">
-                  <rect :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
-                      :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5>
+                <a xlink:title="Premiers secours">
+                  <g
+                      id="standSecours"
+                      transform="translate(34.869889,46.014811)">
+                    <rect
+                        id="zoneStandSecours"
+                        width="8.8329029"
+                        height="5.0165253"
+                        x="136.47505"
+                        y="96.078079"/>
+                    <path
+                        id="croixSecours"
+                        d="m 139.14573,98.637622 3.56414,-0.0623 m -1.81575,-1.59522 0.0581,3.247388" />
+                  </g>
+                </a>
+
+                <a xlink:title="Association" ref="asso" v-b-modal.modal-asso>
+                  <rect
+                      id="association"
+                      width="14.066713"
+                      height="4.7733784"
+                      x="125.09771"
+                      y="80.633087"
+                      transform="translate(34.869889,46.014811)" />
+                </a>
+
+                <a v-for="(stand, index) in tabStands" :key="index" :xlink:title="stand.id_prestataire == null ? stand.id_stand : stand.nom_prestataire"
+                   :ref="stand.id_prestataire == null ? stand.id_stand : stand.nom_prestataire">
+                  <rect v-if="stand.id_prestataire != null"
+                      :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
+                      :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
+                      v-b-modal.modal-stand-occupe
+                      @mouseover="interactivityHover(stand.nom_prestataire)"
+                      @mouseleave="interactivityLeave(stand.nom_prestataire)">
+                  </rect>
+                  <rect v-else
+                        :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
+                        :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
+                        v-b-modal.modal-stand-dispo
+                        @mouseover="interactivityHover(stand.id_stand)"
+                        @mouseleave="interactivityLeave(stand.id_stand)">
                   </rect>
                 </a>
               </g>
@@ -226,46 +260,33 @@
         </b-col>
 
         <b-col>
+          <!------------------------------------------------------------ PARTIE LISTE ------------------------------------------------------------------>
           <div class="map_list" :style="$store.state.layoutHeight">
             <b-button v-b-toggle.sidebar-presta data-backdrop="true">
               Liste des prestataires
             </b-button>
 
             <br>
-            <label for="foret" style="margin-top: 10px"> <input type="checkbox" id="foret" name="foret" @change="filtreStands"> Forêt</label> <br>
-            <label for="lac"> <input type="checkbox" id="lac" name="lac"> Lac</label>  <br>
-            <label for="electricite"> <input type="checkbox" id="electricite" name="electricite"> Electricité</label> <br>
-            <label for="eau"> <input type="checkbox" id="eau" name="eau"> Eau</label> <br>
-            <label for="beaucoup-place"> <input type="checkbox" class="espace" id="beaucoup-place" name="beaucoup-place"> Beaucoup de place</label>
-            <label for="moyen-place" style="margin-left: 10px"> <input type="checkbox" class="espace" id="moyen-place" name="moyen-place"> Moyennement de place</label>
-            <label for="peu-place" style="margin-left: 10px"> <input type="checkbox" class="espace" id="peu-place" name="peu-place"> Peu de place</label> <br>
-
-
-<!--            <p v-for="(element, index) in fields" :key="index">-->
-<!--        <span v-if="itemCheck">-->
-<!--            <span v-if="checked[index]">-->
-<!--              <input type="checkbox" @change="$emit('checked-change', index)" checked>-->
-<!--            </span>-->
-<!--            <span v-else>-->
-<!--              <input type="checkbox" @change="$emit('checked-change', index)">-->
-<!--            </span>-->
-<!--        </span>-->
-<!--              {{element}}-->
-<!--              <span v-if="itemButton.show">-->
-<!--          <input type="button" @click="$emit('item-button-clicked', index, element)" :value="itemButton.text">-->
-<!--        </span>-->
-<!--            </p>-->
+            <span style="margin-top: 10px" v-for="(contrainte, index) in tabContraintes" :key="index">
+              <label :for="contrainte">
+                <input type="checkbox" :id="contrainte" :name="contrainte" @change="filtreStands(index)"> {{contrainte}} </label> <br>
+            </span>
 
             <!------------------------------------------------------------ Modal liste de prestataires ------------------------------------------------------------------>
             <b-sidebar ref="sidebar-presta" right shadow :style="$store.state.layoutHeight"
                        id="sidebar-presta" title="Liste des prestataires">
               <ul>
-                <li> <a v-b-modal.modal-stand-occupe id="list-stand1"> Premiers secours</a></li>
-                <li v-for="(presta, index) in tabStands" :key="index" :ref="presta.id_prestataire"
-                  @mouseenter="interactivityHover(presta.id_prestataire)"
-                  @mouseleave="interactivityLeave(presta.id_prestataire)">
-                  <a data-toggle="modal" v-b-modal.modal-stand-dispo >
-                    {{presta.id_prestataire}} </a>
+                <h5> Prestataires placés </h5>
+                <li> <a v-b-modal.modal-asso ref="asso"> Association </a></li>
+                <li v-for="(presta, index) in tabStands" :key="index" :ref="presta.nom_prestataire"
+                  @mouseenter="interactivityHover(presta.nom_prestataire)"
+                  @mouseleave="interactivityLeave(presta.nom_prestataire)">
+                  <a v-if="presta.id_prestataire != null" data-toggle="modal" v-b-modal.modal-stand-occupe>
+                    {{presta.nom_prestataire}} </a>
+                </li>
+                <h5> Prestataires non placés </h5>
+                <li v-for="(presta, i) in tabPrestataires" :key="'A'+ i" :ref="presta.nom_prestataire">
+                  <a v-if="presta.id_stand == null"> {{presta.nom_prestataire}} </a>
                 </li>
                 <br>
                 <li> <a id="list-scene" v-b-modal.modal-scene
@@ -297,6 +318,18 @@
               </template>
             </b-modal>
 
+            <!------------------------------------------------------------ Modal asso ------------------------------------------------------------------>
+            <b-modal ref="modal-asso" hide-backdrop no-fade no-stacking centered id="modal-asso" title="Scene">
+              ...
+              <template #modal-footer >
+                <b-row class="mx-auto" align-h="center">
+                  <b-col cols="auto">
+                    <b-button variant="danger" @click="hideAssoModal">Fermer</b-button>
+                  </b-col>
+                </b-row>
+              </template>
+            </b-modal>
+
             <!------------------------------------------------------------ Modal scène ------------------------------------------------------------------>
             <b-modal ref="modal-scene" hide-backdrop no-fade no-stacking centered id="modal-scene" title="Scene">
               ...
@@ -319,7 +352,7 @@
               <template #modal-footer >
                 <b-row class="mx-auto" align-h="center">
                   <b-col cols="auto">
-                    <b-button variant="danger" @click="hideStandDispoModal">Fermer</b-button>
+                    <b-button variant="danger" @click="hideStandOccupeModal">Fermer</b-button>
                     <b-button variant="success" @click="redirectionPresta">Voir la page du prestataire</b-button>
                   </b-col>
                 </b-row>
@@ -357,7 +390,9 @@ export default {
   data: () => ({
     tabStands: [],
     tabContraintes: [],
-    tabContraintesChecked: []
+    filterChecked: [],
+    tabContraintesClasses: [],
+    tabPrestataires: []
   }),
   methods:{
     deg_to_rad(degree){
@@ -372,7 +407,14 @@ export default {
     hideSceneModal() {
       this.$refs['modal-scene'].hide()
     },
+    hideStandOccupeModal() {
+      this.$refs['modal-stand-occupe'].hide()
+    },
+    hideAssoModal(){
+      this.$refs['modal-asso'].hide()
+    },
     interactivityHover(id){
+      this.interactivityReset()
       if(id=== 'scene'){
         this.$refs[id].classList.add('is-active')
       }
@@ -390,70 +432,106 @@ export default {
         this.$refs[id][1].classList.remove('is-active')
       }
     },
+    interactivityReset(){
+      for(let i = 0; i < this.tabStands.length; i++){
+        if(this.tabStands[i].id_prestataire == undefined) {
+          this.$refs[this.tabStands[i].id_stand][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+        }
+        else{
+          this.$refs[this.tabStands[i].nom_prestataire][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+          this.$refs[this.tabStands[i].nom_prestataire][1].classList.remove('is-active')
+        }
+      }
+    },
+    filtreStands(id){
+      this.interactivityReset();
+      this.filterChecked[id] = !this.filterChecked[id]
+      // Récupère toutes les balises rect
+      let stands = Array.from(this.$refs.stands.getElementsByTagName('rect'))
+      let checkedContraintes = []
+      for(let i = 0; i < this.filterChecked.length; i++){
+        if (this.filterChecked[i])
+          checkedContraintes.push(this.tabContraintes[i])
+      }
+      if(checkedContraintes.length != 0){
+        let filtered = stands.filter(stand => {
+          let temp;
+          let res = true;
+          // Concatène les classes d'un stand
+          let classes = Object.values(stand.classList).join(' ')
+          for(let i = 0; i < checkedContraintes.length; i++){
+            // Si le stand possède la contrainte dans ses classes et que la contrainte est sélectionnée, return true sinon false
+            temp = (classes.toLowerCase().match(checkedContraintes[i].toLowerCase())) && this.filterChecked[this.tabContraintes.indexOf(checkedContraintes[i])] ? true : false;
+            res = res && temp
+          }
+          return res;
+        })
+        console.log(filtered)
+        filtered.forEach(stand => stand.classList.add('is-active'))
+      }
+    },
+    getClasses(id){
+      let classes = ""
+      let filtered = this.tabContraintesClasses.filter(contrainte => contrainte.id_stand === id+1)
+      filtered.forEach(filter => classes += filter.libelle_contrainte + " ")
+      if(this.tabStands[id].id_prestataire == null){
+        classes += "is-available"
+      }
+      return classes
+    },
     placePrestataire(){
       console.log("presta placé")
     },
     redirectionPresta(){
       console.log("redirection vers la page")
-    },
-    filtreStands(id){
-      this.tabContraintesChecked.push(this.tabContraintes.find(c => c.id === id))
-      let tab = this.tabStands.filter(stand => {
-
-      })
-      this.$refs[id][0].getElementsByTagName('rect')[0].classList.add('is-active')
-      console.log("filtre")
     }
   },
-  async mounted(){
-    await axios.get(`http://localhost:3000/map/stands`)
+  async created(){
+    // Données globales d'un stand (x, y, prestataire, ...)
+    await axios.get(`http://localhost:3000/map/stands/all`)
         .then(result => {
           this.tabStands = result.data.data
-          console.log(this.tabStands)
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
 
-    // let svgT = this.$refs.stands;
-    // let svgNS = svgT.namespaceURI;
-    //
-    //
-    // this.tabCords.forEach(stand =>{
-    //
-    //   //pour les a
-    //   let a= document.createElementNS(svgNS,'a');
-    //   a.setAttribute('xlink:title','test'); // à modifier en fonction bdd
-    //   a.setAttribute('id', 'test'); // à modifier en fonction bdd
-    //   a.setAttribute('class', 'clubs'); // à modifier en fonction bdd
-    //   a.setAttribute('data-toggle','modal')
-    //   a.setAttribute('data-target','#modalPopUp')
-    //
-    //   //Pour les stands
-    //   let rect = document.createElementNS(svgNS,'rect');
-    //   rect.setAttribute('x',stand.x);
-    //   rect.setAttribute('y',stand.y);
-    //   rect.setAttribute('width',6);
-    //   rect.setAttribute('height',5);
-    //   rect.setAttribute('fill','#808080'); // couleur à modifier
-    //   // if(stand.hasOwnProperty('r')){
-    //   if(stand.r != null){
-    //     rect.setAttribute('transform','rotate('+stand.r+','+stand.x+', '+stand.y + ')');
-    //   }
-    //   a.appendChild(rect);
-    //
-    //   svgT.appendChild(a);
-    //
-    //
-    //   //Pour les filtres : rajouter une boucle sur les caractéristiques (sportCO, raquettess...)
-    //   //tester si le stand a la caractéristiQ
-    //   //si oui: ajouter
-    //   //a.setAttribute('class','caractéristiQCorrespondant')
-    //   //rect.setAttribute('class','caractéristiQCorrespondant')
-    //
-    //
-    // })
+    // Liste de toutes les contraintes
+    await axios.get(`http://localhost:3000/map/contraintes`)
+        .then(result => {
+          this.tabContraintes = result.data.data
+          this.tabContraintes = this.tabContraintes.map(c => c.libelle_contrainte);
+          for(let i = 0; i < this.tabContraintes.length; i++){
+            this.filterChecked.push(false)
+          }
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+
+    // Liste des contraintes de chaque stand (SELECT de Possede)
+    await axios.get(`http://localhost:3000/map/stands/contraintes`)
+        .then(result => {
+          this.tabContraintesClasses = result.data.data
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+
+    // Liste de tous les prestataires
+    await axios.get(`http://localhost:3000/prestataires`)
+        .then(result => {
+          console.log(result)
+          this.tabPrestataires = result.data.data
+          console.log(this.tabPrestataires)
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
   }
 }
 

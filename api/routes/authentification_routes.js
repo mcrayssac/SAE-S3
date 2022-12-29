@@ -9,8 +9,12 @@ router.post('/login', controller.login);
 
 router.post('/user', controller.authenticateToken, controller.user);
 
-router.post('/check/email', controller.checkEmail);
+router.post('/check/email/public', controller.checkEmailPublic);
+
+router.post('/check/email/prestataire', controller.checkEmailPrestataire);
 
 router.post('/user/create', controller.create);
+
+router.delete('/user/delete/:id', controller.userDelete);
 
 module.exports = router;

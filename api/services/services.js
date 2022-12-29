@@ -283,6 +283,16 @@ const getStands = async (callback) => {
     }))
 }
 
+const getAllStands = async (callback) => {
+    await pool.query(mapQueries.getAllStands, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 const loadUsers = () => {
     try {
         const dataBuffer = fs.readFileSync('users.json')
@@ -346,6 +356,89 @@ const getInscriptionChoix = async (callback) => {
     });
 }
 
+const getInscriptionChoixPrestataire = async (callback) => {
+    await pool.query(signupQueries.getTypes, async (error, results) => {
+        if (error) {
+            console.log("error");
+            return callback(error);
+        } else if (results.rowCount === 0){
+            console.log("No types found");
+            return callback("No types found");
+        } else {
+            console.log('success');
+            return callback(null, {type: results.rows})
+        }
+    });
+}
+
+const getContraintes = async callback => {
+    await pool.query(mapQueries.getContraintes, (err, results) => {
+        if(err) return callback(err)
+        return callback(null, results.rows)
+    })
+}
+
+const getContraintesByStand = async callback => {
+    await pool.query(mapQueries.getContraintesByStand, (err, results) => {
+        if(err) return callback(err)
+        return callback(null, results.rows)
+    })
+}
+
+const getDemandesPrestataires = async (callback) => {
+    await pool.query(signupQueries.getDemandesPrestataires, async (error, results) => {
+        if (error) {
+            console.log("error getDemandesPrestataires");
+            return callback(error);
+        } else if (results.rowCount === 0){
+            console.log('success getDemandesPrestataires');
+            return callback(null, 0);
+        } else {
+            console.log('success getDemandesPrestataires');
+            return callback(null, results.rows);
+        }
+    });
+}
+
+const postDemandesPrestataires = async (choice, id, callback) => {
+    console.log(choice, id);
+    if (choice === "accept" && id){
+        await pool.query(signupQueries.postDemandesPrestatairesTrue, [id], async (error, results) => {
+            if (error) {
+                console.log("error postDemandesPrestatairesTrue");
+                return callback(error);
+            } else {
+                console.log('success postDemandesPrestatairesTrue');
+                return callback(null, "success");
+            }
+        });
+    } else if (choice === "decline" && id){
+        await pool.query(signupQueries.postDemandesPrestatairesFalse, [id], async (error, results) => {
+            if (error) {
+                console.log("error postDemandesPrestatairesFalse");
+                return callback(error);
+            } else {
+                console.log('success postDemandesPrestatairesFalse');
+                return callback(null, "success");
+            }
+        });
+    } else {
+        console.log("error postDemandesPrestatairesTrue");
+        return callback("error postDemandesPrestatairesTrue");
+    }
+
+}
+
+const getAllPrestataires = async (callback) => {
+    await pool.query(mapQueries.getAllPrestataires, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -358,5 +451,13 @@ module.exports = {
     getPrestataire: getPrestataire,
     getCategories: getCategories,
     getStands: getStands,
-    getInscriptionChoix
+    getInscriptionChoix,
+    getContraintes: getContraintes,
+    getContraintesByStand: getContraintesByStand,
+    getInscriptionChoixPrestataire,
+    getDemandesPrestataires,
+    postDemandesPrestataires,
+    getInscriptionChoixPrestataire,
+    getAllStands,
+    getAllPrestataires
 }

@@ -19,7 +19,7 @@
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-shop></b-icon-shop> Prestataires</template>
-              <b-dropdown-item href="#">Gestion des comptes</b-dropdown-item>
+              <b-dropdown-item href="/demandesPrestataires">Gestion des comptes</b-dropdown-item>
               <b-dropdown-item href="#">Validation des activités</b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -77,7 +77,12 @@
       </b-navbar>
 
       <b-navbar v-else-if="$store.state.userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
-        <b-navbar-brand href="http://localhost:8080/" class="ms-3">
+        <b-navbar-brand v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false" href="http://localhost:8080/" class="ms-3" disabled>
+          <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
+               alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
+        </b-navbar-brand>
+
+        <b-navbar-brand v-else href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
         </b-navbar-brand>
@@ -86,7 +91,19 @@
 
         <b-collapse id="nav-collapse" is-nav>
 
-          <b-navbar-nav>
+          <b-navbar-nav v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false">
+            <b-nav-item href="/map" disabled><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-list-ul></b-icon-list-ul> Initiations</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Réservations</span></b-nav-item>
+
+            <b-nav-item href="#" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
+          </b-navbar-nav>
+
+          <b-navbar-nav v-else>
             <b-nav-item href="/map" ><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
             <b-nav-item href="#" ><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
@@ -132,7 +149,11 @@
               <img :src="item.flag" width="20px" height="15px">
             </b-nav-item></div>
 
-            <b-nav-item class="removePadding"><b-link href="/association" target="_blank">
+            <b-nav-item v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false" disabled class="removePadding"><b-link href="/association" target="_blank">
+              <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
+            </b-link></b-nav-item>
+
+            <b-nav-item v-else class="removePadding"><b-link href="/association" target="_blank">
               <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
             </b-link></b-nav-item>
 
@@ -163,7 +184,7 @@
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-list-check></b-icon-list-check> Activités</template>
-              <b-dropdown-item href="#"> Initiation/Scène</b-dropdown-item>
+              <b-dropdown-item href="/scene"> Initiation/Scène</b-dropdown-item>
               <b-dropdown-item href="/courses">Compétitions</b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -206,7 +227,7 @@
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
-              <b-dropdown-item href="#">Supprimer le compte</b-dropdown-item>
+              <b-dropdown-item @click="showLoginErrorModal('login-after-error-modal')">Supprimer le compte</b-dropdown-item>
             </b-nav-item-dropdown>
 
             <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item @click="changeLanguage()" v-if="language !== item.title" right>
@@ -237,7 +258,30 @@
         <template #modal-footer >
           <b-row class="mx-auto" align-h="center">
             <b-col cols="auto">
-              <b-button class="button" @click="hideLoginErrorModal">Close</b-button>
+              <b-button class="button" @click="hideLoginErrorModal('login-error-modal')">Close</b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-modal>
+
+      <b-modal body-text-variant="danger" ref="login-after-error-modal" title="Lakeside Sports Festival" hide-header-close>
+        <b-col class="my-3">
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: large; font-family: 'Montserrat', sans-serif;">Vous aller supprimer votre compte</span>
+            </b-col>
+          </b-row>
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: small; font-family: 'Montserrat', sans-serif;">Voulez-vous supprimer définitivement votre compte ?</span>
+            </b-col>
+          </b-row>
+        </b-col>
+        <template #modal-footer >
+          <b-row class="mx-auto" align-h="center">
+            <b-col cols="auto">
+              <b-button class="button" @click="deleteAccount()">Oui</b-button>
+              <b-button class="button" @click="hideLoginErrorModal('login-after-error-modal')">Non</b-button>
             </b-col>
           </b-row>
         </template>
@@ -256,8 +300,7 @@ export default {
     backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'},
     data: null,
     Email: null,
-    Password: null,
-    modalShow: false
+    Password: null
   }),
   computed: {
     ...mapState(['status', "user"]),
@@ -268,21 +311,31 @@ export default {
       this.$store.dispatch('login', {
         email: this.Email,
         password: this.Password
-      }).then(function (response){
-        self.getUserInfos();
+      }).then(async function (response){
+        await self.getUserInfos();
         console.log("Login valide : ",response);
+        setTimeout(() => {
+          console.log("Window : ", self.$store.state.userInfos.admin);
+          if (!self.$store.state.userInfos.admin || self.$store.state.userInfos.admin === "organisateur"){
+            window.location.href = "http://localhost:8080/";
+          } else if (self.$store.state.userInfos.admin === "prestataire"){
+            // Redirection page presta
+            window.location.href = "http://localhost:8080/etatInscription";
+          }
+        }, "1000");
       }, function (error){
-        self.showLoginErrorModal();
+        self.showLoginErrorModal('login-error-modal');
         console.log("Login invalide : ",error);
       })
     },
     logout: function (){
       this.$store.commit('logout');
+      window.location.href = "http://localhost:8080/";
     },
     getUserInfos: async function (){
       await this.$store.dispatch('getUserInfos')
           .then(function (response){
-            /* Token valide
+            /*Token valide
             console.log("Token valide : ",response);*/
           }, function (error){
             /* Token invalide
@@ -294,11 +347,25 @@ export default {
       if (this.language === this.allLanguage[0].title) this.language = this.allLanguage[1].title
       else this.language = this.allLanguage[0].title
     },
-    showLoginErrorModal() {
-      this.$refs['login-error-modal'].show()
+    showLoginErrorModal(modal) {
+      this.$refs[modal].show()
     },
-    hideLoginErrorModal() {
-      this.$refs['login-error-modal'].hide()
+    hideLoginErrorModal(modal) {
+      this.$refs[modal].hide()
+    },
+    async deleteAccount() {
+      let id = this.$store.state.user.id;
+      const self = this;
+      await axios.delete(`http://localhost:3000/api/user/delete/${id}`)
+          .then(result => {
+            self.logout();
+            window.location.href = "http://localhost:8080/";
+            console.log('Result deleteAccount', result)
+          })
+          .catch((err) => {
+            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+            console.warn("error", message);
+          });
     }
   },
   async created() {

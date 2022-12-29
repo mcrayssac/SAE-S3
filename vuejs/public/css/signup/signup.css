@@ -19,7 +19,7 @@
     color: #6ec8cb !important;
 }
 
-.button-reset{
+.button-decline{
     font-family: 'Work Sans', sans-serif !important;
     font-weight: bold !important;
     letter-spacing:1px !important;
@@ -28,7 +28,7 @@
     background-color: #d9231a !important;
 }
 
-.button-reset:hover{
+.button-decline:hover{
     background-color: white !important;
     border: solid 2px #d9231a !important;
     color: #d9231a !important;
