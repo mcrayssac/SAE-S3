@@ -7,6 +7,20 @@ const mapQueries = require("../queries/maps_queries");
 const queries = require("../queries/authentification_queries");
 const signupQueries = require("../queries/signup_queries");
 
+const getOrganisateur = async (callback) => {
+    try {
+        pool.query(queries.getOrganisateur, (error, results) => {
+            if (error) {
+                console.log("F1: error service", error);
+                return callback("Error retrieving orga.");
+            }
+            return callback(null, results.rows)
+        });
+    } catch (e) {
+        console.log(e);
+        return callback([]);
+    }
+}
 const getCagnotte = (callback) => {
     let cagnotte = 2435984;
     let objectif = 5000000;
@@ -333,6 +347,7 @@ const getInscriptionChoix = async (callback) => {
 }
 
 module.exports = {
+    getOrganisateur,
     getCagnotte : getCagnotte,
     getSexe : getSexe,
     getCourses: getCourses,

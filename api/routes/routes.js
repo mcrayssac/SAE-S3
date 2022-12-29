@@ -31,6 +31,29 @@ router.get("/categories", controller.getCategories);
 
 
 router.get("/prestataires/:nomPrestataire", controller.getPrestataire);
+/**
+ * @swagger
+ * /prestataires/{nomPrestataire}:
+ *   get:
+ *      description: Get a prestataire by its name
+ *      tags:
+ *          - PRESTATAIRES
+ *      parameters:
+ *          - in: path
+ *            name: nomPrestataire
+ *            type: string
+ *            required: true
+ *            example: "jdadijonbasket"
+ *            description: Name of prestataires
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
+
 
 router.get("/cagnotte", controller.getCagnotte);
 /**
@@ -53,6 +76,10 @@ router.get("/inscription/choix", controller.getInscriptionChoix);
 
 
 // --------- PRESTATAIRE
+
+// -------- ORGA
+router.get("/organisateur", controller.getOrganisateur);
+
 // --------- MAP
 router.get("/map/stands", controller.getStands);
 
