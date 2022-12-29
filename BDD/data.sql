@@ -56,7 +56,7 @@ ALTER TABLE tmp_table
 \COPY tmp_table (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM '/home/mbeaudru/ecole/S3/SAEs/SAE-S3/BDD/PRESTATAIRE.csv' DELIMITER AS ',';;
 
 INSERT INTO PRESTATAIRE  -- identical number and names of columns guaranteed
-SELECT id_prestataire, nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
+SELECT id_prestataire, nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, passwd_prestataire, etat_inscription, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
 FROM tmp_table;
 
 select * from PRESTATAIRE;

@@ -403,7 +403,7 @@
 
             <!------------------------------------------------------------ Modal asso ------------------------------------------------------------------>
             <b-modal ref="modal-asso" hide-backdrop hide-header-close no-fade no-stacking centered id="modal-asso"
-                     title="Scene">
+                     title="Association">
               ...
               <template #modal-footer>
                 <b-row class="mx-auto">
