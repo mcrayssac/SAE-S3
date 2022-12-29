@@ -1,5 +1,5 @@
 <template>
-  <b-container :style="$store.state.layoutHeight" fluid>
+  <b-container :style="layoutHeight" fluid>
     <section class="Alert">
       <b-alert :variant="alertVariant" :show="alertCountDown" @dismissed="alertCountDown=0" @dismiss-count-down="countDownChanged">
         <h4 :class="'text-'+alertVariant+' mt-3 mb-4'">{{alertMessage}}</h4>
@@ -151,7 +151,7 @@ export default {
     }
   },
   computed:{
-    ...mapState(['userInfos'])
+    ...mapState(['userInfos', 'layoutHeight'])
   },
   methods:{
     countDownChanged(dismissCountDown) {
