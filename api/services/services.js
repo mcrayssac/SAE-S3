@@ -7,6 +7,20 @@ const mapQueries = require("../queries/maps_queries");
 const queries = require("../queries/authentification_queries");
 const signupQueries = require("../queries/signup_queries");
 
+const getOrganisateur = async (callback) => {
+    try {
+        pool.query(queries.getOrganisateur, (error, results) => {
+            if (error) {
+                console.log("F1: error service", error);
+                return callback("Error retrieving orga.");
+            }
+            return callback(null, results.rows)
+        });
+    } catch (e) {
+        console.log(e);
+        return callback([]);
+    }
+}
 const getCagnotte = (callback) => {
     let cagnotte = 2435984;
     let objectif = 5000000;
@@ -238,6 +252,27 @@ const getCategories = (type, callback) => {
     }
 }
 
+const authenticate = (data,callback) => {
+    let users = loadUsers()
+    users = users.users;
+    const user = users.find((u) => u.username.toLowerCase() === data.email.toLowerCase())
+    if (user) {
+        //TODO COMPARE PASSWORDS
+        bcrypt.compare(data.password, user.password, (error, results) => {
+            if (results){
+                //Deux mots de passe sont pareils
+                console.log(chalk.inverse.green("Success !"));
+                return callback(null, user.email);
+            }
+            console.log("Votre mot de passe est incorrect !");
+            return callback("Votre mot de passe est incorrect !");
+        });
+    } else {
+        console.log('Utilisateur introuvable!')
+        return callback('Utilisateur introuvable!');
+    }
+}
+
 const getStands = async (callback) => {
     await pool.query(mapQueries.getStands, ((error, results)=>{
         if (error)
@@ -404,11 +439,23 @@ const getAllPrestataires = async (callback) => {
     }))
 }
 
+const getTypeCaracteristiquesPresta = async (callback) => {
+    await pool.query(mapQueries.getTypeCaracteristiquesPresta, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 module.exports = {
+    getOrganisateur,
     getCagnotte : getCagnotte,
     getSexe : getSexe,
     getCourses: getCourses,
     getFiltresCourses: getFiltresCourses,
+    authenticate: authenticate,
     getClub: getClub,
     getFiltres: getFiltres,
     getPrestataire: getPrestataire,
@@ -422,5 +469,6 @@ module.exports = {
     postDemandesPrestataires,
     getInscriptionChoixPrestataire,
     getAllStands,
-    getAllPrestataires
+    getAllPrestataires,
+    getTypeCaracteristiquesPresta
 }

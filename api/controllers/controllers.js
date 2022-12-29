@@ -21,6 +21,7 @@ exports.getCategorie = (req, res) => {
     });
 }
 
+// Swagger
 exports.getCategories = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les categories reçue.'));
     res.send({
@@ -42,6 +43,7 @@ exports.getPrestataire = (req, res) => {
     });
 }
 
+// Swagger
 exports.getCagnotte = (req, res) => {
     console.log(chalk.green.inverse('Requete pour getCagnotte reçue.'));
     res.send({
@@ -149,4 +151,28 @@ exports.postDemandesPrestataires = async (req, res) => {
         }
         return res.status(200).send({success:1, data:results})
     })
+}
+
+exports.getTypeCaracteristiquesPresta = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires'));
+    await services.getTypeCaracteristiquesPresta( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+//Swagger
+exports.getOrganisateur = async (req, res) => {/*
+    services.getOrganisateur( async (error, results) => {
+        console.log(chalk.green.inverse("requete pour les organisateurs"));
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERROR : No chooses found`));
+            return res.status(401).send({success:0, data: `ERROR : No chooses found`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Request to getOrganisation`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });*/
 }
