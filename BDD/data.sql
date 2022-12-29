@@ -43,7 +43,22 @@ select * from RESERVATION;
 \COPY CARACTERISTIQUE (libelle_caracteristique) FROM '/home/mbeaudru/ecole/S3/SAEs/SAE-S3/BDD/CARACTERISTIQUE.csv' DELIMITER AS ',';
 select * from CARACTERISTIQUE;
 
-\COPY PRESTATAIRE (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM '/home/mbeaudru/ecole/S3/SAEs/SAE-S3/BDD/PRESTATAIRE.csv' DELIMITER AS ',';
+DROP TABLE tmp_table;
+-- empty temp table with identical structure
+CREATE TEMP TABLE tmp_table AS TABLE PRESTATAIRE LIMIT 0;
+
+CREATE TEMP SEQUENCE tmp_presta_id_seq
+    OWNED BY tmp_table.id_prestataire;
+
+ALTER TABLE tmp_table
+    ALTER COLUMN id_prestataire SET DEFAULT nextval('tmp_presta_id_seq');
+
+\COPY tmp_table (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM '/home/mbeaudru/ecole/S3/SAEs/SAE-S3/BDD/PRESTATAIRE.csv' DELIMITER AS ',';;
+
+INSERT INTO PRESTATAIRE  -- identical number and names of columns guaranteed
+SELECT id_prestataire, nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
+FROM tmp_table;
+
 select * from PRESTATAIRE;
 
 \COPY COURSES (libelle_course, nb_km, nb_place, prix, date_periode, id_sport, id_lieu) FROM '/home/mbeaudru/ecole/S3/SAEs/SAE-S3/BDD/COURSES.csv' DELIMITER AS ',';
