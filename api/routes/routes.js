@@ -91,4 +91,6 @@ router.get("/map/stands/all", controller.getAllStands);
 
 router.get("/prestataires", controller.getAllPrestataires);
 
+router.get("/map/typePresta", controller.getTypeCaracteristiquesPresta);
+
 module.exports = router;

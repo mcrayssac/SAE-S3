@@ -135,9 +135,7 @@ CREATE TABLE RESERVATION (
 CREATE TABLE CARACTERISTIQUE (
    id_caracteristique SERIAL,
    libelle_caracteristique VARCHAR(50),
-   id_type INT NOT NULL,
-   CONSTRAINT pk_caracteristiques PRIMARY KEY (id_caracteristique),
-   CONSTRAINT fk_type_caracteristique FOREIGN KEY (id_type) REFERENCES TYPE_PRESTATAIRE(id_type)
+   CONSTRAINT pk_caracteristiques PRIMARY KEY (id_caracteristique)
 );
 
 CREATE TABLE PRESTATAIRE (
@@ -247,11 +245,9 @@ CREATE TABLE Pour (
 );
 
 CREATE TABLE Detient (
-   id_type INT NOT NULL,
    id_prestataire INT NOT NULL,
    id_caracteristique INT NOT NULL,
-   CONSTRAINT pk_detient PRIMARY KEY (id_type, id_prestataire, id_caracteristique),
-   CONSTRAINT fk_type_detient FOREIGN KEY (id_type) REFERENCES TYPE_PRESTATAIRE(id_type),
+   CONSTRAINT pk_detient PRIMARY KEY (id_prestataire, id_caracteristique),
    CONSTRAINT fk_prestataire_detient FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE(id_prestataire),
    CONSTRAINT fk_caracteristique_detient FOREIGN KEY (id_caracteristique) REFERENCES CARACTERISTIQUE(id_caracteristique)
 );

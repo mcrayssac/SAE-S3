@@ -439,6 +439,16 @@ const getAllPrestataires = async (callback) => {
     }))
 }
 
+const getTypeCaracteristiquesPresta = async (callback) => {
+    await pool.query(mapQueries.getTypeCaracteristiquesPresta, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -459,5 +469,6 @@ module.exports = {
     postDemandesPrestataires,
     getInscriptionChoixPrestataire,
     getAllStands,
-    getAllPrestataires
+    getAllPrestataires,
+    getTypeCaracteristiquesPresta
 }

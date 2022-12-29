@@ -134,6 +134,26 @@
               </g>
             </a>
 
+            <a v-for="(stand, index) in tabStand" :key="index" :xlink:title="stand.nom_prestataire"
+               :ref="stand.nom_prestataire">
+              <rect
+                    :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
+                    :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
+                    v-b-modal.modal-stand-occupe
+                    @mouseover="interactivityHover(stand.nom_prestataire)"
+                    @mouseleave="interactivityLeave(stand.nom_prestataire)">
+
+              </rect>
+
+              <image
+                  width="9.7"
+                  height="15"
+                  preserveAspectRatio="none"
+                  :xlink:href="typeStand(index)"
+                  :x="calculCoordsBalise(index)[0]"
+                  :y="calculCoordsBalise(index)[1]"/>
+            </a>
+
           </g>
 
           <!-- =============================================================SCENE============================================================= -->
@@ -259,109 +279,103 @@ export default {
   data: () => ({
     // tabCords: [{x: 193, y: 117}, {x: 147, y: 147}, {x: 84, y: 50, r: -60},
     //   {x: 149, y: 95, r: 90}, {x: 88, y: 92, r: -11}]
-    data: []
+    tabStand: [],
+    tabTypePresta: []
   }),
   methods:{
     deg_to_rad(degree){
       return (degree*Math.PI)/180
-    }
+    },
+
+    typeStand(index){
+      switch (this.tabStand[index].id_type){
+        case 1:
+          return 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883334505730049/rest_logo.png';
+        case 2:
+          return'href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883721564495972/shop.png';
+        case 3:
+          return'href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883572855439431/logo_sport.png';
+        default:
+          break
+      }
+    },
+
+    calculCoordsBalise(index) {
+      let tabCords = []
+      console.log(this.tabStand[index])
+      if (this.tabStand[index].rotation != null) {
+        //x
+        tabCords[0] = 3 * Math.cos(this.deg_to_rad(this.tabStand[index].rotation)) - 2.5 * Math.sin(this.deg_to_rad(this.tabStand[index].rotation)) + parseFloat(this.tabStand[index].coordonne_x - 9.7 / 2)
+        //y
+        tabCords[1] = 3 * Math.sin(this.deg_to_rad(this.tabStand[index].rotation)) + 2.5 * Math.cos(this.deg_to_rad(this.tabStand[index].rotation)) + parseFloat(this.tabStand[index].coordonne_y - 14)
+      } else {
+        tabCords[0] = this.tabStand[index].coordonne_x + (6 / 2) - (9.7 / 2)
+        tabCords[1] = this.tabStand[index].coordonne_y + 5 / 2 - 14
+      }
+      console.log(tabCords)
+      return tabCords;
+    },
+
+    interactivityHover(id){
+      this.interactivityReset()
+      if(id=== 'scene'){
+        this.$refs[id].classList.add('is-active')
+      }
+      else{
+        this.$refs[id][0].getElementsByTagName('rect')[0].classList.add('is-active')
+        this.$refs[id][1].classList.add('is-active')
+      }
+    },
+
+    interactivityLeave(id){
+      if(id === 'scene') {
+        this.$refs[id].classList.remove('is-active')
+      }
+      else{
+        this.$refs[id][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+        this.$refs[id][1].classList.remove('is-active')
+      }
+    },
+
+    interactivityReset(){
+      for(let i = 0; i < this.tabStands.length; i++){
+        this.$refs[this.tabStands[i].nom_prestataire][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+        this.$refs[this.tabStands[i].nom_prestataire][1].classList.remove('is-active')
+      }
+    },
+
+    //requete pour recup les types + mettre tab type
+    getClasses(id){
+      let classes = ""
+      let filtered = this.tabTypePresta.filter(caracteristique => caracteristique.id_prestataire === id+1)
+      filtered.forEach(filter => classes += filter.libelle_contrainte + " ")
+      return classes
+    },
+
   },
-  // async created() {
-  //   await axios.get(`http://localhost:3000/map/stands`)
-  //       .then(result => {
-  //         this.data = result.data
-  //         console.log("etest")
-  //         console.log(result.data)
-  //       })
-  //       .catch((err) => {
-  //         let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
-  //         console.warn("error", message);
-  //       });
-  // },
-  async mounted(){
-    await axios.get(`http://localhost:3000/map/stands`)
+  async created() {
+    //Liste les types de presta
+    await axios.get(`http://localhost:3000/map/typePresta`)
         .then(result => {
-          this.data = result.data
+          this.tabTypePresta = result.data.data
+          console.log("etest")
           console.log(result.data)
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
-
-
-    
-    let svgT = this.$refs.stands;
-    console.log(svgT);
-    let svgNS = svgT.namespaceURI;
-    console.log(this.$route.params)
-
-    // console.log(this.data)
-    this.data.data.forEach(stand => {
-
-      //pour les a
-      let a = document.createElementNS(svgNS, 'a');
-      a.setAttribute('xlink:title', 'test'); // à modifier en fonction bdd
-      a.setAttribute('id', 'test'); // à modifier en fonction bdd
-      a.setAttribute('class', 'clubs'); // à modifier en fonction bdd
-      a.setAttribute('data-toggle', 'modal')
-      a.setAttribute('data-target', '#modalPopUp')
-
-      //Pour les stands
-      let rect = document.createElementNS(svgNS, 'rect');
-      rect.setAttribute('x', stand.coordonne_x);
-      rect.setAttribute('y', stand.coordonne_y);
-      rect.setAttribute('width', 6);
-      rect.setAttribute('height', 5);
-      rect.setAttribute('fill', '#95B3D7'); // couleur à modifier
-      if (stand.rotation != null) {
-        rect.setAttribute('transform', 'rotate(' + stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y + ')');
-      }
-      a.appendChild(rect);
-
-
-      //pour les balises
-      let balise = document.createElementNS(svgNS, 'image');
-      balise.setAttribute('width', '9.7')
-      balise.setAttribute('height', '15')
-      balise.setAttribute('preserveAspectRatio', 'none')
-      switch (stand.id_type){
-        case 1:
-          balise.setAttribute('href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883334505730049/rest_logo.png');
-          break;
-        case 2:
-          balise.setAttribute('href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883721564495972/shop.png');
-          break;
-        case 3:
-          balise.setAttribute('href', 'https://cdn.discordapp.com/attachments/1019187788614213662/1047883572855439431/logo_sport.png');
-          break;
-        default:
-          break
-      }
-      //image asso
-      // balise.setAttribute('href', 'https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496');
-      balise.setAttribute('id',stand.id_prestataire)
-      console.log(balise.getAttribute('id'))
-      if(stand.rotation != null){
-        balise.setAttribute('x',3*Math.cos(this.deg_to_rad(stand.rotation)) - 2.5*Math.sin(this.deg_to_rad(stand.rotation)) +parseFloat(stand.coordonne_x-9.7/2))
-        balise.setAttribute('y',3*Math.sin(this.deg_to_rad(stand.rotation)) + 2.5*Math.cos(this.deg_to_rad(stand.rotation)) +parseFloat(stand.coordonne_y-14))
-      }
-      else{
-        balise.setAttribute('x',stand.coordonne_x+(6/2)-(9.7/2))
-        balise.setAttribute('y',stand.coordonne_y+5/2-14)
-      }
-      a.appendChild(balise);
-      svgT.appendChild(a);
-
-
-      //Pour les filtres : rajouter une boucle sur les caractéristiques (sportCO, raquettess...)
-      //tester si le stand a la caractéristiQ
-      //si oui: ajouter
-      //a.setAttribute('class','caractéristiQCorrespondant')
-      //rect.setAttribute('class','caractéristiQCorrespondant')
-
-
-    })
+  },
+  async mounted(){
+    await axios.get(`http://localhost:3000/map/stands`)
+        .then(result => {
+          this.tabStand = result.data.data
+          console.log(result.data)
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
   }
 }
 
