@@ -449,6 +449,26 @@ const getTypeCaracteristiquesPresta = async (callback) => {
     }))
 }
 
+const getResultats = async (nomCompetition, callback) => {
+    if (nomCompetition){
+        let competition = null;
+        if (nomCompetition === "courseapied") competition = "Course à pied";
+        else if (nomCompetition === "vtt") competition = "Course de VTT";
+        else if (nomCompetition === "natation") competition = "Course de natation";
+        else if (nomCompetition === "courseorientation") competition = "Course d'orientation";
+        else return callback("Competition not found");
+        await pool.query(signupQueries.getResultats, [competition], ((error, results)=>{
+            if (error)
+                return callback(error)
+            else{
+                return callback(null, {name: competition ,data: results.rows})
+            }
+        }))
+    } else {
+        return callback("Competition not found");
+    }
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -470,5 +490,6 @@ module.exports = {
     getInscriptionChoixPrestataire,
     getAllStands,
     getAllPrestataires,
-    getTypeCaracteristiquesPresta
+    getTypeCaracteristiquesPresta,
+    getResultats
 }

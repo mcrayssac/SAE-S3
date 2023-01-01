@@ -46,6 +46,11 @@ const routes = [
     component: () => import('../views/prestataire/prestataires/categories.vue')
   },
   {
+    path: '/resultats/:nomCompetition',
+    name: '/resultats/nomCompetition',
+    component: () => import('../views/public/activites/resultats/resultats.vue')
+  },
+  {
     path: '/prestataires/:nomPrestataire',
     name: 'prestataires/nomPrestataire',
     component: () => import('../views/prestataire/prestataires/prestataire.vue')

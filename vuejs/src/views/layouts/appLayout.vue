@@ -190,10 +190,10 @@
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-trophy-fill></b-icon-trophy-fill> Résultats</template>
-              <b-dropdown-item href="#">Course à pied</b-dropdown-item>
-              <b-dropdown-item href="#">VTT</b-dropdown-item>
-              <b-dropdown-item href="#">Natation</b-dropdown-item>
-              <b-dropdown-item href="#">Course d'orientation</b-dropdown-item>
+              <b-dropdown-item href="/resultats/courseapied">Course à pied</b-dropdown-item>
+              <b-dropdown-item href="/resultats/vtt">VTT</b-dropdown-item>
+              <b-dropdown-item href="/resultats/natation">Natation</b-dropdown-item>
+              <b-dropdown-item href="/resultats/courseorientation">Course d'orientation</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
 
