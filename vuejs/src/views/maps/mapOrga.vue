@@ -129,14 +129,14 @@
                    :xlink:title="stand.id_prestataire == null ? stand.id_stand : stand.nom_prestataire"
                    :ref="stand.id_prestataire == null ? stand.id_stand : stand.nom_prestataire">
                   <rect v-if="stand.id_prestataire != null"
-                        :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
+                        :transform="getRotation(index)"
                         :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
                         v-b-modal.modal-stand-occupe
                         @mouseover="interactivityHover(stand.nom_prestataire)"
                         @mouseleave="interactivityLeave(stand.nom_prestataire)">
                   </rect>
                   <rect v-else
-                        :style="{ transform: 'rotate('+ stand.rotation + ',' + stand.coordonne_x + ', ' + stand.coordonne_y +')' }"
+                        :transform="getRotation(index)"
                         :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
                         v-b-modal.modal-stand-dispo
                         @mouseover="interactivityHover(stand.id_stand)"
@@ -403,7 +403,7 @@
 
             <!------------------------------------------------------------ Modal asso ------------------------------------------------------------------>
             <b-modal ref="modal-asso" hide-backdrop hide-header-close no-fade no-stacking centered id="modal-asso"
-                     title="Scene">
+                     title="Association">
               ...
               <template #modal-footer>
                 <b-row class="mx-auto">
@@ -566,11 +566,11 @@ export default {
       }
       return classes
     },
+    getRotation (index) {
+      return 'rotate(' + this.tabStands[index].rotation + ',' + this.tabStands[index].coordonne_x + ', ' + this.tabStands[index].coordonne_y +')'
+    },
     placePrestataire() {
       console.log("presta placé")
-    },
-    redirectionPresta() {
-      console.log("redirection vers la page")
     }
   },
   computed: {
