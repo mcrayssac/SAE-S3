@@ -83,15 +83,12 @@ export default {
       await this.data.data.data.forEach(elt => {
         if (elt.Classement && elt.Classement === 1) {
           this.first = elt;
-          // Splice 1 elt at index of elt
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         } else if (elt.Classement && elt.Classement === 2) {
           this.second = elt;
-          // Splice 1 elt at index of elt
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         } else if (elt.Classement && elt.Classement === 3) {
           this.third = elt;
-          // Splice 1 elt at index of elt
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         }
       })
