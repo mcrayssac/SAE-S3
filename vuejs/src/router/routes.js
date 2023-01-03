@@ -32,8 +32,13 @@ const routes = [
   },
   {
     path: '/etatInscription',
-    name: '/etatInscription',
+    name: 'etatInscription',
     component: () => import('../views/prestataire/etatInscription.vue')
+  },
+  {
+    path: '/courses',
+    name: 'courses',
+    component: () => import('../views/public/courses/courses.vue')
   },
   {
     path: '/demandesPrestataires',
@@ -48,7 +53,7 @@ const routes = [
   {
     path: '/resultats/:nomCompetition',
     name: '/resultats/nomCompetition',
-    component: () => import('../views/public/activites/resultats/resultats.vue')
+    component: () => import('../views/public/resultats/resultats.vue')
   },
   {
     path: '/prestataires/:nomPrestataire',

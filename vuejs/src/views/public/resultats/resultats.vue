@@ -4,7 +4,7 @@
       <section class="Title">
         <b-row align-h="center" align-v="center">
           <b-col cols="auto">
-            <h1 class="my-5">Résultats pour {{data.data.name}}</h1>
+            <h1 class="my-5">Résultats pour {{name}}</h1>
           </b-col>
         </b-row>
       </section>
@@ -55,6 +55,10 @@
           </b-col>
         </b-row>
       </section>
+
+      <section v-else class="mt-5 Main-none" style="min-height: 300px;">
+        <h6>Aucun résultat disponible pour le moment</h6>
+      </section>
     </section>
     <section v-else class="Loading">
       <app-loading/>
@@ -72,6 +76,7 @@ export default {
   data: function() {
     return {
       data: null,
+      name: null,
       first: null,
       second: null,
       third: null,
@@ -101,9 +106,17 @@ export default {
     let self = this;
     await axios.get(`http://localhost:3000/resultats/${this.$route.params.nomCompetition}`)
         .then(async result => {
-          self.data = await result.data
-          self.rows = result.data.data.data.length;
-          await self.dataSplice();
+          console.log("Res : ",result.data.data)
+          if (result.data.data.data.length === 0) {
+            self.name = await result.data.data.name;
+            self.data = false;
+          } else {
+            self.name = await result.data.data.name;
+            self.data = await result.data
+            self.rows = result.data.data.data.length;
+            await self.dataSplice();
+          }
+
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
