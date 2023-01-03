@@ -561,7 +561,7 @@ module.exports = {
     getAllPrestataires,
     getTypeCaracteristiquesPresta,
     getResultats,
-    getCompetition
+    getCompetition,
     getClassementCourse,
     getResultats
 }
