@@ -7,11 +7,20 @@ const getAllPrestataires = "SELECT nom_prestataire, id_prestataire, id_stand FRO
 
 const getTypeCaracteristiquesPresta = "SELECT libelle_caracteristique, etat_type, PRESTATAIRE.id_prestataire FROM PRESTATAIRE INNER JOIN Detient ON Detient.id_prestataire= PRESTATAIRE.id_prestataire INNER JOIN TYPE_PRESTATAIRE ON TYPE_PRESTATAIRE.id_type= PRESTATAIRE.id_type INNER JOIN CARACTERISTIQUE ON CARACTERISTIQUE.id_caracteristique= Detient.id_caracteristique;"
 
+// const getClassementCourse = "select c.libelle_course, pa.position_classement, p.prenom_public, p.nom_public\
+//                             from Participe as pa\
+//                             inner join COURSES as c on c.id_course = pa.id_course\
+//                             inner join PUBLIC as p on p.id_public = pa.id_public\
+//                             where c.id_course = $1\
+//                             order by pa.position_classement\
+//                             ;"
+
 module.exports = {
     getStands : getStands,
     getContraintes : getContraintes,
     getContraintesByStand : getContraintesByStand,
     getAllStands : getAllStands,
     getAllPrestataires,
-    getTypeCaracteristiquesPresta : getTypeCaracteristiquesPresta
+    getTypeCaracteristiquesPresta : getTypeCaracteristiquesPresta,
+    // getClassementCourse: getClassementCourse
 }
