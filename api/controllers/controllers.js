@@ -21,7 +21,7 @@ exports.getCategorie = (req, res) => {
     });
 }
 
-// Swagger
+// Swaggeraller hop
 exports.getCategories = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les categories reçue.'));
     res.send({
@@ -187,3 +187,13 @@ exports.getOrganisateur = async (req, res) => {/*
         }
     });*/
 }
+
+// exports.getClassementCourse = async (req, res) => {
+//     console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires'));
+//     await services.getClassementCourse( req.params.idCourse, (err, results) => {
+//         if(err){
+//             return res.status(400).send({success:0, data: err})
+//         }
+//         return res.status(200).send({success:1, data: results})
+//     })
+// }

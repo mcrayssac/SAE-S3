@@ -46,6 +46,11 @@ const routes = [
     component: () => import('../views/organisateur/demandesPrestataires.vue')
   },
   {
+    path: '/voirCoursesOrientation',
+    name: 'voirCoursesOrientation',
+    component: () => import('../views/classementCourses.vue')
+  },
+  {
     path: '/categories/:nomCategorie',
     name: 'categories/nomCategorie',
     component: () => import('../views/prestataire/prestataires/categories.vue')

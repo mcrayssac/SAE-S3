@@ -449,6 +449,14 @@ const getTypeCaracteristiquesPresta = async (callback) => {
     }))
 }
 
+// const getClassementCourse = async (idCourse, callback) => {
+//     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
+//
+//         if (error) return callback(error)
+//         else return callback(null, results.rows)
+//     }));
+// }
+
 const getResultats = async (nomCompetition, callback) => {
     if (nomCompetition){
         let competition = null;
@@ -491,5 +499,6 @@ module.exports = {
     getAllStands,
     getAllPrestataires,
     getTypeCaracteristiquesPresta,
+    getClassementCourse,
     getResultats
 }
