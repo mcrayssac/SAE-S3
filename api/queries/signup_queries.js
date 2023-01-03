@@ -13,3 +13,8 @@ exports.getResultats = "select position_classement as \"Classement\", pu.prenom_
     "    inner join courses c on c.id_course = p.id_course\n" +
     "where libelle_course like $1\n" +
     "order by \"Classement\", \"Nom\", \"Prénom\";";
+exports.getKm = "select DISTINCT nb_km as \"Kilomètres\" from courses order by nb_km;";
+exports.getPlace = "select DISTINCT nb_place as \"Places\" from courses order by nb_place;";
+exports.getPrix = "select DISTINCT prix as \"Prix\" from courses order by prix;";
+exports.getType = "select DISTINCT libelle_sport as \"Type\" from sport order by libelle_sport;";
+exports.getLieu = "select DISTINCT libelle_lieu as \"Lieu\" from lieu order by libelle_lieu;";

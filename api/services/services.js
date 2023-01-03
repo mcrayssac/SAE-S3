@@ -469,6 +469,67 @@ const getResultats = async (nomCompetition, callback) => {
     }
 }
 
+const getCompetition = async (callback) => {
+    let filtres = []
+    await pool.query(signupQueries.getKm, (async (error, results) => {
+        if (error)
+            return callback(error)
+        else {
+            let temp = []
+            for (const elt of results.rows) {
+                temp.push(Object.values(elt)[0]);
+            }
+            filtres.push([Object.keys(results.rows[0])[0], temp]);
+            await pool.query(signupQueries.getPlace, (async (error, results) => {
+                if (error)
+                    return callback(error)
+                else {
+                    let temp = []
+                    for (const elt of results.rows) {
+                        temp.push(Object.values(elt)[0]);
+                    }
+                    filtres.push([Object.keys(results.rows[0])[0], temp]);
+                    await pool.query(signupQueries.getPrix, (async (error, results) => {
+                        if (error)
+                            return callback(error)
+                        else {
+                            let temp = []
+                            for (const elt of results.rows) {
+                                temp.push(Object.values(elt)[0]);
+                            }
+                            filtres.push([Object.keys(results.rows[0])[0], temp]);
+                            await pool.query(signupQueries.getType, (async (error, results) => {
+                                if (error)
+                                    return callback(error)
+                                else {
+                                    let temp = []
+                                    for (const elt of results.rows) {
+                                        temp.push(Object.values(elt)[0]);
+                                    }
+                                    filtres.push([Object.keys(results.rows[0])[0], temp]);
+                                    await pool.query(signupQueries.getLieu, ((error, results) => {
+                                        if (error)
+                                            return callback(error)
+                                        else {
+                                            let temp = []
+                                            for (const elt of results.rows) {
+                                                temp.push(Object.values(elt)[0]);
+                                            }
+                                            filtres.push([Object.keys(results.rows[0])[0], temp]);
+                                            return callback(null, {title: "Compétitions", getFiltres: filtres})
+                                        }
+                                    }))
+                                }
+                            }))
+                        }
+                    }))
+                }
+            }))
+        }
+    }))
+    //return callback(null, {title: "Compétitions", filtres: results.rows})
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -491,5 +552,6 @@ module.exports = {
     getAllStands,
     getAllPrestataires,
     getTypeCaracteristiquesPresta,
-    getResultats
+    getResultats,
+    getCompetition
 }

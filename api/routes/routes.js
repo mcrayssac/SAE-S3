@@ -95,4 +95,6 @@ router.get("/map/typePresta", controller.getTypeCaracteristiquesPresta);
 
 router.get("/resultats/:nomCompetition", controller.getResultats);
 
+router.get("/competitions", controller.getCompetition);
+
 module.exports = router;

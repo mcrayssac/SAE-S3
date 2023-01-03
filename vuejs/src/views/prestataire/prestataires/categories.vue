@@ -1,5 +1,8 @@
 <template>
   <b-container fluid :style="layoutHeight">
+    <br>
+    {{data}}
+    <br>
     <section v-if="!data" class="Loading">
       <app-loading/>
     </section>
@@ -88,17 +91,18 @@
 import _ from 'lodash';
 import axios from "axios";
 import appLoading from "@/loading.vue"
+import {mapState} from "vuex";
 export default {
   name: "categories",
   components: {appLoading},
   data: () => ({
-    layoutHeight: "margin-top : "+59+"px",
     inputFilter: '',
     selected:null,
     data: null,
     filrs: null
   }),
   computed: {
+    ...mapState(['layoutHeight']),
     filteredArticles() {
       return this.data.getCards.filter((element) => {
         return element.title.toLowerCase().match(this.inputFilter.toLowerCase());

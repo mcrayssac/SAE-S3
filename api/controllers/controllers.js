@@ -174,6 +174,16 @@ exports.getResultats = async (req, res) => {
     })
 }
 
+exports.getCompetition = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour les competitions'));
+    await services.getCompetition((err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
 //Swagger
 exports.getOrganisateur = async (req, res) => {/*
     services.getOrganisateur( async (error, results) => {
