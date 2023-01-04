@@ -515,7 +515,7 @@ const getCompetition = async (callback) => {
                                         temp.push(Object.values(elt)[0]);
                                     }
                                     filtres.push([Object.keys(results.rows[0])[0], temp]);
-                                    await pool.query(signupQueries.getLieu, ((error, results) => {
+                                    await pool.query(signupQueries.getLieu, (async (error, results) => {
                                         if (error)
                                             return callback(error)
                                         else {
@@ -524,7 +524,20 @@ const getCompetition = async (callback) => {
                                                 temp.push(Object.values(elt)[0]);
                                             }
                                             filtres.push([Object.keys(results.rows[0])[0], temp]);
-                                            return callback(null, {title: "Compétitions", getFiltres: filtres})
+                                            await pool.query(signupQueries.getCompetition, ((error, results) => {
+                                                if (error)
+                                                    return callback(error)
+                                                else {
+                                                    let temp = []
+                                                    for (const elt of results.rows) {
+                                                        let object = {title: elt.title}
+                                                        delete elt.title;
+                                                        object.filtres = { title: Object.keys(elt), body: Object.values(elt)}
+                                                        temp.push(object);
+                                                    }
+                                                    return callback(null, {title: "Compétitions", getFiltres: filtres, getCards: temp})
+                                                }
+                                            }))
                                         }
                                     }))
                                 }
@@ -562,6 +575,6 @@ module.exports = {
     getTypeCaracteristiquesPresta,
     getResultats,
     getCompetition,
-    getClassementCourse,
+    //getClassementCourse,
     getResultats
 }
