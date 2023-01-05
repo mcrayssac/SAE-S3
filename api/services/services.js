@@ -180,8 +180,18 @@ const getPrestataire = (type, callback) => {
     }
 }
 
-const getClub = (club, callback) => {
+const getClub = async (club, callback) => {
     let getClub = null;
+
+    await pool.query(mapQueries.getClub, [club], ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            console.log(results);
+            return callback(null, results.rows)
+        }
+    }));
+
     if (club === "jdadijonbasket"){
         getClub = {
             "Titre":"JDA Dijon Basket",
@@ -441,6 +451,26 @@ const getAllPrestataires = async (callback) => {
 
 const getTypeCaracteristiquesPresta = async (callback) => {
     await pool.query(mapQueries.getTypeCaracteristiquesPresta, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getCaracteristiques = async (callback) => {
+    await pool.query(mapQueries.getCaracteristiques, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getTypes = async (callback) => {
+    await pool.query(mapQueries.getTypes, ((error, results)=>{
         if (error)
             return callback(error)
         else{

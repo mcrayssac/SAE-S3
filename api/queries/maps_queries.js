@@ -32,6 +32,8 @@ const addNote = "insert into NOTE(libelle_note, id_prestataire, id_public)\
                         values ($1, $2, $3)\
                         ";
 
+const getClub = "select * from PRESTATAIRE where id_type = 3 and nom_prestataire like $1;";
+
 module.exports = {
     getStands : getStands,
     getContraintes : getContraintes,
@@ -42,8 +44,9 @@ module.exports = {
     // getClassementCourse: getClassementCourse,
     addCommentaire: addCommentaire,
     getPresta: getPresta,
-    addNote: addNote
+    addNote: addNote,
     updateStandId,
     getCaracteristiques,
-    getTypes
+    getTypes,
+    getClub
 }
