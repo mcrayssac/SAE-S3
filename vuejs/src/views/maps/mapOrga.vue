@@ -335,11 +335,6 @@
                 <b-row class="mb-3 m-0" v-if="tabPrestataires.length > 0" align-h="center" align-v="center">
                   <b-col cols="auto">
                     <h6> Prestataires non placés </h6>
-                    <b-row align-h="center" align-v="center">
-                      <b-col cols="auto">
-                        <a v-b-modal.modal-asso ref="asso"> Association </a>
-                      </b-col>
-                    </b-row>
                     <b-row align-h="center" align-v="center"
                            v-for="(presta, i) in tabPrestataires" :key="'A'+ i" :ref="presta.nom_prestataire"
                            @mouseenter="interactivityHover(presta.nom_prestataire)"
@@ -383,12 +378,7 @@
               <hr>
               <h5> Prestataire placé </h5> <br>
               <label for="select-presta"> Choisir un prestataire à placer : </label>
-              <select id="select-presta">
-                <option id="1" value="1" selected> Sélectionner</option>
-                <option id="2" value="2"> Prestataire 1</option>
-                <option id="3" value="3"> Prestataire 2</option>
-                <option id="4" value="4"> Prestataire 3</option>
-              </select>
+              <b-form-select v-model="prestaSelected" :options="getPrestaWithoutStands()"></b-form-select>
               <template #modal-footer>
                 <b-row class="mx-auto">
                   <b-col cols="auto">
@@ -449,7 +439,7 @@
 
             <!------------------------------------------------------------ Modal pop-up valider prestataire ------------------------------------------------------------------>
             <b-modal ref="modal-stand-valider" hide-backdrop no-fade hide-header id="modal-stand-valider">
-              <h5> Etes-vous sûr de vouloir placer le prestataire ... au stand ... ? </h5>
+              <h5> Etes-vous sûr de vouloir placer le prestataire {{prestaSelected}} à ce stand ? </h5>
               <template #modal-footer>
                 <b-row class="mx-auto">
                   <b-col cols="auto">
@@ -482,7 +472,8 @@ export default {
     tabContraintes: [],
     filterChecked: [],
     tabContraintesClasses: [],
-    tabPrestataires: []
+    tabPrestataires: [],
+    prestaSelected: null
   }),
   methods: {
     deg_to_rad(degree) {
@@ -508,8 +499,10 @@ export default {
       if (id === 'scene') {
         this.$refs[id].classList.add('is-active')
       } else {
+        if(this.$refs[id].length === 3){
+          this.$refs[id][1].classList.add('is-active')
+        }
         this.$refs[id][0].getElementsByTagName('rect')[0].classList.add('is-active')
-        this.$refs[id][1].classList.add('is-active')
       }
     },
     interactivityLeave(id) {
@@ -517,7 +510,9 @@ export default {
         this.$refs[id].classList.remove('is-active')
       } else {
         this.$refs[id][0].getElementsByTagName('rect')[0].classList.remove('is-active')
-        this.$refs[id][1].classList.remove('is-active')
+        if(this.$refs[id].length === 3) {
+          this.$refs[id][1].classList.remove('is-active')
+        }
       }
     },
     interactivityReset() {
@@ -569,8 +564,27 @@ export default {
     getRotation (index) {
       return 'rotate(' + this.tabStands[index].rotation + ',' + this.tabStands[index].coordonne_x + ', ' + this.tabStands[index].coordonne_y +')'
     },
+    getPrestaWithoutStands(){
+      let tab = []
+      this.tabPrestataires.forEach(presta => {
+        if(presta.id_stand == null)
+          tab.push(presta.nom_prestataire)
+      })
+      return tab
+    },
     placePrestataire() {
-      console.log("presta placé")
+      this.$refs['modal-stand-valider'].hide()
+      console.log(this.prestaSelected)
+      let idPresta = this.tabPrestataires.find(presta => presta.nom_prestataire == this.prestaSelected)
+      console.log(idPresta)
+      axios.post(`http://localhost:3000/map/prestastand/`+idPresta + '?idStand=')
+          .then(result => {
+            console.log("success")
+          })
+          .catch((err) => {
+            console.log("failed")
+          });
+      this.prestaSelected = null
     }
   },
   computed: {

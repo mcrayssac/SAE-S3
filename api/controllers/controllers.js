@@ -153,6 +153,16 @@ exports.postDemandesPrestataires = async (req, res) => {
     })
 }
 
+exports.updateStandId = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour modifier le stand du prestataire'));
+    await services.updateStandId(req.params.idPresta, req.query.idStand,(error, results) => {
+        if(error){
+            return res.status(400).send({success:0, data:error})
+        }
+        return res.status(200).send({success:1, data:results})
+    })
+}
+
 exports.getTypeCaracteristiquesPresta = async (req, res) =>{
     console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires'));
     await services.getTypeCaracteristiquesPresta( (err, results) => {

@@ -551,6 +551,18 @@ const getCompetition = async (callback) => {
     //return callback(null, {title: "Compétitions", filtres: results.rows})
 }
 
+const updateStandId = async (idPresta, idStand, callback) => {
+    await pool.query(mapQueries.updateStandId, [idPresta, idStand], async (error, results) => {
+        if (error) {
+            console.log("error updateStand");
+            return callback(error);
+        } else {
+            console.log('success updateStand');
+            return callback(null, "success");
+        }
+    });
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -576,5 +588,6 @@ module.exports = {
     getResultats,
     getCompetition,
     //getClassementCourse,
-    getResultats
+    getResultats,
+    updateStandId
 }
