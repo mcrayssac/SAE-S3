@@ -449,6 +449,26 @@ const getTypeCaracteristiquesPresta = async (callback) => {
     }))
 }
 
+const getCaracteristiques = async (callback) => {
+    await pool.query(mapQueries.getCaracteristiques, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getTypes = async (callback) => {
+    await pool.query(mapQueries.getTypes, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 // const getClassementCourse = async (idCourse, callback) => {
 //     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
 //
@@ -589,5 +609,7 @@ module.exports = {
     getCompetition,
     //getClassementCourse,
     getResultats,
-    updateStandId
+    updateStandId,
+    getCaracteristiques,
+    getTypes
 }

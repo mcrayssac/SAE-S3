@@ -164,8 +164,28 @@ exports.updateStandId = async (req, res) => {
 }
 
 exports.getTypeCaracteristiquesPresta = async (req, res) =>{
-    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires'));
+    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires pour chaque stand'));
     await services.getTypeCaracteristiquesPresta( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.getCaracteristiques = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques'));
+    await services.getCaracteristiques( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.getTypes = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques'));
+    await services.getTypes( (err, results) => {
         if(err){
             return res.status(400).send({success:0, data: err})
         }

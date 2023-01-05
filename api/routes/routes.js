@@ -96,6 +96,10 @@ router.get("/prestataires", controller.getAllPrestataires);
 
 router.get("/map/typePresta", controller.getTypeCaracteristiquesPresta);
 
+router.get("/map/caracteristiques", controller.getCaracteristiques);
+
+router.get("/map/type", controller.getTypes);
+
 router.put("/map/presta/stand/:idPresta", controller.updateStandId)
 
 router.get("/resultats/:nomCompetition", controller.getResultats);
