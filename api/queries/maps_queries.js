@@ -22,6 +22,16 @@ const getTypes = "SELECT etat_type FROM TYPE_PRESTATAIRE;"
 const getCaracteristiques = "SELECT libelle_caracteristique FROM CARACTERISTIQUE;"
 
 
+const getPresta = "select id_prestataire from PRESTATAIRE where nom_prestataire like $1;";
+
+const addCommentaire = "insert into COMMENTAIRE(libelle_commentaire, id_prestataire, id_public)\
+                        values ($1, $2, $3)\
+                        ";
+
+const addNote = "insert into NOTE(libelle_note, id_prestataire, id_public)\
+                        values ($1, $2, $3)\
+                        ";
+
 module.exports = {
     getStands : getStands,
     getContraintes : getContraintes,
@@ -29,7 +39,10 @@ module.exports = {
     getAllStands : getAllStands,
     getAllPrestataires,
     getTypeCaracteristiquesPresta : getTypeCaracteristiquesPresta,
-    // getClassementCourse: getClassementCourse
+    // getClassementCourse: getClassementCourse,
+    addCommentaire: addCommentaire,
+    getPresta: getPresta,
+    addNote: addNote
     updateStandId,
     getCaracteristiques,
     getTypes

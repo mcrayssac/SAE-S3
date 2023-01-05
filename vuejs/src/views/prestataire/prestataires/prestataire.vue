@@ -180,8 +180,16 @@
               </div>
             </div>
           </div>
+
+          <button @click="peutPoster" style="width: 150px">Ajouter un commentaire</button>
         </div>
       </section>
+
+      <div class="container" v-if="postCom">
+        <input v-model="form.commentaire" type="text" placeholder="Saisir votre commentaire" required>
+        <input v-model="form.note" type="number" min="0" max="10" required>
+        <button @click="ajouterCommentaire()" style="width: 150px">Poster</button>
+      </div>
     </section>
   </b-container>
 </template>
@@ -194,7 +202,14 @@ export default {
   components: {appLoading},
   data: () => ({
     layoutHeight: "margin-top : "+59+"px",
-    data: null
+    data: null,
+    postCom: false,
+    form: {
+      commentaire: null,
+      id: null,
+      nomPresta: null,
+      note: null
+    }
   }),
   async created() {
     await axios.get(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}`)
@@ -205,7 +220,27 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
-  }
+  },
+  methods: {
+    peutPoster() {
+      if (this.$store.getters.getUserInfos.id != -1) {
+          this.form.id = this.$store.getters.getUserInfos.id;
+          this.form.nomPresta = this.data.Titre;
+          this.postCom = true;
+      }
+      else alert("Connectez-vous pour poster un commentaire !");
+    },
+    ajouterCommentaire() {
+      axios.post(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}/post_commentaire`, this.form)
+          .then(result => {
+            this.data.Commentaires.post(result);
+          })
+          .catch((err) => {
+            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+            console.warn("error", message);
+          });
+    }
+  },
 }
 </script>
 

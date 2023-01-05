@@ -59,7 +59,8 @@ export default new Vuex.Store({
     ]
   },
   getters: {
-    getEvents: state => state.events
+    getEvents: state => state.events,
+    getUserInfos: state => state.userInfos
   },
   mutations: {
     setStatus: function (state, status){

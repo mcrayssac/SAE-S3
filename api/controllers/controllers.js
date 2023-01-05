@@ -237,3 +237,17 @@ exports.getOrganisateur = async (req, res) => {/*
 //         return res.status(200).send({success:1, data: results})
 //     })
 // }
+
+exports.addCommentaire = async (req, res) => {
+    console.log(req.body);
+    services.addCommentaire(req.body, async (error, results) => {
+        console.log(chalk.green.inverse("requete pour ajouter un commentaire"));
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERREUR : Ajout impossible`));
+            return res.status(401).send({success:0, data: `ERREUR : Ajout impossible`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Requête pour addCommentaire`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
+}
