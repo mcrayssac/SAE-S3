@@ -17,6 +17,11 @@ const getTypeCaracteristiquesPresta = "SELECT libelle_caracteristique, etat_type
 
 const updateStandId = "UPDATE PRESTATAIRE SET id_stand = $2 WHERE id_prestataire = $1"
 
+const getTypes = "SELECT etat_type FROM TYPE_PRESTATAIRE;"
+
+const getCaracteristiques = "SELECT libelle_caracteristique FROM CARACTERISTIQUE;"
+
+
 module.exports = {
     getStands : getStands,
     getContraintes : getContraintes,
@@ -25,5 +30,7 @@ module.exports = {
     getAllPrestataires,
     getTypeCaracteristiquesPresta : getTypeCaracteristiquesPresta,
     // getClassementCourse: getClassementCourse
-    updateStandId
+    updateStandId,
+    getCaracteristiques,
+    getTypes
 }
