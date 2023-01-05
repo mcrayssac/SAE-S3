@@ -7,8 +7,6 @@
           <div class="map_image" id="map_image">
             <svg
                 class="svg-img"
-                width="auto"
-                height="auto"
                 viewBox="0 0 297 179">
               <!-- =============================================================FOND============================================================= -->
               <rect
@@ -132,6 +130,7 @@
                         :transform="getRotation(index)"
                         :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
                         v-b-modal.modal-stand-occupe
+                        @click="selectStand(stand)"
                         @mouseover="interactivityHover(stand.nom_prestataire)"
                         @mouseleave="interactivityLeave(stand.nom_prestataire)">
                   </rect>
@@ -139,6 +138,7 @@
                         :transform="getRotation(index)"
                         :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
                         v-b-modal.modal-stand-dispo
+                        @click="selectStand(stand)"
                         @mouseover="interactivityHover(stand.id_stand)"
                         @mouseleave="interactivityLeave(stand.id_stand)">
                   </rect>
@@ -372,9 +372,9 @@
 
             <!------------------------------------------------------------ Modal stand dispo ------------------------------------------------------------------>
             <b-modal ref="modal-stand-dispo" hide-backdrop hide-header-close no-fade no-stacking id="modal-stand-dispo"
-                     title="Stand ...">
+                     :title="getTitle()">
               <h5> Contraintes du stand </h5> <br>
-              peu de place, électricité
+              {{searchClasses(this.standSelected.id_stand)}}
               <hr>
               <h5> Prestataire placé </h5> <br>
               <label for="select-presta"> Choisir un prestataire à placer : </label>
@@ -419,19 +419,16 @@
 
             <!------------------------------------------------------------ Modal stand occupé ------------------------------------------------------------------>
             <b-modal ref="modal-stand-occupe" hide-backdrop hide-header-close no-fade no-stacking
-                     id="modal-stand-occupe" title="Stand ...">
+                     id="modal-stand-occupe" :title="getTitle()">
               <h5> Caractéristiques du stand </h5> <br>
-              beaucoup de place, eau
-              <hr>
-              <h5> Prestataire placé </h5> <br>
-              Association
+              {{searchClasses(this.standSelected.id_stand)}}
               <template #modal-footer>
                 <b-row class="mx-auto" align-h="center">
                   <b-col cols="auto">
                     <b-button class="button-close" @click="hideStandOccupeModal">Fermer</b-button>
                   </b-col>
                   <b-col cols="auto">
-                    <b-button class="button-see" @click="redirectionPresta">Voir la page du prestataire</b-button>
+                    <b-button class="button-see">Voir la page du prestataire</b-button>
                   </b-col>
                 </b-row>
               </template>
@@ -473,7 +470,8 @@ export default {
     filterChecked: [],
     tabContraintesClasses: [],
     tabPrestataires: [],
-    prestaSelected: null
+    prestaSelected: null,
+    standSelected: {id_prestataire: 1, id_stand:0}
   }),
   methods: {
     deg_to_rad(degree) {
@@ -548,7 +546,6 @@ export default {
           }
           return res;
         })
-        console.log(filtered)
         filtered.forEach(stand => stand.classList.add('is-active'))
       }
     },
@@ -561,8 +558,23 @@ export default {
       }
       return classes
     },
+    searchClasses(index){
+      let classes = ""
+      let filtered = this.tabContraintesClasses.filter(contrainte => contrainte.id_stand === index)
+      filtered.forEach(filter => classes += filter.libelle_contrainte + ", ")
+      classes = classes.slice(0,(classes.length-2))
+      return classes
+    },
     getRotation (index) {
       return 'rotate(' + this.tabStands[index].rotation + ',' + this.tabStands[index].coordonne_x + ', ' + this.tabStands[index].coordonne_y +')'
+    },
+    getTitle(){
+      let title = ""
+      if(this.standSelected.id_prestataire == null){
+        title += "Stand " + this.standSelected.id_stand
+      }
+      else title += this.standSelected.nom_prestataire
+      return title
     },
     getPrestaWithoutStands(){
       let tab = []
@@ -575,9 +587,8 @@ export default {
     placePrestataire() {
       this.$refs['modal-stand-valider'].hide()
       console.log(this.prestaSelected)
-      let idPresta = this.tabPrestataires.find(presta => presta.nom_prestataire == this.prestaSelected)
-      console.log(idPresta)
-      axios.post(`http://localhost:3000/map/prestastand/`+idPresta + '?idStand=')
+      let findPresta = this.tabPrestataires.find(presta => presta.nom_prestataire == this.prestaSelected)
+      axios.put(`http://localhost:3000/map/presta/stand/`+findPresta.id_prestataire + '?idStand='+this.standSelected.id_stand)
           .then(result => {
             console.log("success")
           })
@@ -585,6 +596,10 @@ export default {
             console.log("failed")
           });
       this.prestaSelected = null
+      location.reload()
+    },
+    selectStand(stand){
+      this.standSelected = stand
     }
   },
   computed: {
@@ -631,9 +646,7 @@ export default {
     // Liste de tous les prestataires
     await axios.get(`http://localhost:3000/prestataires`)
         .then(result => {
-          console.log(result)
           this.tabPrestataires = result.data.data
-          console.log(this.tabPrestataires)
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
