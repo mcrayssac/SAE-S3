@@ -128,7 +128,7 @@
       </section>
     </section>
     <section v-else class="Loading">
-      <app-loading/>
+      <app-loading color="#6ec8cb" />
     </section>
   </b-container>
 </template>

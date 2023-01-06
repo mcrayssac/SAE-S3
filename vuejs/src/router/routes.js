@@ -36,6 +36,11 @@ const routes = [
     component: () => import('../views/prestataire/etatInscription.vue')
   },
   {
+    path: '/statistiques',
+    name: 'statistiques',
+    component: () => import('../views/prestataire/statistiques/statistiques.vue')
+  },
+  {
     path: '/courses',
     name: 'courses',
     component: () => import('../views/public/courses/courses.vue')

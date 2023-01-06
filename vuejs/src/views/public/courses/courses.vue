@@ -63,7 +63,7 @@
                         <b-card-text>
                           <p v-for="(item, jIndex) in items.filtres.body" :key="jIndex" class="card-text"> <b> {{items.filtres.title[jIndex]}} : </b> {{item}}</p>
 
-                          <b-button class="button" @click="$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })">Voir la page</b-button>
+                          <b-button class="button" @click="verifyAccount('account-error-modal')">Voir la page</b-button>
                         </b-card-text>
                       </b-card-body>
                     </b-col>
@@ -77,9 +77,31 @@
           </b-row>
         </section>
       </b-container>
+
+      <b-modal body-text-variant="danger" ref="account-error-modal" title="Lakeside Sports Festival" hide-header-close>
+        <b-col class="my-3">
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: x-large; font-family: 'Montserrat', sans-serif;">Vous n'êtes pas connecté !</span>
+            </b-col>
+          </b-row>
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: small; font-family: 'Montserrat', sans-serif;">Veuillez-vous connecter avant de poursuivre</span>
+            </b-col>
+          </b-row>
+        </b-col>
+        <template #modal-footer >
+          <b-row class="mx-auto" align-h="center">
+            <b-col cols="auto">
+              <b-button class="button" @click="hideLoginErrorModal('account-error-modal')">Close</b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-modal>
     </section>
     <section v-else class="Loading">
-      <app-loading/>
+      <app-loading color="#6ec8cb" />
     </section>
   </b-container>
 </template>
@@ -92,9 +114,15 @@ import axios from "axios";
 
 export default {
   name: "courses",
+  data: function() {
+    return {
+      data: null,
+      filrs: null
+    }
+  },
   components: {appLoading},
   computed:{
-    ...mapState(['layoutHeight']),
+    ...mapState(['userInfos', 'layoutHeight']),
     filterCards() {
       let vm = this, lists = vm.data.getCards
       return _.filter(lists, function (query) {
@@ -110,10 +138,16 @@ export default {
       })
     }
   },
-  data: function() {
-    return {
-      data: null,
-      filrs: null
+  methods:{
+    verifyAccount(modal){
+      if (this.userInfos.id === -1) this.showLoginErrorModal(modal);
+      else console.log("Account ready")
+    },
+    showLoginErrorModal(modal) {
+      this.$refs[modal].show()
+    },
+    hideLoginErrorModal(modal) {
+      this.$refs[modal].hide()
     }
   },
   async created() {

@@ -94,7 +94,7 @@
           <b-navbar-nav v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false">
             <b-nav-item href="/map" disabled><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
-            <b-nav-item href="#" disabled><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
+            <b-nav-item href="/statistiques" disabled><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
 
             <b-nav-item href="#" disabled><span class="text-light"><b-icon-list-ul></b-icon-list-ul> Initiations</span></b-nav-item>
 
@@ -106,7 +106,7 @@
           <b-navbar-nav v-else>
             <b-nav-item href="/map" ><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
-            <b-nav-item href="#" ><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
+            <b-nav-item href="/statistiques" ><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
 
             <b-nav-item href="#" ><span class="text-light"><b-icon-list-ul></b-icon-list-ul> Initiations</span></b-nav-item>
 

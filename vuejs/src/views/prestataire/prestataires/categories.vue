@@ -1,10 +1,7 @@
 <template>
   <b-container fluid :style="layoutHeight">
-    <br>
-    {{data}}
-    <br>
     <section v-if="!data" class="Loading">
-      <app-loading/>
+      <app-loading color="#6ec8cb" />
     </section>
     <section v-else class="Main">
       <section class="Title">

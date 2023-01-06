@@ -75,7 +75,7 @@ router.get("/cagnotte", controller.getCagnotte);
  *              description: Bad request
  */
 
-router.get("/inscription/choix", controller.getInscriptionChoix);
+router.get("/inscription/choix/:type", controller.getInscriptionChoix);
 
 
 // --------- PRESTATAIRE

@@ -1,3 +1,4 @@
+SET CLIENT_ENCODING TO 'UTF8';
 \COPY AGE (libelle_age) FROM 'C:\Users\mlcra\SAE-S3\BDD\AGE.csv' DELIMITER AS ',';
 select * from AGE;
 
