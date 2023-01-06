@@ -22,3 +22,5 @@ exports.getCompetition = "select c.libelle_course as \"title\", c.nb_km as \"Kil
     "from courses as c\n" +
     "inner join sport s on s.id_sport = c.id_sport\n" +
     "inner join lieu l on l.id_lieu = c.id_lieu;";
+exports.getClicsPrestataire = "select CONCAT(EXTRACT(YEAR FROM jour), '-', EXTRACT(MONTH FROM jour), '-', EXTRACT(DAY FROM jour)) as \"x\", count(jour) as \"y\"\n" +
+    "from clic where id_prestataire = $1 group by \"x\" order by \"x\";";

@@ -29,3 +29,22 @@
 .hr-chart{
     color: white;
 }
+
+.update-button{
+    position: fixed !important;
+    right: 30px !important;
+    bottom: 30px !important;
+    background: white !important;
+    border-color: transparent !important;
+    border-radius: 50% !important;
+    padding: 10px 12px !important;
+    animation: titleWheelHueColor 10s infinite;
+}
+
+@keyframes titleWheelHueColor {
+    from, to      { color: #6ec8cb }
+    25%      { color: #495388 }
+    50%      { color: #021331 }
+    75%      { color: #495388 }
+    100%      { color: #6ec8cb }
+}

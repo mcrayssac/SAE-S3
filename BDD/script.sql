@@ -194,7 +194,7 @@ CREATE TABLE NOTE(
 
 CREATE TABLE CLIC(
    id_clic SERIAL,
-   jour DATE NOT NULL,
+   jour TIMESTAMP NOT NULL,
    id_prestataire INT NOT NULL,
    PRIMARY KEY(id_clic),
    CONSTRAINT fk_prestataire_clic FOREIGN KEY(id_prestataire) REFERENCES PRESTATAIRE(id_prestataire)

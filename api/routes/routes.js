@@ -108,4 +108,6 @@ router.get("/resultats/:nomCompetition", controller.getResultats);
 
 router.get("/competitions", controller.getCompetition);
 
+router.get("/statistiques/prestataire/clics/:id", controller.getClicsPrestataire);
+
 module.exports = router;

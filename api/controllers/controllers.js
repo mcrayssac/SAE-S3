@@ -251,3 +251,16 @@ exports.addCommentaire = async (req, res) => {
         }
     });
 }
+
+exports.getClicsPrestataire = async (req, res) => {
+    await services.getClicsPrestataire(req.params.id, async (error, results) => {
+        console.log(chalk.green.inverse("requete pour get les clics d'un prestataire"));
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERREUR : Pas de clics trouvé`));
+            return res.status(401).send({success:0, data: `ERREUR : Pas de clics trouvé`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Requête pour get les clics d'un prestataire`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
+}

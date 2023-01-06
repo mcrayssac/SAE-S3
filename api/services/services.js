@@ -625,6 +625,34 @@ const updateStandId = async (idPresta, idStand, callback) => {
     });
 }
 
+const getClicsPrestataire = async (id, callback) => {
+    if (id){
+        console.log(id);
+        await pool.query(signupQueries.getClicsPrestataire, [id], async (error, results) => {
+            if (error) {
+                console.log("error getClicsPrestataire");
+                return callback(error);
+            } else if (results.rows.length === 0) {
+                console.log("success getClicsPrestataire");
+                return callback(null, false);
+            } else {
+                console.log('success getClicsPrestataire');
+                let temp = [];
+                let sum = 0;
+                for (const elt of results.rows) {
+                    temp.push([elt.x, parseInt(elt.y)]);
+                    sum += parseInt(elt.y);
+                }
+                sum /= temp.length;
+                sum = Math.round(sum * 1000) / 1000;
+                let down = [0, sum - sum / 2];
+                //console.log(temp, sum, down);
+                return callback(null, {temp, sum, down});
+            }
+        });
+    }
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -655,5 +683,6 @@ module.exports = {
     getResultats,
     updateStandId,
     getCaracteristiques,
-    getTypes
+    getTypes,
+    getClicsPrestataire
 }
