@@ -40,6 +40,7 @@ exports.getPrestataire = (req, res) => {
     let type = req.params.nomPrestataire;
     res.send({
         getClub: services.getClub(type, (error, results) => {
+            console.log(results)
             if (error) return error
             else return results
         })
