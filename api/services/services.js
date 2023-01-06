@@ -4,12 +4,13 @@ const bcrypt = require("bcrypt")
 const {callback} = require("pg/lib/native/query");
 const pool = require("../database/db");
 const mapQueries = require("../queries/maps_queries");
-const queries = require("../queries/authentification_queries");
+const auth_queries = require("../queries/authentification_queries");
+const queries = require("../queries/queries");
 const signupQueries = require("../queries/signup_queries");
 
 const getOrganisateur = async (callback) => {
     try {
-        pool.query(queries.getOrganisateur, (error, results) => {
+        pool.query(auth_queries.getOrganisateur, (error, results) => {
             if (error) {
                 console.log("F1: error service", error);
                 return callback("Error retrieving orga.");
@@ -438,6 +439,168 @@ const getAllPrestataires = async (callback) => {
         }
     }))
 }
+// Swagger
+const getAllPublic = async (callback) => {
+    await pool.query(queries.getAllPublic, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getAllOrganisateur = async (callback) => {
+    await pool.query(queries.getAllOrganisateur, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+
+// Swagger
+const getPublicById = (idPublic, callback) => {
+    try {
+        pool.query(queries.getPublicById, idPublic, (error, results) => {
+            if (error) {
+                console.log("Erreur service getPublicById", error);
+                return callback("Erreur pour retournerle public avec l'id = " + idPublic);
+            }
+            return callback(null, results.rows)
+        });
+    } catch (e) {
+        console.log(e);
+        return callback("Erreur pour retournerle public avec l'id =" + idPublic);
+    }
+}
+
+// Swagger
+const getPrestataireById = (idPrestataire, callback) => {
+    try {
+        pool.query(queries.getPrestataireById, idPrestataire, (error, results) => {
+            if (error) {
+                console.log("Erreur service getPrestataireById", error);
+                return callback("Erreur pour retourner le prestaire avec l'id = " + idPrestataire);
+            }
+            return callback(null, results.rows)
+        });
+    } catch (e) {
+        console.log(e);
+        return callback("Erreur pour retourner le prestataire avec l'id = " + idPrestataire);
+    }
+}
+
+// Swagger
+const createPublic = (prenom, nom, email, passwd, langue, age, sexe, pays,  callback) => {
+    try {
+        pool.query(auth_queries.createPublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays)], (error, results) => {
+            if (error) {
+                console.log("Erreur service createPublic", error);
+                return callback("Erreur lors de la création du public");
+            }
+            return callback(null, "Nouveau public : " + prenom + " " + nom + " créé avec succès");
+        });
+    } catch (e) {
+        console.log(e);
+        return callback("Erreur lors de la création du public");
+    }
+}
+
+// Swagger
+const createPrestataire = (nom, email, telephone, site_web, passwd, id_type,  callback) => {
+    try {
+        pool.query(auth_queries.createPrestataire, [nom, email, telephone, site_web, passwd, parseInt(id_type)], (error, results) => {
+            if (error) {
+                console.log("Erreur service createPrestataire", error);
+                return callback("Erreur lors de la création du prestataire");
+            }
+            return callback(null, "Nouveau prestataire : " + nom + " " + email + " " + telephone + " " + site_web + " " + passwd + " " + id_type + " créé avec succès");
+        });
+    } catch (e) {
+        console.log(e);
+        return callback("Erreur lors de la création du prestataire");
+    }
+}
+
+// Swagger
+const deletePublic = (id, callback) => {
+    try {
+        pool.query(auth_queries.deleteUser, id, (error, results) => {
+            if (results.rowCount === 0) {
+                return callback("Public avec id = " + id + " non trouvé");
+            }
+            pool.query(auth_queries.deleteUser, id, (error, results) => {
+                if (error) {
+                    console.log("Erreur service deletePublic", error);
+                    return callback("Erreur lors de la suppression du public");
+                }
+                return callback(null, "Public avec id = " + id + " mis à jour.")
+            })
+        });
+    } catch (e) {
+        console.log(e);
+        return callback([]);
+    }
+}
+
+const deletePrestataire = (id, callback) => {
+    try {
+        pool.query(auth_queries.deletePrestataire, id, (error, results) => {
+            if (results.rowCount === 0) {
+                return callback("Prestataire avec id = " + id + " non trouvé");
+            }
+            pool.query(auth_queries.deletePrestataire, id, (error, results) => {
+                if (error) {
+                    console.log("Erreur service deletePrestataire", error);
+                    return callback("Erreur pour supprimer un prestataire");
+                }
+                return callback(null, "Prestataire avec id = " + id + " supprimé.")
+            })
+        });
+    } catch (e) {
+        console.log(e);
+        return callback([]);
+    }
+}
+
+const updatePublic = (id, prenom, nom, email, passwd, langue, age, sexe, pays, callback) => {
+    try {
+        pool.query(queries.updatePublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays), id], (error, results) => {
+            if (results.rowCount === 0) {
+                return callback("Public avec id = " + id + " non trouvé");
+            }
+            if (error) {
+                console.log("Erreur service updatePublic", error);
+                return callback("Erreur update public.");
+            }
+            return callback(null,"Public avec id = " + id + " mis à jour.");
+        });
+    } catch (e) {
+        console.log(e);
+        return callback("Erreur update public.");
+    }
+}
+
+const updatePrestataire = (id, nom, email, telephone, site_web, passwd, id_type,  callback) => {
+    try {
+        pool.query(queries.updatePrestataire, [nom, email, telephone, site_web, passwd, parseInt(id_type), id], (error, results) => {
+            if (results.rowCount === 0) {
+                return callback("Prestataire avec id = " + id + " non trouvé");
+            }
+            if (error) {
+                console.log("Erreur service updatePrestataire", error);
+                return callback("Erreur update prestataire.");
+            }
+            return callback(null, "Prestataire avec id = " + id + " " + nom + " " + email + " " + telephone + " " + site_web + " " + passwd + " " + id_type + " mis à jour.");
+        });
+    } catch (e) {
+        console.log(e);
+        return callback("Erreur update prestataire.");
+    }
+}
 
 module.exports = {
     getOrganisateur,
@@ -459,5 +622,15 @@ module.exports = {
     postDemandesPrestataires,
     getInscriptionChoixPrestataire,
     getAllStands,
-    getAllPrestataires
+    getAllPrestataires,
+    getAllPublic,
+    getPublicById,
+    getPrestataireById,
+    getAllOrganisateur,
+    createPublic,
+    createPrestataire,
+    deletePublic,
+    deletePrestataire,
+    updatePublic,
+    updatePrestataire
 }
