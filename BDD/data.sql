@@ -3,7 +3,7 @@ SET CLIENT_ENCODING TO 'UTF8';
 select * from AGE;
 
 \COPY CONTRAINTE (libelle_contrainte) FROM 'C:\Users\mlcra\SAE-S3\BDD\CONTRAINTE.csv' DELIMITER AS ',';
-select * from CONTRAINTE;   
+select * from CONTRAINTE;
 
 \COPY PAYS (libelle_pays) FROM 'C:\Users\mlcra\SAE-S3\BDD\PAYS.csv' DELIMITER AS ',';
 select * from PAYS;
@@ -41,10 +41,25 @@ select * from PERIODE;
 \COPY RESERVATION (date_periode, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\RESERVATION.csv' DELIMITER AS ',';
 select * from RESERVATION;
 
-\COPY CARACTERISTIQUE (libelle_caracteristique, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\CARACTERISTIQUE.csv' DELIMITER AS ',';
+\COPY CARACTERISTIQUE (libelle_caracteristique) FROM 'C:\Users\mlcra\SAE-S3\BDD\CARACTERISTIQUE.csv' DELIMITER AS ',';
 select * from CARACTERISTIQUE;
 
-\COPY PRESTATAIRE (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\PRESTATAIRE.csv' DELIMITER AS ',';
+DROP TABLE tmp_table;
+-- empty temp table with identical structure
+CREATE TEMP TABLE tmp_table AS TABLE PRESTATAIRE LIMIT 0;
+
+CREATE TEMP SEQUENCE tmp_presta_id_seq
+    OWNED BY tmp_table.id_prestataire;
+
+ALTER TABLE tmp_table
+    ALTER COLUMN id_prestataire SET DEFAULT nextval('tmp_presta_id_seq');
+
+\COPY tmp_table (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\PRESTATAIRE.csv' DELIMITER AS ',';;
+
+INSERT INTO PRESTATAIRE  -- identical number and names of columns guaranteed
+SELECT id_prestataire, nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, passwd_prestataire, etat_inscription, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
+FROM tmp_table;
+
 select * from PRESTATAIRE;
 
 \COPY COURSES (libelle_course, nb_km, nb_place, prix, date_periode, id_sport, id_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\COURSES.csv' DELIMITER AS ',';
@@ -55,6 +70,9 @@ select * from INITIATION;
 
 \COPY NOTE (libelle_note, id_prestataire, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\NOTE.csv' DELIMITER AS ',';
 select * from NOTE;
+
+\COPY CLIC (jour, id_prestataire) FROM 'C:\Users\mlcra\SAE-S3\BDD\CLIC.csv' DELIMITER AS ',';
+select * from CLIC;
 
 \COPY COMMENTAIRE (libelle_commentaire, id_prestataire, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\COMMENTAIRE.csv' DELIMITER AS ',';
 select * from COMMENTAIRE;
@@ -74,11 +92,5 @@ select * from A_Propos;
 \COPY Pour FROM 'C:\Users\mlcra\SAE-S3\BDD\Pour.csv' DELIMITER AS ',';
 select * from Pour;
 
-\COPY Detient FROM 'C:\Users\mlcra\SAE-S3\BDD\Detient.csv' DELIMITER AS ',';
+\COPY Detient (id_prestataire, id_caracteristique) FROM 'C:\Users\mlcra\SAE-S3\BDD\Detient.csv' DELIMITER AS ',';
 select * from Detient;
-
-
-select nom_prestataire, coordonne_x, coordonne_y, rotation
-from PRESTATAIRE
-inner join STAND as s on s.id_stand = PRESTATAIRE.id_stand
-;

@@ -181,8 +181,18 @@ const getPrestataire = (type, callback) => {
     }
 }
 
-const getClub = (club, callback) => {
+const getClub = async (club, callback) => {
     let getClub = null;
+
+    await pool.query(mapQueries.getClub, [club], ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            console.log(results);
+            return callback(null, results.rows)
+        }
+    }));
+
     if (club === "jdadijonbasket"){
         getClub = {
             "Titre":"JDA Dijon Basket",
@@ -602,6 +612,182 @@ const updatePrestataire = (id, nom, email, telephone, site_web, passwd, id_type,
     }
 }
 
+const getTypeCaracteristiquesPresta = async (callback) => {
+    await pool.query(mapQueries.getTypeCaracteristiquesPresta, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getCaracteristiques = async (callback) => {
+    await pool.query(mapQueries.getCaracteristiques, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getTypes = async (callback) => {
+    await pool.query(mapQueries.getTypes, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+// const getClassementCourse = async (idCourse, callback) => {
+//     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
+//
+//         if (error) return callback(error)
+//         else return callback(null, results.rows)
+//     }));
+// }
+
+const getResultats = async (nomCompetition, callback) => {
+    if (nomCompetition){
+        let competition = null;
+        if (nomCompetition === "courseapied") competition = "Course à pied";
+        else if (nomCompetition === "vtt") competition = "Course de VTT";
+        else if (nomCompetition === "natation") competition = "Course de natation";
+        else if (nomCompetition === "courseorientation") competition = "Course d'orientation";
+        else return callback("Competition not found");
+        await pool.query(signupQueries.getResultats, [competition], ((error, results)=>{
+            if (error)
+                return callback(error)
+            else{
+                return callback(null, {name: competition ,data: results.rows})
+            }
+        }))
+    } else {
+        return callback("Competition not found");
+    }
+}
+
+const getCompetition = async (callback) => {
+    let filtres = []
+    await pool.query(signupQueries.getKm, (async (error, results) => {
+        if (error)
+            return callback(error)
+        else {
+            let temp = []
+            for (const elt of results.rows) {
+                temp.push(Object.values(elt)[0]);
+            }
+            filtres.push([Object.keys(results.rows[0])[0], temp]);
+            await pool.query(signupQueries.getPlace, (async (error, results) => {
+                if (error)
+                    return callback(error)
+                else {
+                    let temp = []
+                    for (const elt of results.rows) {
+                        temp.push(Object.values(elt)[0]);
+                    }
+                    filtres.push([Object.keys(results.rows[0])[0], temp]);
+                    await pool.query(signupQueries.getPrix, (async (error, results) => {
+                        if (error)
+                            return callback(error)
+                        else {
+                            let temp = []
+                            for (const elt of results.rows) {
+                                temp.push(Object.values(elt)[0]);
+                            }
+                            filtres.push([Object.keys(results.rows[0])[0], temp]);
+                            await pool.query(signupQueries.getType, (async (error, results) => {
+                                if (error)
+                                    return callback(error)
+                                else {
+                                    let temp = []
+                                    for (const elt of results.rows) {
+                                        temp.push(Object.values(elt)[0]);
+                                    }
+                                    filtres.push([Object.keys(results.rows[0])[0], temp]);
+                                    await pool.query(signupQueries.getLieu, (async (error, results) => {
+                                        if (error)
+                                            return callback(error)
+                                        else {
+                                            let temp = []
+                                            for (const elt of results.rows) {
+                                                temp.push(Object.values(elt)[0]);
+                                            }
+                                            filtres.push([Object.keys(results.rows[0])[0], temp]);
+                                            await pool.query(signupQueries.getCompetition, ((error, results) => {
+                                                if (error)
+                                                    return callback(error)
+                                                else {
+                                                    let temp = []
+                                                    for (const elt of results.rows) {
+                                                        let object = {title: elt.title}
+                                                        delete elt.title;
+                                                        object.filtres = { title: Object.keys(elt), body: Object.values(elt)}
+                                                        temp.push(object);
+                                                    }
+                                                    return callback(null, {title: "Compétitions", getFiltres: filtres, getCards: temp})
+                                                }
+                                            }))
+                                        }
+                                    }))
+                                }
+                            }))
+                        }
+                    }))
+                }
+            }))
+        }
+    }))
+    //return callback(null, {title: "Compétitions", filtres: results.rows})
+}
+
+const addCommentaire = async(form, callback) => {
+    const commentaire = form.commentaire, idPublic = form.id, nomPresta = form.nomPresta, note = form.note;
+    let idPresta;
+
+    await pool.query(mapQueries.getPresta, [nomPresta], (async (error, result)=>{
+        if (error) {
+            console.log(error);
+            return callback(error);
+        }
+        else if (result.rowCount === 0) {
+            return callback(error);
+        }
+        else {
+            idPresta = result.rows[0].id_prestataire;
+            await pool.query(mapQueries.addCommentaire, [commentaire, idPresta, idPublic], (async (error, resultCom) => {
+                if (error) {
+                    console.log(error);
+                    return callback(error);
+                } else {
+                    await pool.query(mapQueries.addNote, [note, idPresta, idPublic], ((error, resultNote) => {
+                        if (error) {
+                            console.log(error);
+                            return callback(error);
+                        } else
+                            return callback(null, {commentaire: resultCom.rows, note: resultNote.rows});
+                    }));
+                }
+            }));
+        }
+    }));
+}
+
+const updateStandId = async (idPresta, idStand, callback) => {
+    await pool.query(mapQueries.updateStandId, [idPresta, idStand], async (error, results) => {
+        if (error) {
+            console.log("error updateStand");
+            return callback(error);
+        } else {
+            console.log('success updateStand');
+            return callback(null, "success");
+        }
+    });
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -632,5 +818,15 @@ module.exports = {
     deletePublic,
     deletePrestataire,
     updatePublic,
-    updatePrestataire
+    updatePrestataire,
+    getTypeCaracteristiquesPresta,
+    getResultats,
+    getCompetition,
+    //getClassementCourse,
+    getResultats,
+    addCommentaire,
+    getResultats,
+    updateStandId,
+    getCaracteristiques,
+    getTypes
 }

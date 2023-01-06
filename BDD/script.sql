@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS Emet;
 DROP TABLE IF EXISTS COMMENTAIRE;
 DROP TABLE IF EXISTS INITIATION;
 DROP TABLE IF EXISTS COURSES;
+DROP TABLE IF EXISTS CLIC;
 DROP TABLE IF EXISTS NOTE;
 DROP TABLE IF EXISTS RESERVATION;
 DROP TABLE IF EXISTS CARACTERISTIQUE;
@@ -135,9 +136,7 @@ CREATE TABLE RESERVATION (
 CREATE TABLE CARACTERISTIQUE (
    id_caracteristique SERIAL,
    libelle_caracteristique VARCHAR(50),
-   id_type INT NOT NULL,
-   CONSTRAINT pk_caracteristiques PRIMARY KEY (id_caracteristique),
-   CONSTRAINT fk_type_caracteristique FOREIGN KEY (id_type) REFERENCES TYPE_PRESTATAIRE(id_type)
+   CONSTRAINT pk_caracteristiques PRIMARY KEY (id_caracteristique)
 );
 
 CREATE TABLE PRESTATAIRE (
@@ -191,6 +190,14 @@ CREATE TABLE NOTE(
    CONSTRAINT pk_note PRIMARY KEY (id_note),
    CONSTRAINT fk_prestataire_note FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE(id_prestataire),
    CONSTRAINT fk_public_note FOREIGN KEY (id_public) REFERENCES PUBLIC(id_public)
+);
+
+CREATE TABLE CLIC(
+   id_clic SERIAL,
+   jour DATE NOT NULL,
+   id_prestataire INT NOT NULL,
+   PRIMARY KEY(id_clic),
+   CONSTRAINT fk_prestataire_clic FOREIGN KEY(id_prestataire) REFERENCES PRESTATAIRE(id_prestataire)
 );
 
 CREATE TABLE COMMENTAIRE (
@@ -247,11 +254,9 @@ CREATE TABLE Pour (
 );
 
 CREATE TABLE Detient (
-   id_type INT NOT NULL,
    id_prestataire INT NOT NULL,
    id_caracteristique INT NOT NULL,
-   CONSTRAINT pk_detient PRIMARY KEY (id_type, id_prestataire, id_caracteristique),
-   CONSTRAINT fk_type_detient FOREIGN KEY (id_type) REFERENCES TYPE_PRESTATAIRE(id_type),
+   CONSTRAINT pk_detient PRIMARY KEY (id_prestataire, id_caracteristique),
    CONSTRAINT fk_prestataire_detient FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE(id_prestataire),
    CONSTRAINT fk_caracteristique_detient FOREIGN KEY (id_caracteristique) REFERENCES CARACTERISTIQUE(id_caracteristique)
 );

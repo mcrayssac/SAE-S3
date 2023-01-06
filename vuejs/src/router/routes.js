@@ -32,8 +32,18 @@ const routes = [
   },
   {
     path: '/etatInscription',
-    name: '/etatInscription',
+    name: 'etatInscription',
     component: () => import('../views/prestataire/etatInscription.vue')
+  },
+  {
+    path: '/statistiques',
+    name: 'statistiques',
+    component: () => import('../views/prestataire/statistiques/statistiques.vue')
+  },
+  {
+    path: '/courses',
+    name: 'courses',
+    component: () => import('../views/public/courses/courses.vue')
   },
   {
     path: '/demandesPrestataires',
@@ -41,9 +51,19 @@ const routes = [
     component: () => import('../views/organisateur/demandesPrestataires.vue')
   },
   {
+    path: '/voirCoursesOrientation',
+    name: 'voirCoursesOrientation',
+    component: () => import('../views/classementCourses.vue')
+  },
+  {
     path: '/categories/:nomCategorie',
     name: 'categories/nomCategorie',
     component: () => import('../views/prestataire/prestataires/categories.vue')
+  },
+  {
+    path: '/resultats/:nomCompetition',
+    name: '/resultats/nomCompetition',
+    component: () => import('../views/public/resultats/resultats.vue')
   },
   {
     path: '/prestataires/:nomPrestataire',

@@ -55,9 +55,17 @@ router.get("/categories/:nomCategorie", controller.getCategorie);
 
 router.get("/categories", controller.getCategories);
 
+router.post("/prestataires/:nomPrestataire/post_commentaire", controller.addCommentaire);
+
+// router.get("/courses/classement/:idCourse", controller.getClassementCourse)
+
+// --------- ORGANISATEUR
+
+router.get("/prestataires/:nomPrestataire", controller.getPrestataire);
+
 router.get("/cagnotte", controller.getCagnotte);
 
-router.get("/inscription/choix", controller.getInscriptionChoix);
+router.get("/inscription/choix/:type", controller.getInscriptionChoix);
 
 router.put("/public", controller.createPublic);
 /**
@@ -365,5 +373,17 @@ router.get("/prestataires", controller.getAllPrestataires);
  *          '400':
  *              description: Bad request
  */
+
+router.get("/map/typePresta", controller.getTypeCaracteristiquesPresta);
+
+router.get("/map/caracteristiques", controller.getCaracteristiques);
+
+router.get("/map/type", controller.getTypes);
+
+router.put("/map/presta/stand/:idPresta", controller.updateStandId)
+
+router.get("/resultats/:nomCompetition", controller.getResultats);
+
+router.get("/competitions", controller.getCompetition);
 
 module.exports = router;

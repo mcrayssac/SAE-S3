@@ -122,7 +122,7 @@
     </section>
 
     <section v-else class="Loading">
-      <app-loading/>
+      <app-loading color="white" />
     </section>
 
     <section class="Modal">

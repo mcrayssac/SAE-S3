@@ -21,23 +21,22 @@
   </div>
 </template>
 
-<!-- =================================================================================================================== style -->
+<script>
+export default {
+  name: "commentaires",
+  data: function() {
+    return {
+      listCom: [
+        {nom_public: '111', prenom_public: '111', libelle_commentaire: '111', libelle_note: '111'},
+        {nom_public: '222', prenom_public: '222', libelle_commentaire: '222', libelle_note: '222'},
+        {nom_public: '333', prenom_public: '333', libelle_commentaire: '333', libelle_note: '333'},
+        {nom_public: '444', prenom_public: '444', libelle_commentaire: '444', libelle_note: '444'}
+      ]
+    }
+  }
+}
+</script>
+
 <style scoped>
 
 </style>
-
-<script>
-  module.exports = {
-    name: "test_giu",
-    data: function() {
-      return {
-        listCom: [
-          {nom_public: '111', prenom_public: '111', libelle_commentaire: '111', libelle_note: '111'},
-          {nom_public: '222', prenom_public: '222', libelle_commentaire: '222', libelle_note: '222'},
-          {nom_public: '333', prenom_public: '333', libelle_commentaire: '333', libelle_note: '333'},
-          {nom_public: '444', prenom_public: '444', libelle_commentaire: '444', libelle_note: '444'}
-        ]
-      }
-    }
-  }
-</script>

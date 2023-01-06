@@ -1,9 +1,6 @@
 <template>
   <b-container fluid :style="layoutHeight">
-    <section v-if="!data" class="Loading">
-      <app-loading color="#6ec8cb" />
-    </section>
-    <section v-else class="Main">
+    <section v-if="data !== null" class="Body">
       <section class="Title">
         <b-row align-h="center" align-v="center">
           <b-col class="m-5" cols="auto">
@@ -66,7 +63,7 @@
                         <b-card-text>
                           <p v-for="(item, jIndex) in items.filtres.body" :key="jIndex" class="card-text"> <b> {{items.filtres.title[jIndex]}} : </b> {{item}}</p>
 
-                          <b-button class="button" @click="$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })">Voir la page</b-button>
+                          <b-button class="button" @click="verifyAccount('account-error-modal')">Voir la page</b-button>
                         </b-card-text>
                       </b-card-body>
                     </b-col>
@@ -80,31 +77,52 @@
           </b-row>
         </section>
       </b-container>
+
+      <b-modal body-text-variant="danger" ref="account-error-modal" title="Lakeside Sports Festival" hide-header-close>
+        <b-col class="my-3">
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: x-large; font-family: 'Montserrat', sans-serif;">Vous n'êtes pas connecté !</span>
+            </b-col>
+          </b-row>
+          <b-row class="my-1" align-h="center">
+            <b-col cols="auto">
+              <span style="font-size: small; font-family: 'Montserrat', sans-serif;">Veuillez-vous connecter avant de poursuivre</span>
+            </b-col>
+          </b-row>
+        </b-col>
+        <template #modal-footer >
+          <b-row class="mx-auto" align-h="center">
+            <b-col cols="auto">
+              <b-button class="button" @click="hideLoginErrorModal('account-error-modal')">Close</b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-modal>
+    </section>
+    <section v-else class="Loading">
+      <app-loading color="#6ec8cb" />
     </section>
   </b-container>
 </template>
 
 <script>
 import _ from 'lodash';
-import axios from "axios";
-import appLoading from "@/loading.vue"
 import {mapState} from "vuex";
+import appLoading from "@/loading";
+import axios from "axios";
+
 export default {
-  name: "categories",
+  name: "courses",
+  data: function() {
+    return {
+      data: null,
+      filrs: null
+    }
+  },
   components: {appLoading},
-  data: () => ({
-    inputFilter: '',
-    selected:null,
-    data: null,
-    filrs: null
-  }),
-  computed: {
-    ...mapState(['layoutHeight']),
-    filteredArticles() {
-      return this.data.getCards.filter((element) => {
-        return element.title.toLowerCase().match(this.inputFilter.toLowerCase());
-      });
-    },
+  computed:{
+    ...mapState(['userInfos', 'layoutHeight']),
     filterCards() {
       let vm = this, lists = vm.data.getCards
       return _.filter(lists, function (query) {
@@ -120,10 +138,23 @@ export default {
       })
     }
   },
+  methods:{
+    verifyAccount(modal){
+      if (this.userInfos.id === -1) this.showLoginErrorModal(modal);
+      else console.log("Account ready")
+    },
+    showLoginErrorModal(modal) {
+      this.$refs[modal].show()
+    },
+    hideLoginErrorModal(modal) {
+      this.$refs[modal].hide()
+    }
+  },
   async created() {
-    await axios.get(`http://localhost:3000/categories/${this.$route.params.nomCategorie}`)
-        .then(result => {
-          this.data = result.data
+    let self = this;
+    await axios.get(`http://localhost:3000/competitions`)
+        .then(async result => {
+          this.data = result.data.data
           this.filrs = []
           for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
             this.filrs.push("");
@@ -138,5 +169,5 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../../public/css/prestataires/prestataires/prestatairePresentationComponent.css';
+
 </style>

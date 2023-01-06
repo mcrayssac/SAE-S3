@@ -199,5 +199,13 @@
 -- where p.id_prestataire = $1
 -- ;
 
+============================================================ visualiser toutes les demandes devenir prestataires ============================================================
+-- select p.nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, t.etat_type, b.libelle_contrainte
+-- from prestataire as p
+-- inner join type_prestataire as t on t.id_type = p.id_type
+-- inner join emet as e on e.id_prestataire = p.id_prestataire
+-- inner join contrainte as b on b.id_contrainte = e.id_contrainte
+-- ;
+
 -- stand avec contraintes
 -- filtres contraintes prestataire

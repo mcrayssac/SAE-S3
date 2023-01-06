@@ -27,7 +27,6 @@ exports.getCategorie = (req, res) => {
     });
 }
 
-// Swagger
 exports.getCategories = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les categories reçue.'));
     res.send({
@@ -73,28 +72,28 @@ exports.getStands = async (req, res) =>{
 
 exports.getInscriptionChoix = async (req, res) => {
     console.log(chalk.green.inverse("requete pour les choix d'inscription"));
-    await services.getInscriptionChoix( async (error, results) => {
-        if(error){
-            console.log(chalk.red.inverse(`${chalkController} ERROR : No chooses found`));
-            return res.status(401).send({success:0, data: `ERROR : No chooses found`});
-        } else {
-            console.log(chalk.green.inverse(`${chalkController} Request to inscription chooses`));
-            return res.status(200).send({success:1, data: results});
-        }
-    });
-}
+    if (req.params.type === "public"){
+        await services.getInscriptionChoix( async (error, results) => {
+            if(error){
+                console.log(chalk.red.inverse(`${chalkController} ERROR : No chooses found`));
+                return res.status(401).send({success:0, data: `ERROR : No chooses found`});
+            } else {
+                console.log(chalk.green.inverse(`${chalkController} Request to inscription chooses`));
+                return res.status(200).send({success:1, data: results});
+            }
+        });
+    } else if (req.params.type === "prestataire"){
+        await services.getInscriptionChoixPrestataire( async (error, results) => {
+            if(error){
+                console.log(chalk.red.inverse(`${chalkController} ERROR : No chooses found`));
+                return res.status(401).send({success:0, data: `ERROR : No chooses found`});
+            } else {
+                console.log(chalk.green.inverse(`${chalkController} Request to prestataire inscription chooses`));
+                return res.status(200).send({success:1, data: results});
+            }
+        });
+    } else return res.status(401).send({success:0, data: `ERROR : Not found`});
 
-exports.getInscriptionChoixPrestataire = async (req, res) => {
-    console.log(chalk.green.inverse("requete pour les choix d'inscription du prestataire"));
-    await services.getInscriptionChoixPrestataire( async (error, results) => {
-        if(error){
-            console.log(chalk.red.inverse(`${chalkController} ERROR : No chooses found`));
-            return res.status(401).send({success:0, data: `ERROR : No chooses found`});
-        } else {
-            console.log(chalk.green.inverse(`${chalkController} Request to prestataire inscription chooses`));
-            return res.status(200).send({success:1, data: results});
-        }
-    });
 }
 
 
@@ -156,6 +155,67 @@ exports.postDemandesPrestataires = async (req, res) => {
             return res.status(400).send({success:0, data:error})
         }
         return res.status(200).send({success:1, data:results})
+    })
+}
+
+exports.updateStandId = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour modifier le stand du prestataire'));
+    await services.updateStandId(req.params.idPresta, req.query.idStand,(error, results) => {
+        if(error){
+            return res.status(400).send({success:0, data:error})
+        }
+        return res.status(200).send({success:1, data:results})
+    })
+}
+
+exports.getTypeCaracteristiquesPresta = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires pour chaque stand'));
+    await services.getTypeCaracteristiquesPresta( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.getCaracteristiques = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques'));
+    await services.getCaracteristiques( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.getTypes = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques'));
+    await services.getTypes( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.getResultats = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour les resultats'));
+    console.log(req.params.nomCompetition);
+    await services.getResultats(req.params.nomCompetition, (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.getCompetition = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour les competitions'));
+    await services.getCompetition((err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
     })
 }
 
@@ -442,4 +502,28 @@ exports.updatePrestataire = (req, res) => {
     } else {
         return res.status(400).send({success: 0, data: "Bad request1!"});
     }
+}
+
+// exports.getClassementCourse = async (req, res) => {
+//     console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires'));
+//     await services.getClassementCourse( req.params.idCourse, (err, results) => {
+//         if(err){
+//             return res.status(400).send({success:0, data: err})
+//         }
+//         return res.status(200).send({success:1, data: results})
+//     })
+// }
+
+exports.addCommentaire = async (req, res) => {
+    console.log(req.body);
+    services.addCommentaire(req.body, async (error, results) => {
+        console.log(chalk.green.inverse("requete pour ajouter un commentaire"));
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERREUR : Ajout impossible`));
+            return res.status(401).send({success:0, data: `ERREUR : Ajout impossible`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Requête pour addCommentaire`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
 }

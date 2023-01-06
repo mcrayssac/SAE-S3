@@ -1,0 +1,31 @@
+.Clic{
+    background-color: #495388 !important;
+    border-radius: 15px !important;
+}
+
+.Chart{
+    background-color: white !important;
+    border-radius: 15px !important;
+}
+
+.chart-title{
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: x-large !important;
+    color: white !important;
+}
+
+.label-chart{
+    font-family: 'Work Sans', sans-serif !important;
+    font-size: large;
+    color: white !important;
+}
+
+.text-chart{
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    color: white !important;
+}
+
+.hr-chart{
+    color: white;
+}
