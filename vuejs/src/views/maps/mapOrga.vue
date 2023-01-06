@@ -318,6 +318,7 @@
                     </b-row>
                     <b-row align-h="center" align-v="center"
                            v-for="(presta, index) in tabStands" :key="index" :ref="presta.nom_prestataire"
+                           @click="selectStand(presta)"
                            @mouseenter="interactivityHover(presta.nom_prestataire)"
                            @mouseleave="interactivityLeave(presta.nom_prestataire)">
                       <b-col cols="auto">
