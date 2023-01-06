@@ -99,28 +99,7 @@
               </g>
               <!-- =============================================================STAND============================================================= -->
               <g id="stands" ref="stands">
-                <a xlink:title="Association" id="asso" data-toggle="modal" data-target="#modalPopUp">
-                  <rect
-                      style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient3975);stroke-width:1.29576;stroke-linejoin:bevel;stroke-dasharray:none;"
-                      width="14.066713"
-                      height="4.7733784"
-                      x="125.09771"
-                      y="80"
-                      ry="0.53774071"
-                      transform="translate(34.869889,46.014811)"
-                      />
-                  <image
-                      width="9.6899996"
-                      height="15.042416"
-                      preserveAspectRatio="none"
-                      xlink:href="https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496"
-                      id="image6922"
-                      x="162.23665"
-                      y="114"
-                      style="display:inline" />
-                </a>
-
-                <a xlink:title="Premiers secours" id="secours" data-toggle="modal" data-target="#modalPopUp">
+                <a xlink:title="Premiers secours" id="secours">
                   <g
                       id="standSecour"
                       transform=" matrix(0.73897544,0,0,1.0174021,71.646031,44.299198)">
@@ -130,7 +109,8 @@
                         height="5.0165253"
                         x="136.47505"
                         y="96.078079"
-                        ry="0.53774071" />
+                        ry="0.53774071"
+                        id="secours"/>
                     <path
                         id="croixSecour"
                         style="display:inline;opacity:1;fill:#df1b3f;fill-opacity:1;stroke:#df1b3f;stroke-width:0.899999;stroke-dasharray:none;stroke-dashoffset:0;paint-order:markers stroke fill"
@@ -138,12 +118,34 @@
                   </g>
                 </a>
 
+                <a xlink:title="Association" id="asso" data-toggle="modal" data-target="#modalPopUp" ref="Association">
+                  <rect
+                      style="display:inline;opacity:1;fill-opacity:1;stroke:url(#linearGradient3975);stroke-width:1.29576;stroke-linejoin:bevel;stroke-dasharray:none;"
+                      width="14.066713"
+                      height="4.7733784"
+                      x="125.09771"
+                      y="80"
+                      ry="0.53774071"
+                      transform="translate(34.869889,46.014811)"
+                      id="asso"
+                      />
+                  <image
+                      width="9.6899996"
+                      height="15.042416"
+                      preserveAspectRatio="none"
+                      xlink:href="https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496"
+                      x="162.23665"
+                      y="114"
+                      />
+                </a>
+
                 <a v-for="(stand, index) in tabStand" :key="index" :xlink:title="stand.nom_prestataire"
                    :ref="stand.nom_prestataire">
                   <rect
                         :transform="getRotation(index)"
-                        :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
+                        :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(stand.id_prestataire)"
                         v-b-modal.modal-stand-occupe
+                        :id="stand.nom_prestataire"
                         @mouseover="interactivityHover(stand.nom_prestataire)"
                         @mouseleave="interactivityLeave(stand.nom_prestataire)">
 
@@ -496,6 +498,7 @@ export default {
         this.$refs[id][0].getElementsByTagName('rect')[0].classList.add('is-active')
         this.$refs[id][0].getElementsByTagName('image')[0].classList.add('is-active-balise')
         this.$refs[id][1].classList.add('is-active')
+
       }
     },
 
@@ -513,17 +516,18 @@ export default {
     interactivityReset(){
       for(let i = 0; i < this.tabStand.length; i++){
         this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('rect')[0].classList.remove('is-active')
+        this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('image')[0].classList.remove('is-desactive-balise')
         this.$refs[this.tabStand[i].nom_prestataire][1].classList.remove('is-active')
       }
+      this.$refs['Association'].getElementsByTagName('image')[0].classList.remove('is-desactive-balise')
     },
 
     //requete pour recup les types + mettre tab type
     getClasses(id){
       let classes = ""
-      let filtered = this.tabTypePresta.filter(caracteristique => caracteristique.id_prestataire === id+1)
+      let filtered = this.tabTypePresta.filter(caracteristique => caracteristique.id_prestataire === id)
       classes+= filtered[0].etat_type+" "
       filtered.forEach(filter => classes += filter.libelle_caracteristique + " ")
-
       return classes
     },
 
@@ -532,6 +536,7 @@ export default {
       this.filterChecked[id] = !this.filterChecked[id]
       // Récupère toutes les balises rect
       let stands = Array.from(this.$refs.stands.getElementsByTagName('rect'))
+      let balises = Array.from(this.$refs.stands.getElementsByTagName('image'))
       let checkedCaracteristique = []
       for (let i = 0; i < this.filterChecked.length; i++) {
         if (this.filterChecked[i])
@@ -546,17 +551,39 @@ export default {
           // Concatène les classes d'un stand
           let classes = Object.values(stand.classList).join(' ')
           for (let i = 0; i < checkedCaracteristique.length; i++) {
-            // console.log(checkedCaracteristique[i])
-            // console.log((classes.toLowerCase().match(checkedCaracteristique[i].toLowerCase())))
-            // console.log(this.filterChecked[this.tabCaracteristiques.indexOf(checkedCaracteristique[i])])
             // Si le stand possède la contrainte dans ses classes et que la contrainte est sélectionnée, return true sinon false
             temp = (classes.toLowerCase().match(checkedCaracteristique[i].toLowerCase())) && this.filterChecked[this.tabCaracteristiques.indexOf(checkedCaracteristique[i])] ? true : false;
             res = res && temp
           }
           return res;
         })
+        let temp;
+        let res = true;
         console.log(filtered)
-        filtered.forEach(stand => stand.classList.add('is-active'))
+        console.log(stands)
+        console.log(balises)
+        console.log(".......................................")
+        //pour ajouter active et desactive
+        for(let i=1; i<stands.length;i++){
+          res = false
+          for(let j=0; j<filtered.length;j++){
+            // console.log(stands[i])
+            // console.log(filtered[i])
+            // console.log("========================")
+            // console.log(stands[i].getAttribute('id'))
+            temp = filtered[j]==stands[i] ? true : false
+            res = res || temp
+
+            console.log(stands[i].getAttribute('id') + ", temp = " + temp + ", res = " + res)
+          }
+          if(res){
+            console.log(stands[i].getAttribute('id') + "true")
+            stands[i].classList.add('is-active')
+          }else{
+            console.log(stands[i].getAttribute('id') + "false")
+            balises[i-1].classList.add('is-desactive-balise')
+          }
+        }
       }
     },
 

@@ -4,6 +4,7 @@
       <app-loading/>
     </section>
     <section v-else class="Main">
+      {{data}}
       <section class="Title">
         <b-row align-h="center">
           <b-col class="mt-5 ms-5 me-5" cols="auto">
@@ -12,9 +13,9 @@
                 data-aos-duration="500"
                 data-aos-anchor-placement="top-center">
               <b-link href="https://www.jdadijon.com/basket/">
-                <b-img :src="data.Image.Titre" width="150"></b-img>
+<!--                <b-img alt="Logo club" :src="data.Image.Titre" width="150"></b-img>-->
               </b-link>
-              {{data.Titre}}
+<!--              {{data.nom_prestataire}}-->
             </h1>
           </b-col>
         </b-row>
@@ -31,28 +32,28 @@
                     data-aos-anchor-placement="top-center" style="color: white;">A PROPOS</h1>
               </b-col>
             </b-row>
-            <b-row class="mx-4 mb-5" v-for="(items, index) in data.Texte.Gauche" :key="index">
+<!--            <b-row class="mx-4 mb-5" v-for="(items, index) in data.Texte.Gauche" :key="index">
               <p data-aos="fade-left"
                  data-aos-delay="200"
                  data-aos-duration="500"
                  data-aos-anchor-placement="top-bottom" style="text-indent: 40px; color: white; text-align: justify;">{{ items }}</p>
-            </b-row>
+            </b-row>-->
           </b-col>
           <b-col class="my-auto mr-3">
             <b-row class="mx-5 my-5" align-h="center">
-              <b-col data-aos="flip-up"
+<!--              <b-col data-aos="flip-up"
                      data-aos-delay="400"
                      data-aos-duration="500"
                      data-aos-anchor-placement="top-bottom" cols="auto">
                 <a><b-img :src="data.Image.Body" width="300" height="300" style="border-radius: 50%;"></b-img></a>
-              </b-col>
+              </b-col>-->
             </b-row>
             <b-row data-aos="zoom-in-up"
                    data-aos-delay="400"
                    data-aos-duration="500"
                    data-aos-anchor-placement="top-bottom" class="mx-4 my-5">
               <p style="color: black; font-weight: bold;text-align: justify;">
-                {{data.Texte.Droite}}
+<!--                {{data.Texte.Droite}}-->
               </p>
             </b-row>
           </b-col>
@@ -76,7 +77,7 @@
                  data-aos-delay="300"
                  data-aos-duration="500"
                  data-aos-anchor-placement="top-bottom" cols="auto">
-            <a>{{data.Initiation}}</a>
+            <a><!--{{data.Initiation}}--></a>
           </b-col>
         </b-row>
       </section>
@@ -167,7 +168,7 @@
         </b-row>
         <div class="container">
           <div class="row me-4">
-            <div data-aos="flip-right"
+<!--            <div data-aos="flip-right"
                  data-aos-delay="200"
                  data-aos-duration="500"
                  data-aos-anchor-placement="top-bottom" class="col-md-4 py-4 ps-5" v-for="(items, index) in data.Commentaires" :key="index">
@@ -177,12 +178,11 @@
                   <p class="card-text"><b> Commentaire : {{items.Commentaire}}</b></p>
                   <p class="text-right red"> {{items.Note}}/10</p>
                 </div>
-              </div>
-            </div>
+              </div>-->
           </div>
-
-          <button @click="peutPoster" style="width: 150px">Ajouter un commentaire</button>
         </div>
+
+        <button @click="peutPoster" style="width: 150px">Ajouter un commentaire</button>
       </section>
 
       <div class="container" v-if="postCom">
@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     peutPoster() {
-      if (this.$store.getters.getUserInfos.id != -1) {
+      if (this.$store.getters.getUserInfos.id !== -1) {
           this.form.id = this.$store.getters.getUserInfos.id;
           this.form.nomPresta = this.data.Titre;
           this.postCom = true;

@@ -29,8 +29,10 @@ const addCommentaire = "insert into COMMENTAIRE(libelle_commentaire, id_prestata
                         ";
 
 const addNote = "insert into NOTE(libelle_note, id_prestataire, id_public)\
-                        values ($1, $2, $3)\
-                        ";
+                values ($1, $2, $3)\
+                ";
+
+const getAllClubs = "SELECT nom_prestataire FROM PRESTATAIRE where id_type = 3;";
 
 const getClub = "select * from PRESTATAIRE where id_type = 3 and nom_prestataire like $1;";
 
@@ -48,5 +50,6 @@ module.exports = {
     updateStandId,
     getCaracteristiques,
     getTypes,
+    getAllClubs,
     getClub
 }

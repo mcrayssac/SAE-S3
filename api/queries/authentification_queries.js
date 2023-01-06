@@ -42,9 +42,10 @@ const deleteA_propos = "delete from a_propos where id_reservation in (select id_
 const deleteReservation = "delete from RESERVATION where id_public = $1;";
 /* Delete User */
 const deleteUser = "delete from public where id_public = $1;";
+const deletePrestataire = "delete from prestataire where id_prestataire = $1;";
 
 module.exports = {
     getPublic, getPrestataire, getOrganisateur, getEmailPublic, getEmailPrestataire, createPublic, createPrestataire,
     selectUser, selectNote, deleteNote, selectCommentaire, deleteCommentaire, selectParticipe, deleteParticipe,
-    selectReservation, selectPour, deletePour, selectA_propos, deleteA_propos, deleteReservation, deleteUser
+    selectReservation, selectPour, deletePour, selectA_propos, deleteA_propos, deleteReservation, deleteUser, deletePrestataire
 }
