@@ -180,8 +180,18 @@ const getPrestataire = (type, callback) => {
     }
 }
 
-const getClub = (club, callback) => {
+const getClub = async (club, callback) => {
     let getClub = null;
+
+    await pool.query(mapQueries.getClub, [club], ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            console.log(results);
+            return callback(null, results.rows)
+        }
+    }));
+
     if (club === "jdadijonbasket"){
         getClub = {
             "Titre":"JDA Dijon Basket",
@@ -449,6 +459,26 @@ const getTypeCaracteristiquesPresta = async (callback) => {
     }))
 }
 
+const getCaracteristiques = async (callback) => {
+    await pool.query(mapQueries.getCaracteristiques, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getTypes = async (callback) => {
+    await pool.query(mapQueries.getTypes, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 // const getClassementCourse = async (idCourse, callback) => {
 //     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
 //
@@ -551,6 +581,50 @@ const getCompetition = async (callback) => {
     //return callback(null, {title: "Compétitions", filtres: results.rows})
 }
 
+const addCommentaire = async(form, callback) => {
+    const commentaire = form.commentaire, idPublic = form.id, nomPresta = form.nomPresta, note = form.note;
+    let idPresta;
+
+    await pool.query(mapQueries.getPresta, [nomPresta], (async (error, result)=>{
+        if (error) {
+            console.log(error);
+            return callback(error);
+        }
+        else if (result.rowCount === 0) {
+            return callback(error);
+        }
+        else {
+            idPresta = result.rows[0].id_prestataire;
+            await pool.query(mapQueries.addCommentaire, [commentaire, idPresta, idPublic], (async (error, resultCom) => {
+                if (error) {
+                    console.log(error);
+                    return callback(error);
+                } else {
+                    await pool.query(mapQueries.addNote, [note, idPresta, idPublic], ((error, resultNote) => {
+                        if (error) {
+                            console.log(error);
+                            return callback(error);
+                        } else
+                            return callback(null, {commentaire: resultCom.rows, note: resultNote.rows});
+                    }));
+                }
+            }));
+        }
+    }));
+}
+
+const updateStandId = async (idPresta, idStand, callback) => {
+    await pool.query(mapQueries.updateStandId, [idPresta, idStand], async (error, results) => {
+        if (error) {
+            console.log("error updateStand");
+            return callback(error);
+        } else {
+            console.log('success updateStand');
+            return callback(null, "success");
+        }
+    });
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -576,5 +650,10 @@ module.exports = {
     getResultats,
     getCompetition,
     //getClassementCourse,
-    getResultats
+    getResultats,
+    addCommentaire,
+    getResultats,
+    updateStandId,
+    getCaracteristiques,
+    getTypes
 }

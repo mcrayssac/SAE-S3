@@ -1,3 +1,118 @@
 #stands {
     fill:#8b6c42;
 }
+
+/******************************************************/
+/* Interactivity */
+.svg-img{
+    border-radius: 15px !important;
+}
+
+/*.svg-col{
+    min-width: 600px !important;
+}*/
+
+.sidebar-title{
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: large;
+}
+
+.map_list{
+    background-color: #495388 !important;
+    border-radius: 15px !important;
+}
+
+.map-check-label{
+    font-family: 'Work Sans', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    color: white !important;
+    font-size: medium;
+}
+
+.title-filtre-besoin{
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    color: white !important;
+    font-size: large;
+}
+
+.hr-map-orga{
+    margin: 15px 0 !important;
+    color: white !important;
+}
+
+.hr-map-sidebar{
+    margin: 0 0 20px 0 !important;
+    color: #495388 !important;
+}
+
+.button-submit{
+    font-family: 'Work Sans', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    border-radius: 5px !important;
+    border: solid 2px white !important;
+    background-color: white !important;
+    color: #495388 !important;
+}
+
+.button-submit:hover{
+    background-color: #495388 !important;
+    border: solid 2px white !important;
+    color: white !important;
+}
+
+.button-close{
+    font-family: 'Work Sans', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    border-radius: 5px !important;
+    border: solid 2px #d9231a !important;
+    background-color: #d9231a !important;
+    color: white !important;
+}
+
+.button-close:hover{
+    background-color: white !important;
+    border: solid 2px #d9231a !important;
+    color: #d9231a !important;
+}
+
+.button-see{
+    font-family: 'Work Sans', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    border-radius: 5px !important;
+    border: solid 2px #6ec8cb !important;
+    background-color: #6ec8cb !important;
+    color: white !important;
+}
+
+.button-see:hover{
+    background-color: white !important;
+    border: solid 2px #6ec8cb !important;
+    color: #6ec8cb !important;
+}
+
+.map_image .is-active{
+    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+    font-weight:bold;
+}
+
+.map_list .is-active{
+    font-weight:bold;
+    font-size: large;
+}
+/*balise css à modifier*/
+.map_image .is-active-balise{
+    /*transform-origin: 50% 60%;*/
+    /*transform: scale(1.3);*/
+
+    /*-ms-transform: scale(1.5);*/
+    /*-webkit-transform: scale(1.5);*/
+    /*transform: scale(1.5);*/
+    filter: invert(50%) sepia(85%) saturate(3564%) hue-rotate(158deg) brightness(83%) contrast(92%);
+    font-weight:bold;
+}

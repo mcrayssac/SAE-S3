@@ -7,8 +7,6 @@
           <div class="map_image" id="map_image">
             <svg
                 class="svg-img"
-                width="auto"
-                height="auto"
                 viewBox="0 0 297 179">
               <!-- =============================================================FOND============================================================= -->
               <rect
@@ -132,6 +130,7 @@
                         :transform="getRotation(index)"
                         :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
                         v-b-modal.modal-stand-occupe
+                        @click="selectStand(stand)"
                         @mouseover="interactivityHover(stand.nom_prestataire)"
                         @mouseleave="interactivityLeave(stand.nom_prestataire)">
                   </rect>
@@ -139,6 +138,7 @@
                         :transform="getRotation(index)"
                         :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(index)"
                         v-b-modal.modal-stand-dispo
+                        @click="selectStand(stand)"
                         @mouseover="interactivityHover(stand.id_stand)"
                         @mouseleave="interactivityLeave(stand.id_stand)">
                   </rect>
@@ -335,11 +335,6 @@
                 <b-row class="mb-3 m-0" v-if="tabPrestataires.length > 0" align-h="center" align-v="center">
                   <b-col cols="auto">
                     <h6> Prestataires non placés </h6>
-                    <b-row align-h="center" align-v="center">
-                      <b-col cols="auto">
-                        <a v-b-modal.modal-asso ref="asso"> Association </a>
-                      </b-col>
-                    </b-row>
                     <b-row align-h="center" align-v="center"
                            v-for="(presta, i) in tabPrestataires" :key="'A'+ i" :ref="presta.nom_prestataire"
                            @mouseenter="interactivityHover(presta.nom_prestataire)"
@@ -377,18 +372,13 @@
 
             <!------------------------------------------------------------ Modal stand dispo ------------------------------------------------------------------>
             <b-modal ref="modal-stand-dispo" hide-backdrop hide-header-close no-fade no-stacking id="modal-stand-dispo"
-                     title="Stand ...">
+                     :title="getTitle()">
               <h5> Contraintes du stand </h5> <br>
-              peu de place, électricité
+              {{searchClasses(this.standSelected.id_stand)}}
               <hr>
               <h5> Prestataire placé </h5> <br>
               <label for="select-presta"> Choisir un prestataire à placer : </label>
-              <select id="select-presta">
-                <option id="1" value="1" selected> Sélectionner</option>
-                <option id="2" value="2"> Prestataire 1</option>
-                <option id="3" value="3"> Prestataire 2</option>
-                <option id="4" value="4"> Prestataire 3</option>
-              </select>
+              <b-form-select v-model="prestaSelected" :options="getPrestaWithoutStands()"></b-form-select>
               <template #modal-footer>
                 <b-row class="mx-auto">
                   <b-col cols="auto">
@@ -429,19 +419,16 @@
 
             <!------------------------------------------------------------ Modal stand occupé ------------------------------------------------------------------>
             <b-modal ref="modal-stand-occupe" hide-backdrop hide-header-close no-fade no-stacking
-                     id="modal-stand-occupe" title="Stand ...">
+                     id="modal-stand-occupe" :title="getTitle()">
               <h5> Caractéristiques du stand </h5> <br>
-              beaucoup de place, eau
-              <hr>
-              <h5> Prestataire placé </h5> <br>
-              Association
+              {{searchClasses(this.standSelected.id_stand)}}
               <template #modal-footer>
                 <b-row class="mx-auto" align-h="center">
                   <b-col cols="auto">
                     <b-button class="button-close" @click="hideStandOccupeModal">Fermer</b-button>
                   </b-col>
                   <b-col cols="auto">
-                    <b-button class="button-see" @click="redirectionPresta">Voir la page du prestataire</b-button>
+                    <b-button class="button-see">Voir la page du prestataire</b-button>
                   </b-col>
                 </b-row>
               </template>
@@ -449,7 +436,7 @@
 
             <!------------------------------------------------------------ Modal pop-up valider prestataire ------------------------------------------------------------------>
             <b-modal ref="modal-stand-valider" hide-backdrop no-fade hide-header id="modal-stand-valider">
-              <h5> Etes-vous sûr de vouloir placer le prestataire ... au stand ... ? </h5>
+              <h5> Etes-vous sûr de vouloir placer le prestataire {{prestaSelected}} à ce stand ? </h5>
               <template #modal-footer>
                 <b-row class="mx-auto">
                   <b-col cols="auto">
@@ -482,7 +469,9 @@ export default {
     tabContraintes: [],
     filterChecked: [],
     tabContraintesClasses: [],
-    tabPrestataires: []
+    tabPrestataires: [],
+    prestaSelected: null,
+    standSelected: {id_prestataire: 1, id_stand:0}
   }),
   methods: {
     deg_to_rad(degree) {
@@ -508,8 +497,10 @@ export default {
       if (id === 'scene') {
         this.$refs[id].classList.add('is-active')
       } else {
+        if(this.$refs[id].length === 3){
+          this.$refs[id][1].classList.add('is-active')
+        }
         this.$refs[id][0].getElementsByTagName('rect')[0].classList.add('is-active')
-        this.$refs[id][1].classList.add('is-active')
       }
     },
     interactivityLeave(id) {
@@ -517,7 +508,9 @@ export default {
         this.$refs[id].classList.remove('is-active')
       } else {
         this.$refs[id][0].getElementsByTagName('rect')[0].classList.remove('is-active')
-        this.$refs[id][1].classList.remove('is-active')
+        if(this.$refs[id].length === 3) {
+          this.$refs[id][1].classList.remove('is-active')
+        }
       }
     },
     interactivityReset() {
@@ -553,7 +546,6 @@ export default {
           }
           return res;
         })
-        console.log(filtered)
         filtered.forEach(stand => stand.classList.add('is-active'))
       }
     },
@@ -566,11 +558,48 @@ export default {
       }
       return classes
     },
+    searchClasses(index){
+      let classes = ""
+      let filtered = this.tabContraintesClasses.filter(contrainte => contrainte.id_stand === index)
+      filtered.forEach(filter => classes += filter.libelle_contrainte + ", ")
+      classes = classes.slice(0,(classes.length-2))
+      return classes
+    },
     getRotation (index) {
       return 'rotate(' + this.tabStands[index].rotation + ',' + this.tabStands[index].coordonne_x + ', ' + this.tabStands[index].coordonne_y +')'
     },
+    getTitle(){
+      let title = ""
+      if(this.standSelected.id_prestataire == null){
+        title += "Stand " + this.standSelected.id_stand
+      }
+      else title += this.standSelected.nom_prestataire
+      return title
+    },
+    getPrestaWithoutStands(){
+      let tab = []
+      this.tabPrestataires.forEach(presta => {
+        if(presta.id_stand == null)
+          tab.push(presta.nom_prestataire)
+      })
+      return tab
+    },
     placePrestataire() {
-      console.log("presta placé")
+      this.$refs['modal-stand-valider'].hide()
+      console.log(this.prestaSelected)
+      let findPresta = this.tabPrestataires.find(presta => presta.nom_prestataire == this.prestaSelected)
+      axios.put(`http://localhost:3000/map/presta/stand/`+findPresta.id_prestataire + '?idStand='+this.standSelected.id_stand)
+          .then(result => {
+            console.log("success")
+          })
+          .catch((err) => {
+            console.log("failed")
+          });
+      this.prestaSelected = null
+      location.reload()
+    },
+    selectStand(stand){
+      this.standSelected = stand
     }
   },
   computed: {
@@ -617,9 +646,7 @@ export default {
     // Liste de tous les prestataires
     await axios.get(`http://localhost:3000/prestataires`)
         .then(result => {
-          console.log(result)
           this.tabPrestataires = result.data.data
-          console.log(this.tabPrestataires)
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;

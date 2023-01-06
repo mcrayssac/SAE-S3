@@ -29,6 +29,8 @@ router.get("/categories", controller.getCategories);
  *              description: Bad request
  */
 
+router.post("/prestataires/:nomPrestataire/post_commentaire", controller.addCommentaire);
+
 // router.get("/courses/classement/:idCourse", controller.getClassementCourse)
 
 // --------- ORGANISATEUR
@@ -95,6 +97,12 @@ router.get("/map/stands/all", controller.getAllStands);
 router.get("/prestataires", controller.getAllPrestataires);
 
 router.get("/map/typePresta", controller.getTypeCaracteristiquesPresta);
+
+router.get("/map/caracteristiques", controller.getCaracteristiques);
+
+router.get("/map/type", controller.getTypes);
+
+router.put("/map/presta/stand/:idPresta", controller.updateStandId)
 
 router.get("/resultats/:nomCompetition", controller.getResultats);
 

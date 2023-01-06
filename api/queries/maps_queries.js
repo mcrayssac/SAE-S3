@@ -15,6 +15,25 @@ const getTypeCaracteristiquesPresta = "SELECT libelle_caracteristique, etat_type
 //                             order by pa.position_classement\
 //                             ;"
 
+const updateStandId = "UPDATE PRESTATAIRE SET id_stand = $2 WHERE id_prestataire = $1"
+
+const getTypes = "SELECT etat_type FROM TYPE_PRESTATAIRE;"
+
+const getCaracteristiques = "SELECT libelle_caracteristique FROM CARACTERISTIQUE;"
+
+
+const getPresta = "select id_prestataire from PRESTATAIRE where nom_prestataire like $1;";
+
+const addCommentaire = "insert into COMMENTAIRE(libelle_commentaire, id_prestataire, id_public)\
+                        values ($1, $2, $3)\
+                        ";
+
+const addNote = "insert into NOTE(libelle_note, id_prestataire, id_public)\
+                        values ($1, $2, $3)\
+                        ";
+
+const getClub = "select * from PRESTATAIRE where id_type = 3 and nom_prestataire like $1;";
+
 module.exports = {
     getStands : getStands,
     getContraintes : getContraintes,
@@ -22,5 +41,12 @@ module.exports = {
     getAllStands : getAllStands,
     getAllPrestataires,
     getTypeCaracteristiquesPresta : getTypeCaracteristiquesPresta,
-    // getClassementCourse: getClassementCourse
+    // getClassementCourse: getClassementCourse,
+    addCommentaire: addCommentaire,
+    getPresta: getPresta,
+    addNote: addNote,
+    updateStandId,
+    getCaracteristiques,
+    getTypes,
+    getClub
 }
