@@ -71,6 +71,9 @@ select * from INITIATION;
 \COPY NOTE (libelle_note, id_prestataire, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\NOTE.csv' DELIMITER AS ',';
 select * from NOTE;
 
+\COPY CLIC (jour, id_prestataire) FROM 'C:\Users\mlcra\SAE-S3\BDD\CLIC.csv' DELIMITER AS ',';
+select * from CLIC;
+
 \COPY COMMENTAIRE (libelle_commentaire, id_prestataire, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\COMMENTAIRE.csv' DELIMITER AS ',';
 select * from COMMENTAIRE;
 
