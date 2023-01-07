@@ -3,10 +3,10 @@ const Pool = require("pg").Pool;
 
 // Define parameters
 
-const user = 'giuliana'; // max
+const user = 'max'; // max
 const host = 'localhost';
-const password = '2711'; // max
-const database = 'bdd_sql'; // sae_s3
+const password = 'max'; // max
+const database = 'sae_s3'; // sae_s3
 const port = 5432;
 
 // Define a pool

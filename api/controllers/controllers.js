@@ -2,9 +2,8 @@ const services = require("../services/services");
 const chalk = require("chalk");
 const chalkController = chalk.inverse.blue.bold.bgWhite("[Controllers]");
 const validator = require("validator");
-
-
-
+const isEmpty = require('is-empty');
+const isAscii = require("is-ascii");
 
 exports.getCategorie = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
@@ -138,7 +137,7 @@ exports.getAllPrestataires = async (req, res) =>{
 }
 
 exports.getDemandesPrestataires = async (req, res) => {
-    console.log(chalk.green.inverse('requete pour les demandes de prestataires'));
+    console.log(chalk.green.inverse('Requete pour les demandes de prestataires'));
     await services.getDemandesPrestataires( (error, results) => {
         if(error){
             return res.status(400).send({success:0, data:error})
@@ -148,7 +147,7 @@ exports.getDemandesPrestataires = async (req, res) => {
 }
 
 exports.postDemandesPrestataires = async (req, res) => {
-    console.log(chalk.green.inverse('requete pour accept/decline un prestataire'));
+    console.log(chalk.green.inverse('Requete pour accept/decline un prestataire'));
     await services.postDemandesPrestataires(req.params.choice,  req.body.id, (error, results) => {
         if(error){
             return res.status(400).send({success:0, data:error})
@@ -158,7 +157,7 @@ exports.postDemandesPrestataires = async (req, res) => {
 }
 
 exports.updateStandId = async (req, res) => {
-    console.log(chalk.green.inverse('requete pour modifier le stand du prestataire'));
+    console.log(chalk.green.inverse('Requete pour modifier le stand du prestataire'));
     await services.updateStandId(req.params.idPresta, req.query.idStand,(error, results) => {
         if(error){
             return res.status(400).send({success:0, data:error})
@@ -168,7 +167,7 @@ exports.updateStandId = async (req, res) => {
 }
 
 exports.getTypeCaracteristiquesPresta = async (req, res) =>{
-    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques des prestataires pour chaque stand'));
+    console.log(chalk.green.inverse('Requete pour tous les types et caractéristiques des prestataires pour chaque stand'));
     await services.getTypeCaracteristiquesPresta( (err, results) => {
         if(err){
             return res.status(400).send({success:0, data: err})
@@ -178,7 +177,7 @@ exports.getTypeCaracteristiquesPresta = async (req, res) =>{
 }
 
 exports.getCaracteristiques = async (req, res) =>{
-    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques'));
+    console.log(chalk.green.inverse('Requete pour tous les types et caractéristiques'));
     await services.getCaracteristiques( (err, results) => {
         if(err){
             return res.status(400).send({success:0, data: err})
@@ -188,7 +187,7 @@ exports.getCaracteristiques = async (req, res) =>{
 }
 
 exports.getTypes = async (req, res) =>{
-    console.log(chalk.green.inverse('requete pour tous les types et caractéristiques'));
+    console.log(chalk.green.inverse('Requete pour tous les types et caractéristiques'));
     await services.getTypes( (err, results) => {
         if(err){
             return res.status(400).send({success:0, data: err})
@@ -198,7 +197,7 @@ exports.getTypes = async (req, res) =>{
 }
 
 exports.getResultats = async (req, res) => {
-    console.log(chalk.green.inverse('requete pour les resultats'));
+    console.log(chalk.green.inverse('Requete pour les resultats.'));
     console.log(req.params.nomCompetition);
     await services.getResultats(req.params.nomCompetition, (err, results) => {
         if(err){
@@ -209,7 +208,7 @@ exports.getResultats = async (req, res) => {
 }
 
 exports.getCompetition = async (req, res) => {
-    console.log(chalk.green.inverse('requete pour les competitions'));
+    console.log(chalk.green.inverse('Requete pour les competitions.'));
     await services.getCompetition((err, results) => {
         if(err){
             return res.status(400).send({success:0, data: err})
@@ -221,7 +220,7 @@ exports.getCompetition = async (req, res) => {
 //Swagger
 exports.getAllOrganisateur = async (req, res) => {
     services.getAllOrganisateur( async (error, results) => {
-        console.log(chalk.green.inverse("requete pour les organisateurs"));
+        console.log(chalk.green.inverse("Requete pour les organisateurs"));
         if(error){
             console.log(chalk.red.inverse(`${chalkController} ERROR : No chooses found`));
             return res.status(401).send({success:0, data: `ERROR : No chooses found`});
@@ -251,7 +250,7 @@ exports.getPublicById = (req, res) => {
     const idPublic = parseInt(req.params.idPublic);
 
     services.getPublicById([idPublic], (error, results) => {
-        console.log(chalk.green("Requete pour le public ID=" + idPublic + " reçue."));
+        console.log(chalk.green("Requete pour le public ID =" + idPublic + " reçue."));
         if (error) {
             console.log(error);
             res.status(400).send({success: 0, data: error});
@@ -262,8 +261,7 @@ exports.getPublicById = (req, res) => {
 
 // Swager
 exports.getPrestataireById = (req, res) => {
-    const idPrestataire = parseInt(req.params.idPrestataire);
-
+    const idPrestataire =req.params.idPrestataire;
     services.getPrestataireById([idPrestataire], (error, results) => {
         console.log(chalk.green("Requete pour le prestataire ID=" + idPrestataire + " reçue."));
         if (error) {
@@ -359,7 +357,7 @@ exports.createPrestataire = (req, res) => {
             return res.status(200).json(results);
         })
     } else {
-        return res.status(400).send({success: 0, data: "Bad request1!"});
+        return res.status(400).send({success: 0, data: "Bad request!"});
     }
 }
 
@@ -409,7 +407,7 @@ exports.deletePrestataire = (req, res) => {
 
 // Swagger
 exports.updatePublic = (req, res) => {
-    console.log(chalk.green("Requete pour modifier un public recue!"));
+    console.log(chalk.green("Requete pour modifier un public reçue!"));
     let idPublic = req.params.idPublic;
     let prenom = req.body.prenom;
     let nom = req.body.nom;
@@ -454,7 +452,7 @@ exports.updatePublic = (req, res) => {
             return res.status(200).json(results);
         })
     } else {
-        return res.status(400).send({success: 0, data: "Bad request"});
+        return res.status(400).send({success: 0, data: "Bad request!"});
     }
 }
 
@@ -499,7 +497,7 @@ exports.updatePrestataire = (req, res) => {
             return res.status(200).json(results);
         })
     } else {
-        return res.status(400).send({success: 0, data: "Bad request1!"});
+        return res.status(400).send({success: 0, data: "Bad request!"});
     }
 }
 
@@ -516,7 +514,7 @@ exports.updatePrestataire = (req, res) => {
 exports.addCommentaire = async (req, res) => {
     console.log(req.body);
     services.addCommentaire(req.body, async (error, results) => {
-        console.log(chalk.green.inverse("requete pour ajouter un commentaire"));
+        console.log(chalk.green.inverse("Requete pour ajouter un commentaire"));
         if(error){
             console.log(chalk.red.inverse(`${chalkController} ERREUR : Ajout impossible`));
             return res.status(401).send({success:0, data: `ERREUR : Ajout impossible`});
