@@ -267,7 +267,7 @@ export default {
       }).then(function (response) {
         self.getUserInfos();
         console.log("Login valide : ", response);
-        window.location.href = "http://localhost:8080/";
+        window.location.href = "http://localhost:8080/etatInscription";
       }, function (error) {
         self.modalMessage = "Erreur ";
         self.showLoginErrorModal();

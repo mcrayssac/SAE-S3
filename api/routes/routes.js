@@ -517,4 +517,8 @@ router.get("/statistiques/prestataire/clics/:id", controller.getClicsPrestataire
 
 router.put("/statistiques/prestataire/clics/date/:id", controller.putClicsPrestataire);
 
+router.get("/demandes/prestataires", controller.getDemandesPrestataires);
+
+router.post("/demandes/prestataires/:choice", controller.postDemandesPrestataires);
+
 module.exports = router;

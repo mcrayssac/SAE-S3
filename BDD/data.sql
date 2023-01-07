@@ -62,7 +62,7 @@ ALTER TABLE tmp_table
 INSERT INTO PRESTATAIRE  -- identical number and names of columns guaranteed
 SELECT id_prestataire, nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, site_security, passwd_prestataire, etat_inscription, url_image, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
 FROM tmp_table;
-
+ALTER SEQUENCE prestataire_id_prestataire_seq RESTART WITH 22;
 select * from PRESTATAIRE;
 
 \COPY COURSES (libelle_course, nb_km, nb_place, prix, url_image, date_periode, id_sport, id_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\COURSES.csv' DELIMITER AS ',';
