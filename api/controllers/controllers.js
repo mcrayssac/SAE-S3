@@ -12,21 +12,6 @@ exports.getCategorie = async (req, res) => {
         }
         return res.status(200).send({success: 1, data: results})
     });
-
-    /*res.send({
-        title: services.getCategories(type, (error, results) => {
-            if (error) return error
-            else return results
-        }),
-        getFiltres: services.getFiltres(type, (error, results) => {
-            if (error) return error
-            else return results
-        }),
-        getCards: services.getPrestataire(type, (error, results) => {
-            if (error) return error
-            else return results
-        })
-    });
 }
 
 exports.getCategories = (req, res) => {

@@ -64,9 +64,9 @@
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item @click="changeLanguage()" v-if="language !== item.title" right>
-              <img :src="item.flag" width="20px" height="15px">
-            </b-nav-item></div>
+            <b-nav-item disabled right>
+              <img :src="flag" width="20px" height="15px">
+            </b-nav-item>
 
             <b-nav-item href="/association" class="removePadding">
               <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
@@ -145,13 +145,9 @@
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item @click="changeLanguage()" v-if="language !== item.title" right>
-              <img :src="item.flag" width="20px" height="15px">
-            </b-nav-item></div>
-
-            <b-nav-item v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false" disabled class="removePadding"><b-link href="/association" target="_blank">
-              <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
-            </b-link></b-nav-item>
+            <b-nav-item disabled right>
+              <img :src="flag" width="20px" height="15px">
+            </b-nav-item>
 
             <b-nav-item href="/association" class="removePadding">
               <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
@@ -230,9 +226,9 @@
               <b-dropdown-item @click="showLoginErrorModal('login-after-error-modal')">Supprimer le compte</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <div v-for="(item, index) in allLanguage" :key="index"><b-nav-item @click="changeLanguage()" v-if="language !== item.title" right>
-              <img :src="item.flag" width="20px" height="15px">
-            </b-nav-item></div>
+            <b-nav-item disabled right>
+              <img :src="flag" width="20px" height="15px">
+            </b-nav-item>
 
             <b-nav-item href="/association" class="removePadding">
               <b-img height="30" width="auto" src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
@@ -296,6 +292,7 @@ export default {
   name: "mainHomeTest",
   data: () => ({
     language: "French",
+    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/165px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png',
     allLanguage: [{"title":"English", "flag":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/langfr-338px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"}],
     backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'},
     data: null,
