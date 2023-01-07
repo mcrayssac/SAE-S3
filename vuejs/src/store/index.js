@@ -97,6 +97,7 @@ export default new Vuex.Store({
       state.events = state.events.filter(e => e.id != event.event.id)
     },
     updateEvent: (state, event) => {
+      console.log(event)
       let indexEvent = state.events.findIndex(e => e.id == event.event.id)
       state.events[indexEvent].end = event.event.end.toJSON()
       state.events[indexEvent].start = event.event.start.toJSON()

@@ -2,8 +2,6 @@ const services = require("../services/services");
 const chalk = require("chalk");
 const chalkController = chalk.inverse.blue.bold.bgWhite("[Controllers]");
 const validator = require("validator");
-const isEmpty = require('is-empty');
-const isAscii = require("is-ascii");
 
 exports.getCategorie = (req, res) => {
     console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));

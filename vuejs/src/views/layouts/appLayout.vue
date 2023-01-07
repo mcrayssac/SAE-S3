@@ -100,7 +100,7 @@
 
             <b-nav-item href="#" disabled><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Réservations</span></b-nav-item>
 
-            <b-nav-item href="/scene/presta" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
+            <b-nav-item href="/scene" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav v-else>
@@ -112,7 +112,7 @@
 
             <b-nav-item href="#" ><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Réservations</span></b-nav-item>
 
-            <b-nav-item href="#" ><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
+            <b-nav-item href="/scene" ><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
