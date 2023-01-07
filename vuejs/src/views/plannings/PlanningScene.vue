@@ -9,14 +9,14 @@
                       data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
-          <b-form-input v-model="currentEvent.event.title" type="text" required></b-form-input>
+          <b-form-input v-model="currentEvent.title" type="text" required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Nombre de places : " label-class="label"
                       data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
-          <b-form-input v-model="currentEvent.event.nbPlaces" type="number" required></b-form-input>
+          <b-form-input v-model="currentEvent.nbPlaces" type="number" required></b-form-input>
         </b-form-group>
       </b-form>
 
@@ -41,7 +41,7 @@
     <Planning :calendarOptions=optionsPublic :id=id> </Planning>
 
     <b-modal ref="modal" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal"
-             :title=currentEvent.event.title>
+             :title=currentEvent.title>
       <h5> Nombres de places restantes </h5> <br>
         5
       <hr>
@@ -51,7 +51,7 @@
                       data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
-          <b-form-input v-model="currentEvent.event.nbPlaces" type="number" required></b-form-input>
+          <b-form-input v-model="currentEvent.nbPlaces" type="number" required></b-form-input>
         </b-form-group>
       </b-form>
 
@@ -142,11 +142,9 @@ export default {
       },
       id:3,
       currentEvent: {
-        event: {
           title: "",
           nbPlaces: null
-        }
-      },
+        },
       currentTime: null,
       max: 10
     }
@@ -164,6 +162,9 @@ export default {
     },
     handleSelect(selectTime){
       console.log(selectTime)
+      console.log(selectTime.start.getTime())
+      console.log(selectTime.end.getTime())
+      console.log(selectTime.end.getTime() - selectTime.start.getTime())
       let isOverlap = this.optionsPresta.events.some(event => selectTime.start.toJSON() >= event.start && selectTime.end.toJSON() <= event.end)
 
       if(!isOverlap) {
@@ -186,20 +187,20 @@ export default {
       console.log(clickInfo)
       if (this.userInfos.admin !== null) window.location.href = "http://localhost:8080/signup";
       else {
-        this.currentEvent = clickInfo
+        this.currentEvent = clickInfo.event
         this.$refs['modal'].show()
       }
     },
     register(){
       console.log(this.userInfos.id)
-      if(this.currentEvent.event.title != "" && this.currentEvent.event.nbPlaces > 0 && this.currentEvent.event.nbPlaces < this.max) {
+      if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0 && this.currentEvent.nbPlaces < this.max) {
         this.$store.commit("addEvent", {
           id: this.id,
-          title: this.currentEvent.event.title,
+          title: this.currentEvent.title,
           start: this.currentTime.startStr,
           end: this.currentTime.endStr,
           allDay: this.currentTime.allDay,
-          nbPlaces: this.currentEvent.event.nbPlaces
+          nbPlaces: this.currentEvent.nbPlaces
         })
         this.id++
         this.optionsPublic.events = this.getEvents
@@ -212,14 +213,14 @@ export default {
     },
     async onSubmit(event) {
       console.log(event)
-      if(this.currentEvent.event.title != "" && this.currentEvent.event.nbPlaces > 0) {
+      if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0) {
         this.$store.commit("addEvent", {
           id: this.id,
-          title: this.currentEvent.event.title,
+          title: this.currentEvent.title,
           start: this.currentTime.startStr,
           end: this.currentTime.endStr,
           allDay: this.currentTime.allDay,
-          nbPlaces: this.currentEvent.event.nbPlaces
+          nbPlaces: this.currentEvent.nbPlaces
         })
         this.id++
         this.optionsPresta.events = this.getEvents
