@@ -49,26 +49,53 @@
         <section class="Card">
           <b-row v-if="data.getCards" align-h="center">
             <b-col class="m-5" cols="auto" style="min-width: 100%;">
-              <b-row v-for="(items, index) in filterCards" :key="index" align-h="center">
+              <b-row v-for="(items, index) in filterCards" :key="index" align-h="center" style="min-height: 400px;"
+                     data-aos="fade-up"
+                     data-aos-duration="500"
+                     data-aos-anchor-placement="top-bottom">
+                <b-card class="m-3 card-main" no-body>
 
-                <b-card class="m-3" data-aos="fade-up"
-                        data-aos-delay="100"
-                        data-aos-duration="500"
-                        data-aos-anchor-placement="top-bottom">
-
-                  <b-row>
-                    <b-col cols="auto">
-                      <b-img class="card-image" height="300" width="300" :src="items.url" :alt="items.title"></b-img>
+                  <b-row align-h="center" align-v="center">
+                    <b-col class="col-img-card p-0" cols="12" xl="6" lg="6">
+                      <b-img class="img-card" :src="items.urlImage" fluid style=""></b-img>
                     </b-col>
+                    <b-col class="p-3" cols="12" xl="6" lg="6" >
+                      <b-row class="my-3" align-h="center" align-v="center">
+                        <b-col class="text-center" cols="auto">
+                          <span class="card-title">{{items.title}}</span>
+                        </b-col>
+                      </b-row>
+                      <b-row align-h="center" align-v="center">
+                        <b-col cols="12">
+                          <hr class="mx-5">
+                        </b-col>
+                      </b-row>
+                      <b-row class="my-3 mx-5" align-h="start" align-v="center">
+                        <b-col cols="12">
+                          <b-col cols="auto">
+                            <span class="card-text-title">
+                              <b> Filtres : </b>
+                              <span class="card-text" v-for="(item, jIndex) in items.filtres.body" :key="jIndex">{{item}}<span v-if="jIndex === items.filtres.body.length - 1">.</span><span v-else>, </span>
+                              </span>
+                            </span>
 
-                    <b-col cols="auto">
-                      <b-card-body :title="items.title" style="border-left: 5px solid #495388;">
-                        <b-card-text>
-                          <p v-for="(item, jIndex) in items.filtres.body" :key="jIndex" class="card-text"> <b> {{items.filtres.title[jIndex]}} : </b> {{item}}</p>
-
-                          <b-button class="button" @click="$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })">Voir la page</b-button>
-                        </b-card-text>
-                      </b-card-body>
+                          </b-col>
+                        </b-col>
+                      </b-row>
+                      <b-row align-h="center" align-v="center">
+                        <b-col cols="12">
+                          <hr class="mx-5">
+                        </b-col>
+                      </b-row>
+                      <b-row class="my-3" align-h="center" align-v="center">
+                        <b-col cols="auto">
+                          <span>
+                            <b-button class="button"
+                                      @click="goToPage(items.id, items.Site, items.SiteSecurite)">
+                              Voir la page</b-button>
+                          </span>
+                        </b-col>
+                      </b-row>
                     </b-col>
 
                   </b-row>
@@ -100,11 +127,6 @@ export default {
   }),
   computed: {
     ...mapState(['layoutHeight']),
-    filteredArticles() {
-      return this.data.getCards.filter((element) => {
-        return element.title.toLowerCase().match(this.inputFilter.toLowerCase());
-      });
-    },
     filterCards() {
       let vm = this, lists = vm.data.getCards
       return _.filter(lists, function (query) {
@@ -112,7 +134,7 @@ export default {
         let res = true;
         if (vm.filrs[vm.filrs.length - 1] == ""){
           for (let i = 0; i < vm.filrs.length; i++) {
-            temp = vm.filrs[i] ? (query.filtres.body[i] == vm.filrs[i]) : true;
+            temp = vm.filrs[i] ? (query.filtres.body.includes(vm.filrs[i])) : true;
             res = res && temp;
           }
         } else res = vm.filrs[vm.filrs.length - 1] ? (query.title.toLowerCase().match(vm.filrs[vm.filrs.length - 1].toLowerCase())) : true;
@@ -120,10 +142,25 @@ export default {
       })
     }
   },
+  methods: {
+    async goToPage(id, site, security) {
+      let self = this;
+      await axios.put(`http://localhost:3000/statistiques/prestataire/clics/date/${id}`)
+          .then(result => {
+            let wdw = `${security.trim()}://${site.trim()}`;
+            window.open(wdw, '_blank');
+          })
+          .catch((err) => {
+            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+            console.warn("error goToPage", message);
+          });
+      //$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })
+    }
+  },
   async created() {
     await axios.get(`http://localhost:3000/categories/${this.$route.params.nomCategorie}`)
         .then(result => {
-          this.data = result.data
+          this.data = result.data.data
           this.filrs = []
           for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
             this.filrs.push("");

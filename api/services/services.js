@@ -42,7 +42,7 @@ const getSexe = (callback) => {
     }
 }
 
-const getCourses = (callback) => {
+/*const getCourses = (callback) => {
     let resCourses =    [
         ["ORIENTATION",
             {"Sport":" Running", "Distance": "12 km", "Age":" 18 à 25 ans", "Prix": "5€", "Places": "200", "Lieu": "Départ course à pied"},
@@ -82,6 +82,54 @@ const getFiltresCourses = (type, callback) => {
         return callback(null, getFiltres)
     }else{
         return callback([])
+    }
+}*/
+
+const getCategorie = async (type, callback) => {
+    if (type){
+        let filtres = [];
+        let cards = [];
+        await pool.query(signupQueries.getFamille, [type], async (error, results) => {
+            if (error) {
+                console.log("error");
+                return callback(error);
+            } else {
+                console.log('success');
+                let keys = [];
+                for await (const elt of results.rows){
+                    if (keys.includes(elt.Famille)){
+                        filtres[keys.indexOf(elt.Famille)][1].push(elt.Filtre);
+                    } else {
+                        filtres.push([elt.Famille, [elt.Filtre]]);
+                        keys.push(elt.Famille);
+                    }
+                }
+                //console.log("Filtres : ", filtres);
+                await pool.query(signupQueries.getPrestataires, [type], async (error, results) => {
+                    if (error) {
+                        console.log("error");
+                        return callback(error);
+                    } else {
+                        console.log('success');
+                        let keys = [];
+                        let famille = [];
+                        for await (const elt of results.rows){
+                            if (keys.includes(elt.Title) && !famille.includes({title: elt.Title, famille: elt.Famille})){
+                                cards[keys.indexOf(elt.Title)].filtres.title.push(elt.Famille);
+                                cards[keys.indexOf(elt.Title)].filtres.body.push(elt.Filtre);
+                                famille.push({title: elt.Title, famille: elt.Famille});
+                            } else {
+                                cards.push({title: elt.Title, urlImage: elt.UrlImage, id: elt.id, Site: elt.Site, SiteSecurite: elt.SiteSecurite, filtres: { title: [elt.Famille], body: [elt.Filtre]}});
+                                keys.push(elt.Title);
+                                famille.push({title: elt.Title, famille: elt.Famille});
+                            }
+                        }
+                        console.log("Cards : ", cards);
+                        return callback(null, {title: type, getFiltres: filtres, getCards: cards});
+                    }
+                });
+            }
+        });
     }
 }
 
@@ -276,13 +324,13 @@ const getClub = async (nomClub, callback) => {
 
 const getCategories = (type, callback) => {
     if (type === "restaurants"){
-        return callback(null, "Restaurants");
+        return callback(null, "Restaurant");
     } else if (type === "clubs"){
-        return callback(null, "Clubs");
+        return callback(null, "Club");
     } else if (type === "vente"){
-        return callback(null, "Vente");
+        return callback(null, "Magasin");
     } else {
-        return callback(null, [{"title": "Restaurants"}, {"title": "Clubs"}, {"title": "Vente"}]);
+        return callback(null, [{"title": "Restaurant"}, {"title": "Club"}, {"title": "Magasin"}]);
     }
 }
 
@@ -746,8 +794,10 @@ const getCompetition = async (callback) => {
                                                 else {
                                                     let temp = []
                                                     for (const elt of results.rows) {
-                                                        let object = {title: elt.title}
+                                                        let object = {title: elt.title};
+                                                        object.UrlImage = elt.UrlImage;
                                                         delete elt.title;
+                                                        delete elt.UrlImage;
                                                         object.filtres = { title: Object.keys(elt), body: Object.values(elt)}
                                                         temp.push(object);
                                                     }
@@ -839,12 +889,29 @@ const getClicsPrestataire = async (id, callback) => {
     }
 }
 
+const putClicsPrestataire = async (id, callback) => {
+    if (id) {
+        console.log(id);
+        await pool.query(signupQueries.putClicsPrestataire, [parseInt(id)], async (error, results) => {
+            if (error) {
+                console.log("error putClicsPrestataire");
+                return callback(error);
+            } else {
+                console.log('success putClicsPrestataire');
+                return callback(null, "putClicsPrestataire");
+            }
+        });
+    } else {
+        console.log("error putClicsPrestataire");
+        return callback(error);
+    }
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
     getSexe : getSexe,
-    getCourses: getCourses,
-    getFiltresCourses: getFiltresCourses,
+    getCategorie,
     authenticate: authenticate,
     getClub: getClub,
     getFiltres: getFiltres,
@@ -880,5 +947,6 @@ module.exports = {
     updateStandId,
     getCaracteristiques,
     getTypes,
-    getClicsPrestataire
+    getClicsPrestataire,
+    putClicsPrestataire
 }

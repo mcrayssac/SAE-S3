@@ -20,6 +20,9 @@ select * from LANGUES;
 \COPY TAILLE (libelle_taille) FROM 'C:\Users\mlcra\SAE-S3\BDD\TAILLE.csv' DELIMITER AS ',';
 select * from TAILLE;
 
+\COPY FAMILLE (libelle_famille) FROM 'C:\Users\mlcra\SAE-S3\BDD\FAMILLE.csv' DELIMITER AS ',';
+select * from FAMILLE;
+
 \COPY STAND (id_stand, coordonne_x, coordonne_y, rotation, id_taille) FROM 'C:\Users\mlcra\SAE-S3\BDD\STAND.csv' DELIMITER AS ',';
 select * from STAND;
 
@@ -41,7 +44,7 @@ select * from PERIODE;
 \COPY RESERVATION (date_periode, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\RESERVATION.csv' DELIMITER AS ',';
 select * from RESERVATION;
 
-\COPY CARACTERISTIQUE (libelle_caracteristique) FROM 'C:\Users\mlcra\SAE-S3\BDD\CARACTERISTIQUE.csv' DELIMITER AS ',';
+\COPY CARACTERISTIQUE (libelle_caracteristique, id_famille) FROM 'C:\Users\mlcra\SAE-S3\BDD\CARACTERISTIQUE.csv' DELIMITER AS ',';
 select * from CARACTERISTIQUE;
 
 DROP TABLE tmp_table;
@@ -54,15 +57,15 @@ CREATE TEMP SEQUENCE tmp_presta_id_seq
 ALTER TABLE tmp_table
     ALTER COLUMN id_prestataire SET DEFAULT nextval('tmp_presta_id_seq');
 
-\COPY tmp_table (nom_prestataire, email_prestataire, site_web_prestataire, telephone_prestataire, passwd_prestataire, etat_inscription, id_stand, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\PRESTATAIRE.csv' DELIMITER AS ',';;
+\COPY tmp_table (nom_prestataire, email_prestataire, site_web_prestataire, site_security, telephone_prestataire, passwd_prestataire, etat_inscription, url_image, id_stand, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\PRESTATAIRE.csv' DELIMITER AS ',';;
 
 INSERT INTO PRESTATAIRE  -- identical number and names of columns guaranteed
-SELECT id_prestataire, nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, passwd_prestataire, etat_inscription, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
+SELECT id_prestataire, nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, site_security, passwd_prestataire, etat_inscription, url_image, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
 FROM tmp_table;
 
 select * from PRESTATAIRE;
 
-\COPY COURSES (libelle_course, nb_km, nb_place, prix, date_periode, id_sport, id_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\COURSES.csv' DELIMITER AS ',';
+\COPY COURSES (libelle_course, nb_km, nb_place, prix, url_image, date_periode, id_sport, id_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\COURSES.csv' DELIMITER AS ',';
 select * from COURSES;
 
 \COPY INITIATION (libelle_initiation, etat_initiation, date_periode, id_lieu, id_prestataire) FROM 'C:\Users\mlcra\SAE-S3\BDD\INITIATION.csv' DELIMITER AS ',';
@@ -94,3 +97,6 @@ select * from Pour;
 
 \COPY Detient (id_prestataire, id_caracteristique) FROM 'C:\Users\mlcra\SAE-S3\BDD\Detient.csv' DELIMITER AS ',';
 select * from Detient;
+
+\COPY Correspond (id_type, id_famille) FROM 'C:\Users\mlcra\SAE-S3\BDD\Correspond.csv' DELIMITER AS ',';
+select * from Correspond;

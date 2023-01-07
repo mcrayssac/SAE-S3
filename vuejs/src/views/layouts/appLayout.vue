@@ -177,7 +177,7 @@
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-shop></b-icon-shop> Prestataires</template>
               <b-dropdown-item v-for="(item, jIndex) in data" :key="jIndex"
-                               :href="'/categories/'+item.title.toLowerCase().trim().replace(/ /g,'')">
+                               :href="'/categories/'+item.title.trim().replace(/ /g,'')">
                 {{ item.title }}</b-dropdown-item>
               <b-dropdown-item href="/devenirPrestataire">Devenir prestataire</b-dropdown-item>
             </b-nav-item-dropdown>

@@ -3,13 +3,17 @@ const chalk = require("chalk");
 const chalkController = chalk.inverse.blue.bold.bgWhite("[Controllers]");
 const validator = require("validator");
 
-
-
-
-exports.getCategorie = (req, res) => {
+exports.getCategorie = async (req, res) => {
     console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
     let type = req.params.nomCategorie;
-    res.send({
+    await services.getCategorie(type, (error, results) => {
+        if (error) {
+            return res.status(400).send({success: 0, data: error})
+        }
+        return res.status(200).send({success: 1, data: results})
+    });
+
+    /*res.send({
         title: services.getCategories(type, (error, results) => {
             if (error) return error
             else return results
@@ -22,7 +26,7 @@ exports.getCategorie = (req, res) => {
             if (error) return error
             else return results
         })
-    });
+    });*/
 }
 
 exports.getCategories = (req, res) => {
@@ -535,6 +539,19 @@ exports.getClicsPrestataire = async (req, res) => {
             return res.status(401).send({success:0, data: `ERREUR : Pas de clics trouvé`});
         } else {
             console.log(chalk.green.inverse(`${chalkController} Requête pour get les clics d'un prestataire`));
+            return res.status(200).send({success:1, data: results});
+        }
+    });
+}
+
+exports.putClicsPrestataire = async (req, res) => {
+    await services.putClicsPrestataire(req.params.id, async (error, results) => {
+        console.log(chalk.green.inverse("Requête pour put un clic d'un prestataire"));
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERREUR : Probleme lors d'ajout d'un clic`));
+            return res.status(401).send({success:0, data: `ERREUR : Probleme lors d'ajout d'un clic`});
+        } else {
+            console.log(chalk.green.inverse(`${chalkController} Requête pour put un clic d'un prestataire`));
             return res.status(200).send({success:1, data: results});
         }
     });
