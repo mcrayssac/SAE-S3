@@ -515,4 +515,6 @@ router.get("/competitions", controller.getCompetition);
 
 router.get("/statistiques/prestataire/clics/:id", controller.getClicsPrestataire);
 
+router.put("/statistiques/prestataire/clics/date/:id", controller.putClicsPrestataire);
+
 module.exports = router;
