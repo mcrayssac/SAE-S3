@@ -100,7 +100,7 @@
 
             <b-nav-item href="#" disabled><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Réservations</span></b-nav-item>
 
-            <b-nav-item href="#" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
+            <b-nav-item href="/scene/presta" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav v-else>
@@ -184,7 +184,7 @@
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-list-check></b-icon-list-check> Activités</template>
-              <b-dropdown-item href="/scene"> Initiation/Scène</b-dropdown-item>
+              <b-dropdown-item href="/scene"> Scène</b-dropdown-item>
               <b-dropdown-item href="/courses">Compétitions</b-dropdown-item>
             </b-nav-item-dropdown>
 

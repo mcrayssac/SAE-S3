@@ -45,15 +45,15 @@ export default new Vuex.Store({
       {
         id: 1,
         title: 'The Title',
-        start: new Date('2023-01-13T12:00:00.000Z').toJSON(),
-        end: new Date('2023-01-13T13:00:00.000Z').toJSON()
+        start: new Date('2023-08-15T12:00:00.000Z').toJSON(),
+        end: new Date('2023-08-15T13:00:00.000Z').toJSON()
         // url: // à préciser pour faire la redirection sur la réservation ?
       },
       {
         id: 2,
         title: 'The Title2',
-        start: new Date('2023-01-14T16:00:00.000Z').toJSON(),
-        end: new Date('2023-01-14T17:00:00.000Z').toJSON()
+        start: new Date('2023-08-16T16:00:00.000Z').toJSON(),
+        end: new Date('2023-08-16T17:00:00.000Z').toJSON()
         // url: // à préciser pour faire la redirection sur la réservation ?
       }
     ]

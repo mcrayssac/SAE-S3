@@ -11,7 +11,7 @@ import FullCalendar from '@fullcalendar/vue'
 import TimeGridPlugin from '@fullcalendar/timegrid'
 import InteractionPlugin from '@fullcalendar/interaction'
 
-import {mapGetters} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 
 export default {
   data: function() {
@@ -39,11 +39,9 @@ export default {
         slotMaxTime: "20:00:00",
         selectable: true,
         eventOverlap: false,
-        editable: true, // mettre a false pour public et prestataire
+        editable: false, // mettre a false pour public et prestataire
         select: this.handleSelect,
         eventClick: this.handleEventClick,
-        eventResize: this.handleUpdateEvent,
-        eventDrop: this.handleUpdateEvent,
         events: this.$store.getters.getEvents,
         nowIndicator: true
       },
@@ -52,7 +50,8 @@ export default {
   },
   components: {FullCalendar},
   computed: {
-    ...mapGetters(["getEvents"])
+    ...mapGetters(["getEvents"]),
+    ...mapState(['userInfos'])
   },
   methods: {
     handleSelect(selectTime){
@@ -82,14 +81,11 @@ export default {
         this.$store.commit("removeEvent", clickInfo)
         this.calendarOptions.events = this.getEvents
       }
-    },
-    handleUpdateEvent(clickInfo){
-      console.log(clickInfo)
-      this.$store.commit('updateEvent', clickInfo)
-      this.calendarOptions.events = this.getEvents
-      console.log(this.getEvents)
     }
-  }
+  },
+  async updated() {
+    if (this.userInfos.admin !== 'prestataire') window.location.href = "http://localhost:8080/";
+  },
 }
 </script>
 

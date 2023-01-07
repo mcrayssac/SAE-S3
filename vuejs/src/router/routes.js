@@ -88,7 +88,12 @@ const routes = [
   {
     path: '/scene',
     name: 'scene',
-    component: () => import('../components/Planning.vue')
+    component: () => import('../views/public/plannings/PlanningScene.vue')
+  },
+  {
+    path: '/scene/presta',
+    name: 'scene/presta',
+    component: () => import('../views/prestataire/plannings/PlanningScenePresta.vue')
   },
     // At the end
   {
