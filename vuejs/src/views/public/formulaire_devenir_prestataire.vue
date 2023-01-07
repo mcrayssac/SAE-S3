@@ -58,6 +58,33 @@
           <b-form-input v-model="form.password2" type="password" placeholder="Entrer votre mot de passe" required></b-form-input>
         </b-form-group>
 
+        <b-form-group class="mx-5 my-3" label="Entrez l'url de l'image qui sera affichée sur notre site* :" label-class="label"
+                      data-aos="fade-left"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-duration="800">
+          <b-form-input v-model="form.image" type="password" placeholder="Entrer l'url" required></b-form-input>
+        </b-form-group>
+
+        <b-form-group class="mx-5 my-3" label="Choisissez le type de securité de votre site web* :" label-class="label"
+                      data-aos="fade-left"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-duration="800">
+          <b-row align-h="center" align-v="center">
+            <b-col cols="auto">
+              <b-form-select
+                  class="mx-3"
+                  v-model="form.security"
+                  :options="[{value: 'http', text: 'http'}, {value: 'https', text: 'https'}]"
+                  required
+              >
+                <template #first>
+                  <b-form-select-option :value="null" disabled>Securité</b-form-select-option>
+                </template>
+              </b-form-select>
+            </b-col>
+          </b-row>
+        </b-form-group>
+
         <b-form-group class="mx-5 my-3" label="Choisissez le type de votre établissement* :" label-class="label"
                       data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
@@ -168,6 +195,8 @@ export default {
         site: null,
         password: null,
         password2: null,
+        image: null,
+        security: null,
         type: null
       }
     }
@@ -205,6 +234,8 @@ export default {
       this.form.site = null;
       this.form.password = null;
       this.form.password2 = null;
+      this.form.image = null;
+      this.form.security = null;
       this.form.type = null;
       this.checkBox = false;
     },
