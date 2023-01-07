@@ -26,7 +26,7 @@ exports.getCategorie = async (req, res) => {
             if (error) return error
             else return results
         })
-    });*/
+    });
 }
 
 exports.getCategories = (req, res) => {
@@ -520,7 +520,7 @@ exports.updatePrestataire = (req, res) => {
 exports.addCommentaire = async (req, res) => {
     console.log(req.body);
     services.addCommentaire(req.body, async (error, results) => {
-        console.log(chalk.green.inverse("requete pour ajouter un commentaire"));
+        console.log(chalk.green.inverse("Requete pour ajouter un commentaire"));
         if(error){
             console.log(chalk.red.inverse(`${chalkController} ERREUR : Ajout impossible`));
             return res.status(401).send({success:0, data: `ERREUR : Ajout impossible`});

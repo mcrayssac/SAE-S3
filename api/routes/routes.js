@@ -15,7 +15,7 @@ router.get("/public", controller.getAllPublic);
  * @swagger
  * /public:
  *   get:
- *      description: Get all public account
+ *      description: Get all public accounts
  *      tags:
  *          - PUBLIC
  *      responses:
@@ -102,7 +102,7 @@ router.put("/public", controller.createPublic);
  *                      example: 1
  *                  id_sexe:
  *                      type: integer
- *                      example: 1
+ *                      example: 2
  *                  id_pays:
  *                      type: integer
  *                      example: 1
@@ -120,7 +120,7 @@ router.delete("/public", controller.deletePublic);
  * @swagger
  * /public:
  *   delete:
- *      description:  Used to delete a public accoount
+ *      description: Used to delete a public account
  *      tags:
  *          - PUBLIC
  *      parameters:
@@ -143,7 +143,7 @@ router.post("/public/:idPublic", controller.updatePublic);
  * @swagger
  * /public/{idPublic}:
  *   post:
- *      description: Used to create a new public user with the given information
+ *      description: Used to update a new public user with the given information
  *      tags:
  *          - PUBLIC
  *      parameters:
@@ -194,10 +194,10 @@ router.post("/public/:idPublic", controller.updatePublic);
 // --------- PRESTATAIRE
 router.get("/prestataires/:nomPrestataire", controller.getPrestataire);
 
-router.get("/prestataires/:idPrestataire", controller.getPrestataireById);
+router.get("/prestataire/:idPrestataire", controller.getPrestataireById);
 /**
  * @swagger
- * /prestataires/{idPrestataire}:
+ * /prestataire/{idPrestataire}:
  *   get:
  *      description: Get a prestataire by id
  *      tags:
@@ -352,10 +352,55 @@ router.get("/organisateur", controller.getAllOrganisateur);
 router.get("/map/stands", controller.getStands);
 
 router.get("/map/contraintes", controller.getContraintes)
+/**
+ * @swagger
+ * /map/contraintes:
+ *   get:
+ *      description: Get all contraintes
+ *      tags:
+ *          - MAP
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.get("/map/stands/contraintes", controller.getContraintesByStand)
+/**
+ * @swagger
+ * /map/stands/contraintes:
+ *   get:
+ *      description: Get all stands contraintes
+ *      tags:
+ *          - MAP
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.get("/map/stands/all", controller.getAllStands);
+/**
+ * @swagger
+ * /map/stands/all:
+ *   get:
+ *      description: Get all stands
+ *      tags:
+ *          - MAP
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.get("/prestataires", controller.getAllPrestataires);
 /**
@@ -375,16 +420,98 @@ router.get("/prestataires", controller.getAllPrestataires);
  */
 
 router.get("/map/typePresta", controller.getTypeCaracteristiquesPresta);
+/**
+ * @swagger
+ * /map/typePresta:
+ *   get:
+ *      description: Get all prestataire type
+ *      tags:
+ *          - MAP
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.get("/map/caracteristiques", controller.getCaracteristiques);
+/**
+ * @swagger
+ * /map/caracteristiques:
+ *   get:
+ *      description: Get all caracteristiques
+ *      tags:
+ *          - MAP
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.get("/map/type", controller.getTypes);
+/**
+ * @swagger
+ * /map/type:
+ *   get:
+ *      description: Get all types
+ *      tags:
+ *          - MAP
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.put("/map/presta/stand/:idPresta", controller.updateStandId)
 
 router.get("/resultats/:nomCompetition", controller.getResultats);
+/**
+ * @swagger
+ * /resultats/{nomCompetition}:
+ *   get:
+ *      description: Get a competition results by name
+ *      tags:
+ *          - COMPETITION
+ *      parameters:
+ *          - in: path
+ *            name: nomCompetition
+ *            type: string
+ *            required: true
+ *            example: natation
+ *            description: Name of the competition
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.get("/competitions", controller.getCompetition);
+/**
+ * @swagger
+ * /competitions:
+ *   get:
+ *      description: Get all competitions
+ *      tags:
+ *          - COMPETITION
+ *      responses:
+ *          '200':
+ *              description: Resource added successfully
+ *          '500':
+ *              description: Internal server error
+ *          '400':
+ *              description: Bad request
+ */
 
 router.get("/statistiques/prestataire/clics/:id", controller.getClicsPrestataire);
 

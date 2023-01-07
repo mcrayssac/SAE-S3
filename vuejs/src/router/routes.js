@@ -88,7 +88,7 @@ const routes = [
   {
     path: '/scene',
     name: 'scene',
-    component: () => import('../components/Planning.vue')
+    component: () => import('../views/plannings/PlanningScene.vue')
   },
     // At the end
   {

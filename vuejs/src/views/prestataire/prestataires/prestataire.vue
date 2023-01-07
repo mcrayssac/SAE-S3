@@ -95,63 +95,13 @@
         </b-row>
 
         <b-row align-h="center">
-          <b-col cols="auto" class="mx-5">
-            <table data-aos="flip-right"
-                   data-aos-delay="200"
-                   data-aos-duration="500"
-                   data-aos-anchor-placement="top-bottom" class="table table-bordered p-5 text-center">
-              <thead>
-              <tr class="align-middle text-center">
-                <th></th>
-                <th>8h</th>
-                <th>9h</th>
-                <th>10h</th>
-                <th>11h</th>
-                <th>12h</th>
-                <th>13h</th>
-                <th>14h</th>
-                <th>15h</th>
-                <th>16h</th>
-                <th>17h</th>
-                <th>18h</th>
-                <th>19h</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <th>Samedi</th>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-              </tr>
-              <tr>
-                <th>Dimanche</th>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-                <td>Initiation</td>
-              </tr>
+          <span v-if="this.userInfos.admin == 'prestataire'">
+            <Planning :calendarOptions=optionsPresta :id=id> </Planning>
+          </span>
 
-              </tbody>
-            </table>
-          </b-col>
+          <span v-else>
+            <Planning :calendarOptions=optionsPublic :id=id> </Planning>
+          </span>
         </b-row>
       </section>
 
@@ -197,20 +147,85 @@
 <script>
 import axios from "axios";
 import appLoading from "@/loading.vue"
+import Planning from "@/components/Planning";
+import TimeGridPlugin from "@fullcalendar/timegrid";
+import InteractionPlugin from "@fullcalendar/interaction";
+import {mapGetters, mapState} from "vuex";
+
 export default {
   name: "prestataire",
-  components: {appLoading},
-  data: () => ({
-    layoutHeight: "margin-top : "+59+"px",
-    data: null,
-    postCom: false,
-    form: {
-      commentaire: null,
-      id: null,
-      nomPresta: null,
-      note: null
+  components: {appLoading, Planning},
+  data: function() {
+    return {
+      layoutHeight: "margin-top : " + 59 + "px",
+      data: null,
+      postCom: false,
+      form: {
+        commentaire: null,
+        id: null,
+        nomPresta: null,
+        note: null
+      },
+      optionsPresta: {
+        plugins: [TimeGridPlugin, InteractionPlugin],
+        locale: "fr",
+        headerToolbar: {
+          left: '',
+          center: '',
+          right: ''
+        },
+        initialView: 'timeGridTwoDay',
+        validRange: {
+          start: '2023-08-15',
+          end: '2023-08-17'
+        },
+        views: {
+          timeGridTwoDay: {
+            type: 'timeGrid',
+            duration: {days: 2}
+          }
+        },
+        slotMinTime: "08:00:00",
+        slotMaxTime: "20:00:00",
+        selectable: true,
+        eventOverlap: false,
+        editable: false, // mettre a false pour public et prestataire
+        select: this.handleSelect,
+        eventClick: this.handleEventClick,
+        events: this.$store.getters.getEvents,
+        nowIndicator: true
+      },
+      optionsPublic: {
+        plugins: [TimeGridPlugin, InteractionPlugin],
+        locale: "fr",
+        headerToolbar: {
+          left: '',
+          center: '',
+          right: ''
+        },
+        initialView: 'timeGridTwoDay',
+        validRange: {
+          start: '2023-08-15',
+          end: '2023-08-17'
+        },
+        views: {
+          timeGridTwoDay: {
+            type: 'timeGrid',
+            duration: {days: 2}
+          }
+        },
+        slotMinTime: "08:00:00",
+        slotMaxTime: "20:00:00",
+        selectable: true,
+        eventOverlap: false,
+        editable: false,
+        eventClick: this.handleEventClickPublic,
+        events: this.$store.getters.getEvents,
+        nowIndicator: true
+      },
+      id: 3
     }
-  }),
+  },
   async created() {
     await axios.get(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}`)
         .then(result => {
@@ -239,8 +254,52 @@ export default {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
             console.warn("error", message);
           });
+    },
+    handleSelect(selectTime){
+      console.log(selectTime)
+      let title = prompt('Please enter a new title for your event')
+      let isOverlap = this.optionsPresta.events.some(event => selectTime.start.toJSON() >= event.start && selectTime.end.toJSON() <= event.end)
+
+      if(title !== null && title !== "" && !isOverlap) {
+        this.$store.commit("addEvent", {
+          id: this.id,
+          title: title,
+          start: selectTime.startStr,
+          end: selectTime.endStr,
+          allDay: selectTime.allDay
+        })
+        this.id++
+        this.optionsPresta.events = this.getEvents
+      }
+      else{
+        alert("Impossible de créer un évènement à cet endroit là")
+      }
+    },
+    handleEventClick(clickInfo) {
+      console.log(clickInfo)
+      if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+        clickInfo.event.remove()
+        this.$store.commit("removeEvent", clickInfo)
+        this.optionsPresta.events = this.getEvents
+      }
+    },
+    handleEventClickPublic(clickInfo) {
+      console.log(clickInfo)
+      console.log(this.userInfos)
+      if (this.userInfos.admin !== null) window.location.href = "http://localhost:8080/signup";
+      else {
+        if (confirm(`Voulez-vous vous inscrire à l'évènement '${clickInfo.event.title}' ?`)) {
+          clickInfo.event.remove()
+          this.$store.commit("removeEvent", clickInfo)
+          this.optionsPublic.events = this.getEvents
+        }
+      }
     }
   },
+  computed: {
+    ...mapGetters(["getEvents"]),
+    ...mapState(['userInfos'])
+  }
 }
 </script>
 
