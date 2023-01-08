@@ -186,6 +186,16 @@ exports.getTypes = async (req, res) =>{
     })
 }
 
+exports.getAllDemos = async (req,res ) => {
+    console.log(chalk.green.inverse('Requête pour toutes les démos'));
+    await services.getAllDemos( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
 exports.getResultats = async (req, res) => {
     console.log(chalk.green.inverse('requete pour les resultats'));
     console.log(req.params.nomCompetition);

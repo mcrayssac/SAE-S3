@@ -521,4 +521,6 @@ router.get("/demandes/prestataires", controller.getDemandesPrestataires);
 
 router.post("/demandes/prestataires/:choice", controller.postDemandesPrestataires);
 
+router.get('/demos', controller.getAllDemos)
+
 module.exports = router;

@@ -713,6 +713,16 @@ const getTypes = async (callback) => {
     }))
 }
 
+const getAllDemos = async (callback) => {
+    await pool.query(queries.getAllDemos, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 // const getClassementCourse = async (idCourse, callback) => {
 //     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
 //
@@ -948,5 +958,6 @@ module.exports = {
     getCaracteristiques,
     getTypes,
     getClicsPrestataire,
-    putClicsPrestataire
+    putClicsPrestataire,
+    getAllDemos
 }

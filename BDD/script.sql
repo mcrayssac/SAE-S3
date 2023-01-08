@@ -210,7 +210,7 @@ CREATE TABLE INITIATION
     libelle_initiation VARCHAR(1000),
     etat_initiation    INT,
     date_periode       TIMESTAMP NOT NULL,
-    duree              TIME      NOT NULL,
+    fin_periode        TIMESTAMP NOT NULL,
     nb_places          INT,
     id_lieu            INT       NOT NULL,
     id_prestataire     INT       NOT NULL,

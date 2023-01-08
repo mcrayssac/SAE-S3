@@ -68,7 +68,7 @@ select * from PRESTATAIRE;
 \COPY COURSES (libelle_course, nb_km, nb_place, prix, url_image, date_periode, id_sport, id_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\COURSES.csv' DELIMITER AS ',';
 select * from COURSES;
 
-\COPY INITIATION (libelle_initiation, etat_initiation, date_periode, duree, nb_places, id_lieu, id_prestataire) FROM 'C:\Users\mlcra\SAE-S3\BDD\INITIATION.csv' DELIMITER AS ',';
+\COPY INITIATION (libelle_initiation, etat_initiation, date_periode, fin_periode, nb_places, id_lieu, id_prestataire) FROM 'C:\Users\mlcra\SAE-S3\BDD\INITIATION.csv' DELIMITER AS ',';
 select * from INITIATION;
 
 \COPY NOTE (libelle_note, id_prestataire, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\NOTE.csv' DELIMITER AS ',';

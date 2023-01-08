@@ -77,7 +77,7 @@
 import Planning from "@/components/Planning";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
-import {mapGetters, mapState} from "vuex";
+import {mapGetters, mapState, mapActions} from "vuex";
 
 export default {
   components: {Planning},
@@ -109,7 +109,7 @@ export default {
         editable: false, // mettre a false pour public et prestataire
         select: this.handleSelect,
         eventClick: this.handleEventClick,
-        events: this.$store.getters.getEvents,
+        events: this.$store.getters.getSceneEvents,
         nowIndicator: true
       },
       optionsPublic: {
@@ -137,7 +137,7 @@ export default {
         eventOverlap: false,
         editable: false,
         eventClick: this.handleEventClickPublic,
-        events: this.$store.getters.getEvents,
+        events: this.$store.getters.getSceneEvents,
         nowIndicator: true
       },
       id:3,
@@ -150,8 +150,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getEvents"]),
-    ...mapState(['userInfos'])
+    ...mapGetters(["getEvents", "getSceneEvents"]),
+    ...mapState(['userInfos']),
+    ...mapActions(['getDemos'])
   },
   methods: {
     hideModal(){
@@ -180,7 +181,7 @@ export default {
       if (confirm(`Voulez-vous supprimer l'initiation '${clickInfo.event.title}' ?`)) {
         clickInfo.event.remove()
         this.$store.commit("removeEvent", clickInfo)
-        this.optionsPresta.events = this.getEvents
+        this.optionsPresta.events = this.getSceneEvents
       }
     },
     handleEventClickPublic(clickInfo) {
@@ -203,7 +204,7 @@ export default {
           nbPlaces: this.currentEvent.nbPlaces
         })
         this.id++
-        this.optionsPublic.events = this.getEvents
+        this.optionsPublic.events = this.getSceneEvents
         this.$refs['modal'].hide()
       }
       else{
@@ -223,13 +224,16 @@ export default {
           nbPlaces: this.currentEvent.nbPlaces
         })
         this.id++
-        this.optionsPresta.events = this.getEvents
+        this.optionsPresta.events = this.getSceneEvents
         this.$refs['modal-presta'].hide()
       }
       else{
         alert("Mauvaises informations saisies")
       }
     }
+  },
+  async mounted(){
+    await this.$store.dispatch('getDemos')
   }
 }
 </script>

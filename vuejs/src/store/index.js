@@ -56,10 +56,12 @@ export default new Vuex.Store({
         end: new Date('2023-08-16T17:00:00.000Z').toJSON()
         // url: // à préciser pour faire la redirection sur la réservation ?
       }
-    ]
+    ],
+    eventsScene: []
   },
   getters: {
     getEvents: state => state.events,
+    getSceneEvents: state => state.eventsScene,
     getUserInfos: state => state.userInfos
   },
   mutations: {
@@ -101,6 +103,19 @@ export default new Vuex.Store({
       let indexEvent = state.events.findIndex(e => e.id == event.event.id)
       state.events[indexEvent].end = event.event.end.toJSON()
       state.events[indexEvent].start = event.event.start.toJSON()
+    },
+    setEventsScene: (state, events) => {
+      let object
+      events.forEach(event => {
+        object = new Object()
+        object.title = event.libelle_initiation
+        object.id = event.id_initiation
+        object.start = new Date(event.date_periode).toJSON()
+        object.end = new Date(event.fin_periode).toJSON()
+        object.id_prestataire = event.id_prestataire
+        object.nb_places = event.nb_places
+        state.eventsScene.push(object)
+      })
     }
   },
   actions: {
@@ -143,7 +158,15 @@ export default new Vuex.Store({
               reject(error);
             })
       })
-    }
+    },
+    getDemos: ({commit}) => {
+      axios.get(`http://localhost:3000/demos`)
+          .then(function (response){
+            commit('setEventsScene', response.data.data);
+          }).catch(function (error){
+        console.log("get events scene error : ",error)
+      });
+    },
   },
   modules: {
   }
