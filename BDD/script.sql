@@ -217,7 +217,7 @@ CREATE TABLE INITIATION
     CONSTRAINT pk_initiation PRIMARY KEY (id_initiation),
     CONSTRAINT fk_periode_initiation FOREIGN KEY (date_periode) REFERENCES PERIODE (date_periode),
     CONSTRAINT fk_lieu_initiation FOREIGN KEY (id_lieu) REFERENCES LIEU (id_lieu),
-    CONSTRAINT fk_prestataire_initiation FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire)
+    CONSTRAINT fk_prestataire_initiation FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE
 );
 
 CREATE TABLE NOTE
@@ -227,7 +227,7 @@ CREATE TABLE NOTE
     id_prestataire INT NOT NULL,
     id_public      INT NOT NULL,
     CONSTRAINT pk_note PRIMARY KEY (id_note),
-    CONSTRAINT fk_prestataire_note FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire),
+    CONSTRAINT fk_prestataire_note FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE,
     CONSTRAINT fk_public_note FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public)
 );
 
@@ -237,7 +237,7 @@ CREATE TABLE CLIC
     jour           TIMESTAMP NOT NULL,
     id_prestataire INT       NOT NULL,
     PRIMARY KEY (id_clic),
-    CONSTRAINT fk_prestataire_clic FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire)
+    CONSTRAINT fk_prestataire_clic FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE
 );
 
 CREATE TABLE COMMENTAIRE
@@ -247,7 +247,7 @@ CREATE TABLE COMMENTAIRE
     id_prestataire      INT NOT NULL,
     id_public           INT NOT NULL,
     CONSTRAINT pk_commentaire PRIMARY KEY (id_commentaire),
-    CONSTRAINT fk_prestataire_commentaire FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire),
+    CONSTRAINT fk_prestataire_commentaire FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE,
     CONSTRAINT fk_public_commentaire FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public)
 );
 
@@ -257,7 +257,7 @@ CREATE TABLE Emet
     id_prestataire INT NOT NULL,
     CONSTRAINT pk_emet PRIMARY KEY (id_contrainte, id_prestataire),
     CONSTRAINT fk_contrainte_emet FOREIGN KEY (id_contrainte) REFERENCES CONTRAINTE (id_contrainte),
-    CONSTRAINT fk_prestataire_emet FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire)
+    CONSTRAINT fk_prestataire_emet FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE
 );
 
 CREATE TABLE Possede
@@ -304,7 +304,7 @@ CREATE TABLE Detient
     id_prestataire     INT NOT NULL,
     id_caracteristique INT NOT NULL,
     CONSTRAINT pk_detient PRIMARY KEY (id_prestataire, id_caracteristique),
-    CONSTRAINT fk_prestataire_detient FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire),
+    CONSTRAINT fk_prestataire_detient FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE,
     CONSTRAINT fk_caracteristique_detient FOREIGN KEY (id_caracteristique) REFERENCES CARACTERISTIQUE (id_caracteristique)
 );
 
