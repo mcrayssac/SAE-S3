@@ -116,6 +116,17 @@ export default new Vuex.Store({
         object.nb_places = event.nb_places
         state.eventsScene.push(object)
       })
+    },
+    registerToSceneEvent: (state, event) => {
+      console.log(event)
+      let date = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+      axios.post('http://localhost:3000/demos/' + event.id + '/reservations?nbPlaces=' + event.nbPlaces + '&date=' + decodeURI(date) + '&idPublic=' + event.id_public)
+          .then(function (response){
+            console.log('registerToSceneEvent', response.data.data);
+            return "success"
+          }).catch(function (error){
+        console.log("registerToSceneEvent error : ",error)
+      });
     }
   },
   actions: {
@@ -159,7 +170,7 @@ export default new Vuex.Store({
             })
       })
     },
-    getDemos: ({commit}) => {
+    setDemos: ({commit}) => {
       axios.get(`http://localhost:3000/demos`)
           .then(function (response){
             commit('setEventsScene', response.data.data);

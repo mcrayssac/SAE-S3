@@ -43,7 +43,7 @@
     <b-modal ref="modal" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal"
              :title=currentEvent.title>
       <h5> Nombres de places restantes </h5> <br>
-        5
+        {{this.currentPlacesLeft}}
       <hr>
       <br>
       <b-form>
@@ -78,6 +78,7 @@ import Planning from "@/components/Planning";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
 import {mapGetters, mapState, mapActions} from "vuex";
+import axios from "axios";
 
 export default {
   components: {Planning},
@@ -146,16 +147,18 @@ export default {
           nbPlaces: null
         },
       currentTime: null,
+      currentPlacesLeft : null,
       max: 10
     }
   },
   computed: {
     ...mapGetters(["getEvents", "getSceneEvents"]),
     ...mapState(['userInfos']),
-    ...mapActions(['getDemos'])
+    ...mapActions(['setDemos'])
   },
   methods: {
     hideModal(){
+      this.currentPlacesLeft = null
       this.$refs['modal'].hide()
     },
     hideModalPresta(){
@@ -163,9 +166,9 @@ export default {
     },
     handleSelect(selectTime){
       console.log(selectTime)
-      console.log(selectTime.start.getTime())
-      console.log(selectTime.end.getTime())
-      console.log(selectTime.end.getTime() - selectTime.start.getTime())
+      // console.log(selectTime.start.getTime())
+      // console.log(selectTime.end.getTime())
+      // console.log(selectTime.end.getTime() - selectTime.start.getTime())
       let isOverlap = this.optionsPresta.events.some(event => selectTime.start.toJSON() >= event.start && selectTime.end.toJSON() <= event.end)
 
       if(!isOverlap) {
@@ -185,32 +188,32 @@ export default {
       }
     },
     handleEventClickPublic(clickInfo) {
-      console.log(clickInfo)
+      console.log(clickInfo.event)
       if (this.userInfos.admin !== null) window.location.href = "http://localhost:8080/signup";
       else {
         this.currentEvent = clickInfo.event
+        axios.get(`http://localhost:3000/demos/` + clickInfo.event.id + '/number-places-left')
+            .then(response => this.currentPlacesLeft = response.data.data[0].nb_places - response.data.data[0].total_reserv)
+            .catch(e => console.log('err get nbPlacesLeft : ', e))
         this.$refs['modal'].show()
       }
     },
     register(){
-      console.log(this.userInfos.id)
-      if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0 && this.currentEvent.nbPlaces < this.max) {
-        this.$store.commit("addEvent", {
-          id: this.id,
-          title: this.currentEvent.title,
-          start: this.currentTime.startStr,
-          end: this.currentTime.endStr,
-          allDay: this.currentTime.allDay,
-          nbPlaces: this.currentEvent.nbPlaces
+      console.log(this.currentEvent.start.getDate())
+      if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0 && this.currentEvent.nbPlaces < this.currentPlacesLeft) {
+        this.$store.commit("registerToSceneEvent", {
+          id: parseInt(this.currentEvent.id),
+          nbPlaces: parseInt(this.currentEvent.nbPlaces),
+          id_public: this.userInfos.id,
+          start: this.currentEvent.start
         })
-        this.id++
-        this.optionsPublic.events = this.getSceneEvents
+        this.currentPlacesLeft = null
         this.$refs['modal'].hide()
+        alert("Inscription réussie")
       }
       else{
         alert("Mauvaises informations saisies")
       }
-      this.$refs['modal'].hide()
     },
     async onSubmit(event) {
       console.log(event)
@@ -233,7 +236,7 @@ export default {
     }
   },
   async mounted(){
-    await this.$store.dispatch('getDemos')
+    await this.$store.dispatch('setDemos')
   }
 }
 </script>

@@ -196,6 +196,30 @@ exports.getAllDemos = async (req,res ) => {
     })
 }
 
+exports.getNbPlacesLeft = async (req, res) => {
+    console.log(chalk.green.inverse('Requête pour les places disponibles pour une démo'));
+    await services.getNbPlacesLeft( req.params.id,(err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.addReservation = async (req, res) => {
+    console.log(chalk.green.inverse('Requête pour ajouter une réservation'));
+    let nbPlacesReserv = req.query.nbPlaces
+    let dateReserv = req.query.date
+    let idPublic = req.query.idPublic
+    console.log(dateReserv)
+    await services.addReservation( req.params.idDemo, nbPlacesReserv, dateReserv, idPublic, (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
 exports.getResultats = async (req, res) => {
     console.log(chalk.green.inverse('requete pour les resultats'));
     console.log(req.params.nomCompetition);
