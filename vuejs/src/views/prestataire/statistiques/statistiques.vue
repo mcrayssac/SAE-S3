@@ -32,11 +32,11 @@
     </section>
 
     <section v-if="show" class="Main">
-      <section class="m-3 py-5 pe-5 ps-3 Clic">
+      <section class="m-3 py-5 pe-lg-5 ps-lg-3 pe-xl-5 ps-xl-3 px-md-5 px-sm-4 px-4 Clic">
         <b-row align-h="center">
-          <b-col cols="6">
+          <b-col cols="12" lg="6">
             <b-row align-h="center">
-              <b-col cols="auto" data-aos="fade-right"
+              <b-col class="text-center" cols="auto" data-aos="fade-right"
                      data-aos-anchor-placement="top-bottom"
                      data-aos-duration="800">
                 <span class="chart-title">Nombres de clics sur votre page</span>
@@ -99,7 +99,7 @@
                 <span class="label-chart">Peu de clics : </span>
               </b-col>
             </b-row>
-            <b-row align-h="center">
+            <b-row class="mb-4"  align-h="center">
               <b-col cols="auto" data-aos="fade-right"
                      data-aos-anchor-placement="top-bottom"
                      :data-aos-delay="1600"
@@ -110,11 +110,11 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col class="p-3 Chart" cols="6">
+          <b-col class="p-3 Chart" cols="12" lg="6">
             <JSCharting :options="chartOptions" ref="chart" data-aos="fade-up-left"
                         data-aos-anchor-placement="top-bottom"
                         :data-aos-delay="1800"
-                        data-aos-duration="800"></JSCharting>
+                        data-aos-duration="800" style="width: 100%; height: 100%;"></JSCharting>
           </b-col>
         </b-row>
       </section>
