@@ -735,6 +735,46 @@ const getTypes = async (callback) => {
     }))
 }
 
+const getAllDemos = async (callback) => {
+    await pool.query(queries.getAllDemos, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const getNbPlacesLeft = async (id, callback) => {
+    await pool.query(queries.getNbPlacesLeft, [id], ( (error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
+const addReservation = (idDemo, nbPlacesReserv, dateReserv, idPublic, callback) => {
+    try {
+        pool.query(queries.addReservation, [dateReserv, idPublic], ((error, results) => {
+            if (error)
+                return callback(error)
+            else {
+                pool.query(queries.getMaxIdReservation, ((err, maxId) => {
+                    if (error) return callback(err)
+                    else{
+                        pool.query(queries.addAPropos, [idDemo, maxId.rows[0].max ,nbPlacesReserv], ((err, result) => {
+                            if (error) return callback(err)
+                            else return callback(null, "success addReservation")
+                        }))
+                    }
+                }))
+            }
+        }))
+    }catch(e){ console.log("err addReservation : ", e)}
+}
+
 // const getClassementCourse = async (idCourse, callback) => {
 //     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
 //
@@ -970,5 +1010,8 @@ module.exports = {
     getCaracteristiques,
     getTypes,
     getClicsPrestataire,
-    putClicsPrestataire
+    putClicsPrestataire,
+    getAllDemos,
+    getNbPlacesLeft,
+    addReservation
 }

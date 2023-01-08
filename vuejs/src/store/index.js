@@ -56,10 +56,12 @@ export default new Vuex.Store({
         end: new Date('2023-08-16T17:00:00.000Z').toJSON()
         // url: // à préciser pour faire la redirection sur la réservation ?
       }
-    ]
+    ],
+    eventsScene: []
   },
   getters: {
     getEvents: state => state.events,
+    getSceneEvents: state => state.eventsScene,
     getUserInfos: state => state.userInfos
   },
   mutations: {
@@ -101,6 +103,30 @@ export default new Vuex.Store({
       let indexEvent = state.events.findIndex(e => e.id == event.event.id)
       state.events[indexEvent].end = event.event.end.toJSON()
       state.events[indexEvent].start = event.event.start.toJSON()
+    },
+    setEventsScene: (state, events) => {
+      let object
+      events.forEach(event => {
+        object = new Object()
+        object.title = event.libelle_initiation
+        object.id = event.id_initiation
+        object.start = new Date(event.date_periode).toJSON()
+        object.end = new Date(event.fin_periode).toJSON()
+        object.id_prestataire = event.id_prestataire
+        object.nb_places = event.nb_places
+        state.eventsScene.push(object)
+      })
+    },
+    registerToSceneEvent: (state, event) => {
+      console.log(event)
+      let date = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+      axios.post('http://localhost:3000/demos/' + event.id + '/reservations?nbPlaces=' + event.nbPlaces + '&date=' + decodeURI(date) + '&idPublic=' + event.id_public)
+          .then(function (response){
+            console.log('registerToSceneEvent', response.data.data);
+            return "success"
+          }).catch(function (error){
+        console.log("registerToSceneEvent error : ",error)
+      });
     }
   },
   actions: {
@@ -143,7 +169,15 @@ export default new Vuex.Store({
               reject(error);
             })
       })
-    }
+    },
+    setDemos: ({commit}) => {
+      axios.get(`http://localhost:3000/demos`)
+          .then(function (response){
+            commit('setEventsScene', response.data.data);
+          }).catch(function (error){
+        console.log("get events scene error : ",error)
+      });
+    },
   },
   modules: {
   }

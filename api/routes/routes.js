@@ -521,4 +521,10 @@ router.get("/demandes/prestataires", controller.getDemandesPrestataires);
 
 router.post("/demandes/prestataires/:choice", controller.postDemandesPrestataires);
 
+router.get('/demos', controller.getAllDemos)
+
+router.get('/demos/:id/number-places-left', controller.getNbPlacesLeft)
+
+router.post('/demos/:idDemo/reservations', controller.addReservation)
+
 module.exports = router;
