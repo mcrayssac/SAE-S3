@@ -16,6 +16,8 @@ const getEmailPrestataire = "select * from prestataire where prestataire.email_p
 
 const createPublic = "insert into PUBLIC values (default, $1, $2, $3, $4, $5, $6, $7, $8);";
 const createPrestataire = "insert into prestataire values (default, $1, $2, $3, $4, $5, $6, false, $7, null, $8);";
+const getIdPrestataire = "select id_prestataire from prestataire where email_prestataire like $1;";
+const insertDetient = "insert into detient (id_prestataire, id_caracteristique)  values ($1, $2);";
 
 /* Select User */
 const selectUser = "select * from PUBLIC where id_public = $1;";
@@ -47,5 +49,6 @@ const deletePrestataire = "delete from prestataire where id_prestataire = $1;";
 module.exports = {
     getPublic, getPrestataire, getOrganisateur, getEmailPublic, getEmailPrestataire, createPublic, createPrestataire,
     selectUser, selectNote, deleteNote, selectCommentaire, deleteCommentaire, selectParticipe, deleteParticipe,
-    selectReservation, selectPour, deletePour, selectA_propos, deleteA_propos, deleteReservation, deleteUser, deletePrestataire
+    selectReservation, selectPour, deletePour, selectA_propos, deleteA_propos, deleteReservation, deleteUser,
+    deletePrestataire, getIdPrestataire, insertDetient
 }

@@ -448,7 +448,29 @@ const getInscriptionChoixPrestataire = async (callback) => {
             return callback("No types found");
         } else {
             console.log('success');
-            return callback(null, {type: results.rows})
+            let type = results.rows;
+            await pool.query(signupQueries.getCaracteristique, async (error, results) => {
+                if (error) {
+                    console.log("error");
+                    return callback(error);
+                } else if (results.rowCount === 0){
+                    console.log("No caracteristiques found");
+                    return callback("No caracteristiques found");
+                } else {
+                    console.log('success');
+                    let type2 = []
+                    let caracteristique = [];
+                    for await (const elt of results.rows){
+                        if (type2.includes(elt.Type)){
+                            caracteristique[type2.indexOf(elt.Type)].body.push({value: elt.value, text: elt.text});
+                        } else {
+                            caracteristique.push({title: elt.Type, body: [{value: elt.value, text: elt.text}]});
+                            type2.push(elt.Type);
+                        }
+                    }
+                    return callback(null, {type, caracteristique})
+                }
+            });
         }
     });
 }

@@ -30,7 +30,7 @@ exports.getPrestataires = "select  libelle_caracteristique as \"Filtre\", libell
     "inner join famille f on c.id_famille = f.id_famille\n" +
     "inner join correspond co on co.id_famille = f.id_famille\n" +
     "inner join type_prestataire tp on tp.id_type = co.id_type\n" +
-    "where etat_type like $1 and nom_prestataire in (select nom_prestataire from prestataire\n" +
+    "where etat_type like $1 and prestataire.etat_inscription = true and nom_prestataire in (select nom_prestataire from prestataire\n" +
     "inner join type_prestataire tp on tp.id_type = prestataire.id_type\n" +
     "where etat_type like $1);";
 exports.getFamille = "select libelle_caracteristique as \"Filtre\", libelle_famille as \"Famille\" from caracteristique\n" +
@@ -39,3 +39,9 @@ exports.getFamille = "select libelle_caracteristique as \"Filtre\", libelle_fami
     "inner join type_prestataire tp on tp.id_type = c.id_type\n" +
     "where etat_type like $1;";
 exports.putClicsPrestataire = `insert into clic values (default, to_timestamp(${Date.now()}/1000), $1);`;
+exports.getCaracteristique = "select DISTINCT etat_type as \"Type\",  id_caracteristique as \"value\", libelle_caracteristique as \"text\"\n" +
+    "from caracteristique\n" +
+    "inner join famille f on caracteristique.id_famille = f.id_famille\n" +
+    "inner join correspond c on c.id_famille = f.id_famille\n" +
+    "inner join type_prestataire tp on tp.id_type = c.id_type\n" +
+    "order by \"Type\";";

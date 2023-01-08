@@ -97,7 +97,35 @@ const create = async (form, admin, callback) => {
                     return callback(error);
                 } else {
                     console.log('success');
-                    return callback(null, results);
+                    await pool.query(queries.getIdPrestataire, [form.email], async (error, results) => {
+                        if (error) {
+                            console.log("error");
+                            return callback(error);
+                        } else if (results.rowCount === 0){
+                            console.log("error getIdPrestataire");
+                            return callback("error getIdPrestataire");
+                        } else {
+                            console.log('success');
+                            let id = results.rows[0].id_prestataire;
+                            let c = 0;
+                            for await (const elt of form.caracteristiques){
+                                await pool.query(queries.insertDetient, [id, elt], async (error, results) => {
+                                    if (error) {
+                                        console.log("error");
+                                        return callback(error);
+                                    } else {
+                                        console.log('success');
+                                        c ++;
+                                    }
+                                });
+                            }
+                            console.log(c);
+                            setTimeout(() => {
+                                if (c === form.caracteristiques.length) return callback(null, 'Prestataire cree !');
+                                else return callback(error);
+                            }, "1000");
+                        }
+                    });
                 }
             });
         } else {

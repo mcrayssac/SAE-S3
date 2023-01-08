@@ -14,7 +14,8 @@
                       data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
-          <b-form-input v-model="form.name" type="text" placeholder="Saisir le nom de l'établissement" required></b-form-input>
+          <b-form-input v-model="form.name" type="text" placeholder="Saisir le nom de l'établissement"
+                        required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Email* :" label-class="label"
@@ -30,7 +31,8 @@
                       data-aos-anchor-placement="top-bottom"
                       data-aos-delay="600"
                       data-aos-duration="800">
-          <b-form-input v-model="form.number" type="number" placeholder="Saisir votre numéro de téléphone" required></b-form-input>
+          <b-form-input v-model="form.number" type="number" placeholder="Saisir votre numéro de téléphone"
+                        required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Site web de votre établissement* :" label-class="label"
@@ -47,7 +49,8 @@
                       data-aos-anchor-placement="top-bottom"
                       data-aos-delay="1200"
                       data-aos-duration="800">
-          <b-form-input v-model="form.password" type="password" placeholder="Entrer votre mot de passe" required></b-form-input>
+          <b-form-input v-model="form.password" type="password" placeholder="Entrer votre mot de passe"
+                        required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Entrez à nouveau votre mot de passe* :" label-class="label"
@@ -55,10 +58,12 @@
                       data-aos-anchor-placement="top-bottom"
                       data-aos-delay="1500"
                       data-aos-duration="800">
-          <b-form-input v-model="form.password2" type="password" placeholder="Entrer votre mot de passe" required></b-form-input>
+          <b-form-input v-model="form.password2" type="password" placeholder="Entrer votre mot de passe"
+                        required></b-form-input>
         </b-form-group>
 
-        <b-form-group class="mx-5 my-3" label="Entrez l'url de l'image qui sera affichée sur notre site* :" label-class="label"
+        <b-form-group class="mx-5 my-3" label="Entrez l'url de l'image qui sera affichée sur notre site* :"
+                      label-class="label"
                       data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
@@ -66,7 +71,7 @@
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Choisissez le type de securité de votre site web* :" label-class="label"
-                      data-aos="fade-left"
+                      data-aos="fade-right"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
           <b-row align-h="center" align-v="center">
@@ -93,7 +98,7 @@
             <b-col cols="auto">
               <b-form-select
                   class="mx-3"
-                  v-model="form.type"
+                  v-model="type"
                   :options="data.data.type"
                   required
               >
@@ -105,8 +110,25 @@
           </b-row>
         </b-form-group>
 
-        <b-form-group class="mx-5 my-3"
+        <b-form-group v-if="caracteristique" class="mx-5 my-3" label="Choisissez les caractéristiques* :" label-class="label"
                       data-aos="fade-right"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-duration="800">
+          <b-row align-h="center" align-v="center">
+            <b-col cols="auto">
+              <b-row align-v="center" align-h="center">
+                <b-col cols="auto">
+                  <b-form-checkbox v-for="option in caracteristique" v-model="caracteristiques" :key="option.value"
+                                   :value="option.value">
+                    <span class="label mx-2">{{ option.text }}</span>
+                  </b-form-checkbox>
+                </b-col>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-form-group>
+        <b-form-group class="m-5"
+                      data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
           <b-row align-h="center" align-v="center">
@@ -143,7 +165,7 @@
     </section>
 
     <section v-else class="Loading">
-      <app-loading :color="'white'" />
+      <app-loading :color="'white'"/>
     </section>
 
     <section class="Modal">
@@ -188,6 +210,9 @@ export default {
       modalMessage: null,
       emailExisting: null,
       checkBox: false,
+      caracteristiques: [],
+      caracteristique: null,
+      type: null,
       form: {
         name: null,
         email: null,
@@ -196,32 +221,56 @@ export default {
         password: null,
         password2: null,
         image: null,
-        security: null,
-        type: null
+        security: null
       }
+    }
+  },
+  watch: {
+    type() {
+      let temp = null;
+      let temp2 = null;
+      let self = this;
+      this.data.data.type.some(elt => {
+        if (elt.value === self.type) temp = elt.text
+      });
+      if (temp){
+        this.data.data.caracteristique.some(elt => {
+          if (elt.title === temp) temp2 = elt
+        });
+        if (temp2) this.caracteristique = temp2.body;
+      }
+      this.caracteristiques = [];
     }
   },
   methods: {
     async onSubmit(event) {
-      if (this.checkBox){
-        if (this.form.password === this.form.password2) {
-          await event.preventDefault()
-          await this.checkEmail();
-          if (!this.emailExisting) {
-            this.modalMessage = "L'email est déjà relié à un compte !";
-            await this.showLoginErrorModal();
+      this.form.type = this.type;
+      this.form.caracteristiques = this.caracteristiques;
+      if (this.caracteristiques.length > 0){
+        if (this.checkBox) {
+          if (this.form.password === this.form.password2) {
+            await event.preventDefault()
+            await this.checkEmail();
+            if (!this.emailExisting) {
+              this.modalMessage = "L'email est déjà relié à un compte !";
+              await this.showLoginErrorModal();
+            } else {
+              console.log(this.form);
+              await this.createAccount();
+            }
           } else {
-            console.log(this.form);
-            await this.createAccount();
+            await event.preventDefault()
+            this.modalMessage = "Les mots de passe ne sont pas égaux !";
+            await this.showLoginErrorModal();
           }
         } else {
           await event.preventDefault()
-          this.modalMessage = "Les mots de passe ne sont pas égaux !";
+          this.modalMessage = "Veuillez cliquer dans 'Je ne suis pas un robot' !";
           await this.showLoginErrorModal();
         }
       } else {
         await event.preventDefault()
-        this.modalMessage = "Veuillez cliquer dans 'Je ne suis pas un robot' !";
+        this.modalMessage = "Veuillez choisir au moins une caractéristique !";
         await this.showLoginErrorModal();
       }
 
@@ -236,8 +285,9 @@ export default {
       this.form.password2 = null;
       this.form.image = null;
       this.form.security = null;
-      this.form.type = null;
+      this.type = null;
       this.checkBox = false;
+      this.caracteristiques = [];
     },
     async checkEmail() {
       const self = this;
