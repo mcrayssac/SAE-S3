@@ -20,6 +20,21 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Nunito&family=Work+Sans&display=swap');
+
+::-webkit-scrollbar-track {
+  background-color: white;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background-color: #6ec8cb;
+}
+
 body, a ,p{
   font-family: 'Work Sans', sans-serif;
   letter-spacing:1px;
