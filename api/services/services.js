@@ -775,6 +775,26 @@ const addReservation = (idDemo, nbPlacesReserv, dateReserv, idPublic, callback) 
     }catch(e){ console.log("err addReservation : ", e)}
 }
 
+const deleteDemo = (idDemo, date, callback) => {
+    try {
+        pool.query(queries.deleteReservationsAPropos, [idDemo], ((error, results) => {
+            if (error)
+                return callback(error)
+            else {
+                pool.query(queries.deleteReservations, [date], ((err, maxId) => {
+                    if (error) return callback(err)
+                    else {
+                        pool.query(queries.deleteDemo, [idDemo], ((err, result) => {
+                            if (error) return callback(err)
+                            else return callback(null, "success deleteDemo")
+                        }))
+                    }
+                }))
+            }
+        }))
+    } catch (e) {console.log("err deleteDemo : ", e)}
+}
+
 // const getClassementCourse = async (idCourse, callback) => {
 //     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
 //
@@ -1013,5 +1033,6 @@ module.exports = {
     putClicsPrestataire,
     getAllDemos,
     getNbPlacesLeft,
-    addReservation
+    addReservation,
+    deleteDemo
 }

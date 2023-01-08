@@ -39,7 +39,6 @@
 
   <span v-else>
     <Planning :calendarOptions=optionsPublic :id=id> </Planning>
-
     <b-modal ref="modal" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal"
              :title=currentEvent.title>
       <h5> Nombres de places restantes </h5> <br>
@@ -166,9 +165,6 @@ export default {
     },
     handleSelect(selectTime){
       console.log(selectTime)
-      // console.log(selectTime.start.getTime())
-      // console.log(selectTime.end.getTime())
-      // console.log(selectTime.end.getTime() - selectTime.start.getTime())
       let isOverlap = this.optionsPresta.events.some(event => selectTime.start.toJSON() >= event.start && selectTime.end.toJSON() <= event.end)
 
       if(!isOverlap) {
@@ -182,9 +178,17 @@ export default {
     handleEventClick(clickInfo) {
       console.log(clickInfo)
       if (confirm(`Voulez-vous supprimer l'initiation '${clickInfo.event.title}' ?`)) {
-        clickInfo.event.remove()
-        this.$store.commit("removeEvent", clickInfo)
-        this.optionsPresta.events = this.getSceneEvents
+        let length = this.getSceneEvents.length
+        this.$store.commit("removeSceneEvent", {
+          id: parseInt(clickInfo.event.id),
+          start: clickInfo.event.start,
+          id_prestataire: this.userInfos.id
+        })
+        if(length != this.getSceneEvents.length) {
+          clickInfo.event.remove()
+          this.optionsPresta.events = this.getSceneEvents
+        }
+        else alert('Vous ne pouvez pas supprimer cet évènement')
       }
     },
     handleEventClickPublic(clickInfo) {

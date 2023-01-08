@@ -127,6 +127,20 @@ export default new Vuex.Store({
           }).catch(function (error){
         console.log("registerToSceneEvent error : ",error)
       });
+    },
+    removeSceneEvent: (state, event) => {
+      let demo = state.eventsScene.filter(e => e.id == event.id)
+      if(demo[0].id_prestataire == event.id_prestataire){
+        let date = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+        axios.delete('http://localhost:3000/demos/' + event.id + '?date=' + decodeURI(date))
+            .then(function (response){
+              console.log('removeSceneEvent', response.data.data);
+              return "success"
+            }).catch(function (error){
+          console.log("removeSceneEvent error : ",error)
+        });
+        state.eventsScene = state.eventsScene.filter(e => e.id != event.id)
+      }
     }
   },
   actions: {

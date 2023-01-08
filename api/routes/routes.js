@@ -527,4 +527,6 @@ router.get('/demos/:id/number-places-left', controller.getNbPlacesLeft)
 
 router.post('/demos/:idDemo/reservations', controller.addReservation)
 
+router.delete('/demos/:idDemo', controller.deleteDemo)
+
 module.exports = router;

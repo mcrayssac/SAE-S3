@@ -211,8 +211,20 @@ exports.addReservation = async (req, res) => {
     let nbPlacesReserv = req.query.nbPlaces
     let dateReserv = req.query.date
     let idPublic = req.query.idPublic
-    console.log(dateReserv)
     await services.addReservation( req.params.idDemo, nbPlacesReserv, dateReserv, idPublic, (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.deleteDemo = async (req, res) => {
+    console.log(chalk.green.inverse('Requête pour supprimer une démonstration de la scène'));
+    let date = req.query.date
+    console.log(req.params.idDemo)
+    console.log(date)
+    await services.deleteDemo( req.params.idDemo, date, (err, results) => {
         if(err){
             return res.status(400).send({success:0, data: err})
         }
