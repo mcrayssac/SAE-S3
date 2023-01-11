@@ -141,6 +141,18 @@ export default new Vuex.Store({
         });
         state.eventsScene = state.eventsScene.filter(e => e.id != event.id)
       }
+    },
+    addSceneEvent: (state, event) => {
+      console.log(event)
+      let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+      let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
+      axios.post('http://localhost:3000/demos?dateDebut=' + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin) + '&nbPlaces=' + event.nbPlaces + '&idPresta=' + event.id_prestataire + '&title=' + event.title)
+          .then(function (response){
+            console.log('addSceneEvent', response.data.data);
+            return "success"
+          }).catch(function (error){
+        console.log("addSceneEvent error : ",error)
+      });
     }
   },
   actions: {

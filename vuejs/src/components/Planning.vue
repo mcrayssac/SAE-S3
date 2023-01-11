@@ -13,8 +13,7 @@ import {mapGetters} from 'vuex'
 
 export default {
   props: {
-    calendarOptions: Object,
-    id: Number
+    calendarOptions: Object
   },
   components: {FullCalendar}
 }

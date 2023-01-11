@@ -12,6 +12,7 @@ const getMaxIdReservation = "SELECT MAX(id_reservation) AS max FROM RESERVATION;
 const deleteReservationsAPropos = "DELETE FROM A_Propos WHERE id_initiation=$1"
 const deleteReservations = "DELETE FROM RESERVATION WHERE date_periode=$1"
 const deleteDemo = "DELETE FROM INITIATION WHERE id_initiation=$1"
+const addDemo = "INSERT INTO INITIATION VALUES(default, $5, 1, $1, $2, $3, 4, $4);"
 
 module.exports = {
     getAllPublic,
@@ -27,5 +28,6 @@ module.exports = {
     getMaxIdReservation,
     deleteReservationsAPropos,
     deleteReservations,
-    deleteDemo
+    deleteDemo,
+    addDemo
 }

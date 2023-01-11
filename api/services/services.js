@@ -781,11 +781,11 @@ const deleteDemo = (idDemo, date, callback) => {
             if (error)
                 return callback(error)
             else {
-                pool.query(queries.deleteReservations, [date], ((err, maxId) => {
+                pool.query(queries.deleteReservations, [date], ((err, resultats) => {
                     if (error) return callback(err)
                     else {
-                        pool.query(queries.deleteDemo, [idDemo], ((err, result) => {
-                            if (error) return callback(err)
+                        pool.query(queries.deleteDemo, [idDemo], ((errr, result) => {
+                            if (error) return callback(errr)
                             else return callback(null, "success deleteDemo")
                         }))
                     }
@@ -793,6 +793,16 @@ const deleteDemo = (idDemo, date, callback) => {
             }
         }))
     } catch (e) {console.log("err deleteDemo : ", e)}
+}
+
+const addDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
+    try {
+        pool.query(queries.addDemo, [dateDebut, dateFin, nbPlaces, idPresta, title], ((error, results) => {
+            if (error)
+                return callback(error)
+            else return callback(null, "success addDemo")
+        }))
+    } catch (e) {console.log("err addDemo : ", e)}
 }
 
 // const getClassementCourse = async (idCourse, callback) => {
@@ -1034,5 +1044,6 @@ module.exports = {
     getAllDemos,
     getNbPlacesLeft,
     addReservation,
-    deleteDemo
+    deleteDemo,
+    addDemo
 }

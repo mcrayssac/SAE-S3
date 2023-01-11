@@ -529,4 +529,6 @@ router.post('/demos/:idDemo/reservations', controller.addReservation)
 
 router.delete('/demos/:idDemo', controller.deleteDemo)
 
+router.post('/demos', controller.addDemo)
+
 module.exports = router;

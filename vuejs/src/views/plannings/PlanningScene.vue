@@ -1,6 +1,6 @@
 <template>
   <span v-if="this.userInfos.admin == 'prestataire'">
-    <Planning :calendarOptions=optionsPresta :id=id> </Planning>
+    <Planning :calendarOptions=optionsPresta> </Planning>
 
     <b-modal ref="modal-presta" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
              title="Ajouter une nouvelle initiation">
@@ -38,7 +38,7 @@
 
 
   <span v-else>
-    <Planning :calendarOptions=optionsPublic :id=id> </Planning>
+    <Planning :calendarOptions=optionsPublic> </Planning>
     <b-modal ref="modal" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal"
              :title=currentEvent.title>
       <h5> Nombres de places restantes </h5> <br>
@@ -140,14 +140,12 @@ export default {
         events: this.$store.getters.getSceneEvents,
         nowIndicator: true
       },
-      id:3,
       currentEvent: {
           title: "",
           nbPlaces: null
         },
       currentTime: null,
-      currentPlacesLeft : null,
-      max: 10
+      currentPlacesLeft : null
     }
   },
   computed: {
@@ -169,6 +167,7 @@ export default {
 
       if(!isOverlap) {
         this.currentTime = selectTime
+        console.log(this.$refs['modal-presta'])
         this.$refs['modal-presta'].show()
       }
       else{
@@ -222,17 +221,16 @@ export default {
     async onSubmit(event) {
       console.log(event)
       if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0) {
-        this.$store.commit("addEvent", {
-          id: this.id,
+        this.$store.commit("addSceneEvent", {
           title: this.currentEvent.title,
-          start: this.currentTime.startStr,
-          end: this.currentTime.endStr,
-          allDay: this.currentTime.allDay,
-          nbPlaces: this.currentEvent.nbPlaces
+          start: this.currentTime.start,
+          end: this.currentTime.end,
+          nbPlaces: parseInt(this.currentEvent.nbPlaces),
+          id_prestataire: this.userInfos.id
         })
-        this.id++
         this.optionsPresta.events = this.getSceneEvents
         this.$refs['modal-presta'].hide()
+        alert("Evènement ajouté, en attente de validation des organisateurs")
       }
       else{
         alert("Mauvaises informations saisies")

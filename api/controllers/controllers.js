@@ -222,9 +222,17 @@ exports.addReservation = async (req, res) => {
 exports.deleteDemo = async (req, res) => {
     console.log(chalk.green.inverse('Requête pour supprimer une démonstration de la scène'));
     let date = req.query.date
-    console.log(req.params.idDemo)
-    console.log(date)
     await services.deleteDemo( req.params.idDemo, date, (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+
+exports.addDemo = async(req, res) => {
+    console.log(chalk.green.inverse('Requête pour ajouter une démonstration de la scène'));
+    await services.addDemo( req.query.dateDebut, req.query.dateFin, req.query.nbPlaces, req.query.idPresta, req.query.title, (err, results) => {
         if(err){
             return res.status(400).send({success:0, data: err})
         }
