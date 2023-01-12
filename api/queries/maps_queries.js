@@ -34,7 +34,20 @@ const addNote = "insert into NOTE(libelle_note, id_prestataire, id_public)\
 
 const getAllClubs = "SELECT nom_prestataire FROM PRESTATAIRE where id_type = 3;";
 
-const getClub = "select * from PRESTATAIRE where id_type = 3 and nom_prestataire like $1;";
+const getClub = "select *\
+                from prestataire\
+                where id_type = 3 and nom_prestataire like $1;\
+                 ";
+
+const getClubCommentaire = "select libelle_commentaire, nom_public, libelle_note\
+                            from COMMENTAIRE as c\
+                            inner join NOTE as n on n.id_prestataire = c.id_prestataire\
+                            inner join PUBLIC as p on p.id_public = c.id_public\
+                            where c.id_prestataire = $1 and n.id_prestataire = $1;\
+                            ;"
+
+const getCourses= "SELECT libelle_course, nb_km, id_course, trace FROM COURSES";
+
 
 module.exports = {
     getStands : getStands,
@@ -51,5 +64,7 @@ module.exports = {
     getCaracteristiques,
     getTypes,
     getAllClubs,
-    getClub
+    getClub,
+    getCourses,
+    getClubCommentaire
 }

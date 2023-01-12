@@ -322,6 +322,17 @@ const getClub = async (nomClub, callback) => {
     // }
 }
 
+const getClubCommentaire = async (id, callback) => {
+    console.log("\n\tid : ", id,"\n")
+    await pool.query(mapQueries.getClubCommentaire, [id], (error, result) => {
+        if (error) {
+            console.log(error);
+            return callback([]);
+        }
+        return callback(null, result.rows);
+    });
+}
+
 const getCategories = (type, callback) => {
     if (type === "restaurants"){
         return callback(null, "Restaurant");
@@ -912,32 +923,20 @@ const getCompetition = async (callback) => {
 }
 
 const addCommentaire = async(form, callback) => {
-    const commentaire = form.commentaire, idPublic = form.id, nomPresta = form.nomPresta, note = form.note;
-    let idPresta;
+    const commentaire = form.commentaire, idPublic = form.id, idPresta = form.idPresta, note = form.note;
 
-    await pool.query(mapQueries.getPresta, [nomPresta], (async (error, result)=>{
+    await pool.query(mapQueries.addCommentaire, [commentaire, idPresta, idPublic], (async (error, resultCom) => {
         if (error) {
             console.log(error);
             return callback(error);
-        }
-        else if (result.rowCount === 0) {
-            return callback(error);
-        }
-        else {
-            idPresta = result.rows[0].id_prestataire;
-            await pool.query(mapQueries.addCommentaire, [commentaire, idPresta, idPublic], (async (error, resultCom) => {
+        } else {
+            await pool.query(mapQueries.addNote, [note, idPresta, idPublic], ((error, resultNote) => {
                 if (error) {
                     console.log(error);
                     return callback(error);
-                } else {
-                    await pool.query(mapQueries.addNote, [note, idPresta, idPublic], ((error, resultNote) => {
-                        if (error) {
-                            console.log(error);
-                            return callback(error);
-                        } else
-                            return callback(null, {commentaire: resultCom.rows, note: resultNote.rows});
-                    }));
-                }
+                } else
+                    console.log("commentaire:", resultCom.rows, "note:", resultNote.rows)
+                    return callback(null, {commentaire: resultCom.rows, note: resultNote.rows});
             }));
         }
     }));
@@ -1105,5 +1104,6 @@ module.exports = {
     addReservation,
     deleteDemo,
     addDemo,
-    addReservationCourse
+    addReservationCourse,
+    getClubCommentaire
 }

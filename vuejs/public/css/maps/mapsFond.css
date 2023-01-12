@@ -43,7 +43,7 @@ ul {
 }
 
 #courses {
-    display:none;
+    /*display:none;*/
     fill:none;
     stroke:#df1b3f;
     stroke-width:1.2;

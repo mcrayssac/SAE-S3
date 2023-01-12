@@ -194,6 +194,8 @@ router.post("/public/:idPublic", controller.updatePublic);
 // --------- PRESTATAIRE
 router.get("/prestataires/prestataire/:nomPrestataire", controller.getPrestataire);
 
+router.get("/prestataires/prestataire/getCommentaires/:id_presta", controller.getPrestataireCommentaire);
+
 router.get("/prestataire/:idPrestataire", controller.getPrestataireById);
 /**
  * @swagger
@@ -532,5 +534,7 @@ router.delete('/demos/:idDemo', controller.deleteDemo);
 router.post('/demos', controller.addDemo);
 
 router.post('/reservation/courses', controller.addReservationCourse);
+
+router.get('/map/courses', controller.getCourses)
 
 module.exports = router;

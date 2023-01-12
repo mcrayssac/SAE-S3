@@ -36,7 +36,7 @@ CREATE TABLE AGE
 (
     id_age      SERIAL,
     libelle_age VARCHAR(50),
-    PRIMARY KEY (id_age)
+    CONSTRAINT pk_age PRIMARY KEY (id_age)
 );
 
 CREATE TABLE CONTRAINTE
@@ -57,21 +57,21 @@ CREATE TABLE PAYS
 (
     id_pays      SERIAL,
     libelle_pays VARCHAR(100),
-    PRIMARY KEY (id_pays)
+    CONSTRAINT pk_pays PRIMARY KEY (id_pays)
 );
 
 CREATE TABLE TAILLE
 (
     id_taille      SERIAL,
     libelle_taille VARCHAR(50),
-    PRIMARY KEY (id_taille)
+    CONSTRAINT pk_taille PRIMARY KEY (id_taille)
 );
 
 CREATE TABLE FAMILLE
 (
     id_famille      SERIAL,
     libelle_famille VARCHAR(100),
-    PRIMARY KEY (id_famille)
+    CONSTRAINT pk_famille PRIMARY KEY (id_famille)
 );
 
 
@@ -79,7 +79,7 @@ CREATE TABLE SEXE
 (
     id_sexe      SERIAL,
     libelle_sexe VARCHAR(10),
-    PRIMARY KEY (id_sexe)
+    CONSTRAINT pk_sexe PRIMARY KEY (id_sexe)
 );
 
 CREATE TABLE STAND
@@ -179,9 +179,12 @@ CREATE TABLE PRESTATAIRE
     site_security         VARCHAR(20),
     passwd_prestataire    VARCHAR(100),
     etat_inscription      BOOLEAN,
-    url_image             VARCHAR(8000),
     id_stand              INT,
     id_type               INT NOT NULL,
+    text_gauche           TEXT,
+    text_droite           TEXT,
+    url_image           TEXT,
+    image_body            TEXT,
     CONSTRAINT pk_prestataire PRIMARY KEY (id_prestataire),
     CONSTRAINT fk_stand_prestataire FOREIGN KEY (id_stand) REFERENCES STAND (id_stand),
     CONSTRAINT fk_type_prestataire FOREIGN KEY (id_type) REFERENCES TYPE_PRESTATAIRE (id_type)
@@ -194,6 +197,7 @@ CREATE TABLE COURSES
     nb_km          INT,
     nb_place       INT,
     prix           DECIMAL(4, 2),
+    trace          VARCHAR(8000),
     url_image      VARCHAR(8000),
     date_periode   TIMESTAMP NOT NULL,
     id_sport       INT       NOT NULL,
@@ -223,7 +227,7 @@ CREATE TABLE INITIATION
 CREATE TABLE NOTE
 (
     id_note        SERIAL,
-    libelle_note   DECIMAL(2, 1),
+    libelle_note   DECIMAL(3, 1),
     id_prestataire INT NOT NULL,
     id_public      INT NOT NULL,
     CONSTRAINT pk_note PRIMARY KEY (id_note),
