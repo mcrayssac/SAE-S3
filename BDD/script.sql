@@ -155,7 +155,7 @@ CREATE TABLE RESERVATION
     id_public      INT NOT NULL,
     CONSTRAINT pk_reservation PRIMARY KEY (id_reservation),
     CONSTRAINT fk_periode_reservation FOREIGN KEY (date_periode) REFERENCES PERIODE (date_periode),
-    CONSTRAINT fk_public_reservation FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public)
+    CONSTRAINT fk_public_reservation FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public) ON DELETE CASCADE
 );
 
 
@@ -232,7 +232,7 @@ CREATE TABLE NOTE
     id_public      INT NOT NULL,
     CONSTRAINT pk_note PRIMARY KEY (id_note),
     CONSTRAINT fk_prestataire_note FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE,
-    CONSTRAINT fk_public_note FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public)
+    CONSTRAINT fk_public_note FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public) ON DELETE CASCADE
 );
 
 CREATE TABLE CLIC
@@ -252,7 +252,7 @@ CREATE TABLE COMMENTAIRE
     id_public           INT NOT NULL,
     CONSTRAINT pk_commentaire PRIMARY KEY (id_commentaire),
     CONSTRAINT fk_prestataire_commentaire FOREIGN KEY (id_prestataire) REFERENCES PRESTATAIRE (id_prestataire) ON DELETE CASCADE,
-    CONSTRAINT fk_public_commentaire FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public)
+    CONSTRAINT fk_public_commentaire FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public) ON DELETE CASCADE
 );
 
 CREATE TABLE Emet
@@ -279,7 +279,7 @@ CREATE TABLE Participe
     id_course           INT NOT NULL,
     position_classement INT,
     CONSTRAINT pk_participe PRIMARY KEY (id_public, id_course),
-    CONSTRAINT fk_public_participe FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public),
+    CONSTRAINT fk_public_participe FOREIGN KEY (id_public) REFERENCES PUBLIC (id_public) ON DELETE CASCADE,
     CONSTRAINT fk_courses_participe FOREIGN KEY (id_course) REFERENCES COURSES (id_course)
 );
 
