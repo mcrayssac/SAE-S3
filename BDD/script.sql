@@ -197,6 +197,7 @@ CREATE TABLE COURSES
     nb_km          INT,
     nb_place       INT,
     prix           DECIMAL(4, 2),
+    trace          VARCHAR(8000),
     url_image      VARCHAR(8000),
     date_periode   TIMESTAMP NOT NULL,
     id_sport       INT       NOT NULL,

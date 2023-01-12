@@ -76,7 +76,7 @@ select * from TEXTE;
 \COPY IMAGE (url_img, id_endroit, id_prestataire) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAE-S3/BDD/IMAGE.csv' DELIMITER AS ',';
 select * from IMAGE;
 
-\COPY COURSES (libelle_course, nb_km, nb_place, prix, url_image, date_periode, id_sport, id_lieu) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAE-S3/BDD/COURSES.csv' DELIMITER AS ',';
+\COPY COURSES (libelle_course, nb_km, nb_place, prix, trace, url_image, date_periode, id_sport, id_lieu) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAE-S3/BDD/COURSES.csv' DELIMITER AS ',';
 select * from COURSES;
 
 \COPY INITIATION (libelle_initiation, etat_initiation, date_periode, fin_periode, nb_places, id_lieu, id_prestataire) FROM '/home/user/Documents/BUT/2e_annee/semestre_1/SAE-S3/BDD/INITIATION.csv' DELIMITER AS ',';
