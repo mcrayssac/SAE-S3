@@ -3,7 +3,7 @@
     <section v-if="data !== null" class="Body">
       <section class="Title">
         <b-row align-h="center" align-v="center">
-          <b-col cols="auto">
+          <b-col class="my-5" cols="auto">
             <h1 class="my-5" data-aos="fade-up-right"
                 data-aos-anchor-placement="top-bottom"
                 data-aos-duration="800">Résultats pour {{name}}</h1>
@@ -27,41 +27,33 @@
                 </b-tr>
               </b-thead>
               <b-tbody  style="color: white">
-                <b-tr v-if="first !== null" style="background-color: #ffba00">
-                  <b-th class="text-center"
-                        data-aos="zoom-in"
-                        data-aos-anchor-placement="top-bottom"
-                        :data-aos-delay="delayFirst+=300"
-                        data-aos-duration="500">{{ first.Classement }}</b-th>
-                  <b-th class="text-center"
-                        data-aos="zoom-in"
-                        data-aos-anchor-placement="top-bottom"
-                        :data-aos-delay="delayFirst+=300"
-                        data-aos-duration="500">{{ first.Prénom }}</b-th>
-                  <b-th class="text-center"
-                        data-aos="zoom-in"
-                        data-aos-anchor-placement="top-bottom"
-                        :data-aos-delay="delayFirst+=300"
-                        data-aos-duration="500">{{ first.Nom }}</b-th>
-                  <b-th class="text-center"
-                        data-aos="zoom-in"
-                        data-aos-anchor-placement="top-bottom"
-                        :data-aos-delay="delayFirst+=300"
-                        data-aos-duration="500">{{ first["Nombre de place"] }}</b-th>
-                  <b-th class="text-center"
-                        data-aos="zoom-in"
-                        data-aos-anchor-placement="top-bottom"
-                        :data-aos-delay="delayFirst+=300"
-                        data-aos-duration="500">{{ first["Nombre de km"] }}</b-th>
+                <b-tr v-if="first !== null" style="background-color: #ffba00"
+                      data-aos="zoom-in"
+                      data-aos-anchor-placement="top-bottom"
+                      :data-aos-delay="delayFirst+900"
+                      data-aos-duration="500">
+                  <b-th class="text-center">{{ first.Classement }}</b-th>
+                  <b-th class="text-center">{{ first.Prénom }}</b-th>
+                  <b-th class="text-center">{{ first.Nom }}</b-th>
+                  <b-th class="text-center">{{ first["Nombre de place"] }}</b-th>
+                  <b-th class="text-center">{{ first["Nombre de km"] }}</b-th>
                 </b-tr>
-                <b-tr v-else-if="second !== null" style="background-color: #c9c8c8">
+                <b-tr v-if="second !== null" style="background-color: #c9c8c8"
+                      data-aos="zoom-in"
+                      data-aos-anchor-placement="top-bottom"
+                      :data-aos-delay="delayFirst+600"
+                      data-aos-duration="500">
                   <b-th class="text-center">{{ second.Classement }}</b-th>
                   <b-th class="text-center">{{ second.Prénom }}</b-th>
                   <b-th class="text-center">{{ second.Nom }}</b-th>
                   <b-th class="text-center">{{ second["Nombre de place"] }}</b-th>
                   <b-th class="text-center">{{ second["Nombre de km"] }}</b-th>
                 </b-tr>
-                <b-tr v-else-if="third !== null" style="background-color: #bd985b">
+                <b-tr v-if="third !== null" style="background-color: #bd985b"
+                      data-aos="zoom-in"
+                      data-aos-anchor-placement="top-bottom"
+                      :data-aos-delay="delayFirst+300"
+                      data-aos-duration="500">
                   <b-th class="text-center">{{ third.Classement }}</b-th>
                   <b-th class="text-center">{{ third.Prénom }}</b-th>
                   <b-th class="text-center">{{ third.Nom }}</b-th>
@@ -92,7 +84,9 @@
       </section>
 
       <section v-else class="mt-5 Main-none" style="min-height: 300px;">
-        <h6>Aucun résultat disponible pour le moment</h6>
+        <h6 data-aos="flip-left"
+            data-aos-anchor-placement="top-bottom"
+            data-aos-duration="800">Aucun résultat disponible pour le moment</h6>
       </section>
     </section>
     <section v-else class="Loading">
@@ -117,19 +111,23 @@ export default {
       third: null,
       rows: null,
       delay: 300,
-      delayFirst: 1200
+      delayFirst: 500
     }
   },
   methods:{
     dataSplice: async function(){
-      await this.data.data.data.forEach(elt => {
+      let temp = [...this.data.data.data];
+      await temp.forEach(elt => {
         if (elt.Classement && elt.Classement === 1) {
+          console.log("First !");
           this.first = elt;
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         } else if (elt.Classement && elt.Classement === 2) {
+          console.log("Second !");
           this.second = elt;
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         } else if (elt.Classement && elt.Classement === 3) {
+          console.log("Third !");
           this.third = elt;
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         }
