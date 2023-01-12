@@ -168,6 +168,9 @@ export default {
       xAxis: {
         scale_type: 'date',
         crosshair_enabled: true,
+        defaultTick: {
+          label_rotate: -30
+        }
       },
       yAxis: [
         {

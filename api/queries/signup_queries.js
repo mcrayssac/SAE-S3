@@ -22,8 +22,14 @@ exports.getCompetition = "select c.libelle_course as \"title\", c.nb_km as \"Kil
     "from courses as c\n" +
     "inner join sport s on s.id_sport = c.id_sport\n" +
     "inner join lieu l on l.id_lieu = c.id_lieu;";
-exports.getClicsPrestataire = "select CONCAT(EXTRACT(YEAR FROM jour), '-', EXTRACT(MONTH FROM jour), '-', EXTRACT(DAY FROM jour)) as \"x\", count(jour) as \"y\"\n" +
-    "from clic where id_prestataire = $1 group by \"x\" order by \"x\";";
+exports.getClicsPrestataire = "select CONCAT(EXTRACT(YEAR FROM jour), '-',\n" +
+    "            CASE WHEN CAST(EXTRACT(MONTH FROM jour) AS INT) < 10 THEN CONCAT('0', EXTRACT(MONTH FROM jour)) ELSE CAST(EXTRACT(MONTH FROM jour) AS TEXT) END, '-',\n" +
+    "            CASE WHEN CAST(EXTRACT(DAY FROM jour) AS INT) < 10 THEN CONCAT('0', EXTRACT(DAY FROM jour)) ELSE CAST(EXTRACT(DAY FROM jour) AS TEXT) END) as \"x\",\n" +
+    "       count(jour) as \"y\"\n" +
+    "from clic\n" +
+    "where id_prestataire = $1\n" +
+    "group by \"x\"\n" +
+    "order by \"x\";";
 exports.getPrestataires = "select  libelle_caracteristique as \"Filtre\", libelle_famille as \"Famille\", nom_prestataire as \"Title\", url_image as \"UrlImage\", prestataire.id_prestataire as \"id\", site_web_prestataire as \"Site\", site_security as \"SiteSecurite\" from prestataire\n" +
     "inner join detient d on prestataire.id_prestataire = d.id_prestataire\n" +
     "inner join caracteristique c on c.id_caracteristique = d.id_caracteristique\n" +
