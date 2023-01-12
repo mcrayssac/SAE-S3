@@ -329,7 +329,6 @@ const getClubCommentaire = async (id, callback) => {
             console.log(error);
             return callback([]);
         }
-        console.log(result.rows)
         return callback(null, result.rows);
     });
 }
@@ -934,6 +933,7 @@ const addCommentaire = async(form, callback) => {
                     console.log(error);
                     return callback(error);
                 } else
+                    console.log("commentaire:", resultCom.rows, "note:", resultNote.rows)
                     return callback(null, {commentaire: resultCom.rows, note: resultNote.rows});
             }));
         }

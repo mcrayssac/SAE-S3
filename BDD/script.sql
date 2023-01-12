@@ -227,7 +227,7 @@ CREATE TABLE INITIATION
 CREATE TABLE NOTE
 (
     id_note        SERIAL,
-    libelle_note   DECIMAL(2, 1),
+    libelle_note   DECIMAL(3, 1),
     id_prestataire INT NOT NULL,
     id_public      INT NOT NULL,
     CONSTRAINT pk_note PRIMARY KEY (id_note),
