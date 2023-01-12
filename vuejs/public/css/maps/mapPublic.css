@@ -116,3 +116,11 @@
 .map_image .is-desactive-balise{
     display: none
 }
+
+.course-is-active{
+    display: inline;
+}
+
+.course-is-desactive{
+    display: none;
+}

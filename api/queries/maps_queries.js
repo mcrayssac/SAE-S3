@@ -46,7 +46,7 @@ const getClubCommentaire = "select libelle_commentaire, nom_public, libelle_note
                             where c.id_prestataire = $1 and n.id_prestataire = $1;\
                             ;"
 
-const getCourses= "SELECT libelle_course, nb_km FROM COURSES";
+const getCourses= "SELECT libelle_course, nb_km, id_course, trace FROM COURSES";
 
 
 module.exports = {
