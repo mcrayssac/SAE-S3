@@ -36,6 +36,9 @@ const getAllClubs = "SELECT nom_prestataire FROM PRESTATAIRE where id_type = 3;"
 
 const getClub = "select * from PRESTATAIRE where id_type = 3 and nom_prestataire like $1;";
 
+const getCourses= "SELECT libelle_course, nb_km FROM COURSES";
+
+
 module.exports = {
     getStands : getStands,
     getContraintes : getContraintes,
@@ -51,5 +54,6 @@ module.exports = {
     getCaracteristiques,
     getTypes,
     getAllClubs,
-    getClub
+    getClub,
+    getCourses
 }

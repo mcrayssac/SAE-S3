@@ -132,7 +132,6 @@
                   <image
                       width="9.6899996"
                       height="15.042416"
-                      preserveAspectRatio="none"
                       xlink:href="https://media.discordapp.net/attachments/1019187788614213662/1048175911847079946/apf7.png?width=326&height=496"
                       x="162.23665"
                       y="114"
@@ -146,6 +145,7 @@
                         :x="stand.coordonne_x" :y="stand.coordonne_y" width=6 height=5 :class="getClasses(stand.id_prestataire)"
                         v-b-modal.modal-stand-occupe
                         :id="stand.nom_prestataire"
+                        @click="selectStand(stand)"
                         @mouseover="interactivityHover(stand.nom_prestataire)"
                         @mouseleave="interactivityLeave(stand.nom_prestataire)">
 
@@ -159,6 +159,7 @@
                       :x="calculCoordsBalise(index)[0]"
                       :y="calculCoordsBalise(index)[1]"
                       v-b-modal.modal-stand-occupe
+                      @click="selectStand(stand)"
                       @mouseover="interactivityHover(stand.nom_prestataire)"
                       @mouseleave="interactivityLeave(stand.nom_prestataire)"
                   />
@@ -298,7 +299,9 @@
           <b-row class="m-0" align-h="center" align-v="center">
 
             <b-col class="mb-3" cols="auto">
-              <span class="title-filtre-besoin">Courses (+ liste déroulante)</span>
+              <span class="title-filtre-besoin">Courses</span>
+              <br><br>
+              <b-form-select v-model="courseSelected" :options="tabCourses"></b-form-select>
             </b-col>
 
             <b-col class="mb-3" cols="auto">
@@ -405,14 +408,19 @@
 
           <!------------------------------------------------------------ Modal stand ------------------------------------------------------------------>
           <b-modal ref="modal-stand-occupe" hide-backdrop hide-header-close no-fade no-stacking
-                   id="modal-stand-occupe" title="Stand ...">
+                   id="modal-stand-occupe" :title="getTitle()">
             <template #modal-footer>
               <b-row class="mx-auto" align-h="center">
                 <b-col cols="auto">
                   <b-button class="button-close" @click="hideStandOccupeModal">Fermer</b-button>
                 </b-col>
                 <b-col cols="auto">
-                  <b-button class="button-see">Voir la page du prestataire</b-button>
+                  <b-button class="button mx-2"
+                     @click="$router.push({
+                     name: 'prestataires/nomPrestataire',
+                     params: { nomPrestataire: getTitle().toLowerCase().trim().replace(/ /g,'')} })">
+                    Voir la page du prestataire
+                  </b-button>
                 </b-col>
               </b-row>
             </template>
@@ -437,7 +445,10 @@ export default {
     tabStand: [],
     tabTypePresta: [],
     tabCaracteristiques: [],
-    filterChecked: []
+    filterChecked: [],
+    standSelected: {id_prestataire: 1, id_stand:0},
+    courseSelected: null,
+    tabCourses: []
   }),
   methods:{
     deg_to_rad(degree){
@@ -517,6 +528,7 @@ export default {
       for(let i = 0; i < this.tabStand.length; i++){
         this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('rect')[0].classList.remove('is-active')
         this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('image')[0].classList.remove('is-desactive-balise')
+        this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('image')[0].classList.remove('is-active-balise')
         this.$refs[this.tabStand[i].nom_prestataire][1].classList.remove('is-active')
       }
       this.$refs['Association'].getElementsByTagName('image')[0].classList.remove('is-desactive-balise')
@@ -542,8 +554,6 @@ export default {
         if (this.filterChecked[i])
           checkedCaracteristique.push(this.tabCaracteristiques[i])
       }
-
-      //--------------------------------------------
       if (checkedCaracteristique.length != 0) {
         let filtered = stands.filter(stand => {
           let temp;
@@ -562,23 +572,18 @@ export default {
         console.log(filtered)
         console.log(stands)
         console.log(balises)
-        console.log(".......................................")
         //pour ajouter active et desactive
         for(let i=1; i<stands.length;i++){
           res = false
           for(let j=0; j<filtered.length;j++){
-            // console.log(stands[i])
-            // console.log(filtered[i])
-            // console.log("========================")
-            // console.log(stands[i].getAttribute('id'))
             temp = filtered[j]==stands[i] ? true : false
             res = res || temp
-
             console.log(stands[i].getAttribute('id') + ", temp = " + temp + ", res = " + res)
           }
           if(res){
             console.log(stands[i].getAttribute('id') + "true")
             stands[i].classList.add('is-active')
+            balises[i-1].classList.add('is-active-balise')
           }else{
             console.log(stands[i].getAttribute('id') + "false")
             balises[i-1].classList.add('is-desactive-balise')
@@ -586,6 +591,17 @@ export default {
         }
       }
     },
+
+    getTitle(){
+      let title = ""
+      title = "Stand " + this.standSelected.id_stand +": "+ this.standSelected.nom_prestataire
+      return title
+    },
+
+    selectStand(stand){
+      this.standSelected = stand
+    },
+
 
   },
   async created() {
@@ -621,6 +637,19 @@ export default {
             this.tabCaracteristiques.push(Object.values(caracteristique)[0])
             this.filterChecked.push(false)
           })
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+
+    await axios.get(`http://localhost:3000/map/courses`)
+        .then(result => {
+          result.data.data.forEach(course =>{
+            this.tabCourses.push(course.libelle_course+" :  "+course.nb_km+" km")
+          })
+          // this.tabCourses = result.data.data
+          console.log(this.tabCourses)
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;

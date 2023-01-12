@@ -531,4 +531,6 @@ router.delete('/demos/:idDemo', controller.deleteDemo)
 
 router.post('/demos', controller.addDemo)
 
+router.get('/map/courses', controller.getCourses)
+
 module.exports = router;

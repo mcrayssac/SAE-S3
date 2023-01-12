@@ -725,6 +725,16 @@ const getCaracteristiques = async (callback) => {
     }))
 }
 
+const getCourses = async (callback) => {
+    await pool.query(mapQueries.getCourses, ((error, results)=>{
+        if (error)
+            return callback(error)
+        else{
+            return callback(null, results.rows)
+        }
+    }))
+}
+
 const getTypes = async (callback) => {
     await pool.query(mapQueries.getTypes, ((error, results)=>{
         if (error)
@@ -1045,5 +1055,6 @@ module.exports = {
     getNbPlacesLeft,
     addReservation,
     deleteDemo,
-    addDemo
+    addDemo,
+    getCourses
 }

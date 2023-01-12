@@ -56,7 +56,16 @@ exports.getStands = async (req, res) =>{
         }
         return res.status(200).send({success:1, data: results})
     })
+}
 
+exports.getCourses = async (req, res) =>{
+    console.log(chalk.green.inverse('requete pour les courses'));
+    await services.getCourses( (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
 }
 
 exports.getInscriptionChoix = async (req, res) => {
