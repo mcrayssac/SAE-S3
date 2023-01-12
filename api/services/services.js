@@ -841,6 +841,9 @@ const getResultats = async (nomCompetition, callback) => {
         else if (nomCompetition === "vtt") competition = "Course de VTT";
         else if (nomCompetition === "natation") competition = "Course de natation";
         else if (nomCompetition === "courseorientation") competition = "Course d'orientation";
+        else if (nomCompetition === "petitecourseapied") competition = "Petite course à pied";
+        else if (nomCompetition === "moyennecourseapied") competition = "Moyenne course à pied";
+        else if (nomCompetition === "grandecourseapied") competition = "Grande course à pied";
         else return callback("Competition not found");
         await pool.query(signupQueries.getResultats, [competition], ((error, results)=>{
             if (error)

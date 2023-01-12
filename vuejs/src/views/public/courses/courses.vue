@@ -203,7 +203,7 @@ export default {
           setTimeout(() => {
             this.showAlert(message, variant);
             window.scrollTo(0,0);
-          }, "50")
+          }, "200")
         } else {
           let date = new Date();
           let idPublic = this.userInfos.id;
@@ -215,7 +215,7 @@ export default {
                 setTimeout(() => {
                   this.showAlert(message, variant);
                   window.scrollTo(0,0);
-                }, "50")
+                }, "200")
               })
               .catch((err) => {
                 let message = typeof err.response !== "undefined" ? err.response.data.data : err.message;
@@ -227,7 +227,7 @@ export default {
                 setTimeout(() => {
                   this.showAlert(message, variant);
                   window.scrollTo(0,0);
-                }, "50")
+                }, "200")
               });
         }
       }

@@ -189,7 +189,9 @@
               <b-dropdown-item href="/resultats/courseapied">Course à pied</b-dropdown-item>
               <b-dropdown-item href="/resultats/vtt">VTT</b-dropdown-item>
               <b-dropdown-item href="/resultats/natation">Natation</b-dropdown-item>
-              <b-dropdown-item href="/resultats/courseorientation">Course d'orientation</b-dropdown-item>
+              <b-dropdown-item href="/resultats/petitecourseapied">Petite course à pied</b-dropdown-item>
+              <b-dropdown-item href="/resultats/moyennecourseapied">Moyenne course à pied</b-dropdown-item>
+              <b-dropdown-item href="/resultats/grandecourseapied">Grande course à pied</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
 
