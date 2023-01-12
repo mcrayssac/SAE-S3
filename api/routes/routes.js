@@ -521,14 +521,16 @@ router.get("/demandes/prestataires", controller.getDemandesPrestataires);
 
 router.post("/demandes/prestataires/:choice", controller.postDemandesPrestataires);
 
-router.get('/demos', controller.getAllDemos)
+router.get('/demos', controller.getAllDemos);
 
-router.get('/demos/:id/number-places-left', controller.getNbPlacesLeft)
+router.get('/demos/:id/number-places-left', controller.getNbPlacesLeft);
 
-router.post('/demos/:idDemo/reservations', controller.addReservation)
+router.post('/demos/:idDemo/reservations', controller.addReservation);
 
-router.delete('/demos/:idDemo', controller.deleteDemo)
+router.delete('/demos/:idDemo', controller.deleteDemo);
 
-router.post('/demos', controller.addDemo)
+router.post('/demos', controller.addDemo);
+
+router.post('/reservation/courses', controller.addReservationCourse);
 
 module.exports = router;

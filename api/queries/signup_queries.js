@@ -18,7 +18,7 @@ exports.getPlace = "select DISTINCT nb_place as \"Places\" from courses order by
 exports.getPrix = "select DISTINCT prix as \"Prix\" from courses order by prix;";
 exports.getType = "select DISTINCT libelle_sport as \"Type\" from sport order by libelle_sport;";
 exports.getLieu = "select DISTINCT libelle_lieu as \"Lieu\" from lieu order by libelle_lieu;";
-exports.getCompetition = "select c.libelle_course as \"title\", c.nb_km as \"Kilomètres\", c.nb_place as \"Places\", c.prix as \"Prix\", s.libelle_sport as \"Type\", l.libelle_lieu as \"Lieu\", url_image as \"UrlImage\"\n" +
+exports.getCompetition = "select c.id_course as \"idCourse\", c.libelle_course as \"title\", c.nb_km as \"Kilomètres\", c.nb_place as \"Places\", c.prix as \"Prix\", s.libelle_sport as \"Type\", l.libelle_lieu as \"Lieu\", url_image as \"UrlImage\"\n" +
     "from courses as c\n" +
     "inner join sport s on s.id_sport = c.id_sport\n" +
     "inner join lieu l on l.id_lieu = c.id_lieu;";
@@ -51,3 +51,14 @@ exports.getCaracteristique = "select DISTINCT etat_type as \"Type\",  id_caracte
     "inner join correspond c on c.id_famille = f.id_famille\n" +
     "inner join type_prestataire tp on tp.id_type = c.id_type\n" +
     "order by \"Type\";";
+exports.addPeriode = "insert into periode values ($1);";
+exports.addReservation = "insert into reservation values (default, $1, $2);";
+exports.getReservation = "select id_reservation\n" +
+    "from reservation\n" +
+    "where id_public = $2 and date_periode = $1;";
+exports.addPour = "insert into pour values ($1, $2, 1);";
+exports.verifyReservation = "select *\n" +
+    "from reservation\n" +
+    "inner join pour p on reservation.id_reservation = p.id_reservation\n" +
+    "inner join courses c on c.id_course = p.id_course\n" +
+    "where id_public = $1 and c.id_course = $2;";

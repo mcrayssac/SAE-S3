@@ -1,50 +1,50 @@
 SET CLIENT_ENCODING TO 'UTF8';
-\COPY AGE (libelle_age) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/AGE.csv' DELIMITER AS ',';
+\COPY AGE (libelle_age) FROM 'C:\Users\mlcra\SAE-S3\BDD\AGE.csv' DELIMITER AS ',';
 select * from AGE;
 
-\COPY CONTRAINTE (libelle_contrainte) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/CONTRAINTE.csv' DELIMITER AS ',';
+\COPY CONTRAINTE (libelle_contrainte) FROM 'C:\Users\mlcra\SAE-S3\BDD\CONTRAINTE.csv' DELIMITER AS ',';
 select * from CONTRAINTE;
 
-\COPY PAYS (libelle_pays) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/PAYS.csv' DELIMITER AS ',';
+\COPY PAYS (libelle_pays) FROM 'C:\Users\mlcra\SAE-S3\BDD\PAYS.csv' DELIMITER AS ',';
 select * from PAYS;
 
-\COPY SEXE (libelle_sexe) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/SEXE.csv' DELIMITER AS ',';
+\COPY SEXE (libelle_sexe) FROM 'C:\Users\mlcra\SAE-S3\BDD\SEXE.csv' DELIMITER AS ',';
 select * from SEXE;
 
-\COPY TYPE_PRESTATAIRE (etat_type) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/TYPE_PRESTATAIRE.csv' DELIMITER AS ',';
+\COPY TYPE_PRESTATAIRE (etat_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\TYPE_PRESTATAIRE.csv' DELIMITER AS ',';
 select * from TYPE_PRESTATAIRE;
 
-\COPY LANGUES (libelle_langue) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/LANGUES.csv' DELIMITER AS ',';
+\COPY LANGUES (libelle_langue) FROM 'C:\Users\mlcra\SAE-S3\BDD\LANGUES.csv' DELIMITER AS ',';
 select * from LANGUES;
 
-\COPY TAILLE (libelle_taille) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/TAILLE.csv' DELIMITER AS ',';
+\COPY TAILLE (libelle_taille) FROM 'C:\Users\mlcra\SAE-S3\BDD\TAILLE.csv' DELIMITER AS ',';
 select * from TAILLE;
 
-\COPY FAMILLE (libelle_famille) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/FAMILLE.csv' DELIMITER AS ',';
+\COPY FAMILLE (libelle_famille) FROM 'C:\Users\mlcra\SAE-S3\BDD\FAMILLE.csv' DELIMITER AS ',';
 select * from FAMILLE;
 
-\COPY STAND (id_stand, coordonne_x, coordonne_y, rotation, id_taille) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/STAND.csv' DELIMITER AS ',';
+\COPY STAND (id_stand, coordonne_x, coordonne_y, rotation, id_taille) FROM 'C:\Users\mlcra\SAE-S3\BDD\STAND.csv' DELIMITER AS ',';
 select * from STAND;
 
-\COPY PUBLIC (prenom_public, nom_public, email_public, passwd_public, id_langue, id_age, id_sexe, id_pays) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/PUBLIC.csv' DELIMITER AS ',';
+\COPY PUBLIC (prenom_public, nom_public, email_public, passwd_public, id_langue, id_age, id_sexe, id_pays) FROM 'C:\Users\mlcra\SAE-S3\BDD\PUBLIC.csv' DELIMITER AS ',';
 select * from PUBLIC;
 
-\COPY ORGANISATEUR (nom_organisateur, email_organisateur, telephone_organisateur, passwd_organisateur) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/ORGANISATEUR.csv' DELIMITER AS ',';
+\COPY ORGANISATEUR (nom_organisateur, email_organisateur, telephone_organisateur, passwd_organisateur) FROM 'C:\Users\mlcra\SAE-S3\BDD\ORGANISATEUR.csv' DELIMITER AS ',';
 select * from ORGANISATEUR;
 
-\COPY LIEU (libelle_lieu) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/LIEU.csv' DELIMITER AS ',';
+\COPY LIEU (libelle_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\LIEU.csv' DELIMITER AS ',';
 select * from LIEU;
 
-\COPY SPORT (libelle_sport) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/SPORT.csv' DELIMITER AS ',';
+\COPY SPORT (libelle_sport) FROM 'C:\Users\mlcra\SAE-S3\BDD\SPORT.csv' DELIMITER AS ',';
 select * from SPORT;
 
-\COPY PERIODE FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/PERIODE.csv' DELIMITER AS ',';
+\COPY PERIODE FROM 'C:\Users\mlcra\SAE-S3\BDD\PERIODE.csv' DELIMITER AS ',';
 select * from PERIODE;
 
-\COPY RESERVATION (date_periode, id_public) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/RESERVATION.csv' DELIMITER AS ',';
+\COPY RESERVATION (date_periode, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\RESERVATION.csv' DELIMITER AS ',';
 select * from RESERVATION;
 
-\COPY CARACTERISTIQUE (libelle_caracteristique, id_famille) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/CARACTERISTIQUE.csv' DELIMITER AS ',';
+\COPY CARACTERISTIQUE (libelle_caracteristique, id_famille) FROM 'C:\Users\mlcra\SAE-S3\BDD\CARACTERISTIQUE.csv' DELIMITER AS ',';
 select * from CARACTERISTIQUE;
 
 DROP TABLE tmp_table;
@@ -57,7 +57,7 @@ CREATE TEMP SEQUENCE tmp_presta_id_seq
 ALTER TABLE tmp_table
     ALTER COLUMN id_prestataire SET DEFAULT nextval('tmp_presta_id_seq');
 
-\COPY tmp_table (nom_prestataire, email_prestataire, site_web_prestataire, site_security, telephone_prestataire, passwd_prestataire, etat_inscription, url_image, id_stand, id_type) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/PRESTATAIRE.csv' DELIMITER AS ',';
+\COPY tmp_table (nom_prestataire, email_prestataire, site_web_prestataire, site_security, telephone_prestataire, passwd_prestataire, etat_inscription, url_image, id_stand, id_type) FROM 'C:\Users\mlcra\SAE-S3\BDD\PRESTATAIRE.csv' DELIMITER AS ',';
 
 INSERT INTO PRESTATAIRE  -- identical number and names of columns guaranteed
 SELECT id_prestataire, nom_prestataire, email_prestataire, telephone_prestataire, site_web_prestataire, site_security, passwd_prestataire, etat_inscription, url_image, (NULLIF(id_stand,0))::int, id_type  -- list all columns in order here
@@ -67,38 +67,38 @@ ALTER SEQUENCE prestataire_id_prestataire_seq RESTART WITH 22;
 
 select * from PRESTATAIRE;
 
-\COPY COURSES (libelle_course, nb_km, nb_place, prix, url_image, date_periode, id_sport, id_lieu) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/COURSES.csv' DELIMITER AS ',';
+\COPY COURSES (libelle_course, nb_km, nb_place, prix, url_image, date_periode, id_sport, id_lieu) FROM 'C:\Users\mlcra\SAE-S3\BDD\COURSES.csv' DELIMITER AS ',';
 select * from COURSES;
 
-\COPY INITIATION (libelle_initiation, etat_initiation, date_periode, fin_periode, nb_places, id_lieu, id_prestataire) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/INITIATION.csv' DELIMITER AS ',';
+\COPY INITIATION (libelle_initiation, etat_initiation, date_periode, fin_periode, nb_places, id_lieu, id_prestataire) FROM 'C:\Users\mlcra\SAE-S3\BDD\INITIATION.csv' DELIMITER AS ',';
 select * from INITIATION;
 
-\COPY NOTE (libelle_note, id_prestataire, id_public) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/NOTE.csv' DELIMITER AS ',';
+\COPY NOTE (libelle_note, id_prestataire, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\NOTE.csv' DELIMITER AS ',';
 select * from NOTE;
 
-\COPY CLIC (jour, id_prestataire) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/CLIC.csv' DELIMITER AS ',';
+\COPY CLIC (jour, id_prestataire) FROM 'C:\Users\mlcra\SAE-S3\BDD\CLIC.csv' DELIMITER AS ',';
 select * from CLIC;
 
-\COPY COMMENTAIRE (libelle_commentaire, id_prestataire, id_public) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/COMMENTAIRE.csv' DELIMITER AS ',';
+\COPY COMMENTAIRE (libelle_commentaire, id_prestataire, id_public) FROM 'C:\Users\mlcra\SAE-S3\BDD\COMMENTAIRE.csv' DELIMITER AS ',';
 select * from COMMENTAIRE;
 
-\COPY Emet FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/Emet.csv' DELIMITER AS ',';
+\COPY Emet FROM 'C:\Users\mlcra\SAE-S3\BDD\Emet.csv' DELIMITER AS ',';
 select * from Emet;
 
-\COPY Possede FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/Possede.csv' DELIMITER AS ',';
+\COPY Possede FROM 'C:\Users\mlcra\SAE-S3\BDD\Possede.csv' DELIMITER AS ',';
 select * from Possede;
 
-\COPY Participe FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/Participe.csv' DELIMITER AS ',';
+\COPY Participe FROM 'C:\Users\mlcra\SAE-S3\BDD\Participe.csv' DELIMITER AS ',';
 select * from Participe;
 
-\COPY A_Propos FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/A_Propos.csv' DELIMITER AS ',';
+\COPY A_Propos FROM 'C:\Users\mlcra\SAE-S3\BDD\A_Propos.csv' DELIMITER AS ',';
 select * from A_Propos;
 
-\COPY Pour FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/Pour.csv' DELIMITER AS ',';
+\COPY Pour FROM 'C:\Users\mlcra\SAE-S3\BDD\Pour.csv' DELIMITER AS ',';
 select * from Pour;
 
-\COPY Detient (id_prestataire, id_caracteristique) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/Detient.csv' DELIMITER AS ',';
+\COPY Detient (id_prestataire, id_caracteristique) FROM 'C:\Users\mlcra\SAE-S3\BDD\Detient.csv' DELIMITER AS ',';
 select * from Detient;
 
-\COPY Correspond (id_type, id_famille) FROM '/home/mbenoit/Documents/S3/SAE-S3/BDD/Correspond.csv' DELIMITER AS ',';
+\COPY Correspond (id_type, id_famille) FROM 'C:\Users\mlcra\SAE-S3\BDD\Correspond.csv' DELIMITER AS ',';
 select * from Correspond;

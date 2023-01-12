@@ -1,5 +1,25 @@
 <template>
   <b-container fluid :style="layoutHeight">
+    <br>
+    <section class="Alert">
+      <b-alert :variant="alertVariant" :show="alertCountDown" @dismissed="alertCountDown=0"
+               @dismiss-count-down="countDownChanged"
+               data-aos="fade-down"
+               data-aos-anchor-placement="top-bottom"
+               data-aos-duration="800">
+        <h4 :class="'text-'+alertVariant+' mt-3 mb-4'"
+            data-aos="fade-down"
+            data-aos-anchor-placement="top-bottom"
+            data-aos-delay="100"
+            data-aos-duration="800">{{ alertMessage }}</h4>
+        <b-progress :variant="alertVariant" :max="alertMax" :value="alertCountDown" height="4px"
+                    data-aos="zoom-in"
+                    data-aos-anchor-placement="top-bottom"
+                    data-aos-delay="100"
+                    data-aos-duration="800"></b-progress>
+      </b-alert>
+    </section>
+
     <section v-if="data !== null" class="Body">
       <section class="Title">
         <b-row align-h="center" align-v="center">
@@ -83,7 +103,7 @@
                         <b-col cols="auto">
                           <span>
                             <b-button class="button"
-                                      @click="verifyAccount('account-error-modal')">
+                                      @click="verifyAccount('account-error-modal', items.idCourse)">
                               Faire une réservation</b-button>
                           </span>
                         </b-col>
@@ -139,7 +159,11 @@ export default {
   data: function() {
     return {
       data: null,
-      filrs: null
+      filrs: null,
+      alertMax: 20,
+      alertCountDown: 0,
+      alertMessage: null,
+      alertVariant: null,
     }
   },
   components: {appLoading},
@@ -161,10 +185,43 @@ export default {
     }
   },
   methods:{
-    verifyAccount(modal){
+    countDownChanged(dismissCountDown) {
+      this.alertCountDown = dismissCountDown;
+    },
+    showAlert(message, variant) {
+      this.alertMessage = message;
+      this.alertVariant = variant;
+      this.alertCountDown = this.alertMax;
+    },
+    async verifyAccount(modal, idCourse){
       if (this.userInfos.id === -1) this.showLoginErrorModal(modal);
-      else console.log("Account ready")
-      //$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })
+      else {
+        console.log("Account ready")
+        let date = new Date();
+        let idPublic = this.userInfos.id;
+        await axios.post(`http://localhost:3000/reservation/courses`, {data: {date, idPublic, idCourse}})
+            .then(async result => {
+              let message = `Votre réservation a bien été enregistrée`;
+              let variant = `success`;
+              if (self.alertCountDown > 0) self.alertCountDown = 0;
+              setTimeout(() => {
+                this.showAlert(message, variant);
+                window.scrollTo(0,0);
+              }, "50")
+            })
+            .catch((err) => {
+              let message = typeof err.response !== "undefined" ? err.response.data.data : err.message;
+              console.warn("error", message);
+              message = err.response.data.data;
+              //message = `Problème lors de l'enregistrement de votre réservation !`;
+              let variant = `danger`;
+              if (self.alertCountDown > 0) self.alertCountDown = 0;
+              setTimeout(() => {
+                this.showAlert(message, variant);
+                window.scrollTo(0,0);
+              }, "50")
+            });
+      }
     },
     showLoginErrorModal(modal) {
       this.$refs[modal].show()
@@ -177,10 +234,10 @@ export default {
     let self = this;
     await axios.get(`http://localhost:3000/competitions`)
         .then(async result => {
-          this.data = result.data.data
-          this.filrs = []
+          self.data = result.data.data
+          self.filrs = []
           for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
-            this.filrs.push("");
+            self.filrs.push("");
           }
         })
         .catch((err) => {
