@@ -90,9 +90,15 @@
                       <b-row class="my-3" align-h="center" align-v="center">
                         <b-col cols="auto">
                           <span>
-                            <b-button class="button"
-                                      @click="goToPage(items.id, items.Site, items.SiteSecurite)">
-                              Voir la page</b-button>
+                            <b-row class="m-5" align-h="center" align-v="center">
+                              <b-col cols="auto">
+                                <b-button class="button mx-2"
+                                          @click="goToPage(items.id, items.Site, items.SiteSecurite)">
+                                  Voir le site</b-button>
+                                <b-button class="button mx-2"
+                                   @click="$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })">Voir la page</b-button>
+                              </b-col>
+                            </b-row>
                           </span>
                         </b-col>
                       </b-row>

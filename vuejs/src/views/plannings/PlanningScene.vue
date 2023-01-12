@@ -149,7 +149,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getEvents", "getSceneEvents"]),
+    ...mapGetters(["getSceneEvents"]),
     ...mapState(['userInfos']),
     ...mapActions(['setDemos'])
   },
@@ -237,7 +237,7 @@ export default {
       }
     }
   },
-  async mounted(){
+  async created(){
     await this.$store.dispatch('setDemos')
   }
 }

@@ -96,11 +96,11 @@
 
         <b-row align-h="center">
           <span v-if="this.userInfos.admin == 'prestataire'">
-            <Planning :calendarOptions=optionsPresta :id=id> </Planning>
+            <Planning :calendarOptions=optionsPresta> </Planning>
           </span>
 
           <span v-else>
-            <Planning :calendarOptions=optionsPublic :id=id> </Planning>
+            <Planning :calendarOptions=optionsPublic> </Planning>
           </span>
         </b-row>
       </section>
@@ -223,7 +223,12 @@ export default {
         events: this.$store.getters.getEvents,
         nowIndicator: true
       },
-      id: 3
+      currentEvent: {
+        title: "",
+        nbPlaces: null
+      },
+      currentTime: null,
+      currentPlacesLeft : null
     }
   },
   async created() {
