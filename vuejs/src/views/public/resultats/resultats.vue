@@ -119,15 +119,12 @@ export default {
       let temp = [...this.data.data.data];
       await temp.forEach(elt => {
         if (elt.Classement && elt.Classement === 1) {
-          console.log("First !");
           this.first = elt;
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         } else if (elt.Classement && elt.Classement === 2) {
-          console.log("Second !");
           this.second = elt;
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         } else if (elt.Classement && elt.Classement === 3) {
-          console.log("Third !");
           this.third = elt;
           this.data.data.data.splice(this.data.data.data.indexOf(elt), 1);
         }
@@ -141,7 +138,6 @@ export default {
     let self = this;
     await axios.get(`http://localhost:3000/resultats/${this.$route.params.nomCompetition}`)
         .then(async result => {
-          console.log("Res : ",result.data.data)
           if (result.data.data.data.length === 0) {
             self.name = await result.data.data.name;
             self.data = false;
