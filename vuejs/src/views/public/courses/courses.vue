@@ -196,31 +196,40 @@ export default {
     async verifyAccount(modal, idCourse){
       if (this.userInfos.id === -1) this.showLoginErrorModal(modal);
       else {
-        console.log("Account ready")
-        let date = new Date();
-        let idPublic = this.userInfos.id;
-        await axios.post(`http://localhost:3000/reservation/courses`, {data: {date, idPublic, idCourse}})
-            .then(async result => {
-              let message = `Votre réservation a bien été enregistrée`;
-              let variant = `success`;
-              if (self.alertCountDown > 0) self.alertCountDown = 0;
-              setTimeout(() => {
-                this.showAlert(message, variant);
-                window.scrollTo(0,0);
-              }, "50")
-            })
-            .catch((err) => {
-              let message = typeof err.response !== "undefined" ? err.response.data.data : err.message;
-              console.warn("error", message);
-              message = err.response.data.data;
-              //message = `Problème lors de l'enregistrement de votre réservation !`;
-              let variant = `danger`;
-              if (self.alertCountDown > 0) self.alertCountDown = 0;
-              setTimeout(() => {
-                this.showAlert(message, variant);
-                window.scrollTo(0,0);
-              }, "50")
-            });
+        if (this.userInfos.admin !== null) {
+          let message = `Vous ne pouvez pas faire de réservation !`;
+          let variant = `warning`;
+          if (self.alertCountDown > 0) self.alertCountDown = 0;
+          setTimeout(() => {
+            this.showAlert(message, variant);
+            window.scrollTo(0,0);
+          }, "50")
+        } else {
+          let date = new Date();
+          let idPublic = this.userInfos.id;
+          await axios.post(`http://localhost:3000/reservation/courses`, {data: {date, idPublic, idCourse}})
+              .then(async result => {
+                let message = `Votre réservation a bien été enregistrée`;
+                let variant = `success`;
+                if (self.alertCountDown > 0) self.alertCountDown = 0;
+                setTimeout(() => {
+                  this.showAlert(message, variant);
+                  window.scrollTo(0,0);
+                }, "50")
+              })
+              .catch((err) => {
+                let message = typeof err.response !== "undefined" ? err.response.data.data : err.message;
+                console.warn("error", message);
+                message = err.response.data.data;
+                //message = `Problème lors de l'enregistrement de votre réservation !`;
+                let variant = `danger`;
+                if (self.alertCountDown > 0) self.alertCountDown = 0;
+                setTimeout(() => {
+                  this.showAlert(message, variant);
+                  window.scrollTo(0,0);
+                }, "50")
+              });
+        }
       }
     },
     showLoginErrorModal(modal) {
