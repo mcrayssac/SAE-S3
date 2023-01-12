@@ -183,7 +183,7 @@ CREATE TABLE PRESTATAIRE
     id_type               INT NOT NULL,
     text_gauche           TEXT,
     text_droite           TEXT,
-    image_titre           TEXT,
+    url_image           TEXT,
     image_body            TEXT,
     CONSTRAINT pk_prestataire PRIMARY KEY (id_prestataire),
     CONSTRAINT fk_stand_prestataire FOREIGN KEY (id_stand) REFERENCES STAND (id_stand),

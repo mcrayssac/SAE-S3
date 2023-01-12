@@ -37,6 +37,19 @@ exports.getPrestataire = async (req, res) => {
     });
 }
 
+exports.getPrestataireCommentaire = async (req, res) => {
+    console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
+    const id = req.params.id_presta;
+    await services.getClubCommentaire(id,(err, results) => {
+        if (err) {
+            return res.status(400).send({success: 0, data: err});
+        } else {
+            console.log(results)
+            return res.status(200).send({success: 1, data: results});
+        }
+    });
+}
+
 // Swagger
 exports.getCagnotte = (req, res) => {
     console.log(chalk.green.inverse('Requete pour getCagnotte reçue.'));
@@ -575,6 +588,7 @@ exports.addCommentaire = async (req, res) => {
             return res.status(401).send({success:0, data: `ERREUR : Ajout impossible`});
         } else {
             console.log(chalk.green.inverse(`${chalkController} Requête pour addCommentaire`));
+            console.log(results)
             return res.status(200).send({success:1, data: results});
         }
     });
