@@ -67,7 +67,7 @@
                       data-aos="fade-left"
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
-          <b-form-input v-model="form.image" type="password" placeholder="Entrer l'url" required></b-form-input>
+          <b-form-input v-model="form.image" type="text" placeholder="Entrer l'url" required></b-form-input>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Choisissez le type de securité de votre site web* :" label-class="label"
