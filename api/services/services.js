@@ -1005,7 +1005,7 @@ module.exports = {
     getSexe : getSexe,
     getCategorie,
     authenticate: authenticate,
-    getClub: getClub,
+    getClub,
     getFiltres: getFiltres,
     getPrestataire: getPrestataire,
     getCategories: getCategories,

@@ -24,15 +24,16 @@ exports.getCategories = (req, res) => {
     });
 }
 
-exports.getPrestataire = (req, res) => {
+exports.getPrestataire = async (req, res) => {
     console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
     let type = req.params.nomPrestataire;
-    res.send({
-        getClub: services.getClub(type, (error, results) => {
-            console.log(results)
-            if (error) return error
-            else return results
-        })
+    console.log("type : ", type);
+    await services.getClub(type,(err, results) => {
+        if (err) {
+            return res.status(400).send({success: 0, data: err});
+        } else {
+            return res.status(200).send({success: 1, data: results});
+        }
     });
 }
 

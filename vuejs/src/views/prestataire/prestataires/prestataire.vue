@@ -231,16 +231,6 @@ export default {
       currentPlacesLeft : null
     }
   },
-  async created() {
-    await axios.get(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}`)
-        .then(result => {
-          this.data = result.data.getClub;
-        })
-        .catch((err) => {
-          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
-          console.warn("error", message);
-        });
-  },
   methods: {
     peutPoster() {
       if (this.$store.getters.getUserInfos.id !== -1) {
@@ -304,6 +294,17 @@ export default {
   computed: {
     ...mapGetters(["getEvents"]),
     ...mapState(['userInfos'])
+  },
+  async created() {
+    let self = this;
+    await axios.get(`http://localhost:3000/prestataires/prestataire/${this.$route.params.nomPrestataire}`)
+        .then(result => {
+          self.data = result.data.data;
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
   }
 }
 </script>

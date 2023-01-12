@@ -93,10 +93,10 @@
                             <b-row class="m-5" align-h="center" align-v="center">
                               <b-col cols="auto">
                                 <b-button class="button mx-2"
-                                          @click="goToPage(items.id, items.Site, items.SiteSecurite)">
+                                          @click="goToPage(items.id, items.Site, items.SiteSecurite, null, true)">
                                   Voir le site</b-button>
                                 <b-button class="button mx-2"
-                                   @click="$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })">Voir la page</b-button>
+                                   @click="goToPage(items.id, null, null, items, false)">Voir la page</b-button>
                               </b-col>
                             </b-row>
                           </span>
@@ -149,12 +149,17 @@ export default {
     }
   },
   methods: {
-    async goToPage(id, site, security) {
+    async goToPage(id, site, security, page, ifSite) {
       let self = this;
       await axios.put(`http://localhost:3000/statistiques/prestataire/clics/date/${id}`)
           .then(result => {
-            let wdw = `${security.trim()}://${site.trim()}`;
-            window.open(wdw, '_blank');
+            if (ifSite) {
+              let wdw = `${security.trim()}://${site.trim()}`;
+              window.open(wdw, '_blank');
+            } else {
+              self.$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: page.title.toLowerCase().trim().replace(/ /g,'')} })
+            }
+
           })
           .catch((err) => {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;

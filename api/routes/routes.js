@@ -192,7 +192,7 @@ router.post("/public/:idPublic", controller.updatePublic);
  */
 
 // --------- PRESTATAIRE
-router.get("/prestataires/:nomPrestataire", controller.getPrestataire);
+router.get("/prestataires/prestataire/:nomPrestataire", controller.getPrestataire);
 
 router.get("/prestataire/:idPrestataire", controller.getPrestataireById);
 /**
