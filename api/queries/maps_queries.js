@@ -41,7 +41,7 @@ const getClub = "select *\
 
 const getClubCommentaire = "select libelle_commentaire, nom_public, libelle_note\
                             from COMMENTAIRE as c\
-                            inner join NOTE as n on n.id_prestataire = c.id_prestataire\
+                            inner join NOTE as n on n.id_note = c.id_commentaire\
                             inner join PUBLIC as p on p.id_public = c.id_public\
                             where c.id_prestataire = $1 and n.id_prestataire = $1;\
                             ;"

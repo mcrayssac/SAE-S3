@@ -245,7 +245,7 @@ export default {
     ajouterCommentaire() {
       axios.post(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}/post_commentaire`, this.form)
           .then(result => {
-            this.commentaires.post(result);
+            this.commentaires.push(result.data.data);
           })
           .catch((err) => {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
