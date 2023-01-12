@@ -198,14 +198,10 @@
 <script>
 import axios from "axios";
 import appLoading from "@/loading";
-import {mapState} from "vuex";
 
 export default {
   name: "signup",
   components: {appLoading},
-  computed:{
-    ...mapState(['userInfos'])
-  },
   data() {
     return {
       data: null,
@@ -357,9 +353,9 @@ export default {
         });
   },
   updated() {
-    setTimeout(() => {
-      if (this.userInfos.admin !== null) window.location.href = "http://localhost:8080/";
-    }, "50")
+    if (this.$store.state.userInfos.admin) {
+      window.location.href = "http://localhost:8080/";
+    }
   }
 }
 </script>
