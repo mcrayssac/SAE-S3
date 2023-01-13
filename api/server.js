@@ -70,9 +70,37 @@ app.use(cors(corsOptions));
  * Import and define all routes
  */
 const routes = require("./routes/routes");
+const resultatsRoutes = require("./routes/resultat_routes");
 const authRoutes = require("./routes/authentification_routes");
+const categorieRoutes = require("./routes/categories_routes");
+const demosRoutes = require("./routes/demos_routes");
+const competitionRoutes = require("./routes/competition_routes");
+const publicRoutes = require("./routes/public_routes");
+const mapRoutes = require("./routes/map_routes");
+const coursesRoutes = require("./routes/courses_routes");
+const statistiquesRoutes = require("./routes/statistiques_routes");
+const demandesRoutes = require("./routes/demandes_routes");
+const organisateurRoutes = require("./routes/organisateur_routes");
+const reservationRoutes = require("./routes/reservation_routes");
+const inscriptionRoutes = require("./routes/inscription_routes");
+const cagnotteRoutes = require("./routes/cagnotte_routes");
+
 app.use("/api/", authRoutes);
 app.use("/", routes);
+app.use("/resultats", resultatsRoutes);
+app.use("/categories", categorieRoutes);
+app.use("/demos", demosRoutes);
+app.use("/competitions", competitionRoutes);
+app.use("/public", publicRoutes);
+app.use("/map", mapRoutes);
+app.use("/courses", coursesRoutes);
+app.use("/statistiques", statistiquesRoutes);
+app.use("/demandes", demandesRoutes);
+app.use("/organisateur", organisateurRoutes);
+app.use("/reservation", reservationRoutes);
+app.use("/inscription", inscriptionRoutes);
+app.use("/cagnotte", cagnotteRoutes);
+
 
 /**
  * Show user ip, browser and language
