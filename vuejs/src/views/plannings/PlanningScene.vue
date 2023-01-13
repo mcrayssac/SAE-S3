@@ -238,7 +238,10 @@ export default {
     }
   },
   async created(){
-    await this.$store.dispatch('setDemos')
+    setTimeout(async () => {
+      console.log("Passe");
+      await this.$store.dispatch('setDemos')
+    }, "1000");
   }
 }
 </script>

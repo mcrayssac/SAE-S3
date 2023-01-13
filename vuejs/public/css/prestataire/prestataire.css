@@ -1,0 +1,30 @@
+.button-submit{
+    font-family: 'Work Sans', sans-serif !important;
+    font-weight: bold !important;
+    letter-spacing:1px !important;
+    border-radius: 5px !important;
+    border: solid 2px #6ec8cb !important;
+    background-color: #6ec8cb !important;
+}
+
+.button-submit:hover{
+    background-color: white !important;
+    border: solid 2px #6ec8cb !important;
+    color: #6ec8cb !important;
+}
+
+.button-submit::placeholder {
+    color: white !important;
+    opacity: 1 !important;
+}
+
+.button-submit:hover::placeholder {
+    color: #6ec8cb !important;
+    opacity: 1 !important;
+}
+
+.label{
+    font-family: 'Montserrat', sans-serif !important;
+    letter-spacing:1px !important;
+    color: #495388 !important;
+}

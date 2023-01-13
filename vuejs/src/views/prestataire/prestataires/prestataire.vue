@@ -107,39 +107,56 @@
       <hr class="m-5 ligne">
 
       <section class="Commentaire">
-        <b-row align-h="center">
+        <b-row align-h="center" align-v="center">
           <b-col data-aos="zoom-in-down"
                  data-aos-delay="200"
                  data-aos-duration="500"
                  data-aos-anchor-placement="top-bottom" cols="auto">
-            <h2 class="my-4">Commentaires</h2>
+            <h2 class="my-5">Commentaires</h2>
           </b-col>
         </b-row>
-        <div class="container">
-          <div class="row me-4">
-            <div data-aos="flip-right"
-                 data-aos-delay="200"
-                 data-aos-duration="500"
-                 data-aos-anchor-placement="top-bottom" class="col-md-4 py-4 ps-5" v-for="(items, index) in commentaires" :key="index">
-              <div class="card shadow-sm">
-                <div class="card-body">
-                  <h3 class="card-title">{{items.nom_public}}</h3>
-                  <p class="card-text"><b> Commentaire : {{items.libelle_commentaire}}</b></p>
-                  <p class="text-right red"> {{items.libelle_note}}/10</p>
-                </div>
+
+        <div class="row me-4">
+          <div data-aos="flip-right"
+               data-aos-delay="200"
+               data-aos-duration="500"
+               data-aos-anchor-placement="top-bottom" class="col-md-4 py-4 ps-5" v-for="(items, index) in commentaires" :key="index">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h3 class="card-title">{{items.nom_public}}</h3>
+                <p class="card-text"><b> Commentaire : {{items.libelle_commentaire}}</b></p>
+                <p class="text-right red"> {{items.libelle_note}}/10</p>
               </div>
             </div>
           </div>
         </div>
 
-        <button @click="peutPoster" style="width: 150px">Ajouter un commentaire</button>
+        <b-row align-h="center" align-v="center">
+          <b-col v-if="!postCom" data-aos="zoom-in-down"
+                 data-aos-delay="200"
+                 data-aos-duration="500"
+                 data-aos-anchor-placement="top-bottom" cols="auto">
+            <button class="button-submit p-2 text-white my-5" @click="peutPoster">Ajouter un commentaire</button>
+          </b-col>
+          <b-row align-v="center" align-h="center" v-else>
+            <b-col cols="12">
+              <b-form-group class="mx-5 my-3" label="Saisissez votre commentaire :"
+                            label-class="label">
+                <b-form-input class="button-submit p-2 text-white" v-model="form.commentaire" type="text" placeholder="Entrer votre commentaire..." required></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group class="mx-5 my-3" label="Saisissez votre note :"
+                            label-class="label">
+                <b-form-input class="button-submit p-2 text-white" v-model="form.note" placeholder="Entrer votre note..." type="number" min="0" max="10" required></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" class="text-center">
+              <button class="button-submit p-2 text-white my-5" @click="ajouterCommentaire()" style="width: 150px">Poster</button>
+            </b-col>
+          </b-row>
+        </b-row>
       </section>
-
-      <div class="container" v-if="postCom">
-        <input v-model="form.commentaire" type="text" placeholder="Saisir votre commentaire" required>
-        <input v-model="form.note" type="number" min="0" max="10" required>
-        <button @click="ajouterCommentaire()" style="width: 150px">Poster</button>
-      </div>
     </section>
   </b-container>
 </template>
@@ -252,9 +269,11 @@ export default {
       else alert("Connectez-vous pour poster un commentaire !");
     },
     ajouterCommentaire() {
+      let self = this;
       axios.post(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}/post_commentaire`, this.form)
           .then(result => {
-            this.commentaires.push(result.data.data);
+            self.commentaires.push(result.data.data);
+            self.postCom = null;
           })
           .catch((err) => {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
@@ -330,5 +349,5 @@ export default {
 </script>
 
 <style scoped>
-
+@import '../../../../public/css/prestataire/prestataire.css';
 </style>
