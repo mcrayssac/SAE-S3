@@ -236,10 +236,9 @@ export default {
   methods: {
     peutPoster() {
       if (this.$store.getters.getUserInfos.id !== -1) {
-        /*axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.$store.getters.getUserInfos.id}`)
+        axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.$store.getters.getUserInfos.id}`)
             .then(result => {
-              console.log(result);
-              if (!result) {
+              if (result.data == "") {
                 this.form.id = this.$store.getters.getUserInfos.id;
                 this.form.idPresta = this.data.id_prestataire;
                 this.postCom = true;
@@ -248,10 +247,7 @@ export default {
             .catch((err) => {
               let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
               console.warn("error", message);
-            });*/
-          this.form.id = this.$store.getters.getUserInfos.id;
-          this.form.idPresta = this.data.id_prestataire;
-          this.postCom = true;
+            });
       }
       else alert("Connectez-vous pour poster un commentaire !");
     },
