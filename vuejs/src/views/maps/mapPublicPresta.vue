@@ -163,8 +163,8 @@
                       height="15"
                       preserveAspectRatio="none"
                       :xlink:href="typeStand(index)"
-                      :x="calculCoordsBalise(index)[0]"
-                      :y="calculCoordsBalise(index)[1]"
+                      :x="stand.balise_x"
+                      :y="stand.balise_y"
                       v-b-modal.modal-stand-occupe
                       @click="selectStand(stand)"
                       @mouseover="interactivityHover(stand.nom_prestataire)"
@@ -177,14 +177,16 @@
               <!-- =============================================================SCENE============================================================= -->
               <g
                   id="scene">
-                <a xlink:title="Scène" id="scene" data-toggle="modal" data-target="#modalPopUpScene">
+                <a xlink:title="Scène" v-b-modal.modal-scene
+                   @mouseover="interactivityHover('scene')"
+                   @mouseleave="interactivityLeave('scene')" ref="scene">
                   <image
                       width="24.164036"
                       height="14.654137"
                       preserveAspectRatio="none"
                       xlink:href="https://cdn.discordapp.com/attachments/1030117715534434334/1047856764437147658/scene.png"
                       x="154.85576"
-                      y="97"/>
+                      y="95.91536"/>
                 </a>
               </g>
 
@@ -530,10 +532,15 @@ export default {
         this.$refs[id].classList.add('is-active')
       }
       else{
+        let balises = Array.from(this.$refs.stands.getElementsByTagName('image'))
+        let index = this.tabStand.findIndex(stand => stand.nom_prestataire === id)
         this.$refs[id][0].getElementsByTagName('rect')[0].classList.add('is-active')
         this.$refs[id][0].getElementsByTagName('image')[0].classList.add('is-active-balise')
         this.$refs[id][1].classList.add('is-active')
-
+        this.tabStand[index].is_moved = true
+        // console.log(balises[index])
+        balises[index+1].setAttribute('x', this.tabStand[index].balise_x- 2.5)
+        balises[index+1].setAttribute('y', this.tabStand[index].balise_y- 8)
       }
     },
 
@@ -542,18 +549,29 @@ export default {
         this.$refs[id].classList.remove('is-active')
       }
       else{
+        let balises = Array.from(this.$refs.stands.getElementsByTagName('image'))
+        let index = this.tabStand.findIndex(stand => stand.nom_prestataire === id)
         this.$refs[id][0].getElementsByTagName('rect')[0].classList.remove('is-active')
         this.$refs[id][0].getElementsByTagName('image')[0].classList.remove('is-active-balise')
         this.$refs[id][1].classList.remove('is-active')
+        this.tabStand[index].is_moved = false
+        balises[index+1].setAttribute('x', this.tabStand[index].balise_x)
+        balises[index+1].setAttribute('y', this.tabStand[index].balise_y)
       }
     },
 
     interactivityReset(){
+      let balises = Array.from(this.$refs.stands.getElementsByTagName('image'))
       for(let i = 0; i < this.tabStand.length; i++){
         this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('rect')[0].classList.remove('is-active')
         this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('image')[0].classList.remove('is-desactive-balise')
         this.$refs[this.tabStand[i].nom_prestataire][0].getElementsByTagName('image')[0].classList.remove('is-active-balise')
         this.$refs[this.tabStand[i].nom_prestataire][1].classList.remove('is-active')
+        if(this.tabStand[i].is_moved) {
+          this.tabStand[i].is_moved = false
+          balises[i+1].setAttribute('x', this.tabStand[i].balise_x)
+          balises[i+1].setAttribute('y', this.tabStand[i].balise_y)
+        }
       }
       this.$refs['Association'].getElementsByTagName('image')[0].classList.remove('is-desactive-balise')
     },
@@ -593,23 +611,22 @@ export default {
         })
         let temp;
         let res = true;
-        console.log(filtered)
-        console.log(stands)
-        console.log(balises)
+        let cur
         //pour ajouter active et desactive
         for(let i=1; i<stands.length;i++){
           res = false
           for(let j=0; j<filtered.length;j++){
             temp = filtered[j]==stands[i] ? true : false
             res = res || temp
-            console.log(stands[i].getAttribute('id') + ", temp = " + temp + ", res = " + res)
           }
           if(res){
-            console.log(stands[i].getAttribute('id') + "true")
             stands[i].classList.add('is-active')
+            cur = this.tabStand.filter(stand => stand.nom_prestataire == stands[i].id)[0]
             balises[i-1].classList.add('is-active-balise')
+            balises[i-1].setAttribute('x', cur.balise_x- 2.5)
+            balises[i-1].setAttribute('y', cur.balise_y- 8)
+            cur.is_moved = true
           }else{
-            console.log(stands[i].getAttribute('id') + "false")
             balises[i-1].classList.add('is-desactive-balise')
           }
         }
@@ -702,6 +719,24 @@ export default {
     await axios.get(`http://localhost:3000/map/stands`)
         .then(result => {
           this.tabStand = result.data.data
+          for(let i = 0; i < this.tabStand.length; i++){
+            let tab = this.calculCoordsBalise(i)
+            Object.defineProperty(this.tabStand[i], 'balise_x', {
+              value: tab[0],
+              writable: true,
+              enumerable: true
+            });
+            Object.defineProperty(this.tabStand[i], 'balise_y', {
+              value: tab[1],
+              writable: true,
+              enumerable: true
+            });
+            Object.defineProperty(this.tabStand[i], 'is_moved', {
+              value: false,
+              writable: true,
+              enumerable: true
+            });
+          }
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
