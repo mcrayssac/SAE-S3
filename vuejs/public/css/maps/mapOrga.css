@@ -109,3 +109,7 @@
     font-weight:bold;
     font-size: large;
 }
+
+#courses {
+    display: none;
+}

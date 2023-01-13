@@ -423,9 +423,7 @@
                 </b-col>
                 <b-col cols="auto">
                   <b-button class="button mx-2"
-                     @click="$router.push({
-                     name: 'prestataires/nomPrestataire',
-                     params: { nomPrestataire: getTitle().toLowerCase().trim().replace(/ /g,'')} })">
+                     @click="goToPage(standSelected.id_prestataire, null, null, false)">
                     Voir la page du prestataire
                   </b-button>
                 </b-col>
@@ -506,6 +504,24 @@ export default {
     },
     hideAssoModal() {
       this.$refs['modal-asso'].hide()
+    },
+
+    async goToPage(id, site, security, ifSite) {
+      let self = this;
+      await axios.put(`http://localhost:3000/statistiques/prestataire/clics/date/${id}`)
+          .then(result => {
+            if (ifSite) {
+              let wdw = `${security.trim()}://${site.trim()}`;
+              window.open(wdw, '_blank');
+            } else {
+              self.$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: this.standSelected.nom_prestataire.toLowerCase().trim().replace(/ /g,'')} })
+            }
+
+          })
+          .catch((err) => {
+            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+            console.warn("error goToPage", message);
+          });
     },
 
     interactivityHover(id){

@@ -25,7 +25,7 @@ exports.getCategories = (req, res) => {
 }
 
 exports.getPrestataire = async (req, res) => {
-    console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
+    console.log(chalk.green.inverse('Requete pour les getPrestataire reçue.'));
     let type = req.params.nomPrestataire;
     console.log("type : ", type);
     await services.getClub(type,(err, results) => {
@@ -38,7 +38,7 @@ exports.getPrestataire = async (req, res) => {
 }
 
 exports.getPrestataireCommentaire = async (req, res) => {
-    console.log(chalk.green.inverse('Requete pour les getCategorie reçue.'));
+    console.log(chalk.green.inverse('Requete pour les getPrestataireCommentaire reçue.'));
     const id = req.params.id_presta;
     await services.getClubCommentaire(id,(err, results) => {
         if (err) {
@@ -581,7 +581,7 @@ exports.updatePrestataire = (req, res) => {
 
 exports.addCommentaire = async (req, res) => {
     console.log(req.body);
-    services.addCommentaire(req.body, async (error, results) => {
+    await services.addCommentaire(req.body, async (error, results) => {
         console.log(chalk.green.inverse("Requete pour ajouter un commentaire"));
         if(error){
             console.log(chalk.red.inverse(`${chalkController} ERREUR : Ajout impossible`));
@@ -589,7 +589,8 @@ exports.addCommentaire = async (req, res) => {
         } else {
             console.log(chalk.green.inverse(`${chalkController} Requête pour addCommentaire`));
             console.log(results)
-            return res.status(200).send({success:1, data: results});
+            return res.status(200).send({success:1, data: {
+                libelle_commentaire: req.body.commentaire, libelle_note: req.body.note, nom_public: req.body.surname}});
         }
     });
 }

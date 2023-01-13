@@ -4,7 +4,6 @@
       <app-loading/>
     </section>
     <section v-else class="Main">
-      {{commentaires}}
       <section class="Title">
         <b-row align-h="center">
           <b-col class="mt-5 ms-5 me-5" cols="auto">
@@ -166,7 +165,8 @@ export default {
         commentaire: null,
         id: null,
         idPresta: null,
-        note: null
+        note: null,
+        surname: null
       },
       optionsPresta: {
         plugins: [TimeGridPlugin, InteractionPlugin],
@@ -302,20 +302,20 @@ export default {
     await axios.get(`http://localhost:3000/prestataires/prestataire/${this.$route.params.nomPrestataire}`)
         .then(async (result) => {
           self.data = result.data.data;
-
-          await axios.get(`http://localhost:3000/prestataires/prestataire/getCommentaires/${self.data.id_prestataire}`)
-              .then (com => {
-                  self.commentaires = com.data.data
-              })
-              .catch((err) => {
-                let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
-                console.warn("error", message);
-              });
         })
         .catch((err) => {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
+    axios.get(`http://localhost:3000/prestataires/prestataire/getCommentaires/${this.data.id_prestataire}`)
+        .then (com => {
+          this.commentaires = com.data.data
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+    this.form.surname = this.userInfos.surname
   }
 }
 </script>
