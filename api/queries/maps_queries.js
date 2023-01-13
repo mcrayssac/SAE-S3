@@ -44,9 +44,11 @@ const getClubCommentaire = "select libelle_commentaire, nom_public, libelle_note
                             inner join NOTE as n on n.id_note = c.id_commentaire\
                             inner join PUBLIC as p on p.id_public = c.id_public\
                             where c.id_prestataire = $1 and n.id_prestataire = $1;\
-                            ;"
+                            ";
 
-const getCourses= "SELECT libelle_course, nb_km, id_course, trace FROM COURSES";
+const getCourses = "SELECT libelle_course, nb_km, id_course, trace FROM COURSES";
+
+const aPosteCommentaire = "select * from commentaire where id_prestataire = $1 and id_public = $2;";
 
 
 module.exports = {
@@ -66,5 +68,6 @@ module.exports = {
     getAllClubs,
     getClub,
     getCourses,
-    getClubCommentaire
+    getClubCommentaire,
+    aPosteCommentaire
 }

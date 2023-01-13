@@ -1070,6 +1070,16 @@ const addReservationCourse = async (data, callback) => {
     }
 }
 
+const aPosteCommentaire = async (idPresta, idPublic, callback) => {
+    await pool.query(mapQueries.aPosteCommentaire, [idPresta, idPublic], async (error, results) => {
+        if (error) {
+            console.log("error getClicsPrestataire");
+            return callback(error);
+        }
+        return callback(null, results.rows[0]);
+    });
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -1119,5 +1129,6 @@ module.exports = {
     addDemo,
     addReservationCourse,
     getClubCommentaire,
-    getCourses
+    getCourses,
+    aPosteCommentaire
 }

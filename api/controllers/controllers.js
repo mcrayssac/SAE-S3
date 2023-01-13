@@ -636,3 +636,15 @@ exports.addReservationCourse = async (req, res) => {
         }
     });
 }
+
+exports.aPosteCommentaire = async (req, res) => {
+    await services.aPosteCommentaire(req.params.idPresta, req.params.idPublic, async (error, results) => {
+        console.log(chalk.green.inverse("Requête pour écupérer les commentaires postées pour ce prestataire par ce public"));
+        if (error) {
+            console.log("ici",error);
+            res.status(400).send({success: 0, data: error});
+        }
+        console.log(results);
+        res.status(200).json(results);
+    });
+}

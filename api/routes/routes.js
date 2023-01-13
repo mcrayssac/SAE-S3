@@ -57,6 +57,8 @@ router.get("/categories", controller.getCategories);
 
 router.post("/prestataires/:nomPrestataire/post_commentaire", controller.addCommentaire);
 
+router.get("/prestataires/commentairesDejaPoste/:idPresta/:idPublic", controller.aPosteCommentaire);
+
 // router.get("/courses/classement/:idCourse", controller.getClassementCourse)
 
 // --------- ORGANISATEUR
