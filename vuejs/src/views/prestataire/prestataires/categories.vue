@@ -93,10 +93,10 @@
                             <b-row class="m-5" align-h="center" align-v="center">
                               <b-col cols="auto">
                                 <b-button class="button mx-2"
-                                          @click="goToPage(items.id, items.Site, items.SiteSecurite, null, true)">
+                                          @click="goToPage(items.id, items.Site, null, true)">
                                   Voir le site</b-button>
                                 <b-button class="button mx-2"
-                                   @click="goToPage(items.id, null, null, items, false)">Voir la page</b-button>
+                                   @click="goToPage(items.id, null, items, false)">Voir la page</b-button>
                               </b-col>
                             </b-row>
                           </span>
@@ -149,13 +149,12 @@ export default {
     }
   },
   methods: {
-    async goToPage(id, site, security, page, ifSite) {
+    async goToPage(id, site, page, ifSite) {
       let self = this;
       await axios.put(`http://localhost:3000/statistiques/prestataire/clics/date/${id}`)
           .then(result => {
             if (ifSite) {
-              let wdw = `${security.trim()}://${site.trim()}`;
-              window.open(wdw, '_blank');
+              window.open(site, '_blank');
             } else {
               self.$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: page.title.toLowerCase().trim().replace(/ /g,'')} })
             }

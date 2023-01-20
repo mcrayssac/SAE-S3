@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid :style="$store.state.layoutHeight" class="background">
+  <b-container fluid :style="layoutHeight" class="background">
     <br>
     <section v-if="show" class="Form my-5">
       <b-row align-h="center">
@@ -68,26 +68,6 @@
                       data-aos-anchor-placement="top-bottom"
                       data-aos-duration="800">
           <b-form-input v-model="form.image" type="text" placeholder="Entrer l'url" required></b-form-input>
-        </b-form-group>
-
-        <b-form-group class="mx-5 my-3" label="Choisissez le type de securité de votre site web* :" label-class="label"
-                      data-aos="fade-right"
-                      data-aos-anchor-placement="top-bottom"
-                      data-aos-duration="800">
-          <b-row align-h="center" align-v="center">
-            <b-col cols="auto">
-              <b-form-select
-                  class="mx-3"
-                  v-model="form.security"
-                  :options="[{value: 'http', text: 'http'}, {value: 'https', text: 'https'}]"
-                  required
-              >
-                <template #first>
-                  <b-form-select-option :value="null" disabled>Securité</b-form-select-option>
-                </template>
-              </b-form-select>
-            </b-col>
-          </b-row>
         </b-form-group>
 
         <b-form-group class="mx-5 my-3" label="Choisissez le type de votre établissement* :" label-class="label"
@@ -198,6 +178,7 @@
 <script>
 import axios from "axios";
 import appLoading from "@/loading";
+import {mapState} from "vuex";
 
 export default {
   name: "signup",
@@ -220,8 +201,7 @@ export default {
         site: null,
         password: null,
         password2: null,
-        image: null,
-        security: null
+        image: null
       }
     }
   },
@@ -241,6 +221,9 @@ export default {
       }
       this.caracteristiques = [];
     }
+  },
+  computed:{
+    ...mapState(['userInfos', 'layoutHeight'])
   },
   methods: {
     async onSubmit(event) {
@@ -284,7 +267,6 @@ export default {
       this.form.password = null;
       this.form.password2 = null;
       this.form.image = null;
-      this.form.security = null;
       this.type = null;
       this.checkBox = false;
       this.caracteristiques = [];
@@ -353,7 +335,7 @@ export default {
         });
   },
   updated() {
-    if (this.$store.state.userInfos.admin) {
+    if (this.userInfos.admin) {
       window.location.href = "http://localhost:8080/";
     }
   }

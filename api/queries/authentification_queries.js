@@ -15,7 +15,7 @@ const getEmailPublic = "select * from PUBLIC where email_public like $1;";
 const getEmailPrestataire = "select * from prestataire where prestataire.email_prestataire like $1;";
 
 const createPublic = "insert into PUBLIC values (default, $1, $2, $3, $4, $5, $6, $7, $8);";
-const createPrestataire = "insert into prestataire values (default, $1, $2, $3, $4, $5, $6, false, null, $8, null, null, $7, null);";
+const createPrestataire = "insert into prestataire values (default, $1, $2, $3, $4, $5, false, null, $7, null, null, $6, null);";
 const getIdPrestataire = "select id_prestataire from prestataire where email_prestataire like $1;";
 const insertDetient = "insert into detient (id_prestataire, id_caracteristique)  values ($1, $2);";
 

@@ -176,7 +176,6 @@ CREATE TABLE PRESTATAIRE
     email_prestataire     VARCHAR(100),
     telephone_prestataire VARCHAR(20),
     site_web_prestataire  VARCHAR(100),
-    site_security         VARCHAR(20),
     passwd_prestataire    VARCHAR(100),
     etat_inscription      BOOLEAN,
     id_stand              INT,

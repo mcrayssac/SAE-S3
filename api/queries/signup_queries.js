@@ -30,7 +30,7 @@ exports.getClicsPrestataire = "select CONCAT(EXTRACT(YEAR FROM jour), '-',\n" +
     "where id_prestataire = $1\n" +
     "group by \"x\"\n" +
     "order by \"x\";";
-exports.getPrestataires = "select  libelle_caracteristique as \"Filtre\", libelle_famille as \"Famille\", nom_prestataire as \"Title\", url_image as \"UrlImage\", prestataire.id_prestataire as \"id\", site_web_prestataire as \"Site\", site_security as \"SiteSecurite\" from prestataire\n" +
+exports.getPrestataires = "select  libelle_caracteristique as \"Filtre\", libelle_famille as \"Famille\", nom_prestataire as \"Title\", url_image as \"UrlImage\", prestataire.id_prestataire as \"id\", site_web_prestataire as \"Site\" from prestataire\n" +
     "inner join detient d on prestataire.id_prestataire = d.id_prestataire\n" +
     "inner join caracteristique c on c.id_caracteristique = d.id_caracteristique\n" +
     "inner join famille f on c.id_famille = f.id_famille\n" +

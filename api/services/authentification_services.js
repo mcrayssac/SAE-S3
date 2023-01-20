@@ -90,8 +90,8 @@ const checkEmailPrestataire = async (email, callback) => {
 const create = async (form, admin, callback) => {
     if (form){
         if (admin === "prestataire"){
-            console.log("Requete", form.name, form.email, form.number, form.site, form.security, form.password, form.image, form.type)
-            await pool.query(queries.createPrestataire, [form.name, form.email, form.number, form.site, form.security, form.password, form.image, form.type], async (error, results) => {
+            console.log("Requete", form.name, form.email, form.number, form.site, form.password, form.image, form.type)
+            await pool.query(queries.createPrestataire, [form.name, form.email, form.number, form.site, form.password, form.image, form.type], async (error, results) => {
                 if (error) {
                     console.log("error");
                     return callback(error);

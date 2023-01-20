@@ -119,7 +119,7 @@ const getCategorie = async (type, callback) => {
                                 cards[keys.indexOf(elt.Title)].filtres.body.push(elt.Filtre);
                                 famille.push({title: elt.Title, famille: elt.Famille});
                             } else {
-                                cards.push({title: elt.Title, urlImage: elt.UrlImage, id: elt.id, Site: elt.Site, SiteSecurite: elt.SiteSecurite, filtres: { title: [elt.Famille], body: [elt.Filtre]}});
+                                cards.push({title: elt.Title, urlImage: elt.UrlImage, id: elt.id, Site: elt.Site, filtres: { title: [elt.Famille], body: [elt.Filtre]}});
                                 keys.push(elt.Title);
                                 famille.push({title: elt.Title, famille: elt.Famille});
                             }
