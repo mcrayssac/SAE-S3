@@ -7,7 +7,6 @@ const {callback} = require("pg/lib/native/query");
  */
 const getUser = async (email, pwd, callback) => {
     if (email !== null) {
-        email = '%'+email, pwd = '%'+pwd;
         await pool.query(queries.getPublic, [email, pwd], async (error, results) => {
             if (error) {
                 console.log("error");

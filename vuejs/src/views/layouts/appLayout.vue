@@ -312,9 +312,7 @@ export default {
         password: this.Password
       }).then(async function (response){
         await self.getUserInfos();
-        console.log("Login valide : ",response);
         setTimeout(() => {
-          console.log("Window : ", self.userInfos.admin);
           if (!self.userInfos.admin || self.userInfos.admin === "organisateur"){
             self.$router.push({name: 'home'});
           } else if (self.userInfos.admin === "prestataire"){
@@ -324,7 +322,6 @@ export default {
         }, "1000");
       }, function (error){
         self.showLoginErrorModal('login-error-modal');
-        console.log("Login invalide : ",error);
       })
     },
     logout: function (){
@@ -341,11 +338,6 @@ export default {
             console.log("Token invalide : ",error);*/
           });
     },
-    changeLanguage(){
-      console.log("Language : "+this.language);
-      if (this.language === this.allLanguage[0].title) this.language = this.allLanguage[1].title
-      else this.language = this.allLanguage[0].title
-    },
     showLoginErrorModal(modal) {
       this.$refs[modal].show()
     },
@@ -359,7 +351,6 @@ export default {
           .then(result => {
             self.logout();
             self.$router.push({name: 'home'});
-            console.log('Result deleteAccount', result)
           })
           .catch((err) => {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
