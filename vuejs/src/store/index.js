@@ -29,7 +29,7 @@ if (!user){
 
 export default new Vuex.Store({
   state: {
-    layoutHeight: "margin-top: 51px;",
+    layoutHeight: "margin-top: 59px;",
     status: '',
     user: user,
     userInfos: {

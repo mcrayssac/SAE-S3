@@ -1,7 +1,6 @@
 <template>
   <div :style="layoutHeight">
     <FullCalendar
-        class="mt-5"
         :options="calendarOptions">
     </FullCalendar>
   </div>
