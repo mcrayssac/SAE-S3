@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid :style="$store.state.layoutHeight">
+  <b-container fluid :style="layoutHeight">
     <div class="map" id="map">
       <b-row>
 
@@ -327,7 +327,7 @@
           </b-row>
 
           <!------------------------------------------------------------ Modal liste de prestataires ------------------------------------------------------------------>
-          <b-sidebar ref="sidebar-presta" right shadow :style="$store.state.layoutHeight"
+          <b-sidebar ref="sidebar-presta" right shadow :style="layoutHeight"
                      id="sidebar-presta" aria-labelledby="sidebar-title" no-header>
             <template #default="{ hide }">
               <b-row class="m-0" align-h="center" align-v="center">
@@ -444,6 +444,7 @@
 
 <script>
 import axios from "axios";
+import {mapState} from "vuex";
 export default {
   name: "mapPublicPresta",
   data: () => ({
@@ -458,6 +459,9 @@ export default {
     tabCourses: [],
     tabCoursesMap: []
   }),
+  computed:{
+    ...mapState(['layoutHeight'])
+  },
   methods:{
     deg_to_rad(degree){
       return (degree*Math.PI)/180

@@ -211,7 +211,7 @@ export default {
         editable: false, // mettre a false pour public et prestataire
         select: this.handleSelect,
         eventClick: this.handleEventClick,
-        events: this.$store.getters.getEvents,
+        events: this.getEvents,
         nowIndicator: true
       },
       optionsPublic: {
@@ -239,7 +239,7 @@ export default {
         eventOverlap: false,
         editable: false,
         eventClick: this.handleEventClickPublic,
-        events: this.$store.getters.getEvents,
+        events: this.getEvents,
         nowIndicator: true
       },
       currentEvent: {
@@ -252,11 +252,11 @@ export default {
   },
   methods: {
     peutPoster() {
-      if (this.$store.getters.getUserInfos.id !== -1) {
-        axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.$store.getters.getUserInfos.id}`)
+      if (this.userInfos.id !== -1) {
+        axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
             .then(result => {
               if (result.data == "") {
-                this.form.id = this.$store.getters.getUserInfos.id;
+                this.form.id = this.userInfos.id;
                 this.form.idPresta = this.data.id_prestataire;
                 this.postCom = true;
               }
@@ -311,7 +311,7 @@ export default {
     handleEventClickPublic(clickInfo) {
       console.log(clickInfo)
       console.log(this.userInfos)
-      if (this.userInfos.admin !== null) window.location.href = "http://localhost:8080/signup";
+      if (this.userInfos.admin !== null) this.$router.push({name: 'signup'});
       else {
         if (confirm(`Voulez-vous vous inscrire à l'évènement '${clickInfo.event.title}' ?`)) {
           clickInfo.event.remove()

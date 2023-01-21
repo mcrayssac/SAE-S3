@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid :style="$store.state.layoutHeight" class="background">
+  <b-container fluid :style="layoutHeight" class="background">
     <b-row align-h="center" align-v="center">
       <b-col cols="auto">
         <h1 class="m-5 etat-title"
@@ -148,13 +148,13 @@ import { mapState } from 'vuex';
 export default {
   name: "etatInscription",
   computed:{
-    ...mapState(['userInfos'])
+    ...mapState(['userInfos', 'layoutHeight'])
   },
-  async updated() {
+  created() {
     if (this.userInfos.etat === null || this.userInfos.etat === undefined){
-      window.location.href = "http://localhost:8080/";
+      this.$router.push({name: 'home'});
     } else {
-      if (this.userInfos.etat) window.location.href = "http://localhost:8080/";
+      if (this.userInfos.etat) this.$router.push({name: 'home'});
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid :style="$store.state.layoutHeight" class="background">
+  <b-container fluid :style="layoutHeight" class="background">
     <br>
     <section v-if="show" class="Form my-5">
       <b-row align-h="center">
@@ -155,6 +155,7 @@
 <script>
 import axios from "axios";
 import appLoading from "@/loading";
+import {mapState} from "vuex";
 
 export default {
   name: "signup",
@@ -178,6 +179,9 @@ export default {
         country: null,
       }
     }
+  },
+  computed:{
+    ...mapState(['layoutHeight', 'user'])
   },
   methods: {
     async onSubmit(event) {
@@ -236,7 +240,7 @@ export default {
       }).then(function (response){
         self.getUserInfos();
         console.log("Login valide : ",response);
-        window.location.href = "http://localhost:8080/";
+        self.$router.push({name: 'home'});
       }, function (error){
         self.modalMessage = "Erreur ";
         self.showLoginErrorModal();
@@ -261,8 +265,8 @@ export default {
     }
   },
   async created() {
-    if (this.$store.state.user.id !== -1){
-      window.location.href = "http://localhost:8080/";
+    if (this.user.id !== -1){
+      await this.$router.push({name: 'home'});
     }
     await axios.get(`http://localhost:3000/inscription/choix/public`)
         .then(result => {

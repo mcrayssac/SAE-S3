@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-navbar v-if="$store.state.userInfos.admin === 'organisateur'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+      <b-navbar v-if="userInfos.admin === 'organisateur'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
@@ -35,7 +35,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
+            <b-nav-item-dropdown v-if="!userInfos.name && (user.id <= 0)" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
                 <b-form-group class="ConnectLabel" label="Email">
@@ -76,8 +76,8 @@
         </b-collapse>
       </b-navbar>
 
-      <b-navbar v-else-if="$store.state.userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
-        <b-navbar-brand v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false" href="http://localhost:8080/" class="ms-3" disabled>
+      <b-navbar v-else-if="userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+        <b-navbar-brand v-if="userInfos.etat !== null && userInfos.etat !== undefined && userInfos.etat === false" href="http://localhost:8080/" class="ms-3" disabled>
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
         </b-navbar-brand>
@@ -91,7 +91,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
 
-          <b-navbar-nav v-if="$store.state.userInfos.etat !== null && $store.state.userInfos.etat !== undefined && $store.state.userInfos.etat === false">
+          <b-navbar-nav v-if="userInfos.etat !== null && userInfos.etat !== undefined && userInfos.etat === false">
             <b-nav-item href="/map" disabled><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
             <b-nav-item href="/statistiques" disabled><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
@@ -116,7 +116,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
+            <b-nav-item-dropdown v-if="!userInfos.name && (user.id <= 0)" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
                 <b-form-group class="ConnectLabel" label="Email">
@@ -141,7 +141,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill></b-icon-person-fill> {{$store.state.userInfos.name}}</template>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> {{userInfos.name}}</template>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -196,7 +196,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <b-nav-item-dropdown v-if="!$store.state.userInfos.name && ($store.state.user.id <= 0)" toggle-class="text-white" right>
+            <b-nav-item-dropdown v-if="!userInfos.name && (user.id <= 0)" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
                 <b-form-group class="ConnectLabel" label="Email">
@@ -221,7 +221,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{ $store.state.userInfos.name }}</template>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{ userInfos.name }}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
@@ -302,11 +302,11 @@ export default {
     Password: null
   }),
   computed: {
-    ...mapState(['status', "user"]),
+    ...mapState(['status', "user", "userInfos"]),
   },
   methods:{
     login: function (){
-      const self = this;
+      let self = this;
       this.$store.dispatch('login', {
         email: this.Email,
         password: this.Password
@@ -314,12 +314,12 @@ export default {
         await self.getUserInfos();
         console.log("Login valide : ",response);
         setTimeout(() => {
-          console.log("Window : ", self.$store.state.userInfos.admin);
-          if (!self.$store.state.userInfos.admin || self.$store.state.userInfos.admin === "organisateur"){
-            window.location.href = "http://localhost:8080/";
-          } else if (self.$store.state.userInfos.admin === "prestataire"){
+          console.log("Window : ", self.userInfos.admin);
+          if (!self.userInfos.admin || self.userInfos.admin === "organisateur"){
+            self.$router.push({name: 'home'});
+          } else if (self.userInfos.admin === "prestataire"){
             // Redirection page presta
-            window.location.href = "http://localhost:8080/etatInscription";
+            self.$router.push({name: 'etatInscription'});
           }
         }, "1000");
       }, function (error){
@@ -329,7 +329,7 @@ export default {
     },
     logout: function (){
       this.$store.commit('logout');
-      window.location.href = "http://localhost:8080/";
+      this.$router.push({name: 'home'});
     },
     getUserInfos: async function (){
       await this.$store.dispatch('getUserInfos')
@@ -353,12 +353,12 @@ export default {
       this.$refs[modal].hide()
     },
     async deleteAccount() {
-      let id = this.$store.state.user.id;
-      const self = this;
+      let id = this.user.id;
+      let self = this;
       await axios.delete(`http://localhost:3000/api/user/delete/${id}`)
           .then(result => {
             self.logout();
-            window.location.href = "http://localhost:8080/";
+            self.$router.push({name: 'home'});
             console.log('Result deleteAccount', result)
           })
           .catch((err) => {

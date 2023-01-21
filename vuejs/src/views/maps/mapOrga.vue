@@ -295,7 +295,7 @@
             </b-row>
 
             <!------------------------------------------------------------ Modal liste de prestataires ------------------------------------------------------------------>
-            <b-sidebar ref="sidebar-presta" right shadow :style="$store.state.layoutHeight"
+            <b-sidebar ref="sidebar-presta" right shadow :style="layoutHeight"
                        id="sidebar-presta" aria-labelledby="sidebar-title" no-header>
               <template #default="{ hide }">
                 <b-row class="m-0" align-h="center" align-v="center">
@@ -607,7 +607,7 @@ export default {
     ...mapState(['userInfos', 'layoutHeight'])
   },
   async updated() {
-    if (this.userInfos.admin !== 'organisateur') window.location.href = "http://localhost:8080/";
+    if (this.userInfos.admin !== 'organisateur') await this.$router.push({name: 'home'});
   },
   async created() {
     // Données globales d'un stand (x, y, prestataire, ...)

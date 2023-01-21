@@ -23,7 +23,6 @@ export default {
 
 ::-webkit-scrollbar-track {
   background-color: white;
-  color: white;
 }
 
 ::-webkit-scrollbar {

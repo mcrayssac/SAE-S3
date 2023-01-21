@@ -1,5 +1,5 @@
 <template>
-  <main id="app" :style="$store.state.layoutHeight">
+  <main id="app" :style="layoutHeight">
     <b-row align-h="center">
       <b-col cols="auto"><h3>Palettes de couleurs</h3></b-col>
     </b-row>
@@ -39,6 +39,7 @@
 <script>
 import _ from 'lodash';
 import axios from "axios";
+import {mapState} from "vuex";
 export default {
   name: "test",
   data(){
@@ -48,6 +49,7 @@ export default {
     }
   },
   computed:{
+    ...mapState(['layoutHeight']),
     filterCards() {
       let vm = this, lists = vm.data.getCards
       return _.filter(lists, function (query) {

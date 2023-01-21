@@ -198,6 +198,7 @@
 
 <script>
 import appAssosSlide from "@/views/association/assosSlide.vue";
+import {mapState} from "vuex";
 
 export default {
   name: "associationVue",
@@ -205,14 +206,12 @@ export default {
     'app-assos-slide': appAssosSlide,
   },
   computed: {
+    ...mapState(['layoutHeight']),
     images() {
-      const path = require.context('../association/picture', false, /\.jpg$/)
+      const path = require.context('../../../public/img/associationPicture', false, /\.jpg$/)
       return path.keys().map(path)
     }
-  },
-  data: () => ({
-    layoutHeight: "margin-top : " + 51 + "px"
-  })
+  }
 }
 </script>
 

@@ -205,7 +205,7 @@ export default {
     }
   },
   async updated() {
-    if (this.userInfos.admin !== 'organisateur') window.location.href = "http://localhost:8080/";
+    if (this.userInfos.admin !== 'organisateur') await this.$router.push({name: 'home'});
   },
   async created() {
     await this.getDemandesPrestataires();

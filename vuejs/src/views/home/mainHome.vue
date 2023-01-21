@@ -1,5 +1,5 @@
 <template>
-  <div :style="$store.state.layoutHeight">
+  <div :style="layoutHeight">
     <app-home-slide-main :slide="images" />
     <b-container fluid>
       <section class="ScrollBar">
@@ -94,6 +94,7 @@ import appHomeSlideMain from "@/views/home/homeSlideMain/homeSlideMain.vue";
 import appHomeSlideSponsor from "@/views/home/homeSlideSponsor/homeSlideSponsor.vue";
 import appHomeCompteRebour from "@/views/home/homeCompteRebour/homeCompteRebour.vue";
 import appHomeCagnotte from "@/views/home/homeCagnotte/homeCagnotte.vue";
+import {mapState} from "vuex";
 export default {
   name: "mainHome",
   components: {
@@ -125,8 +126,9 @@ export default {
     counter: 0,
   }),
   computed: {
+    ...mapState(['layoutHeight']),
     images () {
-      const path = require.context('../home/picture', false, /\.jpg$/)
+      const path = require.context('../../../public/img/homePicture', false, /\.jpg$/)
       return path.keys().map(path)
     }
   }

@@ -247,7 +247,7 @@ export default {
   },
   updated() {
     setTimeout(() => {
-      if (this.userInfos.admin !== 'prestataire') window.location.href = "http://localhost:8080/";
+      if (this.userInfos.admin !== 'prestataire') this.$router.push({name: 'home'});
     }, "50")
   }
 }

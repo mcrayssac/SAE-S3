@@ -1,6 +1,7 @@
 <template>
-  <div style="margin-top: 70px;">
+  <div :style="layoutHeight">
     <FullCalendar
+        class="mt-5"
         :options="calendarOptions">
     </FullCalendar>
   </div>
@@ -9,13 +10,16 @@
 <script>
 import FullCalendar from '@fullcalendar/vue'
 
-import {mapGetters} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 
 export default {
   props: {
     calendarOptions: Object
   },
-  components: {FullCalendar}
+  components: {FullCalendar},
+  computed:{
+    ...mapState(['layoutHeight'])
+  }
 }
 </script>
 

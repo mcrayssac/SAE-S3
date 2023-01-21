@@ -109,7 +109,7 @@ export default {
         editable: false, // mettre a false pour public et prestataire
         select: this.handleSelect,
         eventClick: this.handleEventClick,
-        events: this.$store.getters.getSceneEvents,
+        events: this.getSceneEvents,
         nowIndicator: true
       },
       optionsPublic: {
@@ -137,7 +137,7 @@ export default {
         eventOverlap: false,
         editable: false,
         eventClick: this.handleEventClickPublic,
-        events: this.$store.getters.getSceneEvents,
+        events: this.getSceneEvents,
         nowIndicator: true
       },
       currentEvent: {
@@ -192,7 +192,7 @@ export default {
     },
     handleEventClickPublic(clickInfo) {
       console.log(clickInfo.event)
-      if (this.userInfos.admin !== null) window.location.href = "http://localhost:8080/signup";
+      if (this.userInfos.admin !== null) this.$router.push({name: 'signup'});
       else {
         this.currentEvent = clickInfo.event
         axios.get(`http://localhost:3000/demos/` + clickInfo.event.id + '/number-places-left')

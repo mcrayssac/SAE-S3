@@ -164,7 +164,6 @@ export default {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
             console.warn("error goToPage", message);
           });
-      //$router.push({ name: 'prestataires/nomPrestataire', params: { nomPrestataire: items.title.toLowerCase().trim().replace(/ /g,'')} })
     }
   },
   async created() {

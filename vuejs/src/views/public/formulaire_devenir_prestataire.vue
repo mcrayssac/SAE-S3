@@ -299,7 +299,7 @@ export default {
       }).then(function (response) {
         self.getUserInfos();
         console.log("Login valide : ", response);
-        window.location.href = "http://localhost:8080/etatInscription";
+        self.$router.push({name: 'etatInscription'});
       }, function (error) {
         self.modalMessage = "Erreur ";
         self.showLoginErrorModal();
@@ -336,7 +336,7 @@ export default {
   },
   updated() {
     if (this.userInfos.admin) {
-      window.location.href = "http://localhost:8080/";
+      this.$router.push({name: 'home'});
     }
   }
 }
