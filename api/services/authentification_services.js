@@ -52,7 +52,6 @@ const getUser = async (email, pwd, callback) => {
 
 const checkEmailPublic = async (email, callback) => {
     if (email){
-        email = '%'+email
         await pool.query(queries.getEmailPublic, [email], async (error, results) => {
             if (error) {
                 console.log("error");
@@ -70,7 +69,6 @@ const checkEmailPublic = async (email, callback) => {
 
 const checkEmailPrestataire = async (email, callback) => {
     if (email){
-        email = '%'+email
         await pool.query(queries.getEmailPrestataire, [email], async (error, results) => {
             if (error) {
                 console.log("error");
