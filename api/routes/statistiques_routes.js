@@ -1,4 +1,4 @@
-const controller = require("../controllers/controllers");
+const controller = require("../controllers/stats_controller");
 
 //Import module de session et cookies
 const expressSession = require("express-session");

@@ -85,54 +85,6 @@ const getFiltresCourses = (type, callback) => {
     }
 }*/
 
-const getCategorie = async (type, callback) => {
-    if (type){
-        let filtres = [];
-        let cards = [];
-        await pool.query(signupQueries.getFamille, [type], async (error, results) => {
-            if (error) {
-                console.log("error");
-                return callback(error);
-            } else {
-                console.log('success');
-                let keys = [];
-                for await (const elt of results.rows){
-                    if (keys.includes(elt.Famille)){
-                        filtres[keys.indexOf(elt.Famille)][1].push(elt.Filtre);
-                    } else {
-                        filtres.push([elt.Famille, [elt.Filtre]]);
-                        keys.push(elt.Famille);
-                    }
-                }
-                //console.log("Filtres : ", filtres);
-                await pool.query(signupQueries.getPrestataires, [type], async (error, results) => {
-                    if (error) {
-                        console.log("error");
-                        return callback(error);
-                    } else {
-                        console.log('success');
-                        let keys = [];
-                        let famille = [];
-                        for await (const elt of results.rows){
-                            if (keys.includes(elt.Title) && !famille.includes({title: elt.Title, famille: elt.Famille})){
-                                cards[keys.indexOf(elt.Title)].filtres.title.push(elt.Famille);
-                                cards[keys.indexOf(elt.Title)].filtres.body.push(elt.Filtre);
-                                famille.push({title: elt.Title, famille: elt.Famille});
-                            } else {
-                                cards.push({title: elt.Title, urlImage: elt.UrlImage, id: elt.id, Site: elt.Site, filtres: { title: [elt.Famille], body: [elt.Filtre]}});
-                                keys.push(elt.Title);
-                                famille.push({title: elt.Title, famille: elt.Famille});
-                            }
-                        }
-                        console.log("Cards : ", cards);
-                        return callback(null, {title: type, getFiltres: filtres, getCards: cards});
-                    }
-                });
-            }
-        });
-    }
-}
-
 const getFiltres = (type, callback) => {
     let getFiltres = null;
     if (type === "restaurants"){
@@ -333,18 +285,6 @@ const getClubCommentaire = async (id, callback) => {
     });
 }
 
-const getCategories = (type, callback) => {
-    if (type === "restaurants"){
-        return callback(null, "Restaurant");
-    } else if (type === "clubs"){
-        return callback(null, "Club");
-    } else if (type === "vente"){
-        return callback(null, "Magasin");
-    } else {
-        return callback(null, [{"title": "Restaurant"}, {"title": "Club"}, {"title": "Magasin"}]);
-    }
-}
-
 const authenticate = (data,callback) => {
     let users = loadUsers()
     users = users.users;
@@ -366,25 +306,6 @@ const authenticate = (data,callback) => {
     }
 }
 
-const getStands = async (callback) => {
-    await pool.query(mapQueries.getStands, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const getAllStands = async (callback) => {
-    await pool.query(mapQueries.getAllStands, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
 
 const loadUsers = () => {
     try {
@@ -396,200 +317,6 @@ const loadUsers = () => {
     }
 }
 
-const getInscriptionChoix = async (callback) => {
-    let res = {};
-    await pool.query(signupQueries.getLangues, async (error, results) => {
-        if (error) {
-            console.log("error");
-            return callback(error);
-        } else if (results.rowCount === 0){
-            console.log("No languages found");
-            return callback("No languages found");
-        } else {
-            console.log('success');
-            res.langues = results.rows;
-            await pool.query(signupQueries.getAge, async (error, results) => {
-                if (error) {
-                    console.log("error");
-                    return callback(error);
-                } else if (results.rowCount === 0){
-                    console.log("No years found");
-                    return callback("No years found");
-                } else {
-                    console.log('success');
-                    res.years = results.rows;
-                    await pool.query(signupQueries.getSexe, async (error, results) => {
-                        if (error) {
-                            console.log("error");
-                            return callback(error);
-                        } else if (results.rowCount === 0){
-                            console.log("No gender found");
-                            return callback("No gender found");
-                        } else {
-                            console.log('success');
-                            res.gender = results.rows;
-                            await pool.query(signupQueries.getPays, async (error, results) => {
-                                if (error) {
-                                    console.log("error");
-                                    return callback(error);
-                                } else if (results.rowCount === 0){
-                                    console.log("No country found");
-                                    return callback("No country found");
-                                } else {
-                                    console.log('success');
-                                    res.countries = results.rows;
-                                    return callback(null, res);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    });
-}
-
-const getInscriptionChoixPrestataire = async (callback) => {
-    await pool.query(signupQueries.getTypes, async (error, results) => {
-        if (error) {
-            console.log("error");
-            return callback(error);
-        } else if (results.rowCount === 0){
-            console.log("No types found");
-            return callback("No types found");
-        } else {
-            console.log('success');
-            let type = results.rows;
-            await pool.query(signupQueries.getCaracteristique, async (error, results) => {
-                if (error) {
-                    console.log("error");
-                    return callback(error);
-                } else if (results.rowCount === 0){
-                    console.log("No caracteristiques found");
-                    return callback("No caracteristiques found");
-                } else {
-                    console.log('success');
-                    let type2 = []
-                    let caracteristique = [];
-                    for await (const elt of results.rows){
-                        if (type2.includes(elt.Type)){
-                            caracteristique[type2.indexOf(elt.Type)].body.push({value: elt.value, text: elt.text});
-                        } else {
-                            caracteristique.push({title: elt.Type, body: [{value: elt.value, text: elt.text}]});
-                            type2.push(elt.Type);
-                        }
-                    }
-                    return callback(null, {type, caracteristique})
-                }
-            });
-        }
-    });
-}
-
-const getContraintes = async callback => {
-    await pool.query(mapQueries.getContraintes, (err, results) => {
-        if(err) return callback(err)
-        return callback(null, results.rows)
-    })
-}
-
-const getContraintesByStand = async callback => {
-    await pool.query(mapQueries.getContraintesByStand, (err, results) => {
-        if(err) return callback(err)
-        return callback(null, results.rows)
-    })
-}
-
-const getDemandesPrestataires = async (callback) => {
-    await pool.query(signupQueries.getDemandesPrestataires, async (error, results) => {
-        if (error) {
-            console.log("error getDemandesPrestataires");
-            return callback(error);
-        } else if (results.rowCount === 0){
-            console.log('success getDemandesPrestataires');
-            return callback(null, 0);
-        } else {
-            console.log('success getDemandesPrestataires');
-            return callback(null, results.rows);
-        }
-    });
-}
-
-const postDemandesPrestataires = async (choice, id, callback) => {
-    console.log(choice, id);
-    if (choice === "accept" && id){
-        await pool.query(signupQueries.postDemandesPrestatairesTrue, [id], async (error, results) => {
-            if (error) {
-                console.log("error postDemandesPrestatairesTrue");
-                return callback(error);
-            } else {
-                console.log('success postDemandesPrestatairesTrue');
-                return callback(null, "success");
-            }
-        });
-    } else if (choice === "decline" && id){
-        await pool.query(signupQueries.postDemandesPrestatairesFalse, [id], async (error, results) => {
-            if (error) {
-                console.log("error postDemandesPrestatairesFalse");
-                return callback(error);
-            } else {
-                console.log('success postDemandesPrestatairesFalse');
-                return callback(null, "success");
-            }
-        });
-    } else {
-        console.log("error postDemandesPrestatairesTrue");
-        return callback("error postDemandesPrestatairesTrue");
-    }
-
-}
-
-const getAllPrestataires = async (callback) => {
-    await pool.query(mapQueries.getAllPrestataires, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-// Swagger
-const getAllPublic = async (callback) => {
-    await pool.query(queries.getAllPublic, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const getAllOrganisateur = async (callback) => {
-    await pool.query(queries.getAllOrganisateur, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-
-// Swagger
-const getPublicById = (idPublic, callback) => {
-    try {
-        pool.query(queries.getPublicById, idPublic, (error, results) => {
-            if (error) {
-                console.log("Erreur service getPublicById", error);
-                return callback("Erreur pour retournerle public avec l'id = " + idPublic);
-            }
-            return callback(null, results.rows)
-        });
-    } catch (e) {
-        console.log(e);
-        return callback("Erreur pour retournerle public avec l'id =" + idPublic);
-    }
-}
 
 // Swagger
 const getPrestataireById = (idPrestataire, callback) => {
@@ -604,22 +331,6 @@ const getPrestataireById = (idPrestataire, callback) => {
     } catch (e) {
         console.log(e);
         return callback("Erreur pour retourner le prestataire avec l'id = " + idPrestataire);
-    }
-}
-
-// Swagger
-const createPublic = (prenom, nom, email, passwd, langue, age, sexe, pays,  callback) => {
-    try {
-        pool.query(auth_queries.createPublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays)], (error, results) => {
-            if (error) {
-                console.log("Erreur service createPublic", error);
-                return callback("Erreur lors de la création du public");
-            }
-            return callback(null, "Nouveau public : " + prenom + " " + nom + " créé avec succès");
-        });
-    } catch (e) {
-        console.log(e);
-        return callback("Erreur lors de la création du public");
     }
 }
 
@@ -639,26 +350,6 @@ const createPrestataire = (nom, email, telephone, site_web, passwd, id_type,  ca
     }
 }
 
-// Swagger
-const deletePublic = (id, callback) => {
-    try {
-        pool.query(auth_queries.deleteUser, id, (error, results) => {
-            if (results.rowCount === 0) {
-                return callback("Public avec id = " + id + " non trouvé");
-            }
-            pool.query(auth_queries.deleteUser, id, (error, results) => {
-                if (error) {
-                    console.log("Erreur service deletePublic", error);
-                    return callback("Erreur lors de la suppression du public");
-                }
-                return callback(null, "Public avec id = " + id + " mis à jour.")
-            })
-        });
-    } catch (e) {
-        console.log(e);
-        return callback([]);
-    }
-}
 
 const deletePrestataire = (id, callback) => {
     try {
@@ -680,23 +371,6 @@ const deletePrestataire = (id, callback) => {
     }
 }
 
-const updatePublic = (id, prenom, nom, email, passwd, langue, age, sexe, pays, callback) => {
-    try {
-        pool.query(queries.updatePublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays), id], (error, results) => {
-            if (results.rowCount === 0) {
-                return callback("Public avec id = " + id + " non trouvé");
-            }
-            if (error) {
-                console.log("Erreur service updatePublic", error);
-                return callback("Erreur update public.");
-            }
-            return callback(null,"Public avec id = " + id + " mis à jour.");
-        });
-    } catch (e) {
-        console.log(e);
-        return callback("Erreur update public.");
-    }
-}
 
 const updatePrestataire = (id, nom, email, telephone, site_web, passwd, id_type,  callback) => {
     try {
@@ -716,115 +390,6 @@ const updatePrestataire = (id, nom, email, telephone, site_web, passwd, id_type,
     }
 }
 
-const getTypeCaracteristiquesPresta = async (callback) => {
-    await pool.query(mapQueries.getTypeCaracteristiquesPresta, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const getCaracteristiques = async (callback) => {
-    await pool.query(mapQueries.getCaracteristiques, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const getCourses = async (callback) => {
-    await pool.query(mapQueries.getCourses, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const getTypes = async (callback) => {
-    await pool.query(mapQueries.getTypes, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const getAllDemos = async (callback) => {
-    await pool.query(queries.getAllDemos, ((error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const getNbPlacesLeft = async (id, callback) => {
-    await pool.query(queries.getNbPlacesLeft, [id], ( (error, results)=>{
-        if (error)
-            return callback(error)
-        else{
-            return callback(null, results.rows)
-        }
-    }))
-}
-
-const addReservation = (idDemo, nbPlacesReserv, dateReserv, idPublic, callback) => {
-    try {
-        pool.query(queries.addReservation, [dateReserv, idPublic], ((error, results) => {
-            if (error)
-                return callback(error)
-            else {
-                pool.query(queries.getMaxIdReservation, ((err, maxId) => {
-                    if (error) return callback(err)
-                    else{
-                        pool.query(queries.addAPropos, [idDemo, maxId.rows[0].max ,nbPlacesReserv], ((err, result) => {
-                            if (error) return callback(err)
-                            else return callback(null, "success addReservation")
-                        }))
-                    }
-                }))
-            }
-        }))
-    }catch(e){ console.log("err addReservation : ", e)}
-}
-
-const deleteDemo = (idDemo, date, callback) => {
-    try {
-        pool.query(queries.deleteReservationsAPropos, [idDemo], ((error, results) => {
-            if (error)
-                return callback(error)
-            else {
-                pool.query(queries.deleteReservations, [date], ((err, resultats) => {
-                    if (error) return callback(err)
-                    else {
-                        pool.query(queries.deleteDemo, [idDemo], ((errr, result) => {
-                            if (error) return callback(errr)
-                            else return callback(null, "success deleteDemo")
-                        }))
-                    }
-                }))
-            }
-        }))
-    } catch (e) {console.log("err deleteDemo : ", e)}
-}
-
-const addDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
-    try {
-        pool.query(queries.addDemo, [dateDebut, dateFin, nbPlaces, idPresta, title], ((error, results) => {
-            if (error)
-                return callback(error)
-            else return callback(null, "success addDemo")
-        }))
-    } catch (e) {console.log("err addDemo : ", e)}
-}
 
 // const getClassementCourse = async (idCourse, callback) => {
 //     await pool.query(mapQueries.getClassementCourse, [idCourse], ((error, results)=>{
@@ -834,106 +399,7 @@ const addDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
 //     }));
 // }
 
-const getResultats = async (nomCompetition, callback) => {
-    if (nomCompetition){
-        let competition = null;
-        if (nomCompetition === "courseapied") competition = "Course à pied";
-        else if (nomCompetition === "vtt") competition = "Course de VTT";
-        else if (nomCompetition === "natation") competition = "Course de natation";
-        else if (nomCompetition === "courseorientation") competition = "Course d'orientation";
-        else if (nomCompetition === "petitecourseapied") competition = "Petite course à pied";
-        else if (nomCompetition === "moyennecourseapied") competition = "Moyenne course à pied";
-        else if (nomCompetition === "grandecourseapied") competition = "Grande course à pied";
-        else return callback("Competition not found");
-        await pool.query(signupQueries.getResultats, [competition], ((error, results)=>{
-            if (error)
-                return callback(error)
-            else{
-                return callback(null, {name: competition ,data: results.rows})
-            }
-        }))
-    } else {
-        return callback("Competition not found");
-    }
-}
 
-const getCompetition = async (callback) => {
-    let filtres = []
-    await pool.query(signupQueries.getKm, (async (error, results) => {
-        if (error)
-            return callback(error)
-        else {
-            let temp = []
-            for (const elt of results.rows) {
-                temp.push(Object.values(elt)[0]);
-            }
-            filtres.push([Object.keys(results.rows[0])[0], temp]);
-            await pool.query(signupQueries.getPlace, (async (error, results) => {
-                if (error)
-                    return callback(error)
-                else {
-                    let temp = []
-                    for (const elt of results.rows) {
-                        temp.push(Object.values(elt)[0]);
-                    }
-                    filtres.push([Object.keys(results.rows[0])[0], temp]);
-                    await pool.query(signupQueries.getPrix, (async (error, results) => {
-                        if (error)
-                            return callback(error)
-                        else {
-                            let temp = []
-                            for (const elt of results.rows) {
-                                temp.push(Object.values(elt)[0]);
-                            }
-                            filtres.push([Object.keys(results.rows[0])[0], temp]);
-                            await pool.query(signupQueries.getType, (async (error, results) => {
-                                if (error)
-                                    return callback(error)
-                                else {
-                                    let temp = []
-                                    for (const elt of results.rows) {
-                                        temp.push(Object.values(elt)[0]);
-                                    }
-                                    filtres.push([Object.keys(results.rows[0])[0], temp]);
-                                    await pool.query(signupQueries.getLieu, (async (error, results) => {
-                                        if (error)
-                                            return callback(error)
-                                        else {
-                                            let temp = []
-                                            for (const elt of results.rows) {
-                                                temp.push(Object.values(elt)[0]);
-                                            }
-                                            filtres.push([Object.keys(results.rows[0])[0], temp]);
-                                            await pool.query(signupQueries.getCompetition, ((error, results) => {
-                                                if (error)
-                                                    return callback(error)
-                                                else {
-                                                    let temp = []
-                                                    for (const elt of results.rows) {
-                                                        let object = {title: elt.title};
-                                                        object.UrlImage = elt.UrlImage;
-                                                        object.idCourse = elt.idCourse;
-                                                        delete elt.title;
-                                                        delete elt.idCourse;
-                                                        delete elt.UrlImage;
-                                                        object.filtres = { title: Object.keys(elt), body: Object.values(elt)}
-                                                        temp.push(object);
-                                                    }
-                                                    return callback(null, {title: "Compétitions", getFiltres: filtres, getCards: temp})
-                                                }
-                                            }))
-                                        }
-                                    }))
-                                }
-                            }))
-                        }
-                    }))
-                }
-            }))
-        }
-    }))
-    //return callback(null, {title: "Compétitions", filtres: results.rows})
-}
 
 const addCommentaire = async(form, callback) => {
     const commentaire = form.commentaire, idPublic = form.id, idPresta = form.idPresta, note = form.note;
@@ -955,125 +421,11 @@ const addCommentaire = async(form, callback) => {
     }));
 }
 
-const updateStandId = async (idPresta, idStand, callback) => {
-    await pool.query(mapQueries.updateStandId, [idPresta, idStand], async (error, results) => {
-        if (error) {
-            console.log("error updateStand");
-            return callback(error);
-        } else {
-            console.log('success updateStand');
-            return callback(null, "success");
-        }
-    });
-}
-
-const getClicsPrestataire = async (id, callback) => {
-    if (id){
-        console.log(id);
-        await pool.query(signupQueries.getClicsPrestataire, [id], async (error, results) => {
-            if (error) {
-                console.log("error getClicsPrestataire");
-                return callback(error);
-            } else if (results.rows.length === 0) {
-                console.log("success getClicsPrestataire");
-                return callback(null, false);
-            } else {
-                console.log('success getClicsPrestataire');
-                let temp = [];
-                let sum = 0;
-                for (const elt of results.rows) {
-                    temp.push([elt.x, parseInt(elt.y)]);
-                    sum += parseInt(elt.y);
-                }
-                sum /= temp.length;
-                sum = Math.round(sum * 1000) / 1000;
-                let down = [0, sum - sum / 2];
-                //console.log(temp, sum, down);
-                return callback(null, {temp, sum, down});
-            }
-        });
-    }
-}
-
-const putClicsPrestataire = async (id, callback) => {
-    if (id) {
-        console.log(id);
-        await pool.query(signupQueries.putClicsPrestataire, [parseInt(id)], async (error, results) => {
-            if (error) {
-                console.log("error putClicsPrestataire");
-                return callback(error);
-            } else {
-                console.log('success putClicsPrestataire');
-                return callback(null, "putClicsPrestataire");
-            }
-        });
-    } else {
-        console.log("error putClicsPrestataire");
-        return callback("error putClicsPrestataire");
-    }
-}
-
-const addReservationCourse = async (data, callback) => {
-    if (data.date, data.idPublic, data.idCourse) {
-        console.log(data.date, data.idPublic, data.idCourse);
-        await pool.query(signupQueries.verifyReservation, [data.idPublic, data.idCourse], async (error, results) => {
-            if (error) {
-                console.log("error verifyReservation");
-                return callback(error);
-            } else if (results.rowCount === 0) {
-                await pool.query(signupQueries.addPeriode, [data.date], async (error, results) => {
-                    if (error) {
-                        console.log("error addPeriode");
-                        return callback(error);
-                    } else {
-                        console.log('success addPeriode');
-                        await pool.query(signupQueries.addReservation, [data.date, data.idPublic], async (error, results) => {
-                            if (error) {
-                                console.log("error addReservation");
-                                return callback(error);
-                            } else {
-                                console.log('success addReservation');
-                                await pool.query(signupQueries.getReservation, [data.date, data.idPublic], async (error, results) => {
-                                    if (error) {
-                                        console.log("error getReservation");
-                                        return callback(error);
-                                    } else if (results.rowCount === 0) {
-                                        console.log("error getReservation");
-                                        return callback(error);
-                                    } else {
-                                        console.log('success getReservation');
-                                        let idReservation = results.rows[0].id_reservation;
-                                        console.log(data.idCourse, idReservation);
-                                        await pool.query(signupQueries.addPour, [data.idCourse, idReservation], async (error, results) => {
-                                            if (error) {
-                                                console.log("error addPour");
-                                                return callback(error);
-                                            } else {
-                                                console.log('success addPour');
-                                                return callback(null, "addReservationCourse");
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            } else {
-                console.log("error addReservationCourse");
-                return callback(false);
-            }
-        });
-    } else {
-        console.log("error addReservationCourse");
-        return callback("error addReservationCourse");
-    }
-}
 
 const aPosteCommentaire = async (idPresta, idPublic, callback) => {
     await pool.query(mapQueries.aPosteCommentaire, [idPresta, idPublic], async (error, results) => {
         if (error) {
-            console.log("error getClicsPrestataire");
+            console.log("error aPosteCommentaire");
             return callback(error);
         }
         return callback(null, results.rows[0]);
@@ -1084,51 +436,15 @@ module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
     getSexe : getSexe,
-    getCategorie,
     authenticate: authenticate,
     getClub,
     getFiltres: getFiltres,
     getPrestataire: getPrestataire,
-    getCategories: getCategories,
-    getStands: getStands,
-    getInscriptionChoix,
-    getContraintes: getContraintes,
-    getContraintesByStand: getContraintesByStand,
-    getInscriptionChoixPrestataire,
-    getDemandesPrestataires,
-    postDemandesPrestataires,
-    getInscriptionChoixPrestataire,
-    getAllStands,
-    getAllPrestataires,
-    getAllPublic,
-    getPublicById,
     getPrestataireById,
-    getAllOrganisateur,
-    createPublic,
     createPrestataire,
-    deletePublic,
     deletePrestataire,
-    updatePublic,
     updatePrestataire,
-    getTypeCaracteristiquesPresta,
-    getResultats,
-    getCompetition,
-    //getClassementCourse,
-    getResultats,
     addCommentaire,
-    getResultats,
-    updateStandId,
-    getCaracteristiques,
-    getTypes,
-    getClicsPrestataire,
-    putClicsPrestataire,
-    getAllDemos,
-    getNbPlacesLeft,
-    addReservation,
-    deleteDemo,
-    addDemo,
-    addReservationCourse,
     getClubCommentaire,
-    getCourses,
     aPosteCommentaire
 }

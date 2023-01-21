@@ -1,5 +1,6 @@
 const express = require("express");
-const controller = require("../controllers/controllers");
+const controller = require("../controllers/prestataires_controllers");
+const mapController = require("../controllers/map_controller");
 
 //Import module de session et cookies
 const expressSession = require("express-session");
@@ -162,7 +163,7 @@ router.post("/prestataires/:idPrestataire", controller.updatePrestataire);
  *              description: Bad request
  */
 
-router.get("/prestataires", controller.getAllPrestataires);
+router.get("/prestataires", mapController.getAllPrestataires);
 /**
  * @swagger
  * /prestataires:
