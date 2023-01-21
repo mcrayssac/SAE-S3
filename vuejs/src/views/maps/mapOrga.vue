@@ -607,7 +607,9 @@ export default {
     ...mapState(['userInfos', 'layoutHeight'])
   },
   async updated() {
-    if (this.userInfos.admin !== 'organisateur') await this.$router.push({name: 'home'});
+    setTimeout(async () => {
+      if (this.userInfos.admin !== 'organisateur') await this.$router.push({name: 'home'});
+    }, "1000")
   },
   async created() {
     // Données globales d'un stand (x, y, prestataire, ...)
