@@ -204,10 +204,11 @@ export default {
           });
     }
   },
-  async updated() {
-    if (this.userInfos.admin !== 'organisateur') await this.$router.push({name: 'home'});
-  },
   async created() {
+    let self = this;
+    setTimeout(async () => {
+      if (self.userInfos.admin !== 'organisateur') await self.$router.push({name: 'home'});
+    }, "50")
     await this.getDemandesPrestataires();
   }
 }
