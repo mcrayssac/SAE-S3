@@ -109,7 +109,7 @@ export default {
         editable: false, // mettre a false pour public et prestataire
         select: this.handleSelect,
         eventClick: this.handleEventClick,
-        events: this.getSceneEvents,
+        events: this.$store.getters.getSceneEvents,
         nowIndicator: true
       },
       optionsPublic: {
@@ -137,7 +137,7 @@ export default {
         eventOverlap: false,
         editable: false,
         eventClick: this.handleEventClickPublic,
-        events: this.getSceneEvents,
+        events: this.$store.getters.getSceneEvents,
         nowIndicator: true
       },
       currentEvent: {
@@ -177,15 +177,15 @@ export default {
     handleEventClick(clickInfo) {
       console.log(clickInfo)
       if (confirm(`Voulez-vous supprimer l'initiation '${clickInfo.event.title}' ?`)) {
-        let length = this.getSceneEvents.length
+        let length = this.$store.getters.getSceneEvents.length
         this.$store.commit("removeSceneEvent", {
           id: parseInt(clickInfo.event.id),
           start: clickInfo.event.start,
           id_prestataire: this.userInfos.id
         })
-        if(length != this.getSceneEvents.length) {
+        if(length != this.$store.getters.getSceneEvents.length) {
           clickInfo.event.remove()
-          this.optionsPresta.events = this.getSceneEvents
+          this.optionsPresta.events = this.$store.getters.getSceneEvents
         }
         else alert('Vous ne pouvez pas supprimer cet évènement')
       }
@@ -228,7 +228,7 @@ export default {
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
           id_prestataire: this.userInfos.id
         })
-        this.optionsPresta.events = this.getSceneEvents
+        this.optionsPresta.events = this.$store.getters.getSceneEvents
         this.$refs['modal-presta'].hide()
         alert("Evènement ajouté, en attente de validation des organisateurs")
       }
