@@ -609,7 +609,7 @@ export default {
   async updated() {
     setTimeout(async () => {
       if (this.userInfos.admin !== 'organisateur') await this.$router.push({name: 'home'});
-    }, "1000")
+    }, "100")
   },
   async created() {
     // Données globales d'un stand (x, y, prestataire, ...)

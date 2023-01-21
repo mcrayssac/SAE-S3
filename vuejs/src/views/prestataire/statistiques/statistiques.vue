@@ -248,7 +248,7 @@ export default {
   updated() {
     setTimeout(() => {
       if (this.userInfos.admin !== 'prestataire') this.$router.push({name: 'home'});
-    }, "50")
+    }, "100")
   }
 }
 </script>

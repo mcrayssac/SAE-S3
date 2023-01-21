@@ -208,7 +208,7 @@ export default {
     let self = this;
     setTimeout(async () => {
       if (self.userInfos.admin !== 'organisateur') await self.$router.push({name: 'home'});
-    }, "1000")
+    }, "200")
     await this.getDemandesPrestataires();
   }
 }
