@@ -1,5 +1,5 @@
 const pool = require("../database/db");
-const signupQueries = require("../queries/signup_queries");
+const signupQueries = require("../queries/resultat_queries");
 
 exports.getResultats = async (nomCompetition, callback) => {
     if (nomCompetition){

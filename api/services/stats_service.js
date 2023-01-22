@@ -1,5 +1,5 @@
 const pool = require("../database/db");
-const signupQueries = require("../queries/signup_queries");
+const signupQueries = require("../queries/stats_queries");
 
 exports.getClicsPrestataire = async (id, callback) => {
     if (id){

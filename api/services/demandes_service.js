@@ -1,5 +1,5 @@
 const pool = require("../database/db");
-const signupQueries = require("../queries/signup_queries");
+const signupQueries = require("../queries/demandes_queries");
 
 exports.getDemandesPrestataires = async (callback) => {
     await pool.query(signupQueries.getDemandesPrestataires, async (error, results) => {

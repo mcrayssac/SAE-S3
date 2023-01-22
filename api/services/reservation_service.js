@@ -1,5 +1,5 @@
 const pool = require("../database/db");
-const signupQueries = require("../queries/signup_queries");
+const signupQueries = require("../queries/reservation_queries");
 
 
 exports.addReservationCourse = async (data, callback) => {

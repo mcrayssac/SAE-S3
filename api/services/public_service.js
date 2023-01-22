@@ -1,6 +1,5 @@
 const pool = require("../database/db");
-const queries = require("../queries/queries");
-const auth_queries = require("../queries/authentification_queries");
+const queries = require("../queries/public_queries");
 
 // Swagger
 exports.getAllPublic = async (callback) => {
@@ -32,7 +31,7 @@ exports.getPublicById = (idPublic, callback) => {
 // Swagger
 exports.createPublic = (prenom, nom, email, passwd, langue, age, sexe, pays,  callback) => {
     try {
-        pool.query(auth_queries.createPublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays)], (error, results) => {
+        pool.query(queries.createPublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays)], (error, results) => {
             if (error) {
                 console.log("Erreur service createPublic", error);
                 return callback("Erreur lors de la création du public");
@@ -49,11 +48,11 @@ exports.createPublic = (prenom, nom, email, passwd, langue, age, sexe, pays,  ca
 // Swagger
 exports.deletePublic = (id, callback) => {
     try {
-        pool.query(auth_queries.deleteUser, id, (error, results) => {
+        pool.query(queries.deleteUser, id, (error, results) => {
             if (results.rowCount === 0) {
                 return callback("Public avec id = " + id + " non trouvé");
             }
-            pool.query(auth_queries.deleteUser, id, (error, results) => {
+            pool.query(queries.deleteUser, id, (error, results) => {
                 if (error) {
                     console.log("Erreur service deletePublic", error);
                     return callback("Erreur lors de la suppression du public");

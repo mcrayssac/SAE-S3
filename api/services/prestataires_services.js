@@ -3,14 +3,11 @@ const chalk = require('chalk');
 const bcrypt = require("bcrypt")
 const {callback} = require("pg/lib/native/query");
 const pool = require("../database/db");
-const mapQueries = require("../queries/maps_queries");
-const auth_queries = require("../queries/authentification_queries");
-const queries = require("../queries/queries");
-const signupQueries = require("../queries/signup_queries");
+const queries = require("../queries/prestataires_queries");
 
 const getOrganisateur = async (callback) => {
     try {
-        pool.query(auth_queries.getOrganisateur, (error, results) => {
+        pool.query(queries.getOrganisateur, (error, results) => {
             if (error) {
                 console.log("F1: error service", error);
                 return callback("Error retrieving orga.");
@@ -184,7 +181,7 @@ const getPrestataire = (type, callback) => {
 const getClub = async (nomClub, callback) => {
     let club, getClub = null, getClubs = null, c, n;
 
-    await pool.query(mapQueries.getAllClubs, (async (error, results) => {
+    await pool.query(queries.getAllClubs, (async (error, results) => {
         if (error) {
             console.log(error);
             return callback([]);
@@ -204,7 +201,7 @@ const getClub = async (nomClub, callback) => {
                     }
                 }
             }
-            await pool.query(mapQueries.getClub, [nomClub], ((error, result)=>{
+            await pool.query(queries.getClub, [nomClub], ((error, result)=>{
                 if (error) {
                     console.log(error);
                     return callback([]);
@@ -276,7 +273,7 @@ const getClub = async (nomClub, callback) => {
 
 const getClubCommentaire = async (id, callback) => {
     console.log("\n\tid : ", id,"\n")
-    await pool.query(mapQueries.getClubCommentaire, [id], (error, result) => {
+    await pool.query(queries.getClubCommentaire, [id], (error, result) => {
         if (error) {
             console.log(error);
             return callback([]);
@@ -337,7 +334,7 @@ const getPrestataireById = (idPrestataire, callback) => {
 // Swagger
 const createPrestataire = (nom, email, telephone, site_web, passwd, id_type,  callback) => {
     try {
-        pool.query(auth_queries.createPrestataire, [nom, email, telephone, site_web, passwd, parseInt(id_type)], (error, results) => {
+        pool.query(queries.createPrestataire, [nom, email, telephone, site_web, passwd, parseInt(id_type)], (error, results) => {
             if (error) {
                 console.log("Erreur service createPrestataire", error);
                 return callback("Erreur lors de la création du prestataire");
@@ -353,11 +350,11 @@ const createPrestataire = (nom, email, telephone, site_web, passwd, id_type,  ca
 
 const deletePrestataire = (id, callback) => {
     try {
-        pool.query(auth_queries.deletePrestataire, id, (error, results) => {
+        pool.query(queries.deletePrestataire, id, (error, results) => {
             if (results.rowCount === 0) {
                 return callback("Prestataire avec id = " + id + " non trouvé");
             }
-            pool.query(auth_queries.deletePrestataire, id, (error, results) => {
+            pool.query(queries.deletePrestataire, id, (error, results) => {
                 if (error) {
                     console.log("Erreur service deletePrestataire", error);
                     return callback("Erreur pour supprimer un prestataire");
@@ -404,12 +401,12 @@ const updatePrestataire = (id, nom, email, telephone, site_web, passwd, id_type,
 const addCommentaire = async(form, callback) => {
     const commentaire = form.commentaire, idPublic = form.id, idPresta = form.idPresta, note = form.note;
 
-    await pool.query(mapQueries.addCommentaire, [commentaire, idPresta, idPublic], (async (error, resultCom) => {
+    await pool.query(queries.addCommentaire, [commentaire, idPresta, idPublic], (async (error, resultCom) => {
         if (error) {
             console.log(error);
             return callback(error);
         } else {
-            await pool.query(mapQueries.addNote, [note, idPresta, idPublic], ((error, resultNote) => {
+            await pool.query(queries.addNote, [note, idPresta, idPublic], ((error, resultNote) => {
                 if (error) {
                     console.log(error);
                     return callback(error);
@@ -423,7 +420,7 @@ const addCommentaire = async(form, callback) => {
 
 
 const aPosteCommentaire = async (idPresta, idPublic, callback) => {
-    await pool.query(mapQueries.aPosteCommentaire, [idPresta, idPublic], async (error, results) => {
+    await pool.query(queries.aPosteCommentaire, [idPresta, idPublic], async (error, results) => {
         if (error) {
             console.log("error aPosteCommentaire");
             return callback(error);

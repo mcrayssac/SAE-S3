@@ -1,5 +1,5 @@
 const pool = require("../database/db");
-const queries = require("../queries/queries");
+const queries = require("../queries/demos_queries");
 
 exports.getAllDemos = async (callback) => {
     await pool.query(queries.getAllDemos, ((error, results)=>{

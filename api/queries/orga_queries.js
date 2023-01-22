@@ -1,0 +1,1 @@
+exports.getAllOrganisateur="SELECT * FROM organisateur";

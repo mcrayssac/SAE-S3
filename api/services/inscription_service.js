@@ -1,5 +1,5 @@
 const pool = require("../database/db");
-const signupQueries = require("../queries/signup_queries");
+const signupQueries = require("../queries/inscription_queries");
 
 exports.getInscriptionChoix = async (callback) => {
     let res = {};
