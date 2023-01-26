@@ -24,6 +24,8 @@ const getCaracteristiques = "SELECT libelle_caracteristique FROM CARACTERISTIQUE
 
 const getPresta = "select id_prestataire from PRESTATAIRE where nom_prestataire like $1;";
 
+const getPrestas = "select * from PRESTATAIRE where nom_prestataire like $1;";
+
 const addCommentaire = "insert into COMMENTAIRE(libelle_commentaire, id_prestataire, id_public)\
                         values ($1, $2, $3)\
                         ";
@@ -69,5 +71,6 @@ module.exports = {
     getClub,
     getCourses,
     getClubCommentaire,
-    aPosteCommentaire
+    aPosteCommentaire,
+    getPrestas
 }

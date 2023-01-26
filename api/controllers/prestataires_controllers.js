@@ -8,7 +8,7 @@ exports.getPrestataire = async (req, res) => {
     console.log(chalk.green.inverse('Requete pour les getPrestataire reçue.'));
     let type = req.params.nomPrestataire;
     console.log("type : ", type);
-    await services.getClub(type,(err, results) => {
+    await services.getAllPrestataire(type,(err, results) => {
         if (err) {
             return res.status(400).send({success: 0, data: err});
         } else {
