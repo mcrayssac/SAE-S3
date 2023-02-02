@@ -178,10 +178,11 @@ export default {
       console.log(clickInfo)
       if (confirm(`Voulez-vous supprimer l'initiation '${clickInfo.event.title}' ?`)) {
         let length = this.$store.getters.getSceneEvents.length
-        this.$store.commit("removeSceneEvent", {
+        this.$store.commit("removeEvent", {
           id: parseInt(clickInfo.event.id),
           start: clickInfo.event.start,
-          id_prestataire: this.userInfos.id
+          id_prestataire: this.userInfos.id,
+          type: 'demos'
         })
         if(length != this.$store.getters.getSceneEvents.length) {
           clickInfo.event.remove()
@@ -204,11 +205,12 @@ export default {
     register(){
       console.log(this.currentEvent.start.getDate())
       if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0 && this.currentEvent.nbPlaces < this.currentPlacesLeft) {
-        this.$store.commit("registerToSceneEvent", {
+        this.$store.commit("registerToEvent", {
           id: parseInt(this.currentEvent.id),
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
           id_public: this.userInfos.id,
-          start: this.currentEvent.start
+          start: this.currentEvent.start,
+          type: 'demos'
         })
         this.currentPlacesLeft = null
         this.$refs['modal'].hide()
@@ -221,12 +223,13 @@ export default {
     async onSubmit(event) {
       console.log(event)
       if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0) {
-        this.$store.commit("addSceneEvent", {
+        this.$store.commit("addEvent", {
           title: this.currentEvent.title,
           start: this.currentTime.start,
           end: this.currentTime.end,
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
-          id_prestataire: this.userInfos.id
+          id_prestataire: this.userInfos.id,
+          type: 'demos'
         })
         this.optionsPresta.events = this.$store.getters.getSceneEvents
         this.$refs['modal-presta'].hide()
@@ -239,7 +242,6 @@ export default {
   },
   async created(){
     setTimeout(async () => {
-      console.log("Passe");
       await this.$store.dispatch('setDemos')
     }, "1000");
   }

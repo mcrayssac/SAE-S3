@@ -41,26 +41,11 @@ export default new Vuex.Store({
       iat: '',
       exp: ''
     },
-    events: [
-      {
-        id: 1,
-        title: 'The Title',
-        start: new Date('2023-08-15T12:00:00.000Z').toJSON(),
-        end: new Date('2023-08-15T13:00:00.000Z').toJSON()
-        // url: // à préciser pour faire la redirection sur la réservation ?
-      },
-      {
-        id: 2,
-        title: 'The Title2',
-        start: new Date('2023-08-16T16:00:00.000Z').toJSON(),
-        end: new Date('2023-08-16T17:00:00.000Z').toJSON()
-        // url: // à préciser pour faire la redirection sur la réservation ?
-      }
-    ],
-    eventsScene: []
+    eventsScene: [],
+    eventsInitiations: [],
   },
   getters: {
-    getEvents: state => state.events,
+    getInitiationsEvents: state => state.eventsInitiations,
     getSceneEvents: state => state.eventsScene,
     getUserInfos: state => state.userInfos
   },
@@ -92,21 +77,9 @@ export default new Vuex.Store({
         exp: ''
       }
     },
-    addEvent: (state, event) => {
-      state.events.push(event)
-    },
-    removeEvent: (state, event) => {
-      state.events = state.events.filter(e => e.id != event.event.id)
-    },
-    updateEvent: (state, event) => {
-      console.log(event)
-      let indexEvent = state.events.findIndex(e => e.id == event.event.id)
-      state.events[indexEvent].end = event.event.end.toJSON()
-      state.events[indexEvent].start = event.event.start.toJSON()
-    },
-    setEventsScene: (state, events) => {
+    setEvents: (state, events) => {
       let object
-      events.forEach(event => {
+      events.data.forEach(event => {
         object = new Object()
         object.title = event.libelle_initiation
         object.id = event.id_initiation
@@ -114,44 +87,48 @@ export default new Vuex.Store({
         object.end = new Date(event.fin_periode).toJSON()
         object.id_prestataire = event.id_prestataire
         object.nb_places = event.nb_places
-        state.eventsScene.push(object)
+        if(events.type == 'demos') state.eventsScene.push(object)
+        else state.eventsInitiations.push(object)
       })
+      console.log(state.eventsInitiations)
     },
-    registerToSceneEvent: (state, event) => {
+    registerToEvent: (state, event) => {
       console.log(event)
       let date = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
-      axios.post('http://localhost:3000/demos/' + event.id + '/reservations?nbPlaces=' + event.nbPlaces + '&date=' + decodeURI(date) + '&idPublic=' + event.id_public)
+      axios.post(`http://localhost:3000/${event.type}/` + event.id + '/reservations?nbPlaces=' + event.nbPlaces + '&date=' + decodeURI(date) + '&idPublic=' + event.id_public)
           .then(function (response){
-            console.log('registerToSceneEvent', response.data.data);
+            console.log('registerToEvent', response.data.data);
             return "success"
           }).catch(function (error){
-        console.log("registerToSceneEvent error : ",error)
+        console.log("registerToEvent error : ",error)
       });
     },
-    removeSceneEvent: (state, event) => {
+    removeEvent: (state, event) => {
       let demo = state.eventsScene.filter(e => e.id == event.id)
       if(demo[0].id_prestataire == event.id_prestataire){
         let date = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
-        axios.delete('http://localhost:3000/demos/' + event.id + '?date=' + decodeURI(date))
+        axios.delete(`http://localhost:3000/${event.type}/` + event.id + '?date=' + decodeURI(date))
             .then(function (response){
-              console.log('removeSceneEvent', response.data.data);
+              console.log('removeEvent', response.data.data);
               return "success"
             }).catch(function (error){
-          console.log("removeSceneEvent error : ",error)
+          console.log("removeEvent error : ",error)
         });
-        state.eventsScene = state.eventsScene.filter(e => e.id != event.id)
+        if(event.type == 'demos')
+          state.eventsScene = state.eventsScene.filter(e => e.id != event.id)
+
       }
     },
-    addSceneEvent: (state, event) => {
+    addEvent: (state, event) => {
       console.log(event)
       let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
       let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
-      axios.post('http://localhost:3000/demos?dateDebut=' + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin) + '&nbPlaces=' + event.nbPlaces + '&idPresta=' + event.id_prestataire + '&title=' + event.title)
+      axios.post(`http://localhost:3000/${event.type}?dateDebut=` + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin) + '&nbPlaces=' + event.nbPlaces + '&idPresta=' + event.id_prestataire + '&title=' + event.title)
           .then(function (response){
-            console.log('addSceneEvent', response.data.data);
+            console.log('addEvent', response.data.data);
             return "success"
           }).catch(function (error){
-        console.log("addSceneEvent error : ",error)
+        console.log("addEvent error : ",error)
       });
     }
   },
@@ -199,9 +176,17 @@ export default new Vuex.Store({
     setDemos: ({commit}) => {
       axios.get(`http://localhost:3000/demos`)
           .then(function (response){
-            commit('setEventsScene', response.data.data);
+            commit('setEvents', {data: response.data.data, type: 'demos'});
           }).catch(function (error){
         console.log("get events scene error : ",error)
+      });
+    },
+    setInitiations: ({commit}, idPresta) => {
+      axios.get(`http://localhost:3000/initiations?idPresta=${idPresta}`)
+          .then(function (response){
+            commit('setEvents', {data: response.data.data, type: 'initiations'});
+          }).catch(function (error){
+        console.log("get events initiations error : ",error)
       });
     },
   },

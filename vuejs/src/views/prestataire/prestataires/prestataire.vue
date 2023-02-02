@@ -96,10 +96,72 @@
         <b-row align-h="center">
           <span v-if="this.userInfos.admin == 'prestataire'">
             <Planning :calendarOptions=optionsPresta> </Planning>
+            <b-modal ref="modal-presta" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
+                             title="Ajouter une nouvelle initiation">
+              <b-form>
+                <b-form-group class="mx-5 my-3" label="Nom de l'initiation : " label-class="label"
+                              data-aos="fade-left"
+                              data-aos-anchor-placement="top-bottom"
+                              data-aos-duration="800">
+                  <b-form-input v-model="currentEvent.title" type="text" required></b-form-input>
+                </b-form-group>
+
+                <b-form-group class="mx-5 my-3" label="Nombre de places : " label-class="label"
+                              data-aos="fade-left"
+                              data-aos-anchor-placement="top-bottom"
+                              data-aos-duration="800">
+                  <b-form-input v-model="currentEvent.nbPlaces" type="number" required></b-form-input>
+                </b-form-group>
+              </b-form>
+
+              <b-row class="m-5" align-h="center" align-v="center">
+                <b-col cols="auto">
+                  <b-button class="mx-2 button-submit" @click="onSubmit"
+                            data-aos="flip-left" variant="outline-success"
+                            data-aos-anchor-placement="top-bottom"
+                            data-aos-duration="400">Ajouter</b-button>
+                  <b-button class="mx-2 button-decline"
+                            data-aos="flip-right" variant="outline-secondary"
+                            data-aos-anchor-placement="top-bottom"
+                            data-aos-delay="400" @click="hideModalPresta"
+                            data-aos-duration="400">Fermer</b-button>
+                </b-col>
+              </b-row>
+            </b-modal>
           </span>
 
           <span v-else>
             <Planning :calendarOptions=optionsPublic> </Planning>
+            <b-modal ref="modal" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal"
+                             :title=currentEvent.title>
+              <h5> Nombres de places restantes </h5> <br>
+                {{this.currentPlacesLeft}}
+              <hr>
+              <br>
+              <b-form>
+                <b-form-group class="mx-5 my-3" label="Nombre de places : " label-class="label"
+                              data-aos="fade-left"
+                              data-aos-anchor-placement="top-bottom"
+                              data-aos-duration="800">
+                  <b-form-input v-model="currentEvent.nbPlaces" type="number" required></b-form-input>
+                </b-form-group>
+              </b-form>
+
+              <b-row class="m-5" align-h="center" align-v="center">
+                <b-col cols="auto">
+                  <b-button class="mx-2 button-submit" @click="register"
+                            data-aos="flip-left" variant="outline-success"
+                            data-aos-anchor-placement="top-bottom"
+                            data-aos-duration="400">S'inscrire</b-button>
+                  <b-button class="mx-2 button-decline"
+                            data-aos="flip-right" variant="outline-secondary"
+                            data-aos-anchor-placement="top-bottom"
+                            data-aos-delay="400" @click="hideModal"
+                            data-aos-duration="400">Fermer</b-button>
+                </b-col>
+              </b-row>
+
+            </b-modal>
           </span>
         </b-row>
       </section>
@@ -211,7 +273,7 @@ export default {
         editable: false, // mettre a false pour public et prestataire
         select: this.handleSelect,
         eventClick: this.handleEventClick,
-        events: this.getEvents,
+        events: this.$store.getters.getInitiationsEvents,
         nowIndicator: true
       },
       optionsPublic: {
@@ -239,7 +301,7 @@ export default {
         eventOverlap: false,
         editable: false,
         eventClick: this.handleEventClickPublic,
-        events: this.getEvents,
+        events: this.$store.getters.getInitiationsEvents,
         nowIndicator: true
       },
       currentEvent: {
@@ -280,21 +342,21 @@ export default {
             console.warn("error", message);
           });
     },
+    hideModal(){
+      this.currentPlacesLeft = null
+      this.$refs['modal'].hide()
+    },
+    hideModalPresta(){
+      this.$refs['modal-presta'].hide()
+    },
     handleSelect(selectTime){
       console.log(selectTime)
-      let title = prompt('Please enter a new title for your event')
       let isOverlap = this.optionsPresta.events.some(event => selectTime.start.toJSON() >= event.start && selectTime.end.toJSON() <= event.end)
 
-      if(title !== null && title !== "" && !isOverlap) {
-        this.$store.commit("addEvent", {
-          id: this.id,
-          title: title,
-          start: selectTime.startStr,
-          end: selectTime.endStr,
-          allDay: selectTime.allDay
-        })
-        this.id++
-        this.optionsPresta.events = this.getEvents
+      if(!isOverlap) {
+        this.currentTime = selectTime
+        console.log(this.$refs['modal-presta'])
+        this.$refs['modal-presta'].show()
       }
       else{
         alert("Impossible de créer un évènement à cet endroit là")
@@ -302,22 +364,70 @@ export default {
     },
     handleEventClick(clickInfo) {
       console.log(clickInfo)
-      if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-        clickInfo.event.remove()
-        this.$store.commit("removeEvent", clickInfo)
-        this.optionsPresta.events = this.getEvents
+      if (confirm(`Voulez-vous supprimer l'initiation '${clickInfo.event.title}' ?`)) {
+        let length = this.$store.getters.getSceneEvents.length
+        this.$store.commit("removeEvent", {
+          id: parseInt(clickInfo.event.id),
+          start: clickInfo.event.start,
+          id_prestataire: this.userInfos.id,
+          type: 'initiations'
+        })
+        if(length != this.$store.getters.getSceneEvents.length) {
+          clickInfo.event.remove()
+          this.optionsPresta.events = this.$store.getters.getSceneEvents
+        }
+        else alert('Vous ne pouvez pas supprimer cet évènement')
       }
     },
     handleEventClickPublic(clickInfo) {
-      console.log(clickInfo)
-      console.log(this.userInfos)
+      console.log(clickInfo.event)
       if (this.userInfos.admin !== null) this.$router.push({name: 'signup'});
       else {
-        if (confirm(`Voulez-vous vous inscrire à l'évènement '${clickInfo.event.title}' ?`)) {
-          clickInfo.event.remove()
-          this.$store.commit("removeEvent", clickInfo)
-          this.optionsPublic.events = this.getEvents
-        }
+        this.currentEvent = clickInfo.event
+        axios.get(`http://localhost:3000/initiations/` + clickInfo.event.id + '/number-places-left')
+            .then(response => {
+              console.log(response.data.data)
+              this.currentPlacesLeft = response.data.data.nb_places - response.data.data.total_reserv
+            })
+            .catch(e => console.log('err get nbPlacesLeft : ', e))
+        this.$refs['modal'].show()
+      }
+    },
+    register(){
+      console.log(this.currentEvent.start.getDate())
+      if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0 && this.currentEvent.nbPlaces < this.currentPlacesLeft) {
+        this.$store.commit("registerToEvent", {
+          id: parseInt(this.currentEvent.id),
+          nbPlaces: parseInt(this.currentEvent.nbPlaces),
+          id_public: this.userInfos.id,
+          start: this.currentEvent.start,
+          type: 'initiations'
+        })
+        this.currentPlacesLeft = null
+        this.$refs['modal'].hide()
+        alert("Inscription réussie")
+      }
+      else{
+        alert("Mauvaises informations saisies")
+      }
+    },
+    async onSubmit(event) {
+      console.log(event)
+      if(this.currentEvent.title != "" && this.currentEvent.nbPlaces > 0) {
+        this.$store.commit("addEvent", {
+          title: this.currentEvent.title,
+          start: this.currentTime.start,
+          end: this.currentTime.end,
+          nbPlaces: parseInt(this.currentEvent.nbPlaces),
+          id_prestataire: this.userInfos.id,
+          type: 'initiations'
+        })
+        this.optionsPresta.events = this.$store.getters.getSceneEvents
+        this.$refs['modal-presta'].hide()
+        alert("Evènement ajouté, en attente de validation des organisateurs")
+      }
+      else{
+        alert("Mauvaises informations saisies")
       }
     }
   },
@@ -344,6 +454,10 @@ export default {
           console.warn("error", message);
         });
     this.form.surname = this.userInfos.surname
+
+    setTimeout(async () => {
+      await this.$store.dispatch('setInitiations', this.data.id_prestataire)
+    }, "1000");
   }
 }
 </script>
