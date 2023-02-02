@@ -365,16 +365,16 @@ export default {
     handleEventClick(clickInfo) {
       console.log(clickInfo)
       if (confirm(`Voulez-vous supprimer l'initiation '${clickInfo.event.title}' ?`)) {
-        let length = this.$store.getters.getSceneEvents.length
+        let length = this.$store.getters.getInitiationsEvents.length
         this.$store.commit("removeEvent", {
           id: parseInt(clickInfo.event.id),
           start: clickInfo.event.start,
           id_prestataire: this.userInfos.id,
           type: 'initiations'
         })
-        if(length != this.$store.getters.getSceneEvents.length) {
+        if(length != this.$store.getters.getInitiationsEvents.length) {
           clickInfo.event.remove()
-          this.optionsPresta.events = this.$store.getters.getSceneEvents
+          this.optionsPresta.events = this.$store.getters.getInitiationsEvents
         }
         else alert('Vous ne pouvez pas supprimer cet évènement')
       }
@@ -422,7 +422,7 @@ export default {
           id_prestataire: this.userInfos.id,
           type: 'initiations'
         })
-        this.optionsPresta.events = this.$store.getters.getSceneEvents
+        this.optionsPresta.events = this.$store.getters.getInitiationsEvents
         this.$refs['modal-presta'].hide()
         alert("Evènement ajouté, en attente de validation des organisateurs")
       }
@@ -432,7 +432,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getEvents"]),
+    ...mapGetters(["getInitiationsEvents"]),
     ...mapState(['userInfos'])
   },
   async created() {

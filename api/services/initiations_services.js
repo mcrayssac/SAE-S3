@@ -16,7 +16,7 @@ exports.addInitiation = (dateDebut, dateFin, nbPlaces, idPresta, title, callback
         pool.query(queries.addInitiation, [dateDebut, dateFin, nbPlaces, idPresta, title], ((error, results) => {
             if (error)
                 return callback(error)
-            else return callback(null, "success addDemo")
+            else return callback(null, "success addInitiation")
         }))
-    } catch (e) {console.log("err addDemo : ", e)}
+    } catch (e) {console.log("err addInitiation : ", e)}
 }

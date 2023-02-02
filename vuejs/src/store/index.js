@@ -104,7 +104,11 @@ export default new Vuex.Store({
       });
     },
     removeEvent: (state, event) => {
-      let demo = state.eventsScene.filter(e => e.id == event.id)
+      let demo
+      if(event.type == 'demos')
+        demo = state.eventsScene.filter(e => e.id == event.id)
+      else
+        demo = state.eventsInitiations.filter(e => e.id == event.id)
       if(demo[0].id_prestataire == event.id_prestataire){
         let date = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
         axios.delete(`http://localhost:3000/${event.type}/` + event.id + '?date=' + decodeURI(date))
@@ -116,7 +120,8 @@ export default new Vuex.Store({
         });
         if(event.type == 'demos')
           state.eventsScene = state.eventsScene.filter(e => e.id != event.id)
-
+        else
+          state.eventsInitiations = state.eventsInitiations.filter(e => e.id != event.id)
       }
     },
     addEvent: (state, event) => {
