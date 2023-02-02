@@ -338,16 +338,21 @@ export default {
     },
     ajouterCommentaire() {
       let self = this;
-      axios.post(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}/post_commentaire`, this.form)
-          .then(result => {
-            self.commentaires.push(result.data.data);
-            self.postCom = false;
-            self.printFormulaire = false;
-          })
-          .catch((err) => {
-            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
-            console.warn("error", message);
-          });
+      if(this.form.note<=10 && this.form.note>=0) {
+        axios.post(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}/post_commentaire`, this.form)
+            .then(result => {
+              self.commentaires.push(result.data.data);
+              self.postCom = false;
+              self.printFormulaire = false;
+            })
+            .catch((err) => {
+              let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+              console.warn("error", message);
+            });
+      }
+      else{
+        alert("note pas comprise entre 0 et 10");
+      }
     },
     hideModal(){
       this.currentPlacesLeft = null
