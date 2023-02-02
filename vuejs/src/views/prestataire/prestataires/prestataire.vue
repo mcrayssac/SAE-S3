@@ -194,13 +194,13 @@
         </div>
 
         <b-row align-h="center" align-v="center">
-          <b-col v-if="!postCom" data-aos="zoom-in-down"
+          <b-col v-if="peutCommenter" data-aos="zoom-in-down"
                  data-aos-delay="200"
                  data-aos-duration="500"
                  data-aos-anchor-placement="top-bottom" cols="auto">
             <button class="button-submit p-2 text-white my-5" @click="peutPoster">Ajouter un commentaire</button>
           </b-col>
-          <b-row align-v="center" align-h="center" v-else>
+          <b-row align-v="center" align-h="center" v-if="printFormulaire">
             <b-col cols="12">
               <b-form-group class="mx-5 my-3" label="Saisissez votre commentaire :"
                             label-class="label">
@@ -230,6 +230,7 @@ import Planning from "@/components/Planning";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
 import {mapGetters, mapState} from "vuex";
+import resultats from "@/views/public/resultats/resultats";
 
 export default {
   name: "prestataire",
@@ -239,7 +240,8 @@ export default {
       layoutHeight: "margin-top : " + 59 + "px",
       data: null,
       commentaires: null,
-      postCom: false,
+      postCom: null,
+      printFormulaire: false,
       form: {
         commentaire: null,
         id: null,
@@ -317,10 +319,14 @@ export default {
       if (this.userInfos.id !== -1) {
         axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
             .then(result => {
+              console.log("testetst")
+              console.log(result.data)
               if (result.data == "") {
+                console.log("if")
                 this.form.id = this.userInfos.id;
                 this.form.idPresta = this.data.id_prestataire;
                 this.postCom = true;
+                this.printFormulaire = true
               }
             })
             .catch((err) => {
@@ -335,7 +341,8 @@ export default {
       axios.post(`http://localhost:3000/prestataires/${this.$route.params.nomPrestataire}/post_commentaire`, this.form)
           .then(result => {
             self.commentaires.push(result.data.data);
-            self.postCom = null;
+            self.postCom = false;
+            self.printFormulaire = false;
           })
           .catch((err) => {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
@@ -433,7 +440,17 @@ export default {
   },
   computed: {
     ...mapGetters(["getInitiationsEvents"]),
-    ...mapState(['userInfos'])
+    ...mapState(['userInfos']),
+    peutCommenter(){
+      if(!this.postCom || this.userInfos.admin==="prestataire"){
+        console.log(this.postCom)
+        return false
+      }
+      else if(this.userInfos.id==-1) return true;
+      else{
+        return true;
+      }
+    }
   },
   async created() {
     let self = this;
@@ -454,6 +471,26 @@ export default {
           console.warn("error", message);
         });
     this.form.surname = this.userInfos.surname
+
+    axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
+        .then(result => {
+          console.log("testetst")
+          console.log(result.data)
+          if (result.data == "" && this.userInfos.admin != "prestataire") {
+            console.log("true")
+            this.form.id = this.userInfos.id;
+            this.form.idPresta = this.data.id_prestataire;
+            this.postCom = true;
+          } else {
+            console.log('false')
+            this.postCom = false;
+          }
+        })
+        .catch((err) => {
+          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+          console.warn("error", message);
+        });
+
 
     setTimeout(async () => {
       await this.$store.dispatch('setInitiations', this.data.id_prestataire)
