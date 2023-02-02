@@ -16,7 +16,13 @@ exports.getNbPlacesLeft = async (id, callback) => {
         if (error)
             return callback(error)
         else{
-            return callback(null, results.rows)
+            pool.query(queries.getNbTotalPlaces, [id], ( (error, result)=>{
+                if (error)
+                    return callback(error)
+                else{
+                    return callback(null,{total_reserv : parseInt(results.rows[0].total_reserv), nb_places : result.rows[0].nb_places})
+                }
+            }))
         }
     }))
 }
