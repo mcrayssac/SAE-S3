@@ -7,4 +7,10 @@ let router = express.Router();
 //Routes d'authentification
 router.post('/login', controller.login);
 
+router.post('/user', controller.authenticateToken, controller.user);
+
+router.post('/user/create', controller.create);
+
+router.delete('/user/delete/:id', controller.userDelete);
+
 module.exports = router;

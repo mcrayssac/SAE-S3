@@ -7,7 +7,7 @@ let router = express.Router();
 //Routes d'authentification
 router.post('/login', controller.login);
 
-router.post('/user', controller.authenticateToken, controller.user);
+router.post('/user', controller.user);
 
 router.post('/check/email/public', controller.checkEmailPublic);
 
