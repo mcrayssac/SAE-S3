@@ -1,5 +1,5 @@
 /**
- * Usage :
+ * Usage : npm start
  *
  */
 
@@ -49,6 +49,9 @@ const corsOptions ={
 app.use(cors(corsOptions));
 
 //TODO: ...
+
+const routes = require("./routes/authentification_routes");
+app.use("/", routes);
 
 /**
  * If path not found before then an error sent
