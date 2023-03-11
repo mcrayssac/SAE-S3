@@ -126,7 +126,7 @@ export default {
     }
   },
   mounted() {
-    const socket = new WebSocket('ws://localhost:3100');
+    const socket = new WebSocket('ws://localhost:3030');
 
     socket.addEventListener('open', () => {
       const identificationMessage = {
