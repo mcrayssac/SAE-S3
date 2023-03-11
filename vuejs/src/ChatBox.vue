@@ -58,13 +58,13 @@
           <div v-else class="card-body py-1 px-2 d-flex justify-content-center align-items-center" style="max-height: 410px;">
             <b-row class="px-2" align-h="center" style="width: 490px; max-height: 400px; overflow-y: auto;">
               <b-col v-if="currentReceiverList.length > 0" align-self="center" class="px-0 py-0" cols="11">
-                <b-row v-for="(elt, index) in currentReceiverList" :key="index" :align-h="getSender(elt.sender)">
+                <b-row v-for="(elt, index) in currentReceiverList" :key="index" :align-h="getSender(elt)">
                   <b-col cols="8">
                     <div class="card my-2">
                       <div class="card-body py-2 px-2">
                         <b-row align-h="center">
                           <b-col class="px-1" cols="auto">
-                            <span v-if="getUserId(elt.sender)">Moi:</span>
+                            <span v-if="getUser(elt)">Moi:</span>
                             <span v-else>{{ UserToName(currentReceiver) }}:</span><br><br>
                             <span>{{ elt.message }}</span><br><br>
                             <span>à {{ new Date(Date.parse(elt.time)).getHours() }}h{{ new Date(Date.parse(elt.time)).getMinutes() }}
@@ -104,10 +104,13 @@
 
 <script>
 import CryptoJS from 'crypto-js';
+import {mapState} from "vuex";
 const encryptionKey = process.env.VUE_APP_ENCRYPTION_KEY;
-const userId = '1'; // Remplacez par l'ID de l'utilisateur réel
-const userAdmin = 'organisateur'; // Remplacez par l'ID de l'utilisateur réel
 export default {
+  props: {
+    userId: String,
+    userAdmin: String,
+  },
   data() {
     return {
       receiver: null,
@@ -123,13 +126,13 @@ export default {
     }
   },
   mounted() {
-    const socket = new WebSocket('ws://localhost:3030');
+    const socket = new WebSocket('ws://localhost:3100');
 
     socket.addEventListener('open', () => {
       const identificationMessage = {
         type: 'identification',
-        userId,
-        userAdmin,
+        userId: this.userId,
+        userAdmin: this.userAdmin,
       };
       socket.send(JSON.stringify(identificationMessage));
     });
@@ -168,25 +171,27 @@ export default {
   },
   methods: {
     sendMessage() {
-      const message = {
-        sender: CryptoJS.AES.encrypt(userId, encryptionKey).toString(),
-        senderAdmin: CryptoJS.AES.encrypt(userAdmin, encryptionKey).toString(),
-        receiver: CryptoJS.AES.encrypt(this.currentReceiver.receiver, encryptionKey).toString(),
-        receiverAdmin: CryptoJS.AES.encrypt(this.currentReceiver.receiverAdmin, encryptionKey).toString(),
-        message: CryptoJS.AES.encrypt(this.message, encryptionKey).toString(),
-        time: CryptoJS.AES.encrypt(new Date(new Date().getTime()).toISOString(), encryptionKey).toString(),
-      };
-      console.log('Message send ! ');
-      this.socket.send(JSON.stringify(message));
-      this.message = null;
+      if (this.message !== null && this.message !== ''){
+        const message = {
+          sender: CryptoJS.AES.encrypt(this.userId, encryptionKey).toString(),
+          senderAdmin: CryptoJS.AES.encrypt(this.userAdmin, encryptionKey).toString(),
+          receiver: CryptoJS.AES.encrypt(this.currentReceiver.receiver, encryptionKey).toString(),
+          receiverAdmin: CryptoJS.AES.encrypt(this.currentReceiver.receiverAdmin, encryptionKey).toString(),
+          message: CryptoJS.AES.encrypt(this.message, encryptionKey).toString(),
+          time: CryptoJS.AES.encrypt(new Date(new Date().getTime()).toISOString(), encryptionKey).toString(),
+        };
+        console.log('Message send ! ');
+        this.socket.send(JSON.stringify(message));
+        this.message = null;
+      }
     },
     changeCollapse() {
       this.isCollapsed = !this.isCollapsed;
       if (this.isCollapsed){
         const message = {
           type: 'accounts',
-          sender: CryptoJS.AES.encrypt(userId, encryptionKey).toString(),
-          senderAdmin: CryptoJS.AES.encrypt(userAdmin, encryptionKey).toString(),
+          sender: CryptoJS.AES.encrypt(this.userId, encryptionKey).toString(),
+          senderAdmin: CryptoJS.AES.encrypt(this.userAdmin, encryptionKey).toString(),
         };
         this.socket.send(JSON.stringify(message));
       }
@@ -194,7 +199,12 @@ export default {
     async checkReceiver() {
       const receivers = new Set();
       for await (const receiver of this.messages) {
-        if (receiver.receiverAdmin !== userAdmin || receiver.receiver !== userId) {
+        if (receiver.receiverAdmin === this.userAdmin && receiver.receiver === this.userId) {
+          receivers.add(JSON.stringify({
+            receiver: receiver.sender,
+            receiverAdmin: receiver.senderAdmin,
+          }));
+        } else if (receiver.senderAdmin === this.userAdmin && receiver.sender === this.userId){
           receivers.add(JSON.stringify({
             receiver: receiver.receiver,
             receiverAdmin: receiver.receiverAdmin,
@@ -204,20 +214,20 @@ export default {
       this.receiverList = Array.from(receivers).map(JSON.parse);
     },
     getSender(elt) {
-      return elt === userId ? 'end' : 'start'
+      return elt.sender === this.userId && elt.senderAdmin === this.userAdmin ? 'end' : 'start'
     },
     async changeReceiver(){
       let receivers = []
       for await (const receiver of this.messages) {
         if ((receiver.receiver === this.currentReceiver.receiver && receiver.receiverAdmin === this.currentReceiver.receiverAdmin)
-            || (receiver.receiver === userId && receiver.receiverAdmin === userAdmin && receiver.sender === this.currentReceiver.receiver && receiver.senderAdmin === this.currentReceiver.receiverAdmin)) {
+            || (receiver.receiver === this.userId && receiver.receiverAdmin === this.userAdmin && receiver.sender === this.currentReceiver.receiver && receiver.senderAdmin === this.currentReceiver.receiverAdmin)) {
           receivers.unshift(receiver)
         }
       }
       this.currentReceiverList = receivers
     },
-    getUserId(elt){
-      return elt === userId
+    getUser(elt){
+      return elt.sender === this.userId && elt.senderAdmin === this.userAdmin
     },
     setNewUser(){
       this.currentReceiver = {
@@ -227,9 +237,10 @@ export default {
     },
     UserToName(elt) {
       if (!this.users) return null;
-      const result = this.users.find(user => {
+      let result = null;
+      result = this.users.find(user => {
         const admin = user.admin === null ? "" : user.admin
-        return user.id.toString() === elt.receiver && admin === elt.receiverAdmin
+        return (user.id.toString() === elt.receiver && admin === elt.receiverAdmin) || (user.id.toString() === elt.sender && admin === elt.senderAdmin)
       });
       if (result.nom) return result.nom;
       else return null;
@@ -237,7 +248,7 @@ export default {
     filterUsers(){
       this.users = this.users.filter(elt => {
         const admin = elt.admin === null ? "" : elt.admin
-        return !(elt.id.toString() === userId && admin === userAdmin)
+        return !(elt.id.toString() === this.userId && admin === this.userAdmin)
       })
     }
   },
@@ -247,7 +258,7 @@ export default {
       let receivers = []
       for await (const receiver of this.messages) {
         if ((receiver.receiver === this.currentReceiver.receiver && receiver.receiverAdmin === this.currentReceiver.receiverAdmin)
-            || (receiver.receiver === userId && receiver.receiverAdmin === userAdmin && receiver.sender === this.currentReceiver.receiver && receiver.senderAdmin === this.currentReceiver.receiverAdmin)) {
+            || (receiver.receiver === this.userId && receiver.receiverAdmin === this.userAdmin && receiver.sender === this.currentReceiver.receiver && receiver.senderAdmin === this.currentReceiver.receiverAdmin)) {
           receivers.unshift(receiver)
         }
       }

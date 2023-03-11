@@ -285,7 +285,7 @@
         </template>
       </b-modal>
 
-      <chat-box  />
+      <chat-box v-if="userInfos.id !== -1" :userId="userInfos.data.id + ''" :userAdmin="getUserAdmin()" />
     </div>
 </template>
 
@@ -363,6 +363,10 @@ export default {
             let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
             console.warn("error", message);
           });
+    },
+    getUserAdmin(){
+      console.log(this.userInfos.data.admin);
+      return this.userInfos.data.admin === null ? '' : this.userInfos.data.admin;
     }
   },
   async created() {
