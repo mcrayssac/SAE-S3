@@ -284,14 +284,20 @@
           </b-row>
         </template>
       </b-modal>
+
+      <chat-box  />
     </div>
 </template>
 
 <script>
 import axios from "axios";
 import { mapState } from 'vuex';
+import chatBox from "@/ChatBox";
 export default {
   name: "mainHomeTest",
+  components:{
+    chatBox
+  },
   data: () => ({
     language: "French",
     flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/165px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png',
