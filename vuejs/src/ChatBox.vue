@@ -2,55 +2,50 @@
   <div>
     <div class="fixed-chat-window">
       <button class="btn" v-b-toggle.collapse-window @click="changeCollapse">
-        <span v-if="!isCollapsed">Afficher le chat</span>
-        <span v-else><i class="fas fa-comment-alt"></i></span>
+        <span v-if="!isCollapsed"><b-icon-chat-dots font-scale="2.5"></b-icon-chat-dots></span>
+        <span v-else><b-icon-chevron-double-down font-scale="2.5"></b-icon-chevron-double-down></span>
         <span class="btn__bg"></span>
       </button>
       <b-collapse id="collapse-window" style="width: 500px;">
-        <div class="card">
-          <div v-if="!currentReceiver" class="card-header">
+        <div class="card" style="border-color: #6ec8cb">
+          <div v-if="!currentReceiver" class="card-header" style="background-color: #6ec8cb;">
             <b-row align-h="center">
-              <b-col align-self="center" class="px-1" cols="auto">
-                Chat en temps réel
-              </b-col>
-              <b-col class="px-1" cols="auto">
-                <b-form-select size="sm" v-model="selectUser" style="max-width: 200px;">
-                  <template #first>
-                    <b-form-select-option :value="null" disabled>Nouvelle conversation</b-form-select-option>
-                  </template>
-                  <b-form-select-option v-for="(elt, index) in users" :key="index" :value="elt">{{ elt.nom }}</b-form-select-option>
-                </b-form-select>
-                <b-button v-if="selectUser" size="sm" variant="outline-dark" @click="setNewUser">Add</b-button>
+              <b-col align-self="center" class="py-1 card_text" cols="auto">
+                <b-icon-chat-dots></b-icon-chat-dots>  Chat en temps réel
               </b-col>
             </b-row>
           </div>
-          <div v-else class="card-header">
-            <b-row align-h="center">
-              <b-col align-self="center" class="px-1" cols="auto">
+          <div v-else class="card-header" style="background-color: #6ec8cb;">
+            <b-row align-h="center" align-v="center">
+              <b-col class="pe-1" cols="auto">
+                <b-button size="sm" variant="outline" @click="currentReceiver = null">
+                  <b-icon-arrow-left font-scale="1.8"></b-icon-arrow-left>
+                </b-button>
+              </b-col>
+              <b-col align-self="center" class="ps-1 card_name" cols="auto">
                 {{ UserToName(currentReceiver) }}
               </b-col>
-              <b-col class="px-1" cols="auto">
-                <b-button size="sm" variant="outline-dark" @click="currentReceiver = null">Back</b-button>
-              </b-col>
             </b-row>
           </div>
-          <div v-if="!currentReceiver" class="card-body py-1 px-2" style="max-height: 400px; overflow-y: auto;">
+          <div v-if="!currentReceiver" class="card-body py-1 px-2" style="max-height: 400px; overflow-y: auto; background-color: #495388">
             <div v-if="receiverList.length > 0">
-              <div class="card my-2" v-for="(elt, index) in receiverList" :key="index">
+              <div class="card my-2" v-for="(elt, index) in receiverList" :key="index" style="background-color: white">
                 <div class="card-body py-2 px-2">
                   <b-row align-h="center">
-                    <b-col align-self="center" class="px-1" cols="auto">
+                    <b-col align-self="center" class="pe-3 card_body_title" cols="auto">
                       {{ UserToName(elt) }}
                     </b-col>
-                    <b-col class="px-1" cols="auto">
-                      <b-button size="sm" variant="outline-dark" @click="currentReceiver = elt">See</b-button>
+                    <b-col class="px-0" cols="auto">
+                      <b-button size="sm" variant="outline" @click="currentReceiver = elt">
+                        <b-icon-chat-text font-scale="1.8"></b-icon-chat-text>
+                      </b-button>
                     </b-col>
                   </b-row>
                 </div>
               </div>
             </div>
-            <div v-else class="card my-2">
-              <div class="card-body py-2 px-2">
+            <div v-else class="card my-2" style="background-color: white">
+              <div class="card-body py-4 ps-6 card_body_title">
                 Pas de conversations
               </div>
             </div>
@@ -60,14 +55,22 @@
               <b-col v-if="currentReceiverList.length > 0" align-self="center" class="px-0 py-0" cols="11">
                 <b-row v-for="(elt, index) in currentReceiverList" :key="index" :align-h="getSender(elt)">
                   <b-col cols="8">
-                    <div class="card my-2">
-                      <div class="card-body py-2 px-2">
-                        <b-row align-h="center">
+                    <div class="card my-2" style="background-color: #6ec8cb">
+                      <div class="card-header py-2 px-2">
+                        <span class="card_mess_title" v-if="getUser(elt)">Moi:</span>
+                        <span class="card_mess_title" v-else>{{ UserToName(currentReceiver) }}:</span>
+                      </div>
+                      <div class="card-body py-4" style="background-color: white">
+                        <b-row align-v="center" align-h="center">
                           <b-col class="px-1" cols="auto">
-                            <span v-if="getUser(elt)">Moi:</span>
-                            <span v-else>{{ UserToName(currentReceiver) }}:</span><br><br>
-                            <span>{{ elt.message }}</span><br><br>
-                            <span>à {{ new Date(Date.parse(elt.time)).getHours() }}h{{ new Date(Date.parse(elt.time)).getMinutes() }}
+                            <span class="card_mess_body">{{ elt.message }}</span>
+                          </b-col>
+                        </b-row>
+                      </div>
+                      <div class="card-footer px-0 py-0">
+                        <b-row align-v="center" align-h="end" style="max-width: 285px;">
+                          <b-col class="px-1" cols="auto">
+                            <span class="card_mess_footer">à {{ new Date(Date.parse(elt.time)).getHours() }}h{{ new Date(Date.parse(elt.time)).getMinutes() }}
                               le {{ new Date(Date.parse(elt.time)).getDate() }}/{{ new Date(Date.parse(elt.time)).getMonth()+1 }}/{{ new Date(Date.parse(elt.time)).getFullYear() }}</span>
                           </b-col>
                         </b-row>
@@ -76,25 +79,42 @@
                   </b-col>
                 </b-row>
               </b-col>
-              <b-col v-else align-self="center" class="px-0 py-5" cols="11">
-                Envoyer un message à {{ UserToName(currentReceiver) }}
-              </b-col>
+              <div v-else class="card my-2" style="background-color: white">
+                <div class="card-body py-4 ps-6 card_body_title">
+                  Envoyer un message à {{ UserToName(currentReceiver) }}
+                </div>
+              </div>
             </b-row>
           </div>
-          <div class="card-footer">
+          <div class="card-footer" style="background-color: #6ec8cb">
             <form v-if="currentReceiver" @submit.prevent="sendMessage">
-              <b-row align-h="center">
+              <b-row align-v="center" align-h="center">
                 <b-col class="px-1" cols="auto">
-                  <b-form-input v-model="message" size="sm" placeholder="Entrer votre message..."></b-form-input>
+                  <b-form-input class="my-select" v-model="message" size="sm" placeholder="Entrer votre message..."></b-form-input>
                 </b-col>
                 <b-col class="px-1" cols="auto">
-                  <button type="submit" class="btn btn-outline-dark">
-                    Send
+                  <button type="submit" class="btn btn-outline">
+                    <b-icon-mailbox font-scale="1.8"></b-icon-mailbox>
                     <span class="btn__bg"></span>
                   </button>
                 </b-col>
               </b-row>
             </form>
+            <b-row v-else class="px-2" align-v="center" align-h="center" style="width: 490px;">
+              <b-col cols="auto">
+                <b-form-select class="my-select" v-model="selectUser" style="max-width: 200px;">
+                  <template #first>
+                    <b-form-select-option :value="null" disabled>Nouvelle conversation</b-form-select-option>
+                  </template>
+                  <b-form-select-option v-for="(elt, index) in users" :key="index" :value="elt">{{ elt.nom }}</b-form-select-option>
+                </b-form-select>
+              </b-col>
+              <b-col cols="auto">
+                <b-button v-if="selectUser" size="sm" variant="outline" @click="setNewUser">
+                  <b-icon-chat-text font-scale="1.8"></b-icon-chat-text>
+                </b-button>
+              </b-col>
+            </b-row>
           </div>
         </div>
       </b-collapse>
@@ -104,7 +124,6 @@
 
 <script>
 import CryptoJS from 'crypto-js';
-import {mapState} from "vuex";
 const encryptionKey = process.env.VUE_APP_ENCRYPTION_KEY;
 export default {
   props: {
@@ -268,51 +287,5 @@ export default {
 };
 </script>
 <style scoped>
-.fixed-chat-window {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.fa-comment-alt:before {
-  content: "\f27a";
-}
-
-.btn {
-  display: inline-block !important;
-  position: relative !important;
-  padding: 6px 12px !important;
-  color: #393e46 !important;
-  font-size: 12px !important;
-  font-family: "Montserrat Black",serif !important;
-  text-transform: uppercase !important;
-  text-decoration: none !important;
-  border: none !important;
-  cursor: pointer !important;
-  overflow: hidden !important;
-}
-
-.btn__bg {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background-color: transparent !important;
-  z-index: -1 !important;
-  transition: background-color 0.5s ease-in-out !important;
-}
-
-.btn:hover .btn__bg {
-  background-color: #393e46 !important;
-}
-
-.btn:hover{
-  color: white !important;
-}
-
+@import '../public/css/ChatBox.css';
 </style>
