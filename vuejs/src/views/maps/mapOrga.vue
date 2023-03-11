@@ -608,7 +608,7 @@ export default {
   },
   async updated() {
     setTimeout(async () => {
-      if (this.userInfos.admin !== 'organisateur') await this.$router.push({name: 'home'});
+      if (this.userInfos.data.admin !== 'organisateur') await this.$router.push({name: 'home'});
     }, "100")
   },
   async created() {
