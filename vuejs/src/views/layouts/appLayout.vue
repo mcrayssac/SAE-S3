@@ -138,7 +138,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill></b-icon-person-fill> {{userInfos.data.name}}</template>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> {{userInfos.name}}</template>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -363,7 +363,6 @@ export default {
           });
     },
     getUserAdmin(){
-      console.log(this.userInfos.data.admin);
       return this.userInfos.data.admin === null ? '' : this.userInfos.data.admin;
     }
   },

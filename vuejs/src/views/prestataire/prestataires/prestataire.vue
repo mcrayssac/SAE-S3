@@ -94,7 +94,7 @@
         </b-row>
 
         <b-row align-h="center">
-          <span v-if="this.userInfos.data.admin == 'prestataire'">
+          <span v-if="this.userInfos.admin == 'prestataire'">
             <Planning :calendarOptions=optionsPresta> </Planning>
             <b-modal ref="modal-presta" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
                              title="Ajouter une nouvelle initiation">
@@ -448,7 +448,6 @@ export default {
     ...mapState(['userInfos']),
     peutCommenter(){
       if(!this.postCom || this.userInfos.data.admin==="prestataire"){
-        console.log(this.postCom)
         return false
       }
       else if(this.userInfos.data.id==-1) return true;
@@ -475,7 +474,7 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
-    this.form.surname = this.userInfos.data.surname
+    this.form.surname = this.userInfos.surname
 
     axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.data.id}`)
         .then(result => {
