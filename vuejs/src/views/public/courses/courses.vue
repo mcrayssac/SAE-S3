@@ -194,9 +194,9 @@ export default {
       this.alertCountDown = this.alertMax;
     },
     async verifyAccount(modal, idCourse){
-      if (this.userInfos.id === -1) this.showLoginErrorModal(modal);
+      if (this.userInfos.data.id === -1) this.showLoginErrorModal(modal);
       else {
-        if (this.userInfos.admin !== null) {
+        if (this.userInfos.data.admin !== null) {
           let message = `Vous ne pouvez pas faire de réservation !`;
           let variant = `warning`;
           if (self.alertCountDown > 0) self.alertCountDown = 0;
@@ -206,7 +206,7 @@ export default {
           }, "200")
         } else {
           let date = new Date();
-          let idPublic = this.userInfos.id;
+          let idPublic = this.userInfos.data.id;
           await axios.post(`http://localhost:3000/reservation/courses`, {data: {date, idPublic, idCourse}})
               .then(async result => {
                 let message = `Votre réservation a bien été enregistrée`;
