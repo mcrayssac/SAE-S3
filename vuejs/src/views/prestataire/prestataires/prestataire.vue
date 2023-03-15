@@ -94,7 +94,7 @@
         </b-row>
 
         <b-row align-h="center">
-          <span v-if="this.userInfos.admin == 'prestataire'">
+          <span v-if="this.userInfos.data.admin == 'prestataire'">
             <Planning :calendarOptions=optionsPresta> </Planning>
             <b-modal ref="modal-presta" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
                              title="Ajouter une nouvelle initiation">
@@ -316,14 +316,14 @@ export default {
   },
   methods: {
     peutPoster() {
-      if (this.userInfos.id !== -1) {
-        axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
+      if (this.userInfos.data.id !== -1) {
+        axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.data.id}`)
             .then(result => {
               console.log("testetst")
               console.log(result.data)
               if (result.data == "") {
                 console.log("if")
-                this.form.id = this.userInfos.id;
+                this.form.id = this.userInfos.data.id;
                 this.form.idPresta = this.data.id_prestataire;
                 this.postCom = true;
                 this.printFormulaire = true
@@ -381,7 +381,7 @@ export default {
         this.$store.commit("removeEvent", {
           id: parseInt(clickInfo.event.id),
           start: clickInfo.event.start,
-          id_prestataire: this.userInfos.id,
+          id_prestataire: this.userInfos.data.id,
           type: 'initiations'
         })
         if(length != this.$store.getters.getInitiationsEvents.length) {
@@ -393,7 +393,7 @@ export default {
     },
     handleEventClickPublic(clickInfo) {
       console.log(clickInfo.event)
-      if (this.userInfos.admin !== null) this.$router.push({name: 'signup'});
+      if (this.userInfos.data.admin !== null) this.$router.push({name: 'signup'});
       else {
         this.currentEvent = clickInfo.event
         axios.get(`http://localhost:3000/initiations/` + clickInfo.event.id + '/number-places-left')
@@ -411,7 +411,7 @@ export default {
         this.$store.commit("registerToEvent", {
           id: parseInt(this.currentEvent.id),
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
-          id_public: this.userInfos.id,
+          id_public: this.userInfos.data.id,
           start: this.currentEvent.start,
           type: 'initiations'
         })
@@ -431,7 +431,7 @@ export default {
           start: this.currentTime.start,
           end: this.currentTime.end,
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
-          id_prestataire: this.userInfos.id,
+          id_prestataire: this.userInfos.data.id,
           type: 'initiations'
         })
         this.optionsPresta.events = this.$store.getters.getInitiationsEvents
@@ -447,11 +447,11 @@ export default {
     ...mapGetters(["getInitiationsEvents"]),
     ...mapState(['userInfos']),
     peutCommenter(){
-      if(!this.postCom || this.userInfos.admin==="prestataire"){
+      if(!this.postCom || this.userInfos.data.admin==="prestataire"){
         console.log(this.postCom)
         return false
       }
-      else if(this.userInfos.id==-1) return true;
+      else if(this.userInfos.data.id==-1) return true;
       else{
         return true;
       }
@@ -475,15 +475,15 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
-    this.form.surname = this.userInfos.surname
+    this.form.surname = this.userInfos.data.surname
 
-    axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
+    axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.data.id}`)
         .then(result => {
           console.log("testetst")
           console.log(result.data)
-          if (result.data == "" && this.userInfos.admin != "prestataire") {
+          if (result.data == "" && this.userInfos.data.admin != "prestataire") {
             console.log("true")
-            this.form.id = this.userInfos.id;
+            this.form.id = this.userInfos.data.id;
             this.form.idPresta = this.data.id_prestataire;
             this.postCom = true;
           } else {
