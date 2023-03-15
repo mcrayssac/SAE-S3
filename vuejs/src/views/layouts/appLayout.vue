@@ -321,9 +321,8 @@ export default {
             self.$router.push({name: 'home'});
           } else if (self.userInfos.data.admin === "prestataire"){
             // Redirection page presta
-            console.log('je pars')
-            //self.$router.push({name: 'prestataires/nomPrestataire', params: { nomPrestataire: self.userInfos.name.toLowerCase().trim().replace(/ /g,'') }});
-             self.$router.push({name: 'etatInscription'});
+            if (self.userInfos.data.etat) self.$router.push({name: 'prestataires/nomPrestataire', params: { nomPrestataire: self.userInfos.data.name.toLowerCase().trim().replace(/ /g,'') }});
+             else self.$router.push({name: 'etatInscription'});
           }
         }, "1000");
       }, function (error){
