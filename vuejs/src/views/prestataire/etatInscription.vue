@@ -151,11 +151,14 @@ export default {
     ...mapState(['userInfos', 'layoutHeight'])
   },
   created() {
-    if (this.userInfos.etat === null || this.userInfos.etat === undefined){
-      this.$router.push({name: 'home'});
-    } else {
-      if (this.userInfos.etat) this.$router.push({name: 'home'});
-    }
+    setTimeout(() => {
+      console.log('etat', this.userInfos.data);
+      if (!this.userInfos.data || this.userInfos.data.etat === undefined || this.userInfos.data.etat === null){
+        this.$router.push({name: 'home'});
+      } else {
+        if (this.userInfos.data.etat) this.$router.push({name: 'home'});
+      }
+    }, "100");
   }
 }
 </script>

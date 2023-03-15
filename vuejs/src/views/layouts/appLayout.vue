@@ -77,12 +77,7 @@
       </b-navbar>
 
       <b-navbar v-else-if="userInfos.data && userInfos.data.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
-        <b-navbar-brand v-if="userInfos.data.etat !== null && userInfos.data.etat !== undefined && userInfos.data.etat === false" href="http://localhost:8080/" class="ms-3" disabled>
-          <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
-               alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
-        </b-navbar-brand>
-
-        <b-navbar-brand v-else href="http://localhost:8080/" class="ms-3">
+        <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
         </b-navbar-brand>
@@ -101,6 +96,8 @@
             <b-nav-item href="/scene" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
 
             <b-nav-item :href="'/prestataires/'+userInfos.data.name.toLowerCase().trim().replace(/ /g,'')"><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Ma Page</span></b-nav-item>
+
+            <b-nav-item href="/etatInscription"><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Mon etat</span></b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav v-else>
@@ -221,7 +218,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{ userInfos.name }}</template>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{ userInfos.data.name }}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
@@ -319,12 +316,14 @@ export default {
       }).then(async function (response){
         await self.getUserInfos();
         setTimeout(() => {
-          if (!self.userInfos.admin || self.userInfos.admin === "organisateur"){
+          console.log('admin', self.userInfos.data.admin === "prestataire");
+          if (!self.userInfos.data.admin || self.userInfos.data.admin === "organisateur"){
             self.$router.push({name: 'home'});
-          } else if (self.userInfos.admin === "prestataire"){
+          } else if (self.userInfos.data.admin === "prestataire"){
             // Redirection page presta
-            self.$router.push({name: 'prestataires/nomPrestataire', params: { nomPrestataire: self.userInfos.name.toLowerCase().trim().replace(/ /g,'') }});
-            // self.$router.push({name: 'etatInscription'});
+            console.log('je pars')
+            //self.$router.push({name: 'prestataires/nomPrestataire', params: { nomPrestataire: self.userInfos.name.toLowerCase().trim().replace(/ /g,'') }});
+             self.$router.push({name: 'etatInscription'});
           }
         }, "1000");
       }, function (error){
