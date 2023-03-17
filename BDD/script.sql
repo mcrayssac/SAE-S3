@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS PERIODE;
 DROP TABLE IF EXISTS LIEU;
 DROP TABLE IF EXISTS SPORT;
 DROP TABLE IF EXISTS PRESTATAIRE;
+DROP TABLE IF EXISTS AFFLUENCE;
 DROP TABLE IF EXISTS STAND;
 DROP TABLE IF EXISTS FAMILLE;
 DROP TABLE IF EXISTS TAILLE;
@@ -168,6 +169,13 @@ CREATE TABLE CARACTERISTIQUE
     CONSTRAINT fk_famille_caracteristique FOREIGN KEY (id_famille) REFERENCES FAMILLE (id_famille)
 );
 
+CREATE TABLE AFFLUENCE
+(
+    id_affluence          SERIAL,
+    libelle_affluence     VARCHAR(100),
+    CONSTRAINT pk_affluence PRIMARY KEY (id_affluence)
+);
+
 
 CREATE TABLE PRESTATAIRE
 (
@@ -184,8 +192,10 @@ CREATE TABLE PRESTATAIRE
     text_droite           TEXT,
     url_image           TEXT,
     image_body            TEXT,
+    id_affluence          INT,
     CONSTRAINT pk_prestataire PRIMARY KEY (id_prestataire),
     CONSTRAINT fk_stand_prestataire FOREIGN KEY (id_stand) REFERENCES STAND (id_stand),
+    CONSTRAINT fk_affluence_prestataire FOREIGN KEY (id_affluence) REFERENCES AFFLUENCE (id_affluence),
     CONSTRAINT fk_type_prestataire FOREIGN KEY (id_type) REFERENCES TYPE_PRESTATAIRE (id_type)
 );
 
