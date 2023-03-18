@@ -84,6 +84,7 @@ const organisateurRoutes = require("./routes/organisateur_routes");
 const reservationRoutes = require("./routes/reservation_routes");
 const inscriptionRoutes = require("./routes/inscription_routes");
 const cagnotteRoutes = require("./routes/cagnotte_routes");
+const affluenceRoutes = require("./routes/affluence_routes")
 
 app.use("/api/", authRoutes);
 app.use("/", routes);
@@ -100,6 +101,7 @@ app.use("/organisateur", organisateurRoutes);
 app.use("/reservation", reservationRoutes);
 app.use("/inscription", inscriptionRoutes);
 app.use("/cagnotte", cagnotteRoutes);
+app.use("/affluence", affluenceRoutes)
 
 
 /**

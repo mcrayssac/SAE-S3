@@ -6,7 +6,9 @@
     <section v-else class="Main">
       <section class="Title">
         <b-row align-h="center">
-          <b-col class="mt-5 ms-5 me-5" cols="auto">
+          <b-col class="mt-5 ms-5 me-5" cols="1">
+          </b-col>
+          <b-col class="mt-5 ms-5 me-5" cols="8">
             <h1 data-aos="zoom-in-down"
                 data-aos-delay="200"
                 data-aos-duration="500"
@@ -16,6 +18,17 @@
               </b-link>
               {{data.nom_prestataire}}
             </h1>
+          </b-col>
+          <b-col class="mt-5 ms-5 me-5" cols="1" style="background-color: #1a265a;">
+            <h4 style="color: white; padding-top: 20px;">Affluence</h4>
+            <section v-if="userInfos.admin == 'prestataire'">
+              <b-form-select v-model="affluence" :options="['Faible', 'Moyenne', 'Elevée']" v-on:change="setAffluence" style="width: 100%; margin-top: 5px"></b-form-select>
+            </section>
+            <section v-else>
+              <svg viewBox="0 0 4 2.5" :style="colorAffluence">
+                <circle cx="2" cy="1" r="0.8"/>
+              </svg>
+            </section>
           </b-col>
         </b-row>
       </section>
@@ -229,7 +242,7 @@ import appLoading from "@/loading.vue"
 import Planning from "@/components/Planning";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
-import {mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import resultats from "@/views/public/resultats/resultats";
 
 export default {
@@ -242,6 +255,8 @@ export default {
       commentaires: null,
       postCom: null,
       printFormulaire: false,
+      affluence: null,
+      colorAffluence: null,
       form: {
         commentaire: null,
         id: null,
@@ -315,15 +330,23 @@ export default {
     }
   },
   methods: {
+    setAffluence(){
+      let id = -1
+      switch (this.affluence) {
+        case "Faible": id = 1; break;
+        case "Moyenne": id = 2; break;
+        case "Elevée": id = 3; break;
+      }
+      axios.put(`http://localhost:3000/affluence/${this.data.id_prestataire}?idAffluence=${id}`)
+          .then(res => console.log(res.data.data))
+          .catch(err => console.warn(err));
+    },
     peutPoster() {
-      if (this.userInfos.data.id !== -1) {
-        axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.data.id}`)
+      if (this.userInfos.id !== -1) {
+        axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
             .then(result => {
-              console.log("testetst")
-              console.log(result.data)
               if (result.data == "") {
-                console.log("if")
-                this.form.id = this.userInfos.data.id;
+                this.form.id = this.userInfos.id;
                 this.form.idPresta = this.data.id_prestataire;
                 this.postCom = true;
                 this.printFormulaire = true
@@ -381,7 +404,7 @@ export default {
         this.$store.commit("removeEvent", {
           id: parseInt(clickInfo.event.id),
           start: clickInfo.event.start,
-          id_prestataire: this.userInfos.data.id,
+          id_prestataire: this.userInfos.id,
           type: 'initiations'
         })
         if(length != this.$store.getters.getInitiationsEvents.length) {
@@ -393,7 +416,7 @@ export default {
     },
     handleEventClickPublic(clickInfo) {
       console.log(clickInfo.event)
-      if (this.userInfos.data.admin !== null) this.$router.push({name: 'signup'});
+      if (this.userInfos.admin !== null) this.$router.push({name: 'signup'});
       else {
         this.currentEvent = clickInfo.event
         axios.get(`http://localhost:3000/initiations/` + clickInfo.event.id + '/number-places-left')
@@ -411,7 +434,7 @@ export default {
         this.$store.commit("registerToEvent", {
           id: parseInt(this.currentEvent.id),
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
-          id_public: this.userInfos.data.id,
+          id_public: this.userInfos.id,
           start: this.currentEvent.start,
           type: 'initiations'
         })
@@ -431,7 +454,7 @@ export default {
           start: this.currentTime.start,
           end: this.currentTime.end,
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
-          id_prestataire: this.userInfos.data.id,
+          id_prestataire: this.userInfos.id,
           type: 'initiations'
         })
         this.optionsPresta.events = this.$store.getters.getInitiationsEvents
@@ -447,10 +470,10 @@ export default {
     ...mapGetters(["getInitiationsEvents"]),
     ...mapState(['userInfos']),
     peutCommenter(){
-      if(!this.postCom || this.userInfos.data.admin==="prestataire"){
+      if(!this.postCom || this.userInfos.admin==="prestataire"){
         return false
       }
-      else if(this.userInfos.data.id==-1) return true;
+      else if(this.userInfos.id==-1) return true;
       else{
         return true;
       }
@@ -458,6 +481,9 @@ export default {
   },
   async created() {
     let self = this;
+    if(Object.prototype.hasOwnProperty.call(this.userInfos, "data")){
+      this.$store.commit("userInfos", this.userInfos.data)
+    }
     await axios.get(`http://localhost:3000/prestataires/prestataire/${this.$route.params.nomPrestataire}`)
         .then(async (result) => {
           self.data = result.data.data;
@@ -466,6 +492,16 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
+    axios.get(`http://localhost:3000/affluence/${this.data.id_prestataire}`)
+        .then(res => {
+            this.affluence = res.data.data.libelle_affluence
+            switch (this.affluence) {
+              case "Faible": this.colorAffluence = "fill: green"; break;
+              case "Moyenne": this.colorAffluence = "fill: orange"; break;
+              case "Elevée": this.colorAffluence = "fill: red"; break;
+            }
+        })
+        .catch(err => console.warn(err))
     axios.get(`http://localhost:3000/prestataires/prestataire/getCommentaires/${this.data.id_prestataire}`)
         .then (com => {
           this.commentaires = com.data.data
@@ -475,18 +511,13 @@ export default {
           console.warn("error", message);
         });
     this.form.surname = this.userInfos.surname
-
-    axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.data.id}`)
+    axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
         .then(result => {
-          console.log("testetst")
-          console.log(result.data)
-          if (result.data == "" && this.userInfos.data.admin != "prestataire") {
-            console.log("true")
-            this.form.id = this.userInfos.data.id;
+          if (result.data == "" && this.userInfos.admin != "prestataire") {
+            this.form.id = this.userInfos.id;
             this.form.idPresta = this.data.id_prestataire;
             this.postCom = true;
           } else {
-            console.log('false')
             this.postCom = false;
           }
         })
@@ -494,7 +525,6 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
-
 
     setTimeout(async () => {
       await this.$store.dispatch('setInitiations', this.data.id_prestataire)

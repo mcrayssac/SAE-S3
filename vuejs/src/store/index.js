@@ -90,7 +90,6 @@ export default new Vuex.Store({
         if(events.type == 'demos') state.eventsScene.push(object)
         else state.eventsInitiations.push(object)
       })
-      console.log(state.eventsInitiations)
     },
     registerToEvent: (state, event) => {
       console.log(event)
@@ -125,7 +124,6 @@ export default new Vuex.Store({
       }
     },
     addEvent: (state, event) => {
-      console.log(event)
       let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
       let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
       axios.post(`http://localhost:3000/${event.type}?dateDebut=` + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin) + '&nbPlaces=' + event.nbPlaces + '&idPresta=' + event.id_prestataire + '&title=' + event.title)

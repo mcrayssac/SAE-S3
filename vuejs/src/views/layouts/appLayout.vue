@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-navbar v-if="userInfos.data && userInfos.data.admin === 'organisateur'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+      <b-navbar v-if="userInfos.data && userInfos.admin === 'organisateur'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
@@ -76,7 +76,7 @@
         </b-collapse>
       </b-navbar>
 
-      <b-navbar v-else-if="userInfos.data && userInfos.data.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+      <b-navbar v-else-if="userInfos.data && userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
@@ -86,7 +86,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
 
-          <b-navbar-nav v-if="userInfos.data.etat !== null && userInfos.data.etat !== undefined && userInfos.data.etat === false">
+          <b-navbar-nav v-if="userInfos.etat !== null && userInfos.etat !== undefined && userInfos.etat === false">
             <b-nav-item href="/map" disabled><span class="text-light"><b-icon-geo-alt-fill></b-icon-geo-alt-fill> Map</span></b-nav-item>
 
             <b-nav-item href="/statistiques" disabled><span class="text-light"><b-icon-graph-up></b-icon-graph-up> Statistiques</span></b-nav-item>
@@ -95,7 +95,7 @@
 
             <b-nav-item href="/scene" disabled><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
 
-            <b-nav-item :href="'/prestataires/'+userInfos.data.name.toLowerCase().trim().replace(/ /g,'')"><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Ma Page</span></b-nav-item>
+            <b-nav-item :href="'/prestataires/'+userInfos.name.toLowerCase().trim().replace(/ /g,'')"><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Ma Page</span></b-nav-item>
 
             <b-nav-item href="/etatInscription"><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Mon etat</span></b-nav-item>
           </b-navbar-nav>
@@ -109,11 +109,11 @@
 
             <b-nav-item href="/scene" ><span class="text-light"><b-icon-journal-check></b-icon-journal-check> Scène</span></b-nav-item>
 
-            <b-nav-item :href="'/prestataires/'+userInfos.data.name.toLowerCase().trim().replace(/ /g,'')"><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Ma Page</span></b-nav-item>
+            <b-nav-item :href="'/prestataires/'+userInfos.name.toLowerCase().trim().replace(/ /g,'')"><span class="text-light"><b-icon-person-lines-fill></b-icon-person-lines-fill> Ma Page</span></b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
-            <b-nav-item-dropdown v-if="!userInfos.data.name && (user.id <= 0)" toggle-class="text-white" right>
+            <b-nav-item-dropdown v-if="!userInfos.name && (user.id <= 0)" toggle-class="text-white" right>
               <template #button-content><b-icon-person-fill></b-icon-person-fill> Profil</template>
               <b-dropdown-form>
                 <b-form-group class="ConnectLabel" label="Email">
@@ -218,7 +218,7 @@
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" v-else right toggle-class="text-white">
-              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{ userInfos.data.name }}</template>
+              <template #button-content><b-icon-person-fill></b-icon-person-fill> Bonjour {{ userInfos.name }}</template>
               <b-dropdown-item href="#">Planning</b-dropdown-item>
               <b-dropdown-item href="#">Mes activités</b-dropdown-item>
               <b-dropdown-item @click="logout()">Déconnexion</b-dropdown-item>
@@ -282,7 +282,7 @@
         </template>
       </b-modal>
 
-      <chat-box v-if="userInfos.id !== -1" :userId="userInfos.data.id + ''" :userAdmin="getUserAdmin()" />
+      <chat-box v-if="userInfos.id !== -1" :userId="userInfos.id + ''" :userAdmin="getUserAdmin()" />
     </div>
 </template>
 
@@ -316,12 +316,12 @@ export default {
       }).then(async function (response){
         await self.getUserInfos();
         setTimeout(() => {
-          console.log('admin', self.userInfos.data.admin === "prestataire");
-          if (!self.userInfos.data.admin || self.userInfos.data.admin === "organisateur"){
+          console.log('admin', self.userInfos.admin === "prestataire");
+          if (!self.userInfos.admin || self.userInfos.admin === "organisateur"){
             self.$router.push({name: 'home'});
-          } else if (self.userInfos.data.admin === "prestataire"){
+          } else if (self.userInfos.admin === "prestataire"){
             // Redirection page presta
-            if (self.userInfos.data.etat) self.$router.push({name: 'prestataires/nomPrestataire', params: { nomPrestataire: self.userInfos.data.name.toLowerCase().trim().replace(/ /g,'') }});
+            if (self.userInfos.etat) self.$router.push({name: 'prestataires/nomPrestataire', params: { nomPrestataire: self.userInfos.name.toLowerCase().trim().replace(/ /g,'') }});
              else self.$router.push({name: 'etatInscription'});
           }
         }, "1000");
@@ -363,10 +363,13 @@ export default {
           });
     },
     getUserAdmin(){
-      return this.userInfos.data.admin === null ? '' : this.userInfos.data.admin;
+      return this.userInfos.admin === null ? '' : this.userInfos.admin;
     }
   },
   async created() {
+    if(Object.prototype.hasOwnProperty.call(this.userInfos, "data")){
+      this.$store.commit("userInfos", this.userInfos.data)
+    }
     await axios.get(`http://localhost:3000/categories`)
         .then(result => {
           this.data = result.data.getCategories;
