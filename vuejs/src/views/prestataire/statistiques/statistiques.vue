@@ -26,7 +26,7 @@
           <h1 class="m-5"
               data-aos="fade-up-right"
               data-aos-anchor-placement="top-bottom"
-              data-aos-duration="800">Vos statistiques : {{userInfos.data.name}}</h1>
+              data-aos-duration="800">Vos statistiques : {{userInfos.name}}</h1>
         </b-col>
       </b-row>
     </section>
@@ -210,7 +210,7 @@ export default {
   methods: {
     addSeries: async function () {
       let self = this;
-      await axios.get(`http://localhost:3000/statistiques/prestataire/clics/${this.userInfos.data.id}`)
+      await axios.get(`http://localhost:3000/statistiques/prestataire/clics/${this.userInfos.id}`)
           .then(result => {
             if (result.data.data){
               self.chartOptions.series[0].points = result.data.data.temp;
@@ -247,7 +247,7 @@ export default {
   },
   updated() {
     setTimeout(() => {
-      if (!this.userInfos.data || this.userInfos.data.admin !== 'prestataire') this.$router.push({name: 'home'});
+      if (!this.userInfos || this.userInfos.admin !== 'prestataire') this.$router.push({name: 'home'});
     }, "100")
   }
 }

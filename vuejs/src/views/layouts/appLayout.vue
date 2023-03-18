@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-navbar v-if="userInfos.data && userInfos.admin === 'organisateur'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+      <b-navbar v-if="userInfos.admin === 'organisateur'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
@@ -76,7 +76,7 @@
         </b-collapse>
       </b-navbar>
 
-      <b-navbar v-else-if="userInfos.data && userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
+      <b-navbar v-else-if="userInfos.admin === 'prestataire'" class="fixed-top" :style="backgroundNavbarColor.title + backgroundNavbarColor.body" style="padding: 3px 0 3px 0;" toggleable="lg">
         <b-navbar-brand href="http://localhost:8080/" class="ms-3">
           <img src="https://cdn.discordapp.com/attachments/1019997748344406146/1027862507618058292/logo_3_1.png"
                alt="IUT LOGO" width="45" height="40" class="d-inline-block rounded align-text-top">
@@ -367,9 +367,6 @@ export default {
     }
   },
   async created() {
-    if(Object.prototype.hasOwnProperty.call(this.userInfos, "data")){
-      this.$store.commit("userInfos", this.userInfos.data)
-    }
     await axios.get(`http://localhost:3000/categories`)
         .then(result => {
           this.data = result.data.getCategories;

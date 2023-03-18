@@ -21,7 +21,7 @@
           </b-col>
           <b-col class="mt-5 ms-5 me-5" cols="1" style="background-color: #1a265a;">
             <h4 style="color: white; padding-top: 20px;">Affluence</h4>
-            <section v-if="userInfos.admin == 'prestataire'">
+            <section v-if="userInfos.admin == 'prestataire' && this.userInfos.id == this.data.id_prestataire">
               <b-form-select v-model="affluence" :options="['Faible', 'Moyenne', 'Elevée']" v-on:change="setAffluence" style="width: 100%; margin-top: 5px"></b-form-select>
             </section>
             <section v-else>
@@ -390,7 +390,6 @@ export default {
 
       if(!isOverlap) {
         this.currentTime = selectTime
-        console.log(this.$refs['modal-presta'])
         this.$refs['modal-presta'].show()
       }
       else{
@@ -421,10 +420,9 @@ export default {
         this.currentEvent = clickInfo.event
         axios.get(`http://localhost:3000/initiations/` + clickInfo.event.id + '/number-places-left')
             .then(response => {
-              console.log(response.data.data)
               this.currentPlacesLeft = response.data.data.nb_places - response.data.data.total_reserv
             })
-            .catch(e => console.log('err get nbPlacesLeft : ', e))
+            .catch(e => console.warn('err get nbPlacesLeft : ', e))
         this.$refs['modal'].show()
       }
     },

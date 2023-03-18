@@ -155,7 +155,7 @@ export default new Vuex.Store({
       instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
       instanceAuth.post('/user',)
           .then(function (response){
-            commit('userInfos', response.data);
+            commit('userInfos', response.data.data);
           }).catch(function (error){
             commit('logout')
             console.log("Token error : ",error)

@@ -1,5 +1,5 @@
 <template>
-  <span v-if="this.userInfos.data.admin == 'prestataire'">
+  <span v-if="this.userInfos.admin == 'prestataire'">
     <Planning :calendarOptions=optionsPresta> </Planning>
 
     <b-modal ref="modal-presta" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
@@ -181,7 +181,7 @@ export default {
         this.$store.commit("removeEvent", {
           id: parseInt(clickInfo.event.id),
           start: clickInfo.event.start,
-          id_prestataire: this.userInfos.data.id,
+          id_prestataire: this.userInfos.id,
           type: 'demos'
         })
         if(length != this.$store.getters.getSceneEvents.length) {
@@ -193,7 +193,7 @@ export default {
     },
     handleEventClickPublic(clickInfo) {
       console.log(clickInfo.event)
-      if (this.userInfos.data.admin !== null) this.$router.push({name: 'signup'});
+      if (this.userInfos.admin !== null) this.$router.push({name: 'signup'});
       else {
         this.currentEvent = clickInfo.event
         axios.get(`http://localhost:3000/demos/` + clickInfo.event.id + '/number-places-left')
@@ -208,7 +208,7 @@ export default {
         this.$store.commit("registerToEvent", {
           id: parseInt(this.currentEvent.id),
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
-          id_public: this.userInfos.data.id,
+          id_public: this.userInfos.id,
           start: this.currentEvent.start,
           type: 'demos'
         })
@@ -228,7 +228,7 @@ export default {
           start: this.currentTime.start,
           end: this.currentTime.end,
           nbPlaces: parseInt(this.currentEvent.nbPlaces),
-          id_prestataire: this.userInfos.data.id,
+          id_prestataire: this.userInfos.id,
           type: 'demos'
         })
         this.optionsPresta.events = this.$store.getters.getSceneEvents
