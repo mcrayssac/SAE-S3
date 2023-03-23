@@ -20,7 +20,7 @@
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-shop></b-icon-shop> Prestataires</template>
               <b-dropdown-item href="/demandesPrestataires">Gestion des comptes</b-dropdown-item>
-              <b-dropdown-item href="#">Validation des activités</b-dropdown-item>
+              <b-dropdown-item href="/demandes/activites">Validation des activités</b-dropdown-item>
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">

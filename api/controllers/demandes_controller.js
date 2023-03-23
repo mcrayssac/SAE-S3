@@ -21,3 +21,23 @@ exports.postDemandesPrestataires = async (req, res) => {
         return res.status(200).send({success:1, data:results})
     })
 }
+
+exports.getDemandesActivites = async (req, res) => {
+    console.log(chalk.green.inverse("requete pour les demandes d'activites"));
+    await services.getDemandesActivites( (error, results) => {
+        if(error){
+            return res.status(400).send({success:0, data:error})
+        }
+        return res.status(200).send({success:1, data:results})
+    })
+}
+
+exports.postDemandesActivites = async (req, res) => {
+    console.log(chalk.green.inverse('requete pour accept/decline une activité'));
+    await services.postDemandesActivites(req.params.choice,  req.body.id, req.body.id_init, (error, results) => {
+        if(error){
+            return res.status(400).send({success:0, data:error})
+        }
+        return res.status(200).send({success:1, data:results})
+    })
+}

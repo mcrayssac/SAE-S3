@@ -10,7 +10,7 @@
       <section class="Title">
         <b-row align-h="center" align-v="center">
           <b-col cols="auto">
-            <h1 class="my-5">Demandes pour devenir prestataire</h1>
+            <h1 class="my-5">Demandes d'activités</h1>
           </b-col>
         </b-row>
       </section>
@@ -33,7 +33,7 @@
                 </b-card-title>
                 <hr>
                 <b-card-body class="py-0">
-                  <section class="Id my-3">
+                  <section class="Nom activité my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
                         <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
@@ -41,75 +41,59 @@
                     </b-row>
                     <b-row align-h="center" align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-text">{{item.id_prestataire}}</span>
+                        <span class="etat-text">{{item.libelle_initiation}}</span>
                       </b-col>
                     </b-row>
                   </section>
 
-                  <section class="Email my-3">
+                  <section class="Nb places my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Email de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-text">{{item.email_prestataire.trim()}}</span>
+                        <span class="etat-text">{{item.nb_places}}</span>
                       </b-col>
                     </b-row>
                   </section>
 
-                  <section class="Telephone my-3">
+                  <section class="date début my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Téléphone de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-text">{{item.telephone_prestataire.trim()}}</span>
+                        <span class="etat-text">{{item.date_periode}}</span>
                       </b-col>
                     </b-row>
                   </section>
 
-                  <section class="Site my-3">
+                  <section class="date fin my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Site de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-text">{{item.site_web_prestataire.trim()}}</span>
+                        <span class="etat-text">{{item.fin_periode}}</span>
                       </b-col>
                     </b-row>
                   </section>
 
-                  <section class="Type my-3">
+                  <section class="Nom lieu my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Type du prestataire :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-text">{{item.etat_type.trim()}}</span>
-                      </b-col>
-                    </b-row>
-                  </section>
-
-                  <section class="Attente my-3">
-                    <b-row align-v="center">
-                      <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Réponse de l'organisation :</span>
-                      </b-col>
-                    </b-row>
-                    <b-row align-h="center" align-v="center">
-                      <b-col class="px-0" cols="auto">
-                        <b-spinner style="color: #495388" small></b-spinner>
-                      </b-col>
-                      <b-col cols="auto">
-                        <span class="etat-text">En attente...</span>
+                        <span class="etat-text">{{item.libelle_lieu}}</span>
                       </b-col>
                     </b-row>
                   </section>
@@ -117,15 +101,15 @@
                 <hr>
                 <b-row align-h="center" align-v="center">
                   <b-col class="my-2" cols="auto">
-                    <b-button @click="showAlertAccept(item.id_prestataire, item.nom_prestataire)" class="button-submit mx-1">Accepter</b-button>
-                    <b-button @click="showAlertDecline(item.id_prestataire, item.nom_prestataire)" class="button-decline mx-1">Décliner</b-button>
+                    <b-button @click="showAlertAccept(item.id_prestataire, item.nom_prestataire, item.id_initiation, item.libelle_initiation)" class="button-submit mx-1">Accepter</b-button>
+                    <b-button @click="showAlertDecline(item.id_prestataire, item.nom_prestataire, item.id_initiation, item.libelle_initiation)" class="button-decline mx-1">Décliner</b-button>
                   </b-col>
                 </b-row>
               </b-card>
             </b-col>
           </b-row>
-        </section>
       </section>
+    </section>
     </section>
     <section v-else class="Loading">
       <app-loading color="#6ec8cb" />
@@ -134,16 +118,16 @@
 </template>
 
 <script>
-import axios from "axios";
-import appLoading from "@/loading";
 import {mapState} from "vuex";
+import axios from "axios";
+import appLoading from "@/loading.vue";
 
 export default {
-  name: "demandesPrestataires",
+  name: "demandesActivites",
   components: {appLoading},
   data: function() {
     return {
-      data: null,
+      data : null,
       alertMax: 20,
       alertCountDown: 0,
       alertMessage: null,
@@ -153,48 +137,48 @@ export default {
   computed:{
     ...mapState(['userInfos', 'layoutHeight'])
   },
-  methods:{
+  methods: {
     countDownChanged(dismissCountDown) {
       this.alertCountDown = dismissCountDown
     },
-    async showAlertDecline(id,nom) {
+    async showAlertDecline(id,nom, id_init, nom_init) {
       let self = this;
-      await axios.post(`http://localhost:3000/demandes/prestataires/decline`, {id})
+      await axios.post(`http://localhost:3000/demandes/activites/decline`, {id, id_init})
           .then(result => {
             self.getDemandesPrestataires();
-            self.alertMessage = `Vous avez décliné le prestataire : ${nom}, (id = ${id})`;
+            self.alertMessage = `Vous avez décliné l'activité : ${nom_init} (${nom})`;
             self.alertVariant = "warning";
             self.alertCountDown = self.alertMax
             window.scrollTo(0,0);
           })
           .catch((err) => {
             self.getDemandesPrestataires();
-            self.alertMessage = `ERREUR lors du déclin du prestataire : ${nom}, (id = ${id})`;
+            self.alertMessage = `ERREUR lors du déclin de l'activité : ${nom_init} (${nom})`;
             self.alertVariant = "danger";
             self.alertCountDown = self.alertMax
             window.scrollTo(0,0);
           });
     },
-    async showAlertAccept(id, nom) {
+    async showAlertAccept(id, nom, id_init, nom_init) {
       let self = this;
-      await axios.post(`http://localhost:3000/demandes/prestataires/accept`, {id})
+      await axios.post(`http://localhost:3000/demandes/activites/accept`, {id, id_init})
           .then(result => {
             self.getDemandesPrestataires();
-            self.alertMessage = `Vous avez accepté le prestataire : ${nom}, (id = ${id})`;
+            self.alertMessage = `Vous avez accepté l'activité : ${nom_init} (${nom})`;
             self.alertVariant = "success";
             self.alertCountDown = self.alertMax
             window.scrollTo(0,0);
           })
           .catch((err) => {
             self.getDemandesPrestataires();
-            self.alertMessage = `ERREUR pour accepter le prestataire : ${nom}, (id = ${id})`;
+            self.alertMessage = `ERREUR pour accepter l'activité : ${nom_init} (${nom})`;
             self.alertVariant = "danger";
             self.alertCountDown = self.alertMax
             window.scrollTo(0,0);
           });
     },
     async getDemandesPrestataires(){
-      await axios.get(`http://localhost:3000/demandes/prestataires`)
+      await axios.get(`http://localhost:3000/demandes/activites`)
           .then(result => {
             this.data = result.data.data;
           })

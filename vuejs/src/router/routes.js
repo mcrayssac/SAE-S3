@@ -85,6 +85,11 @@ const routes = [
     name: 'scene',
     component: () => import('../views/plannings/PlanningScene.vue')
   },
+  {
+    path: '/demandes/activites',
+    name: 'demandes/activites',
+    component: () => import('../views/organisateur/demandesActivites.vue')
+  },
     // At the end
   {
     path: '*',
