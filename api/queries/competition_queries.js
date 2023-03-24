@@ -12,3 +12,9 @@ exports.getCompetition = "select c.id_course as \"idCourse\", c.libelle_course a
     "from courses as c\n" +
     "inner join sport s on s.id_sport = c.id_sport\n" +
     "inner join lieu l on l.id_lieu = c.id_lieu;";
+
+exports.deleteCompetition = "DELETE FROM courses WHERE id_course = $1"
+
+exports.deleteParticipe = "DELETE FROM participe WHERE id_course = $1"
+
+exports.deletePour = "DELETE FROM pour WHERE id_course = $1"

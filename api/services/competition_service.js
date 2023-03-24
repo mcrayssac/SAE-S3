@@ -11,70 +11,101 @@ exports.getCompetition = async (callback) => {
             for (const elt of results.rows) {
                 temp.push(Object.values(elt)[0]);
             }
-            filtres.push([Object.keys(results.rows[0])[0], temp]);
-            await pool.query(signupQueries.getPlace, (async (error, results) => {
+            if(results.rowCount != 0) {
+                filtres.push([Object.keys(results.rows[0])[0], temp]);
+                await pool.query(signupQueries.getPlace, (async (error, results) => {
+                    if (error)
+                        return callback(error)
+                    else {
+                        let temp = []
+                        for (const elt of results.rows) {
+                            temp.push(Object.values(elt)[0]);
+                        }
+                        filtres.push([Object.keys(results.rows[0])[0], temp]);
+                        await pool.query(signupQueries.getPrix, (async (error, results) => {
+                            if (error)
+                                return callback(error)
+                            else {
+                                let temp = []
+                                for (const elt of results.rows) {
+                                    temp.push(Object.values(elt)[0]);
+                                }
+                                filtres.push([Object.keys(results.rows[0])[0], temp]);
+                                await pool.query(signupQueries.getType, (async (error, results) => {
+                                    if (error)
+                                        return callback(error)
+                                    else {
+                                        let temp = []
+                                        for (const elt of results.rows) {
+                                            temp.push(Object.values(elt)[0]);
+                                        }
+                                        filtres.push([Object.keys(results.rows[0])[0], temp]);
+                                        await pool.query(signupQueries.getLieu, (async (error, results) => {
+                                            if (error)
+                                                return callback(error)
+                                            else {
+                                                let temp = []
+                                                for (const elt of results.rows) {
+                                                    temp.push(Object.values(elt)[0]);
+                                                }
+                                                filtres.push([Object.keys(results.rows[0])[0], temp]);
+                                                await pool.query(signupQueries.getCompetition, ((error, results) => {
+                                                    if (error)
+                                                        return callback(error)
+                                                    else {
+                                                        let temp = []
+                                                        for (const elt of results.rows) {
+                                                            let object = {title: elt.title};
+                                                            object.UrlImage = elt.UrlImage;
+                                                            object.idCourse = elt.idCourse;
+                                                            delete elt.title;
+                                                            delete elt.idCourse;
+                                                            delete elt.UrlImage;
+                                                            object.filtres = {
+                                                                title: Object.keys(elt),
+                                                                body: Object.values(elt)
+                                                            }
+                                                            temp.push(object);
+                                                        }
+                                                        return callback(null, {
+                                                            title: "Compétitions",
+                                                            getFiltres: filtres,
+                                                            getCards: temp
+                                                        })
+                                                    }
+                                                }))
+                                            }
+                                        }))
+                                    }
+                                }))
+                            }
+                        }))
+                    }
+                }))
+            }
+        }
+    }))
+    //return callback(null, {title: "Compétitions", filtres: results.rows})
+}
+
+exports.deleteCompetition = async (idCompet, callback) => {
+    pool.query(signupQueries.deleteParticipe, [idCompet], ((error, results) => {
+        if (error)
+            return callback(error)
+        else {
+            pool.query(signupQueries.deletePour, [idCompet], ((error, results) => {
                 if (error)
                     return callback(error)
                 else {
-                    let temp = []
-                    for (const elt of results.rows) {
-                        temp.push(Object.values(elt)[0]);
-                    }
-                    filtres.push([Object.keys(results.rows[0])[0], temp]);
-                    await pool.query(signupQueries.getPrix, (async (error, results) => {
+                    pool.query(signupQueries.deleteCompetition, [idCompet], ((error, results) => {
                         if (error)
                             return callback(error)
                         else {
-                            let temp = []
-                            for (const elt of results.rows) {
-                                temp.push(Object.values(elt)[0]);
-                            }
-                            filtres.push([Object.keys(results.rows[0])[0], temp]);
-                            await pool.query(signupQueries.getType, (async (error, results) => {
-                                if (error)
-                                    return callback(error)
-                                else {
-                                    let temp = []
-                                    for (const elt of results.rows) {
-                                        temp.push(Object.values(elt)[0]);
-                                    }
-                                    filtres.push([Object.keys(results.rows[0])[0], temp]);
-                                    await pool.query(signupQueries.getLieu, (async (error, results) => {
-                                        if (error)
-                                            return callback(error)
-                                        else {
-                                            let temp = []
-                                            for (const elt of results.rows) {
-                                                temp.push(Object.values(elt)[0]);
-                                            }
-                                            filtres.push([Object.keys(results.rows[0])[0], temp]);
-                                            await pool.query(signupQueries.getCompetition, ((error, results) => {
-                                                if (error)
-                                                    return callback(error)
-                                                else {
-                                                    let temp = []
-                                                    for (const elt of results.rows) {
-                                                        let object = {title: elt.title};
-                                                        object.UrlImage = elt.UrlImage;
-                                                        object.idCourse = elt.idCourse;
-                                                        delete elt.title;
-                                                        delete elt.idCourse;
-                                                        delete elt.UrlImage;
-                                                        object.filtres = { title: Object.keys(elt), body: Object.values(elt)}
-                                                        temp.push(object);
-                                                    }
-                                                    return callback(null, {title: "Compétitions", getFiltres: filtres, getCards: temp})
-                                                }
-                                            }))
-                                        }
-                                    }))
-                                }
-                            }))
+
                         }
                     }))
                 }
             }))
         }
     }))
-    //return callback(null, {title: "Compétitions", filtres: results.rows})
 }

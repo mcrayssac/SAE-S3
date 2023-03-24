@@ -25,5 +25,10 @@ router.get("/", controller.getCompetition);
  *              description: Bad request
  */
 
+router.delete("/:id", controller.deleteCompetition)
+
+// router.put("/:id", controller.updateCompetition)
+//
+// router.post("/", controller.addCompetition)
 
 module.exports = router;

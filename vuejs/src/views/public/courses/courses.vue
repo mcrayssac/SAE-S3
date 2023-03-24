@@ -101,7 +101,15 @@
                       </b-row>
                       <b-row class="my-3" align-h="center" align-v="center">
                         <b-col cols="auto">
-                          <span>
+                          <span v-if="userInfos.admin == 'organisateur'">
+                            <b-button class="button button-submit mx-1"
+                                      @click="verifyAccount('account-error-modal', items.idCourse)">
+                              Modifier la course </b-button>
+                            <b-button class="button button-decline mx-1"
+                                      @click="deleteCourse(items)">
+                              Supprimer la course </b-button>
+                          </span>
+                          <span v-else>
                             <b-button class="button"
                                       @click="verifyAccount('account-error-modal', items.idCourse)">
                               Faire une réservation</b-button>
@@ -143,6 +151,9 @@
       </b-modal>
     </section>
     <section v-else class="Loading">
+      <h4 data-aos="flip-left"
+          data-aos-anchor-placement="top-bottom"
+          data-aos-duration="800">Aucune course disponible</h4>
       <app-loading color="#6ec8cb" />
     </section>
   </b-container>
@@ -237,22 +248,40 @@ export default {
     },
     hideLoginErrorModal(modal) {
       this.$refs[modal].hide()
+    },
+    async getCompetitions(){
+      await axios.get(`http://localhost:3000/competitions`)
+          .then(async result => {
+            this.data = result.data.data
+            this.filrs = []
+            for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
+              this.filrs.push("");
+            }
+          })
+          .catch((err) => {
+            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+            console.warn("error", message);
+          });
+    }
+    ,
+    deleteCourse(course){
+      if (confirm(`Voulez-vous supprimer la course '${course.title}' ?`)) {
+        try {
+          let response = axios.delete(`http://localhost:3000/competitions/${course.idCourse}`)
+          this.getCompetitions()
+          if (this.alertCountDown > 0) this.alertCountDown = 0;
+          setTimeout(() => {
+            this.showAlert(`Vous avez supprimé la course "${course.title}"`, "success");
+            window.scrollTo(0,0);
+          }, "200")
+        } catch (e) {
+          console.warn("error deleteCourse", e)
+        }
+      }
     }
   },
   async created() {
-    let self = this;
-    await axios.get(`http://localhost:3000/competitions`)
-        .then(async result => {
-          self.data = result.data.data
-          self.filrs = []
-          for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
-            self.filrs.push("");
-          }
-        })
-        .catch((err) => {
-          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
-          console.warn("error", message);
-        });
+    await this.getCompetitions()
   }
 }
 </script>

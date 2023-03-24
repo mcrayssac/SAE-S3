@@ -29,7 +29,7 @@
               <b-dropdown-item href="#"> Gestion</b-dropdown-item>
             </b-nav-item-dropdown>
 
-            <b-nav-item href="/" ><span class="text-light"><b-icon-trophy-fill></b-icon-trophy-fill> Courses</span></b-nav-item>
+            <b-nav-item href="/courses" ><span class="text-light"><b-icon-trophy-fill></b-icon-trophy-fill> Courses</span></b-nav-item>
 
             <b-nav-item href="/scene" ><span class="text-light"><b-icon-megaphone></b-icon-megaphone> Scène</span></b-nav-item>
           </b-navbar-nav>
@@ -178,7 +178,7 @@
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-list-check></b-icon-list-check> Activités</template>
               <b-dropdown-item href="/scene"> Scène</b-dropdown-item>
-              <b-dropdown-item href="/courses">Compétitions</b-dropdown-item>
+              <b-dropdown-item href="/courses">Courses</b-dropdown-item>
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
