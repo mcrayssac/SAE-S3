@@ -4,6 +4,12 @@
       <app-loading/>
     </section>
     <section v-else class="Main">
+      <section class="Alert">
+        <b-alert :variant="alertVariant" :show="alertCountDown" @dismissed="alertCountDown=0" @dismiss-count-down="countDownChanged">
+          <h4 :class="'text-'+alertVariant+' mt-3 mb-4'">{{alertMessage}}</h4>
+          <b-progress :variant="alertVariant" :max="alertMax" :value="alertCountDown" height="4px"></b-progress>
+        </b-alert>
+      </section>
       <section class="Title">
         <b-row align-h="center">
           <b-col class="mt-5 ms-5 me-5" cols="1">
@@ -291,7 +297,8 @@ export default {
         select: this.handleSelect,
         eventClick: this.handleEventClick,
         events: this.$store.getters.getInitiationsEvents,
-        nowIndicator: true
+        nowIndicator: true,
+        height: "740px",
       },
       optionsPublic: {
         plugins: [TimeGridPlugin, InteractionPlugin],
@@ -319,17 +326,25 @@ export default {
         editable: false,
         eventClick: this.handleEventClickPublic,
         events: this.$store.getters.getInitiationsEvents,
-        nowIndicator: true
+        nowIndicator: true,
+        height: "740px",
       },
       currentEvent: {
         title: "",
         nbPlaces: null
       },
       currentTime: null,
-      currentPlacesLeft : null
+      currentPlacesLeft : null,
+      alertMax: 20,
+      alertCountDown: 0,
+      alertMessage: null,
+      alertVariant: null
     }
   },
   methods: {
+    countDownChanged(dismissCountDown) {
+      this.alertCountDown = dismissCountDown
+    },
     setAffluence(){
       let id = -1
       switch (this.affluence) {
@@ -357,7 +372,12 @@ export default {
               console.warn("error", message);
             });
       }
-      else alert("Connectez-vous pour poster un commentaire !");
+      else {
+        this.alertMessage = `Connectez-vous pour poster un commentaire !`;
+        this.alertVariant = "warning";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
+      }
     },
     ajouterCommentaire() {
       let self = this;
@@ -374,7 +394,10 @@ export default {
             });
       }
       else{
-        alert("note pas comprise entre 0 et 10");
+        this.alertMessage = `Mauvaise information saisie (la note doit être comprise entre 0 et 10)`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     },
     hideModal(){
@@ -393,7 +416,10 @@ export default {
         this.$refs['modal-presta'].show()
       }
       else{
-        alert("Impossible de créer un évènement à cet endroit là")
+        this.alertMessage = `Impossible de créer un évènement à cet endroit là`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     },
     handleEventClick(clickInfo) {
@@ -410,7 +436,12 @@ export default {
           clickInfo.event.remove()
           this.optionsPresta.events = this.$store.getters.getInitiationsEvents
         }
-        else alert('Vous ne pouvez pas supprimer cet évènement')
+        else {
+          this.alertMessage = `Vous ne pouvez pas supprimer cet évènement`;
+          this.alertVariant = "danger";
+          this.alertCountDown = this.alertMax
+          window.scrollTo(0, 0);
+        }
       }
     },
     handleEventClickPublic(clickInfo) {
@@ -438,10 +469,16 @@ export default {
         })
         this.currentPlacesLeft = null
         this.$refs['modal'].hide()
-        alert("Inscription réussie")
+        this.alertMessage = `Inscription réussie à l'évènement ${this.currentEvent.title}`;
+        this.alertVariant = "success";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
       else{
-        alert("Mauvaises informations saisies")
+        this.alertMessage = `Inscription annulée, mauvaises informations saisies`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     },
     async onSubmit(event) {
@@ -457,10 +494,16 @@ export default {
         })
         this.optionsPresta.events = this.$store.getters.getInitiationsEvents
         this.$refs['modal-presta'].hide()
-        alert("Evènement ajouté, en attente de validation des organisateurs")
+        this.alertMessage = `Evènement ${this.currentEvent.title} ajouté, en attente de validation des organisateurs`;
+        this.alertVariant = "success";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
       else{
-        alert("Mauvaises informations saisies")
+        this.alertMessage = `Ajout de l'évènement annulé, mauvaises informations saisies`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     }
   },

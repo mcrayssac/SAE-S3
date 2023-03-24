@@ -1,6 +1,11 @@
 <template>
   <b-container :style="layoutHeight" fluid>
-
+    <section class="Alert">
+      <b-alert :variant="alertVariant" :show="alertCountDown" @dismissed="alertCountDown=0" @dismiss-count-down="countDownChanged">
+        <h4 :class="'text-'+alertVariant+' mt-3 mb-4'">{{alertMessage}}</h4>
+        <b-progress :variant="alertVariant" :max="alertMax" :value="alertCountDown" height="4px"></b-progress>
+      </b-alert>
+    </section>
     <span v-if="this.userInfos.admin == 'prestataire'">
       <Planning :calendarOptions=optionsPresta> </Planning>
 
@@ -39,13 +44,6 @@
     </span>
 
     <span v-else-if="this.userInfos.admin == 'organisateur'">
-      <section class="Alert">
-      <b-alert :variant="alertVariant" :show="alertCountDown" @dismissed="alertCountDown=0" @dismiss-count-down="countDownChanged">
-        <h4 :class="'text-'+alertVariant+' mt-3 mb-4'">{{alertMessage}}</h4>
-        <b-progress :variant="alertVariant" :max="alertMax" :value="alertCountDown" height="4px"></b-progress>
-      </b-alert>
-    </section>
-
       <Planning :calendarOptions=optionsOrga> </Planning>
 
       <b-modal ref="modal-orga" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
@@ -280,23 +278,35 @@ export default {
         else if(this.userInfos.admin == "organisateur") this.$refs['modal-orga'].show()
       }
       else{
-        alert("Impossible de créer un évènement à cet endroit là")
+        this.alertMessage = `Impossible de créer un évènement à cet endroit là`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
       }
     },
     handleEventClick(clickInfo) {
       console.log(clickInfo)
+      let admin = this.userInfos.admin == "organisateur" ? true : false
       if (confirm(`Voulez-vous supprimer l'initiation '${clickInfo.event.title}' ?`)) {
         let length = this.$store.getters.getSceneEvents.length
         this.$store.commit("removeEvent", {
           id: parseInt(clickInfo.event.id),
           start: clickInfo.event.start,
           id_prestataire: this.userInfos.id,
-          type: 'demos'
+          type: 'demos',
+          admin: admin
         })
         if(length != this.$store.getters.getSceneEvents.length) {
-          this.optionsPresta.events = this.$store.getters.getSceneEvents
+          this.alertMessage = `Vous avez supprimé la démonstration "${clickInfo.event.title}"`;
+          this.alertVariant = "success";
+          this.alertCountDown = this.alertMax
+          if(this.userInfos.admin == "organisateur") this.optionsOrga.events = this.$store.getters.getSceneEvents
+          else if (this.userInfos.admin == "prestataire") this.optionsPresta.events = this.$store.getters.getSceneEvents
         }
-        else alert('Vous ne pouvez pas supprimer cet évènement')
+        else{
+          this.alertMessage = `Vous ne pouvez pas supprimer la démonstration "${clickInfo.event.title}"`;
+          this.alertVariant = "danger";
+          this.alertCountDown = this.alertMax
+        }
       }
     },
     handleEventClickPublic(clickInfo) {
@@ -331,10 +341,14 @@ export default {
         })
         this.currentPlacesLeft = null
         this.$refs['modal'].hide()
-        alert("Inscription réussie")
+        this.alertMessage = `Inscription réussie pour l'activité "${this.currentEvent.title}"`;
+        this.alertVariant = "success";
+        this.alertCountDown = this.alertMax
       }
       else{
-        alert("Mauvaises informations saisies")
+        this.alertMessage = `Mauvaises informations saisies`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
       }
     },
     async onSubmit(event) {
@@ -351,7 +365,9 @@ export default {
           })
           this.optionsPresta.events = this.$store.getters.getSceneEvents
           this.$refs['modal-presta'].hide()
-          alert("Evènement ajouté, en attente de validation des organisateurs")
+          this.alertMessage = `Evènement "${this.currentEvent.title}" ajouté, en attente de validation des organisateurs`;
+          this.alertVariant = "success";
+          this.alertCountDown = this.alertMax
         }
         else if(this.userInfos.admin == "organisateur"){
           await this.$store.commit("addOrgaEvent", {
@@ -368,7 +384,9 @@ export default {
         }
       }
       else{
-        alert("Mauvaises informations saisies")
+        this.alertMessage = `Mauvaises informations saisies`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
       }
     }
   },
