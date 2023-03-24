@@ -33,3 +33,5 @@ exports.addNote = "insert into NOTE(libelle_note, id_prestataire, id_public)\
                 ";
 
 exports.aPosteCommentaire = "select * from commentaire where id_prestataire = $1 and id_public = $2;";
+
+exports.getAllPrestataires = "SELECT nom_prestataire, id_prestataire, etat_inscription FROM PRESTATAIRE WHERE etat_inscription= true"

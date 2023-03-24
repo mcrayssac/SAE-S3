@@ -18,3 +18,7 @@ exports.deleteReservations = "DELETE FROM RESERVATION WHERE date_periode=$1"
 exports.deleteDemo = "DELETE FROM INITIATION WHERE id_initiation=$1"
 
 exports.addDemo = "INSERT INTO INITIATION VALUES(default, $5, 1, $1, $2, $3, 4, $4);"
+
+exports.updateDemo = "UPDATE INITIATION SET date_periode=$2, fin_periode=$3 WHERE id_initiation=$1"
+
+exports.getMaxIdDemos = "SELECT MAX(id_initiation) AS max FROM INITIATION;"

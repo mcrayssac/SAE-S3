@@ -34,6 +34,9 @@ exports.getDemandesActivites = async (req, res) => {
 
 exports.postDemandesActivites = async (req, res) => {
     console.log(chalk.green.inverse('requete pour accept/decline une activité'));
+    console.log("pgreg")
+    console.log(req.params.choice)
+    console.log(req.body.id, req.body.id_init)
     await services.postDemandesActivites(req.params.choice,  req.body.id, req.body.id_init, (error, results) => {
         if(error){
             return res.status(400).send({success:0, data:error})

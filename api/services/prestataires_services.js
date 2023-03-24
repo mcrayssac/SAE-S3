@@ -409,6 +409,16 @@ const aPosteCommentaire = async (idPresta, idPublic, callback) => {
     });
 }
 
+const getAllPrestataires = (callback) => {
+    pool.query(queries.getAllPrestataires, (error, results) => {
+        if (error) {
+            console.log("error getAllPrestataires");
+            return callback(error);
+        }
+        return callback(null, results.rows);
+    })
+}
+
 module.exports = {
     getOrganisateur,
     getCagnotte : getCagnotte,
@@ -424,5 +434,6 @@ module.exports = {
     addCommentaire,
     getClubCommentaire,
     aPosteCommentaire,
-    getAllPrestataire
+    getAllPrestataire,
+    getAllPrestataires
 }

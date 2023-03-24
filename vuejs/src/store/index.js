@@ -133,6 +133,34 @@ export default new Vuex.Store({
           }).catch(function (error){
         console.log("addEvent error : ",error)
       });
+    },
+    updateEvent: (state, event) => {
+      console.log(event)
+      let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+      let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
+      axios.put(`http://localhost:3000/demos/`+ event.id +`?dateDebut=` + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin))
+          .then(function (response){
+            console.log('updateEvent', response.data.data);
+            return "success"
+          }).catch(function (error){
+        console.log("updateEvent error : ",error)
+      });
+    },
+    addOrgaEvent: (state, event) => {
+      let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+      let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
+      axios.post(`http://localhost:3000/demos/orga?dateDebut=` + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin) + '&nbPlaces=' + event.nbPlaces + '&idPresta=' + event.id_prestataire + '&title=' + event.title)
+          .then(function (response){
+            console.log('addOrgaEvent', response);
+            state.eventsScene.push({
+              title: event.title, id: response.data.data,
+              start: new Date(dateDebut).toJSON(), end: new Date(dateFin).toJSON(),
+              id_prestataire: event.id_prestataire, nb_places: event.nbPlaces
+            })
+            return "success"
+          }).catch(function (error){
+        console.log("addEvent error : ",error)
+      });
     }
   },
   actions: {

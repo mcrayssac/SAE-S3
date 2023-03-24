@@ -1,5 +1,6 @@
 const pool = require("../database/db");
 const queries = require("../queries/demos_queries");
+const demandesQueries = require("../queries/demandes_queries")
 
 exports.getAllDemos = async (callback) => {
     await pool.query(queries.getAllDemos, ((error, results)=>{
@@ -75,4 +76,34 @@ exports.addDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
             else return callback(null, "success addDemo")
         }))
     } catch (e) {console.log("err addDemo : ", e)}
+}
+
+exports.updateDemo = (id, dateDebut, dateFin, callback) => {
+    try {
+        pool.query(queries.updateDemo, [id, dateDebut, dateFin], ((error, results) => {
+            if (error)
+                return callback(error)
+            else return callback(null, "success updateDemo")
+        }))
+    } catch (e) {console.log("err updateDemo : ", e)}
+}
+
+exports.addOrgaDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
+    try {
+        pool.query(queries.addDemo, [dateDebut, dateFin, nbPlaces, idPresta, title], ((error, results) => {
+            if (error)
+                return callback(error)
+            else {
+                pool.query(queries.getMaxIdDemos, ((err, maxId) => {
+                    if (error) return callback(err)
+                    else{
+                        pool.query(demandesQueries.postDemandesActivitesTrue, [idPresta, maxId.rows[0].max], ((err, result) => {
+                            if (error) return callback(err)
+                            else return callback(null, maxId.rows[0].max)
+                        }))
+                    }
+                }))
+            }
+        }))
+    }catch(e){ console.log("err addOrgaDemo : ", e)}
 }

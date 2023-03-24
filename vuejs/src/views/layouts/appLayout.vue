@@ -31,7 +31,7 @@
 
             <b-nav-item href="/" ><span class="text-light"><b-icon-trophy-fill></b-icon-trophy-fill> Courses</span></b-nav-item>
 
-            <b-nav-item href="/" ><span class="text-light"><b-icon-megaphone></b-icon-megaphone> Scène</span></b-nav-item>
+            <b-nav-item href="/scene" ><span class="text-light"><b-icon-megaphone></b-icon-megaphone> Scène</span></b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">
