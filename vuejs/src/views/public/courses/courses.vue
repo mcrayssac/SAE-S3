@@ -59,6 +59,14 @@
               </b-col>
             </b-row>
           </b-col>
+          <b-col cols="auto">
+            <span v-if="userInfos.admin == 'organisateur'">
+            <b-button class="mx-1" @click="$refs['modal-edit-course'].show()"
+                      data-aos="flip-left" variant="outline-success"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-duration="400">Ajouter</b-button>
+            </span>
+          </b-col>
         </b-row>
       </section>
 
@@ -124,7 +132,7 @@
 
               </b-row>
               <b-modal ref="modal-edit-course" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
-                       title="Ajouter une nouvelle initiation">
+                       :title="currentEvent.id_course != -1 ? `Modifier la course ${currentEvent.title}` : 'Ajouter une nouvelle course'">
                 <b-form>
                   <b-form-group class="mx-5 my-3" label="Nom de la course : " label-class="label"
                                 data-aos="fade-left"
@@ -158,7 +166,7 @@
                                 data-aos="fade-left"
                                 data-aos-anchor-placement="top-bottom"
                                 data-aos-duration="800">
-                    <b-form-select v-model="currentEvent.libelle_sport">
+                    <b-form-select v-model="currentEvent.libelle_sport" required>
                       <b-form-select-option v-for="(sport, index) in sports" :key="index" :value="sport.libelle_sport"> {{sport.libelle_sport}} </b-form-select-option>
                     </b-form-select>
                   </b-form-group>
@@ -167,21 +175,25 @@
                                 data-aos="fade-left"
                                 data-aos-anchor-placement="top-bottom"
                                 data-aos-duration="800">
-                    <b-form-select v-model="currentEvent.libelle_lieu" :options="['Forêt', 'Lac', 'Routes']" style="width: 100%; margin-top: 5px"></b-form-select>
+                    <b-form-select v-model="currentEvent.libelle_lieu" :options="['Forêt', 'Lac', 'Routes']" style="width: 100%; margin-top: 5px" required></b-form-select >
                   </b-form-group>
 
                 </b-form>
 
                 <b-row class="m-5" align-h="center" align-v="center">
                   <b-col cols="auto">
-                    <b-button class="mx-2 button-submit" @click="modifyCourse"
+                    <b-button v-if="currentEvent.id_course != -1" class="mx-2 button-submit" @click="modifyCourse"
                               data-aos="flip-left" variant="outline-success"
                               data-aos-anchor-placement="top-bottom"
                               data-aos-duration="400">Modifier</b-button>
+                    <b-button v-else class="mx-2 button-submit" @click="addCourse"
+                              data-aos="flip-left" variant="outline-success"
+                              data-aos-anchor-placement="top-bottom"
+                              data-aos-duration="400">Ajouter</b-button>
                     <b-button class="mx-2 button-decline"
                               data-aos="flip-right" variant="outline-secondary"
                               data-aos-anchor-placement="top-bottom"
-                              data-aos-delay="400" @click="$refs['modal-edit-course'].hide()"
+                              data-aos-delay="400" @click="$refs['modal-edit-course'].hide(); resetCurrentCourse()"
                               data-aos-duration="400">Fermer</b-button>
                   </b-col>
                 </b-row>
@@ -375,11 +387,11 @@ export default {
     modifyCourse(){
       try {
         let response = axios.put(`http://localhost:3000/competitions/${this.currentEvent.id_course}?libelle=${this.currentEvent.title}&km=${this.currentEvent.nb_km}&places=${this.currentEvent.nb_places}&prix=${this.currentEvent.prix}&libelle_sport=${this.currentEvent.libelle_sport}&libelle_lieu=${this.currentEvent.libelle_lieu}`)
-        this.getCompetitions()
         if (this.alertCountDown > 0) this.alertCountDown = 0;
         setTimeout(() => {
           this.showAlert(`Vous avez modifié la course "${this.currentEvent.title}"`, "success");
           window.scrollTo(0,0);
+          this.resetCurrentCourse()
         }, "200")
         this.$refs['modal-edit-course'].hide()
       } catch (e) {
@@ -387,6 +399,36 @@ export default {
         if (this.alertCountDown > 0) this.alertCountDown = 0;
         setTimeout(() => {
           this.showAlert(`Erreur pendant la modification de la course "${this.currentEvent.title}"`, "danger");
+          window.scrollTo(0,0);
+        }, "200")
+        this.$refs['modal-edit-course'].hide()
+      }
+    },
+    resetCurrentCourse(){
+      this.currentEvent.id_course = -1
+      this.currentEvent.title= ""
+      this.currentEvent.nb_places= 0
+      this.currentEvent.nb_km= 0
+      this.currentEvent.prix= 0
+      this.currentEvent.libelle_sport= ""
+      this.currentEvent.libelle_lieu= ""
+    },
+    addCourse(){
+      try {
+        let response = axios.post(`http://localhost:3000/competitions?libelle=${this.currentEvent.title}&km=${this.currentEvent.nb_km}&places=${this.currentEvent.nb_places}&prix=${this.currentEvent.prix}&libelle_sport=${this.currentEvent.libelle_sport}&libelle_lieu=${this.currentEvent.libelle_lieu}`)
+        if (this.alertCountDown > 0) this.alertCountDown = 0;
+        this.getCompetitions()
+        setTimeout(() => {
+          this.showAlert(`Vous avez ajouté la course "${this.currentEvent.title}"`, "success");
+          window.scrollTo(0,0);
+          this.resetCurrentCourse()
+        }, "1000")
+        this.$refs['modal-edit-course'].hide()
+      } catch (e) {
+        console.warn("error modifyCourse", e)
+        if (this.alertCountDown > 0) this.alertCountDown = 0;
+        setTimeout(() => {
+          this.showAlert(`Erreur pendant l'ajout de la course`, "danger");
           window.scrollTo(0,0);
         }, "200")
         this.$refs['modal-edit-course'].hide()

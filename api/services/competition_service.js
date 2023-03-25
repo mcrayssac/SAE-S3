@@ -120,13 +120,24 @@ exports.updateCompetition = (id, nom, km, places, prix, sport, lieu, callback) =
                 if (error)
                     return callback(error)
                 else {
-                    pool.query(signupQueries.updateCompetition, [id, nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu] ,((error, resultats) => {
-                        if (error)
-                            return callback(error)
-                        else {
-                            return callback(null, "update successful")
-                        }
-                    }))
+                    if(id == ""){
+                        pool.query(signupQueries.addCompetition, [nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu], ((error, resultats) => {
+                            if (error)
+                                return callback(error)
+                            else {
+                                return callback(null, "add successful")
+                            }
+                        }))
+                    }
+                    else {
+                        pool.query(signupQueries.updateCompetition, [id, nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu], ((error, resultats) => {
+                            if (error)
+                                return callback(error)
+                            else {
+                                return callback(null, "update successful")
+                            }
+                        }))
+                    }
                 }
             }))
         }

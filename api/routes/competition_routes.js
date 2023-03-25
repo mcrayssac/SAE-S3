@@ -29,7 +29,7 @@ router.delete("/:id", controller.deleteCompetition)
 
 router.put("/:id", controller.updateCompetition)
 
-// router.post("/", controller.addCompetition)
+router.post("/", controller.addCompetition)
 
 router.get("/sports", controller.getSports)
 
