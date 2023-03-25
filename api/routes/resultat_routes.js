@@ -32,4 +32,8 @@ router.get("/:nomCompetition", controller.getResultats);
  *              description: Bad request
  */
 
+router.get("/:nomCompetition/participants", controller.getParticipants)
+
+router.put("/:nomCompetition", controller.addClassement)
+
 module.exports = router;

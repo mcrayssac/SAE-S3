@@ -6,3 +6,6 @@ exports.getResultats = "select position_classement as \"Classement\", pu.prenom_
     "where libelle_course like $1\n" +
     "order by \"Classement\", \"Nom\", \"Prénom\";";
 
+exports.getParticipants = "SELECT p.id_public, prenom_public, nom_public FROM public INNER JOIN Participe p ON p.id_public = public.id_public WHERE p.id_course = $1 AND p.position_classement = 0"
+
+exports.addClassement = "UPDATE participe SET position_classement=$3 WHERE id_public=$2 AND id_course=$1"

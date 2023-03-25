@@ -28,3 +28,5 @@ exports.getIdLieu = "SELECT id_lieu FROM LIEU WHERE libelle_lieu = $1"
 exports.updateCompetition = "UPDATE courses SET libelle_course=$2, nb_km=$3, nb_place=$4, prix=$5, id_sport=$6, id_lieu=$7 WHERE id_course=$1"
 
 exports.addCompetition = "INSERT INTO courses VALUES (default, $1, $2, $3, $4,'', '', '2023-08-15 13:00:00' ,$5, $6)"
+
+exports.getLoweredCompetition = "SELECT id_course, libelle_course FROM (SELECT id_course, libelle_course, LOWER(REPLACE(libelle_course, ' ', '')) AS lower FROM courses) AS data WHERE lower = $1"
