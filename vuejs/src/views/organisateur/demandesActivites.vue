@@ -36,7 +36,7 @@
                   <section class="Nom activité my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Nom de l'initiation :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
@@ -49,7 +49,7 @@
                   <section class="Nb places my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Nombre de places :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
@@ -62,12 +62,12 @@
                   <section class="date début my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Date de début :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-text">{{item.date_periode}}</span>
+                        <span class="etat-text">{{new Date(item.date_periode).toLocaleDateString()}} {{new Date(item.date_periode).toLocaleTimeString('fr-FR')}}</span>
                       </b-col>
                     </b-row>
                   </section>
@@ -75,12 +75,12 @@
                   <section class="date fin my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Date de fin :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-text">{{item.fin_periode}}</span>
+                        <span class="etat-text">{{new Date(item.fin_periode).toLocaleDateString()}} {{new Date(item.fin_periode).toLocaleTimeString('fr-FR')}}</span>
                       </b-col>
                     </b-row>
                   </section>
@@ -88,7 +88,7 @@
                   <section class="Nom lieu my-3">
                     <b-row align-v="center">
                       <b-col cols="auto">
-                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Id de l'entreprise :</span>
+                        <span class="etat-label"><b-icon icon="arrow-return-right" scale="0.8"></b-icon> Nom du lieu :</span>
                       </b-col>
                     </b-row>
                     <b-row align-h="center" align-v="center">
