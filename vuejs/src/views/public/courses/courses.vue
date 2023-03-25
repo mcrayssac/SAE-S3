@@ -116,6 +116,9 @@
                             <b-button class="button button-decline mx-1"
                                       @click="deleteCourse(items)">
                               Supprimer la course </b-button>
+                            <b-button class="button button-decline mx-1"
+                                      @click="$router.replace({path: `/resultats/${items.title.toLowerCase().replaceAll(' ', '')}`})">
+                              Classement </b-button>
                           </span>
                           <span v-else>
                             <b-button class="button"

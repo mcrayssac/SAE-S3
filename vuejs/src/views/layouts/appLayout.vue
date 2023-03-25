@@ -183,12 +183,7 @@
 
             <b-nav-item-dropdown class="nav-item" toggle-class="text-white">
               <template #button-content><b-icon-trophy-fill></b-icon-trophy-fill> Résultats</template>
-              <b-dropdown-item href="/resultats/courseapied">Course à pied</b-dropdown-item>
-              <b-dropdown-item href="/resultats/vtt">VTT</b-dropdown-item>
-              <b-dropdown-item href="/resultats/natation">Natation</b-dropdown-item>
-              <b-dropdown-item href="/resultats/petitecourseapied">Petite course à pied</b-dropdown-item>
-              <b-dropdown-item href="/resultats/moyennecourseapied">Moyenne course à pied</b-dropdown-item>
-              <b-dropdown-item href="/resultats/grandecourseapied">Grande course à pied</b-dropdown-item>
+              <b-dropdown-item v-for="(course, index) in courses" :key="index" :href=goTo(course)> {{course.title}} </b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
 
@@ -302,12 +297,16 @@ export default {
     backgroundNavbarColor: {"title" : 'background-color :', "body" : '#6ec8cb'},
     data: null,
     Email: null,
-    Password: null
+    Password: null,
+    courses: []
   }),
   computed: {
     ...mapState(['status', "user", "userInfos"]),
   },
   methods:{
+    goTo(course){
+      return `/resultats/${course.title.toLowerCase().replaceAll(' ', '')}`
+    },
     login: function (){
       let self = this;
       this.$store.dispatch('login', {
@@ -364,6 +363,16 @@ export default {
     },
     getUserAdmin(){
       return this.userInfos.admin === null ? '' : this.userInfos.admin;
+    },
+    getCourses(){
+      axios.get(`http://localhost:3000/competitions`)
+          .then(response => {
+            this.courses = response.data.data.getCards
+          })
+          .catch(e => {
+            console.log('err getCourses : ', e)
+            this.courses = []
+          })
     }
   },
   async created() {
@@ -376,6 +385,7 @@ export default {
           console.warn("error", message);
         });
     await this.getUserInfos();
+    this.getCourses()
   }
 }
 </script>
