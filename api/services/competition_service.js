@@ -1,5 +1,6 @@
 const pool = require("../database/db");
 const signupQueries = require("../queries/competition_queries");
+const {callback} = require("pg/lib/native/query");
 
 exports.getCompetition = async (callback) => {
     let filtres = []
@@ -101,11 +102,43 @@ exports.deleteCompetition = async (idCompet, callback) => {
                         if (error)
                             return callback(error)
                         else {
-
+                            return callback(null, "delete successful")
                         }
                     }))
                 }
             }))
+        }
+    }))
+}
+
+exports.updateCompetition = (id, nom, km, places, prix, sport, lieu, callback) => {
+    pool.query(signupQueries.getIdSport, [sport] ,((error, result) => {
+        if (error)
+            return callback(error)
+        else {
+            pool.query(signupQueries.getIdLieu, [lieu], ((error, results) => {
+                if (error)
+                    return callback(error)
+                else {
+                    pool.query(signupQueries.updateCompetition, [id, nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu] ,((error, resultats) => {
+                        if (error)
+                            return callback(error)
+                        else {
+                            return callback(null, "update successful")
+                        }
+                    }))
+                }
+            }))
+        }
+    }))
+}
+
+exports.getSports = (callback) => {
+    pool.query(signupQueries.getSports, ((error, results) => {
+        if (error)
+            return callback(error)
+        else {
+            return callback(null, results.rows)
         }
     }))
 }

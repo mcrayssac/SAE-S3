@@ -27,8 +27,10 @@ router.get("/", controller.getCompetition);
 
 router.delete("/:id", controller.deleteCompetition)
 
-// router.put("/:id", controller.updateCompetition)
-//
+router.put("/:id", controller.updateCompetition)
+
 // router.post("/", controller.addCompetition)
+
+router.get("/sports", controller.getSports)
 
 module.exports = router;

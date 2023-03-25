@@ -18,3 +18,11 @@ exports.deleteCompetition = "DELETE FROM courses WHERE id_course = $1"
 exports.deleteParticipe = "DELETE FROM participe WHERE id_course = $1"
 
 exports.deletePour = "DELETE FROM pour WHERE id_course = $1"
+
+exports.getSports = "SELECT * FROM SPORT;"
+
+exports.getIdSport = "SELECT id_sport FROM SPORT WHERE libelle_sport = $1"
+
+exports.getIdLieu = "SELECT id_lieu FROM LIEU WHERE libelle_lieu = $1"
+
+exports.updateCompetition = "UPDATE courses SET libelle_course=$2, nb_km=$3, nb_place=$4, prix=$5, id_sport=$6, id_lieu=$7 WHERE id_course=$1"
