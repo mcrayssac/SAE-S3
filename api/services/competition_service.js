@@ -1,6 +1,8 @@
 const pool = require("../database/db");
 const signupQueries = require("../queries/competition_queries");
 const {callback} = require("pg/lib/native/query");
+const validator = require("validator")
+const {popArray} = require("../security/methods")
 
 exports.getCompetition = async (callback) => {
     let filtres = []
@@ -89,7 +91,8 @@ exports.getCompetition = async (callback) => {
     //return callback(null, {title: "Compétitions", filtres: results.rows})
 }
 
-exports.deleteCompetition = async (idCompet, callback) => {
+exports.deleteCompetition = async (_idCompet, callback) => {
+    let idCompet = popArray(_idCompet)
     pool.query(signupQueries.deleteParticipe, [idCompet], ((error, results) => {
         if (error)
             return callback(error)
@@ -111,7 +114,9 @@ exports.deleteCompetition = async (idCompet, callback) => {
     }))
 }
 
-exports.updateCompetition = (id, nom, km, places, prix, sport, lieu, callback) => {
+exports.updateCompetition = (_id, _nom, _km, _places, _prix, _sport, _lieu, callback) => {
+    let [id, nom, km, places, prix, sport, lieu] = popArray([_id, _nom, _km, _places, _prix, _sport, _lieu])
+    console.log(id, nom, km, places, prix, sport, lieu)
     pool.query(signupQueries.getIdSport, [sport] ,((error, result) => {
         if (error)
             return callback(error)
@@ -120,24 +125,27 @@ exports.updateCompetition = (id, nom, km, places, prix, sport, lieu, callback) =
                 if (error)
                     return callback(error)
                 else {
-                    if(id == ""){
-                        pool.query(signupQueries.addCompetition, [nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu], ((error, resultats) => {
-                            if (error)
-                                return callback(error)
-                            else {
-                                return callback(null, "add successful")
-                            }
-                        }))
+                    if(result.rowCount != 0 && results.rowCount != 0 && validator.isInt(km) && validator.isInt(places) && validator.isDecimal(prix) && validator.isAscii(nom)) {
+                        if(id == ""){
+                            pool.query(signupQueries.addCompetition, [nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu], ((error, resultats) => {
+                                if (error)
+                                    return callback(error)
+                                else {
+                                    return callback(null, "add successful")
+                                }
+                            }))
+                        }
+                        else {
+                            pool.query(signupQueries.updateCompetition, [id, nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu], ((error, resultats) => {
+                                if (error)
+                                    return callback(error)
+                                else {
+                                    return callback(null, "update successful")
+                                }
+                            }))
+                        }
                     }
-                    else {
-                        pool.query(signupQueries.updateCompetition, [id, nom, km, places, prix, result.rows[0].id_sport, results.rows[0].id_lieu], ((error, resultats) => {
-                            if (error)
-                                return callback(error)
-                            else {
-                                return callback(null, "update successful")
-                            }
-                        }))
-                    }
+                    else return callback("Mauvaises entrées")
                 }
             }))
         }

@@ -3,6 +3,8 @@
  */
 const pool = require("../database/db");
 const queries = require("../queries/authentification_queries");
+const Ajv = require("ajv")
+const ajv = new Ajv()
 
 /**
  * Functions
@@ -70,6 +72,26 @@ exports.getUser = async (email, pwd, callback) => {
 exports.create = async (form, admin, callback) => {
     if (form){
         if (admin === "prestataire"){
+            const schema = {
+                type: "object",
+                properties: {
+                    name: {type: "string"},
+                    email: {type: "string"},
+                    number: {type: "string", minLength: 10, maxLength: 10},
+                    site: {type: "string"},
+                    password: {type: "string",minLength: 5},
+                    password2: {type: "string", minLength: 5},
+                    image: {type: "string"},
+                    type: {type: "integer"},
+                    caracteristiques: {type: "array"}
+                },
+                additionalProperties: false,
+                required: ["email", "name", "number", "site", "password", "password2", "image", "type"]
+            }
+            const validate = ajv.compile(schema)
+            if(!validate(form, schema)) {
+                return callback("Bad data");
+            }
             console.log("Requete", form.name, form.email, form.number, form.site, form.password, form.image, form.type)
             await pool.query(queries.createPrestataire, [form.name, form.email, form.number, form.site, form.password, form.image, form.type], async (error, results) => {
                 if (error) {
@@ -109,6 +131,26 @@ exports.create = async (form, admin, callback) => {
                 }
             });
         } else {
+            const schema = {
+                type: "object",
+                properties: {
+                    firstname: {type: "string"},
+                    name: {type: "string"},
+                    email: {type: "string"},
+                    password: {type: "string",minLength: 5},
+                    password2: {type: "string", minLength: 5},
+                    language: {type: "integer"},
+                    year: {type: "integer"},
+                    gender: {type: "integer"},
+                    country: {type: "integer"}
+                },
+                additionalProperties: false,
+                required: ["firstname", "name", "email", "password", "password2", "language", "year", "gender", "country"]
+            }
+            const validate = ajv.compile(schema)
+            if(!validate(form, schema)) {
+                return callback("Bad data");
+            }
             await pool.query(queries.createPublic, [form.firstname, form.name, form.email, form.password, form.language, form.year, form.gender, form.country], async (error, results) => {
                 if (error) {
                     console.log("error");

@@ -1,7 +1,9 @@
 const pool = require("../database/db");
 const signupQueries = require("../queries/stats_queries");
+const {popArray} = require("../security/methods")
 
-exports.getClicsPrestataire = async (id, callback) => {
+exports.getClicsPrestataire = async (_id, callback) => {
+    let id = popArray(_id)
     if (id){
         console.log(id);
         await pool.query(signupQueries.getClicsPrestataire, [id], async (error, results) => {
@@ -29,7 +31,8 @@ exports.getClicsPrestataire = async (id, callback) => {
     }
 }
 
-exports.putClicsPrestataire = async (id, callback) => {
+exports.putClicsPrestataire = async (_id, callback) => {
+    let id = popArray(_id)
     if (id) {
         console.log(id);
         await pool.query(signupQueries.putClicsPrestataire, [parseInt(id)], async (error, results) => {

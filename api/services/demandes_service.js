@@ -1,5 +1,6 @@
 const pool = require("../database/db");
 const signupQueries = require("../queries/demandes_queries");
+const {popArray} = require("../security/methods")
 
 exports.getDemandesPrestataires = async (callback) => {
     await pool.query(signupQueries.getDemandesPrestataires, async (error, results) => {
@@ -16,8 +17,8 @@ exports.getDemandesPrestataires = async (callback) => {
     });
 }
 
-exports.postDemandesPrestataires = async (choice, id, callback) => {
-    console.log(choice, id);
+exports.postDemandesPrestataires = async (_choice, _id, callback) => {
+    let [choice, id] = popArray([_choice, _id])
     if (choice === "accept" && id){
         await pool.query(signupQueries.postDemandesPrestatairesTrue, [id], async (error, results) => {
             if (error) {
@@ -59,8 +60,8 @@ exports.getDemandesActivites = async (callback) => {
     });
 }
 
-exports.postDemandesActivites = async (choice, id, id_init, callback) => {
-    console.log(choice, id);
+exports.postDemandesActivites = async (_choice, _id, _id_init, callback) => {
+    let [choice, id, id_init] = popArray([_choice, _id, _id_init])
     if (choice === "accept" && id){
         await pool.query(signupQueries.postDemandesActivitesTrue, [id, id_init], async (error, results) => {
             if (error) {

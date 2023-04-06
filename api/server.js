@@ -10,6 +10,12 @@ const express = require("express");
 const app = express();
 
 /**
+ * Import and define helmet, used to add security in the headers
+ */
+const helmet = require("helmet")
+app.use(helmet())
+
+/**
  * Import a terminal string styling
  */
 const chalk = require("chalk");
@@ -41,8 +47,8 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  * Import and define Node.js body parsing middleware
  */
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: "50kb"}));
+app.use(bodyParser.urlencoded({ extended: false, limit: "20kb" }));
 
 /**
  * Environment and Port configuration
@@ -65,6 +71,16 @@ const corsOptions ={
     optionSuccessStatus:200
 }
 app.use(cors(corsOptions));
+
+/**
+ * Import and define limiter for requests
+ */
+const limit = require("express-rate-limit")
+const limiter = limit({
+    windowMs: 15*60*1000,
+    max: 100
+})
+app.use(limiter)
 
 /**
  * Import and define all routes

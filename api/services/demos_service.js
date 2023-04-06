@@ -1,6 +1,7 @@
 const pool = require("../database/db");
 const queries = require("../queries/demos_queries");
 const demandesQueries = require("../queries/demandes_queries")
+const {popArray} = require("../security/methods")
 
 exports.getAllDemos = async (callback) => {
     await pool.query(queries.getAllDemos, ((error, results)=>{
@@ -12,7 +13,8 @@ exports.getAllDemos = async (callback) => {
     }))
 }
 
-exports.getNbPlacesLeft = async (id, callback) => {
+exports.getNbPlacesLeft = async (_id, callback) => {
+    let id = popArray(_id)
     await pool.query(queries.getNbPlacesLeft, [id], ( (error, results)=>{
         if (error)
             return callback(error)
@@ -28,8 +30,9 @@ exports.getNbPlacesLeft = async (id, callback) => {
     }))
 }
 
-exports.addReservation = (idDemo, nbPlacesReserv, dateReserv, idPublic, callback) => {
+exports.addReservation = (_idDemo, _nbPlacesReserv, _dateReserv, _idPublic, callback) => {
     try {
+        let [idDemo, nbPlacesReserv, dateReserv, idPublic] = popArray([_idDemo, _nbPlacesReserv, _dateReserv, _idPublic])
         pool.query(queries.addReservation, [dateReserv, idPublic], ((error, results) => {
             if (error)
                 return callback(error)
@@ -48,8 +51,9 @@ exports.addReservation = (idDemo, nbPlacesReserv, dateReserv, idPublic, callback
     }catch(e){ console.log("err addReservation : ", e)}
 }
 
-exports.deleteDemo = (idDemo, date, callback) => {
+exports.deleteDemo = (_idDemo, _date, callback) => {
     try {
+        let [idDemo, date] = popArray([_idDemo, _date])
         pool.query(queries.deleteReservationsAPropos, [idDemo], ((error, results) => {
             if (error)
                 return callback(error)
@@ -68,8 +72,9 @@ exports.deleteDemo = (idDemo, date, callback) => {
     } catch (e) {console.log("err deleteDemo : ", e)}
 }
 
-exports.addDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
+exports.addDemo = (_dateDebut, _dateFin, _nbPlaces, _idPresta, _title, callback) => {
     try {
+        let [dateDebut, dateFin, nbPlaces, idPresta, title] = popArray([_dateDebut, _dateFin, _nbPlaces, _idPresta, _title])
         pool.query(queries.addDemo, [dateDebut, dateFin, nbPlaces, idPresta, title], ((error, results) => {
             if (error)
                 return callback(error)
@@ -78,8 +83,9 @@ exports.addDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
     } catch (e) {console.log("err addDemo : ", e)}
 }
 
-exports.updateDemo = (id, dateDebut, dateFin, callback) => {
+exports.updateDemo = (_id, _dateDebut, _dateFin, callback) => {
     try {
+        let [id, dateDebut, dateFin] = popArray([_id, _dateDebut, _dateFin])
         pool.query(queries.updateDemo, [id, dateDebut, dateFin], ((error, results) => {
             if (error)
                 return callback(error)
@@ -88,8 +94,9 @@ exports.updateDemo = (id, dateDebut, dateFin, callback) => {
     } catch (e) {console.log("err updateDemo : ", e)}
 }
 
-exports.addOrgaDemo = (dateDebut, dateFin, nbPlaces, idPresta, title, callback) => {
+exports.addOrgaDemo = (_dateDebut, _dateFin, _nbPlaces, _idPresta, _title, callback) => {
     try {
+        let [dateDebut, dateFin, nbPlaces, idPresta, title] = popArray([_dateDebut, _dateFin, _nbPlaces, _idPresta, _title])
         pool.query(queries.addDemo, [dateDebut, dateFin, nbPlaces, idPresta, title], ((error, results) => {
             if (error)
                 return callback(error)

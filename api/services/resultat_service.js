@@ -2,9 +2,11 @@ const pool = require("../database/db");
 const signupQueries = require("../queries/resultat_queries");
 const coursesQueries = require("../queries/competition_queries")
 const {callback} = require("pg/lib/native/query");
+const {popArray} = require("../security/methods")
 
-exports.getResultats = async (nomCompetition, callback) => {
-    if (nomCompetition){
+exports.getResultats = async (_nomCompetition, callback) => {
+    if (_nomCompetition){
+        let nomCompetition = popArray(_nomCompetition)
         if (nomCompetition == "coursed'orientation"){
             pool.query(signupQueries.getResultats, ["Course d'orientation"], ((error, results)=>{
                 if (error)
@@ -35,7 +37,8 @@ exports.getResultats = async (nomCompetition, callback) => {
     }
 }
 
-exports.getParticipants = (nomCompetition, callback) => {
+exports.getParticipants = (_nomCompetition, callback) => {
+    let nomCompetition = popArray(_nomCompetition)
     if (nomCompetition == "coursed'orientation"){
         pool.query(signupQueries.getParticipants, [1], ((error, results)=>{
             if (error)
@@ -63,7 +66,8 @@ exports.getParticipants = (nomCompetition, callback) => {
     }
 }
 
-exports.addClassement = (nomCompet, idPublic, position, callback) => {
+exports.addClassement = (_nomCompet, _idPublic, _position, callback) => {
+    let [nomCompet, idPublic, position] = popArray([_nomCompet, _idPublic, _position])
     if (nomCompet == "coursed'orientation"){
         pool.query(signupQueries.addClassement, [1, idPublic, position], ((error, results)=>{
             if (error)

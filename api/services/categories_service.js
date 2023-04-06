@@ -1,8 +1,10 @@
 const pool = require("../database/db");
 const signupQueries = require("../queries/categories_queries");
+const {popArray} = require("../security/methods")
 
 
-const getCategorie = async (type, callback) => {
+const getCategorie = async (_type, callback) => {
+    let type = popArray(_type)
     if (type){
         let filtres = [];
         let cards = [];
@@ -52,7 +54,8 @@ const getCategorie = async (type, callback) => {
 
 
 
-const getCategories = (type, callback) => {
+const getCategories = (_type, callback) => {
+    let type = popArray(_type)
     if (type === "restaurants"){
         return callback(null, "Restaurant");
     } else if (type === "clubs"){
