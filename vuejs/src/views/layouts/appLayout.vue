@@ -185,6 +185,8 @@
               <template #button-content><b-icon-trophy-fill></b-icon-trophy-fill> Résultats</template>
               <b-dropdown-item v-for="(course, index) in courses" :key="index" :href=goTo(course)> {{course.title}} </b-dropdown-item>
             </b-nav-item-dropdown>
+
+            <b-nav-item href="/data/basket" ><div class="text-light"><b-icon-clipboard-data></b-icon-clipboard-data> Big Data </div></b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ms-auto me-3">

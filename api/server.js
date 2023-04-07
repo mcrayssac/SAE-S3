@@ -101,6 +101,7 @@ const reservationRoutes = require("./routes/reservation_routes");
 const inscriptionRoutes = require("./routes/inscription_routes");
 const cagnotteRoutes = require("./routes/cagnotte_routes");
 const affluenceRoutes = require("./routes/affluence_routes")
+const basket = require("./big_datas/index")
 
 app.use("/api/", authRoutes);
 app.use("/", routes);
@@ -118,6 +119,18 @@ app.use("/reservation", reservationRoutes);
 app.use("/inscription", inscriptionRoutes);
 app.use("/cagnotte", cagnotteRoutes);
 app.use("/affluence", affluenceRoutes)
+
+/**
+ * Added route for big data service
+ */
+app.get("/basket", async (req, res) => {
+    const matches = await basket.getMatches();
+    if (matches) {
+        res.json(matches);
+    } else {
+        res.status(500).send("Error fetching races");
+    }
+})
 
 
 /**

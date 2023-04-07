@@ -90,6 +90,11 @@ const routes = [
     name: 'demandes/activites',
     component: () => import('../views/organisateur/demandesActivites.vue')
   },
+  {
+    path: '/data/basket',
+    name: 'data/basket',
+    component: () => import('../views/big_data/BasketVue.vue')
+  },
     // At the end
   {
     path: '*',
