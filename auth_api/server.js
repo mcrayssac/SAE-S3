@@ -68,3 +68,5 @@ app.use("*", (req, res, next) => {
 app.listen(port, () => {
     console.log(chalk.inverse.black.bold.bgGreen(`${chalkServer} Welcome, authentification api listen on ${port} port.`));
 });
+
+module.exports=app

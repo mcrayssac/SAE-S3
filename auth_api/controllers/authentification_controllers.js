@@ -22,7 +22,7 @@ const jwt = require("jsonwebtoken");
  * @param user
  * @returns {Promise<*>}
  */
-async function generateAccessToken (user) {
+exports.generateAccessToken= async (user) =>{
     console.log(chalk.inverse.black.bold.bgWhite(`${chalkController} Access token generation.`));
     return await jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1800s'});
 }
