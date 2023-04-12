@@ -1,3 +1,4 @@
 /web_socket/node_modules/
 /auth_api/node_modules/
 package-lock.json
+auth_api/package-lock.json

@@ -43,7 +43,7 @@ exports.login = async (req, res) => {
         } else {
             console.log(chalk.green.inverse(`${chalkController} Request to login`));
             console.log('getUser : ', results);
-            const accessToken = await generateAccessToken(results);
+            const accessToken = await this.generateAccessToken(results)
             let data = {
                 id: results.id,
                 accessToken
