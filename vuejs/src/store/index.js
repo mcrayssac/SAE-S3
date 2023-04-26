@@ -56,6 +56,7 @@ export default new Vuex.Store({
     logUser: function (state, user){
       instanceAuth.defaults.headers.common['authorization'] = user.accessToken;
       localStorage.setItem('user', JSON.stringify(user));
+      console.log(JSON.stringify(user))
       state.user = user;
     },
     userInfos: function (state, userInfos){
@@ -164,6 +165,24 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    loginTwitter: ({commit}, data) => {
+      console.log(data)
+      commit('logUser', data);
+    },
+    getUserInfosTwitter: ({commit}) => {
+      let instanceAuth = axios.create({
+        baseURL: 'http://localhost:3003/auth'
+      });
+      instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
+      instanceAuth.get('/user',)
+          .then(function (response){
+            console.log("responseData: ", response.data);
+            commit('userInfos', response.data);
+          }).catch(function (error){
+            commit('logout')
+            console.log("Token error : ",error)
+          });
+    },
     login: ({commit}, user) => {
       commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {

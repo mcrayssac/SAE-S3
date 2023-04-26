@@ -211,6 +211,14 @@
                 </b-row>
               </b-dropdown-form>
 
+              <b-row align-h="center">
+                <b-col class="mt-2" cols="auto">
+                  <b-button class="button" @click="authenticateWithTwitter">
+                    <span><b-icon-twitter></b-icon-twitter> Twitter</span>
+                  </b-button>
+                </b-col>
+              </b-row>
+
               <b-dropdown-item href="/signup">Créer un compte ici</b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -308,6 +316,22 @@ export default {
   methods:{
     goTo(course){
       return `/resultats/${course.title.toLowerCase().replaceAll(' ', '')}`
+    },
+    async authenticateWithTwitter() {
+      const authWindow = window.open("http://localhost:3003/auth/twitter", "Authentification Twitter", "width=800, height=600");
+      window.addEventListener("message", async (event) => {
+        if (event.origin === "http://localhost:3003") {
+          authWindow.close();
+          const jwtToken = event.data;
+          await this.$store.dispatch('loginTwitter', {accessToken : event.data});
+          let self = this;
+          await this.$store.dispatch('getUserInfosTwitter').then(function (response) {
+            console.log("userInfos: ", self.userinfo);
+          }).catch(function (reject) {
+            console.log(reject);
+          });
+        }
+      });
     },
     login: function (){
       let self = this;

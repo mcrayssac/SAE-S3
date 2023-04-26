@@ -95,6 +95,11 @@ const routes = [
     name: 'data/basket',
     component: () => import('../views/big_data/BasketVue.vue')
   },
+  {
+    path: '/twitter',
+    name: 'twitter',
+    component: () => import('../views/TwitterTest')
+  },
     // At the end
   {
     path: '*',
