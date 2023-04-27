@@ -326,7 +326,9 @@ export default {
           await this.$store.dispatch('loginTwitter', {accessToken : event.data});
           let self = this;
           await this.$store.dispatch('getUserInfosTwitter').then(function (response) {
-            console.log("userInfos: ", self.userinfo);
+            setTimeout(() => {
+              console.log("userInfos: ", self.userinfo);
+            }, "1000");
           }).catch(function (reject) {
             console.log(reject);
           });
@@ -359,13 +361,15 @@ export default {
       this.$router.push({name: 'home'});
     },
     getUserInfos: async function (){
+      let self = this;
       await this.$store.dispatch('getUserInfos')
           .then(function (response){
-            /*Token valide
-            console.log("Token valide : ",response);*/
-          }, function (error){
-            /* Token invalide
-            console.log("Token invalide : ",error);*/
+            /*Token valide*/
+            console.log("Token valide : ",response);
+          }, async function (error) {
+            /* Token invalide*/
+            console.log("Token invalide : ", error);
+            await self.$store.dispatch('getUserInfosTwitter');
           });
     },
     showLoginErrorModal(modal) {

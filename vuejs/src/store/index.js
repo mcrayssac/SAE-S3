@@ -170,11 +170,13 @@ export default new Vuex.Store({
       commit('logUser', data);
     },
     getUserInfosTwitter: ({commit}) => {
-      let instanceAuth = axios.create({
+      console.log("Bearer getUserInfosTwitter: ", instanceAuth.defaults.headers.common['authorization']);
+      instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
+      const instanceAuth2 = axios.create({
         baseURL: 'http://localhost:3003/auth'
       });
-      instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
-      instanceAuth.get('/user',)
+      instanceAuth2.defaults.headers.common['authorization'] = `${instanceAuth.defaults.headers.common['authorization']}`;
+      instanceAuth2.get('/user',)
           .then(function (response){
             console.log("responseData: ", response.data);
             commit('userInfos', response.data);
@@ -199,13 +201,18 @@ export default new Vuex.Store({
       });
     },
     getUserInfos: ({commit}) => {
+      console.log("Bearer getUserInfos: ", instanceAuth.defaults.headers.common['authorization']);
       instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
-      instanceAuth.post('/user',)
-          .then(function (response){
-            commit('userInfos', response.data.data);
-          }).catch(function (error){
-            commit('logout')
-            console.log("Token error : ",error)
+      return new Promise((resolve, reject) => {
+        instanceAuth.post('/user',)
+            .then(function (response){
+              commit('userInfos', response.data.data);
+              resolve(response);
+            }).catch(function (error){
+          commit('logout')
+          console.log("Token error : ",error)
+          reject(error);
+        });
       });
     },
     createAccount: ({commit}, userInfos) => {

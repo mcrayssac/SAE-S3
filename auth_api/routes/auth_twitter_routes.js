@@ -4,13 +4,16 @@ const TwitterStrategy = require("passport-twitter");
 const jwt = require("jsonwebtoken");
 const Twit = require("twit");
 const cors = require("cors");
+const dotEnv = require("dotenv");
+dotEnv.config();
 
 //Define express router
 let router = express.Router();
 
-const TWITTER_CONSUMER_KEY = "v1wlw2t8TcBaKwY7uvJsyAlsw";
-const TWITTER_CONSUMER_SECRET = "CzS5LoVdqqbA98jG7uXoO3fkyrjULBVGiOhrquSYihePm1s4E8";
-const JWT_SECRET = "MCOJ2El5W7Fa64OM1gjUGugfdnqingWF2pxan17fWTyu";
+const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
+const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 passport.use(
     new TwitterStrategy(
@@ -76,9 +79,16 @@ router.get(
 
 function isAuthenticated(req, res, next) {
     const authHeader = req.headers.authorization;
+    //console.log("authHeader: ", authHeader);
 
     if (authHeader) {
-        const token = authHeader.split(" ")[1];
+        let tabAuthHeader = authHeader.split(" ");
+        let token = authHeader.split(" ")[tabAuthHeader.length-1];
+        console.log("token: ", token);
+        //console.log(authHeader.split(" "));
+        if (token === "Bearer"){
+            token = authHeader.split(" ")[2];
+        }
 
         jwt.verify(token, JWT_SECRET, (err, user) => {
             if (err) {
