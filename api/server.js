@@ -15,6 +15,25 @@ const app = express();
 const chalk = require("chalk");
 const chalkServer = chalk.inverse.blue.bold.bgWhite("[Server]");
 
+
+
+const keys = require('./config/keys')
+
+const cors = require('cors');
+const corsOptions = {
+    origin: [
+        process.env.LOCALHOST_PORT,
+        keys.google.clientID,
+    ],
+    credentials: true, // access-control-allow-credentials:true
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
+app.use(cors({ origin: 'http://localhost:8080' }));
+
+
 /**
  * Import and define swagger doc
  */
@@ -58,13 +77,39 @@ if (port === undefined || port === null){
     console.log(port);
     throw new Error(`Port not found ! : ${port}.`);
 }
-const cors = require('cors');
-const corsOptions ={
-    origin:process.env.LOCALHOST_PORT,
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
-}
-app.use(cors(corsOptions));
+
+
+/**
+ * Google authentification
+ */
+
+const passportSetup = require('./config/passport-setup')
+const passport = require('passport')
+const session = require('express-session')
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(session({
+    secret: [keys.session.cookieKey],
+    resave: true,
+    saveUninitialized: true,
+    maxAge: 1000*60*60*60, // session max age in milliseconds
+    cookie: { secure: false }
+}));
+
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.locals.user = req.user;
+    }
+    next();
+});
+
 
 /**
  * Import and define all routes
@@ -84,6 +129,7 @@ const organisateurRoutes = require("./routes/organisateur_routes");
 const reservationRoutes = require("./routes/reservation_routes");
 const inscriptionRoutes = require("./routes/inscription_routes");
 const cagnotteRoutes = require("./routes/cagnotte_routes");
+const affluenceRoutes = require("./routes/affluence_routes")
 
 app.use("/api/", authRoutes);
 app.use("/", routes);
@@ -100,6 +146,7 @@ app.use("/organisateur", organisateurRoutes);
 app.use("/reservation", reservationRoutes);
 app.use("/inscription", inscriptionRoutes);
 app.use("/cagnotte", cagnotteRoutes);
+app.use("/affluence", affluenceRoutes)
 
 
 /**
@@ -122,9 +169,11 @@ app.use("*", (req, res, next) => {
     next(err);
 });
 
+
 /**
  * Port display
  */
 app.listen(port, () => {
     console.log(chalk.inverse.black.bold.bgGreen(`${chalkServer} Welcome, api listen on ${port} port.`));
 });
+

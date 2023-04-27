@@ -7,7 +7,9 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
 
-router.post('/courses', controller.addReservationCourse);
+
+router.post('/courses', cacheMiddlewares(200), controller.addReservationCourse);
 
 module.exports = router;

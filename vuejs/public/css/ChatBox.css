@@ -1,0 +1,97 @@
+
+.fixed-chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.btn {
+    display: inline-block !important;
+    border-radius: 10px !important;
+    position: relative !important;
+    padding: 10px 12px !important;
+    color: #495388 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+}
+
+.btn__bg {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: transparent !important;
+    z-index: -1 !important;
+    transition: background-color 0.5s ease-in-out !important;
+}
+
+.btn:hover .btn__bg {
+    background-color: #495388 !important;
+}
+
+.btn:hover{
+    color: white !important;
+}
+
+.btn_other:hover{
+    color: white !important;
+}
+
+.card_text{
+    font-size: x-large !important;
+    color: white !important;
+}
+
+.card_name{
+    font-size: large !important;
+    color: white !important;
+}
+
+.card_body_title{
+    font-size: large !important;
+    color: #495388 !important;
+}
+
+.card_mess_title{
+    font-size: small !important;
+    color: white !important;
+}
+
+.card_mess_body{
+    font-size: small !important;
+    color:  #495388 !important;
+}
+
+.card_mess_footer{
+    font-size: xx-small !important;
+    color: white !important;
+}
+
+.my-select {
+    background-color: #6ec8cb !important;
+    border: 3px solid white !important;
+    border-radius: 4px !important;
+    padding: 5px !important;
+    font-size: 14px !important;
+    color: white !important;
+    width: 200px !important;
+}
+
+.my-select option {
+    background-color: #6ec8cb !important;
+    color: white !important;
+    font-size: 16px !important;
+}
+
+.my-select::placeholder {
+    color: white !important;
+}

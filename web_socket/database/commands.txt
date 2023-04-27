@@ -1,0 +1,9 @@
+// FirstTime
+open terminal and go to .../websocket
+then mongosh
+then use sae_s3
+then load("./database/insert/accounts.js")
+then load("./database/insert/messages.js")
+
+// Delete collection
+db.messages.drop()

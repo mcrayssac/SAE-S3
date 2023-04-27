@@ -8,26 +8,27 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
 
 
 
-router.post("/prestataires/:nomPrestataire/post_commentaire", controller.addCommentaire);
+router.post("/prestataires/:nomPrestataire/post_commentaire", cacheMiddlewares(200), controller.addCommentaire);
 
-router.get("/prestataires/commentairesDejaPoste/:idPresta/:idPublic", controller.aPosteCommentaire);
+router.get("/prestataires/commentairesDejaPoste/:idPresta/:idPublic", cacheMiddlewares(200), controller.aPosteCommentaire);
 
 // router.get("/courses/classement/:idCourse", controller.getClassementCourse)
 
 // --------- ORGANISATEUR
 
-router.get("/prestataires/:nomPrestataire", controller.getPrestataire);
+router.get("/prestataires/:nomPrestataire", cacheMiddlewares(200), controller.getPrestataire);
 
 
 // --------- PRESTATAIRE
-router.get("/prestataires/prestataire/:nomPrestataire", controller.getPrestataire);
+router.get("/prestataires/prestataire/:nomPrestataire", cacheMiddlewares(200), controller.getPrestataire);
 
-router.get("/prestataires/prestataire/getCommentaires/:id_presta", controller.getPrestataireCommentaire);
+router.get("/prestataires/prestataire/getCommentaires/:id_presta", cacheMiddlewares(200), controller.getPrestataireCommentaire);
 
-router.get("/prestataire/:idPrestataire", controller.getPrestataireById);
+router.get("/prestataire/:idPrestataire", cacheMiddlewares(200), controller.getPrestataireById);
 /**
  * @swagger
  * /prestataire/{idPrestataire}:
@@ -51,7 +52,7 @@ router.get("/prestataire/:idPrestataire", controller.getPrestataireById);
  *              description: Bad request
  */
 
-router.put("/prestataires", controller.createPrestataire);
+router.put("/prestataires", cacheMiddlewares(200), controller.createPrestataire);
 /**
  * @swagger
  * /prestataires:
@@ -93,7 +94,7 @@ router.put("/prestataires", controller.createPrestataire);
  *              description: Bad request
  */
 
-router.delete("/prestataires", controller.deletePrestataire);
+router.delete("/prestataires", cacheMiddlewares(200), controller.deletePrestataire);
 /**
  * @swagger
  * /prestataires:
@@ -116,7 +117,7 @@ router.delete("/prestataires", controller.deletePrestataire);
  *              description: Bad request
  */
 
-router.post("/prestataires/:idPrestataire", controller.updatePrestataire);
+router.post("/prestataires/:idPrestataire", cacheMiddlewares(200), controller.updatePrestataire);
 /**
  * @swagger
  * /prestataires/{idPrestataire}:
@@ -163,7 +164,7 @@ router.post("/prestataires/:idPrestataire", controller.updatePrestataire);
  *              description: Bad request
  */
 
-router.get("/prestataires", mapController.getAllPrestataires);
+router.get("/prestataires", cacheMiddlewares(200), mapController.getAllPrestataires);
 /**
  * @swagger
  * /prestataires:

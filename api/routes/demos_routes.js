@@ -7,15 +7,16 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
 
-router.get('/', controller.getAllDemos);
+router.get('/', cacheMiddlewares(200), controller.getAllDemos);
 
-router.get('/:id/number-places-left', controller.getNbPlacesLeft);
+router.get('/:id/number-places-left', cacheMiddlewares(200), controller.getNbPlacesLeft);
 
-router.post('/:idDemo/reservations', controller.addReservation);
+router.post('/:idDemo/reservations', cacheMiddlewares(200), controller.addReservation);
 
-router.delete('/:idDemo', controller.deleteDemo);
+router.delete('/:idDemo', cacheMiddlewares(200), controller.deleteDemo);
 
-router.post('/', controller.addDemo);
+router.post('/',cacheMiddlewares(200), controller.addDemo);
 
 module.exports = router;

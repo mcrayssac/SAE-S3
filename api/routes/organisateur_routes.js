@@ -7,9 +7,11 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
+
 
 // -------- ORGA
-router.get("/", controller.getAllOrganisateur);
+router.get("/", cacheMiddlewares(200), controller.getAllOrganisateur);
 /**
  * @swagger
  * /organisateur:

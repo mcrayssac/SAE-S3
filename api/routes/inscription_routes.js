@@ -7,7 +7,8 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
 
-router.get("/choix/:type", controller.getInscriptionChoix);
+router.get("/choix/:type", cacheMiddlewares(200), controller.getInscriptionChoix);
 
 module.exports = router;

@@ -7,11 +7,12 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
 
 // --------- MAP
-router.get("/stands", controller.getStands);
+router.get("/stands", cacheMiddlewares(200),  controller.getStands);
 
-router.get("/contraintes", controller.getContraintes)
+router.get("/contraintes", cacheMiddlewares(200), controller.getContraintes)
 /**
  * @swagger
  * /map/contraintes:
@@ -28,7 +29,7 @@ router.get("/contraintes", controller.getContraintes)
  *              description: Bad request
  */
 
-router.get("/stands/contraintes", controller.getContraintesByStand)
+router.get("/stands/contraintes", cacheMiddlewares(200), controller.getContraintesByStand)
 /**
  * @swagger
  * /map/stands/contraintes:
@@ -45,7 +46,7 @@ router.get("/stands/contraintes", controller.getContraintesByStand)
  *              description: Bad request
  */
 
-router.get("/stands/all", controller.getAllStands);
+router.get("/stands/all", cacheMiddlewares(200), controller.getAllStands);
 /**
  * @swagger
  * /map/stands/all:
@@ -62,7 +63,7 @@ router.get("/stands/all", controller.getAllStands);
  *              description: Bad request
  */
 
-router.get("/prestataires", controller.getAllPrestataires);
+router.get("/prestataires",cacheMiddlewares(200), controller.getAllPrestataires);
 /**
  * @swagger
  * /prestataires:
@@ -79,7 +80,7 @@ router.get("/prestataires", controller.getAllPrestataires);
  *              description: Bad request
  */
 
-router.get("/typePresta", controller.getTypeCaracteristiquesPresta);
+router.get("/typePresta", cacheMiddlewares(200), controller.getTypeCaracteristiquesPresta);
 /**
  * @swagger
  * /map/typePresta:
@@ -96,7 +97,7 @@ router.get("/typePresta", controller.getTypeCaracteristiquesPresta);
  *              description: Bad request
  */
 
-router.get("/caracteristiques", controller.getCaracteristiques);
+router.get("/caracteristiques", cacheMiddlewares(200), controller.getCaracteristiques);
 /**
  * @swagger
  * /map/caracteristiques:
@@ -113,7 +114,7 @@ router.get("/caracteristiques", controller.getCaracteristiques);
  *              description: Bad request
  */
 
-router.get("/type", controller.getTypes);
+router.get("/type", cacheMiddlewares(200), controller.getTypes);
 /**
  * @swagger
  * /map/type:
@@ -130,9 +131,9 @@ router.get("/type", controller.getTypes);
  *              description: Bad request
  */
 
-router.put("/presta/stand/:idPresta", controller.updateStandId)
+router.put("/presta/stand/:idPresta", cacheMiddlewares(200), controller.updateStandId)
 
-router.get('/courses', controller.getCourses)
+router.get('/courses', cacheMiddlewares(200), controller.getCourses)
 
 
 module.exports = router;

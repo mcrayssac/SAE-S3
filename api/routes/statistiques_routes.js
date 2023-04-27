@@ -7,9 +7,11 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
 
-router.get("/prestataire/clics/:id", controller.getClicsPrestataire);
 
-router.put("/prestataire/clics/date/:id", controller.putClicsPrestataire);
+router.get("/prestataire/clics/:id", cacheMiddlewares(200), controller.getClicsPrestataire);
+
+router.put("/prestataire/clics/date/:id", cacheMiddlewares(200), controller.putClicsPrestataire);
 
 module.exports = router;

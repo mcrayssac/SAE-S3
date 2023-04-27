@@ -7,8 +7,10 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
 
-router.get("/:nomCompetition", controller.getResultats);
+
+router.get("/:nomCompetition", cacheMiddlewares(200), controller.getResultats);
 /**
  * @swagger
  * /resultats/{nomCompetition}:

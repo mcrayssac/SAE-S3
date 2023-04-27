@@ -15,24 +15,24 @@
       </section>
 
       <section class="Time">
-          <b-row align-h="center">
-            <b-col cols="auto" class="m-5">
-              <b-row data-aos="fade-up-left"
-                     data-aos-duration="500"
-                     data-aos-anchor-placement="top-center">
-                <h1>3, <span style="color: #6ec8cb;">2</span>, <span style="color: #d9231a;">1</span>...PARTEZ !!!</h1>
-              </b-row>
-              <b-row align-h="center"
-                     data-aos="fade-up-right"
-                     data-aos-duration="500"
-                     data-aos-anchor-placement="top-center">
-                <b-col cols="auto">
-                  <h6 style="color: #021331;">Notre evenement commence dans...</h6>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-          <app-home-compte-rebour class="m-5"/>
+        <b-row align-h="center">
+          <b-col cols="auto" class="m-5">
+            <b-row data-aos="fade-up-left"
+                   data-aos-duration="500"
+                   data-aos-anchor-placement="top-center">
+              <h1>3, <span style="color: #6ec8cb;">2</span>, <span style="color: #d9231a;">1</span>...PARTEZ !!!</h1>
+            </b-row>
+            <b-row align-h="center"
+                   data-aos="fade-up-right"
+                   data-aos-duration="500"
+                   data-aos-anchor-placement="top-center">
+              <b-col cols="auto">
+                <h6 style="color: #021331;">Notre evenement commence dans...</h6>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <app-home-compte-rebour class="m-5"/>
       </section>
 
       <section class='Introduction'>
@@ -47,18 +47,18 @@
           <b-col data-aos="fade-right"
                  data-aos-offset="350"
                  data-aos-duration="1000"
-              class="justified-text-center" cols="10">
+                 class="justified-text-center" cols="10">
             <p>Venez participer au travers de nombreuses épreuves et récolter des fonds pour <strong> l’APF (Association des paralysés de France) ! </strong> <br><br>
-            Natation, athlétisme, VTT et bien d’autres encore seront au rendez-vous pour vous faire passer un moment inoubliable entre amis, en famille ou en solitaire.<br>
-            Alors n’hésitez plus et ressortez vos vieilles baskets du placard pour venir vous challenger dans la bonne humeur !<br>
-            Tous les bénéfices de cet évènement seront reversés à l’association APF pour aider à inclure les personnes à mobilité réduite dans le monde du sport. <br><br>
+              Natation, athlétisme, VTT et bien d’autres encore seront au rendez-vous pour vous faire passer un moment inoubliable entre amis, en famille ou en solitaire.<br>
+              Alors n’hésitez plus et ressortez vos vieilles baskets du placard pour venir vous challenger dans la bonne humeur !<br>
+              Tous les bénéfices de cet évènement seront reversés à l’association APF pour aider à inclure les personnes à mobilité réduite dans le monde du sport. <br><br>
               Pour plus d’informations, voir sur la page d’<b-link href="/association">APF</b-link>.</p><br>
           </b-col>
         </b-row>
         <b-row data-aos="zoom-in-up"
                data-aos-offset="200"
                data-aos-duration="1000"
-            align-h="center">
+               align-h="center">
           <b-col cols="auto" class="mb-5">
             <b-link href="/association" target="_blank">
               <b-img src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/16/Logo_APF_France_Handicap_2018.svg/langfr-195px-Logo_APF_France_Handicap_2018.svg.png"></b-img>
@@ -77,12 +77,12 @@
           <b-col data-aos="zoom-in-up"
                  data-aos-offset="400"
                  data-aos-duration="8000"
-              cols="auto" class="m-5"><h1>Nos partenaires</h1></b-col>
+                 cols="auto" class="m-5"><h1>Nos partenaires</h1></b-col>
         </b-row>
         <app-home-slide-sponsor data-aos="fade-right"
                                 data-aos-offset="250"
                                 data-aos-duration="2000"
-            :slide-sponsor="slideSponsor" />
+                                :slide-sponsor="slideSponsor" />
       </section>
 
     </b-container>
@@ -131,7 +131,7 @@ export default {
       const path = require.context('../../../public/img/homePicture', false, /\.jpg$/)
       return path.keys().map(path)
     }
-  }
+  },
 }
 </script>
 

@@ -7,10 +7,13 @@ cookieParser = require("cookie-parser");
 
 //Define express router
 let router = express.Router();
+const cacheMiddlewares = require("../cache/cache_middleware");
+const {cache} = require("express/lib/application");
+
 
 
 // --------- PUBLIC
-router.get("/", controller.getAllPublic);
+router.get("/", cacheMiddlewares(200), controller.getAllPublic);
 /**
  * @swagger
  * /public:
@@ -27,7 +30,7 @@ router.get("/", controller.getAllPublic);
  *              description: Bad request
  */
 
-router.get("/:idPublic", controller.getPublicById);
+router.get("/:idPublic", cacheMiddlewares(200), controller.getPublicById);
 /**
  * @swagger
  * /public/{idPublic}:
@@ -51,7 +54,7 @@ router.get("/:idPublic", controller.getPublicById);
  *              description: Bad request
  */
 
-router.put("/", controller.createPublic);
+router.put("/", cacheMiddlewares(200), controller.createPublic);
 /**
  * @swagger
  * /public:
@@ -99,7 +102,7 @@ router.put("/", controller.createPublic);
  *              description: Bad request
  */
 
-router.delete("/", controller.deletePublic);
+router.delete("/", cacheMiddlewares(200), controller.deletePublic);
 /**
  * @swagger
  * /public:
@@ -122,7 +125,7 @@ router.delete("/", controller.deletePublic);
  *              description: Bad request
  */
 
-router.post("/:idPublic", controller.updatePublic);
+router.post("/:idPublic", cacheMiddlewares(200), controller.updatePublic);
 /**
  * @swagger
  * /public/{idPublic}:
