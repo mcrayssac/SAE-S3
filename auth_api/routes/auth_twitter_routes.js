@@ -84,7 +84,7 @@ function isAuthenticated(req, res, next) {
     if (authHeader) {
         let tabAuthHeader = authHeader.split(" ");
         let token = authHeader.split(" ")[tabAuthHeader.length-1];
-        console.log("token: ", token);
+        //console.log("token: ", token);
         //console.log(authHeader.split(" "));
         if (token === "Bearer"){
             token = authHeader.split(" ")[2];

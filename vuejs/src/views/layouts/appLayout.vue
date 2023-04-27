@@ -326,9 +326,7 @@ export default {
           await this.$store.dispatch('loginTwitter', {accessToken : event.data});
           let self = this;
           await this.$store.dispatch('getUserInfosTwitter').then(function (response) {
-            setTimeout(() => {
-              console.log("userInfos: ", self.userinfo);
-            }, "1000");
+            //console.log("Resolve");
           }).catch(function (reject) {
             console.log(reject);
           });
@@ -343,7 +341,7 @@ export default {
       }).then(async function (response){
         await self.getUserInfos();
         setTimeout(() => {
-          console.log('admin', self.userInfos.admin === "prestataire");
+          //console.log('admin', self.userInfos.admin === "prestataire");
           if (!self.userInfos.admin || self.userInfos.admin === "organisateur"){
             self.$router.push({name: 'home'});
           } else if (self.userInfos.admin === "prestataire"){
@@ -365,11 +363,15 @@ export default {
       await this.$store.dispatch('getUserInfos')
           .then(function (response){
             /*Token valide*/
-            console.log("Token valide : ",response);
+            //console.log("Token valide : ",response);
           }, async function (error) {
             /* Token invalide*/
             console.log("Token invalide : ", error);
-            await self.$store.dispatch('getUserInfosTwitter');
+            await self.$store.dispatch('getUserInfosTwitter').then(function (response) {
+              //console.log("Resolve");
+            }).catch(function (reject) {
+              console.log(reject);
+            });
           });
     },
     showLoginErrorModal(modal) {

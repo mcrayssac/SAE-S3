@@ -56,7 +56,7 @@ export default new Vuex.Store({
     logUser: function (state, user){
       instanceAuth.defaults.headers.common['authorization'] = user.accessToken;
       localStorage.setItem('user', JSON.stringify(user));
-      console.log(JSON.stringify(user))
+      //console.log(JSON.stringify(user))
       state.user = user;
     },
     userInfos: function (state, userInfos){
@@ -166,31 +166,32 @@ export default new Vuex.Store({
   },
   actions: {
     loginTwitter: ({commit}, data) => {
-      console.log(data)
+      //console.log(data)
       commit('logUser', data);
     },
     getUserInfosTwitter: ({commit}) => {
-      console.log("Bearer getUserInfosTwitter: ", instanceAuth.defaults.headers.common['authorization']);
-      instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
       const instanceAuth2 = axios.create({
         baseURL: 'http://localhost:3003/auth'
       });
       instanceAuth2.defaults.headers.common['authorization'] = `${instanceAuth.defaults.headers.common['authorization']}`;
-      instanceAuth2.get('/user',)
-          .then(function (response){
-            console.log("responseData: ", response.data);
-            commit('userInfos', response.data);
-          }).catch(function (error){
-            commit('logout')
-            console.log("Token error : ",error)
-          });
+      return new Promise((resolve, reject) => {
+        instanceAuth2.get('/user',)
+            .then(function (response){
+              //console.log("responseData: ", response.data);
+              commit('userInfos', response.data);
+              resolve(response);
+            }).catch(function (error){
+          commit('logout');
+          reject(error);
+        });
+      });
     },
     login: ({commit}, user) => {
       commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         instanceAuth.post('/login', user)
             .then(function (response){
-              console.log("data", response.data.data);
+              //console.log("data", response.data.data);
               commit('setStatus', '');
               commit('logUser', response.data.data);
               resolve(response);
@@ -201,7 +202,6 @@ export default new Vuex.Store({
       });
     },
     getUserInfos: ({commit}) => {
-      console.log("Bearer getUserInfos: ", instanceAuth.defaults.headers.common['authorization']);
       instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
       return new Promise((resolve, reject) => {
         instanceAuth.post('/user',)
@@ -209,8 +209,8 @@ export default new Vuex.Store({
               commit('userInfos', response.data.data);
               resolve(response);
             }).catch(function (error){
-          commit('logout')
-          console.log("Token error : ",error)
+          //commit('logout')
+          //console.log("Token error : ",error)
           reject(error);
         });
       });
