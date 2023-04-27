@@ -194,3 +194,16 @@ exports.aPosteCommentaire = async (req, res) => {
         res.status(200).json(results);
     });
 }
+
+exports.getAllPrestataires = (req, res) => {
+    console.log(chalk.green.inverse("Requete pour récupérer les prestataires"));
+    services.getAllPrestataires((error, results) => {
+        if(error){
+            console.log(chalk.red.inverse(`${chalkController} ERREUR : get impossible`));
+            return res.status(401).send({success:0, data: `ERREUR : get impossible`});
+        }
+        else {
+            return res.status(200).send(results);
+        }
+    })
+}

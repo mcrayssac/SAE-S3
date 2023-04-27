@@ -1,6 +1,5 @@
 /* ====== accepte ====== */
 /* ====== id_organisateur dans courses ====== */
-/* \i 'C:/Users/lena3/OneDrive/Documents/IUT_Windows/S3/SAE-S3/BDD/data.sql' */
 SET
 CLIENT_ENCODING TO 'UTF8';
 DROP TABLE IF EXISTS Correspond;

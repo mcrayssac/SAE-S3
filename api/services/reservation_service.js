@@ -1,8 +1,10 @@
 const pool = require("../database/db");
 const signupQueries = require("../queries/reservation_queries");
+const {popArray} = require("../security/methods")
 
 
-exports.addReservationCourse = async (data, callback) => {
+exports.addReservationCourse = async (_data, callback) => {
+    let data = popArray(_data)
     if (data.date, data.idPublic, data.idCourse) {
         console.log(data.date, data.idPublic, data.idCourse);
         await pool.query(signupQueries.verifyReservation, [data.idPublic, data.idCourse], async (error, results) => {

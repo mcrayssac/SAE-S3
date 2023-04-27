@@ -240,6 +240,13 @@
             <b-dropdown-item v-for="(course, index) in courses" :key="index" :href=goTo(course)> {{ course.title }}
             </b-dropdown-item>
           </b-nav-item-dropdown>
+
+          <b-nav-item href="/data/basket">
+            <div class="text-light">
+              <b-icon-clipboard-data></b-icon-clipboard-data>
+              Big Data
+            </div>
+          </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ms-auto me-3">
@@ -263,20 +270,32 @@
                       </span>
                     <span v-else>Se connecter</span>
                   </b-button>
-                  <br>
-                  <!-- Google auth-->
-                  <b-button class="button" style="margin-top: 10px" @click="googleLogin">
-                      <span v-if="status === 'loading'">
-                        <b-icon icon="arrow-repeat" animation="spin"></b-icon> En cours
-                      </span>
-                    <span v-else>
-                      <b-icon-google></b-icon-google>
-                        <a style="margin: 10px" href="http://localhost:3000/api/auth/google">Google</a>
-                    </span>
-                  </b-button>
                 </b-col>
               </b-row>
             </b-dropdown-form>
+
+            <!-- Google auth-->
+            <b-row align-h="center">
+              <b-col class="mt-2" cols="auto">
+                <b-button class="button" @click="googleLogin">
+                      <span v-if="status === 'loading'">
+                        <b-icon icon="arrow-repeat" animation="spin"></b-icon> En cours
+                      </span>
+                  <span v-else>
+                      <b-icon-google></b-icon-google>
+                        <a style="margin: 10px" href="http://localhost:3000/api/auth/google">Google</a>
+                    </span>
+                </b-button>
+              </b-col>
+            </b-row>
+
+            <b-row align-h="center">
+              <b-col class="mt-2" cols="auto">
+                <b-button class="button" @click="authenticateWithTwitter">
+                  <span><b-icon-twitter></b-icon-twitter> Twitter</span>
+                </b-button>
+              </b-col>
+            </b-row>
 
             <b-dropdown-item href="/signup">Créer un compte ici</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -388,6 +407,22 @@ export default {
     goTo(course) {
       return `/resultats/${course.title.toLowerCase().replaceAll(' ', '')}`
     },
+    async authenticateWithTwitter() {
+      const authWindow = window.open("http://localhost:3003/auth/twitter", "Authentification Twitter", "width=800, height=600");
+      window.addEventListener("message", async (event) => {
+        if (event.origin === "http://localhost:3003") {
+          authWindow.close();
+          const jwtToken = event.data;
+          await this.$store.dispatch('loginTwitter', {accessToken: event.data});
+          let self = this;
+          await this.$store.dispatch('getUserInfosTwitter').then(function (response) {
+            //console.log("Resolve");
+          }).catch(function (reject) {
+            console.log(reject);
+          });
+        }
+      });
+    },
     login: function () {
       let self = this;
       this.$store.dispatch('login', {
@@ -396,7 +431,7 @@ export default {
       }).then(async function (response) {
         await self.getUserInfos();
         setTimeout(() => {
-          console.log('admin', self.userInfos.admin === "prestataire");
+          //console.log('admin', self.userInfos.admin === "prestataire");
           if (!self.userInfos.admin || self.userInfos.admin === "organisateur") {
             self.$router.push({name: 'home'});
           } else if (self.userInfos.admin === "prestataire") {
@@ -417,13 +452,19 @@ export default {
       this.$router.push({name: 'home'});
     },
     getUserInfos: async function () {
+      let self = this;
       await this.$store.dispatch('getUserInfos')
           .then(function (response) {
-            /*Token valide
-            console.log("Token valide : ",response);*/
-          }, function (error) {
-            /* Token invalide
-            console.log("Token invalide : ",error);*/
+            /*Token valide*/
+            //console.log("Token valide : ",response);
+          }, async function (error) {
+            /* Token invalide*/
+            console.log("Token invalide : ", error);
+            await self.$store.dispatch('getUserInfosTwitter').then(function (response) {
+              //console.log("Resolve");
+            }).catch(function (reject) {
+              console.log(reject);
+            });
           });
     },
     showLoginErrorModal(modal) {
@@ -481,9 +522,6 @@ export default {
         });
     await this.getUserInfos();
     this.getCourses()
-  },
-  mounted() {
-    console.log(this.$route.query)
   }
 }
 </script>

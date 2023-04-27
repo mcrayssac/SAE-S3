@@ -32,7 +32,7 @@
 
 .update-button{
     position: fixed !important;
-    right: 30px !important;
+    left: 30px !important;
     bottom: 30px !important;
     background: white !important;
     border-color: transparent !important;

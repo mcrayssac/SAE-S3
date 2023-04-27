@@ -1,5 +1,6 @@
 const pool = require("../database/db");
 const queries = require("../queries/public_queries");
+const {popArray} = require("../security/methods")
 
 // Swagger
 exports.getAllPublic = async (callback) => {
@@ -13,8 +14,9 @@ exports.getAllPublic = async (callback) => {
 }
 
 // Swagger
-exports.getPublicById = (idPublic, callback) => {
+exports.getPublicById = (_idPublic, callback) => {
     try {
+        let idPublic = popArray(_idPublic)
         pool.query(queries.getPublicById, idPublic, (error, results) => {
             if (error) {
                 console.log("Erreur service getPublicById", error);
@@ -29,8 +31,9 @@ exports.getPublicById = (idPublic, callback) => {
 }
 
 // Swagger
-exports.createPublic = (prenom, nom, email, passwd, langue, age, sexe, pays,  callback) => {
+exports.createPublic = (_prenom, _nom, _email, _passwd, _langue, _age, _sexe, _pays,  callback) => {
     try {
+        let [prenom, nom, email, passwd, langue, age, sexe, pays] = popArray([_prenom, _nom, _email, _passwd, _langue, _age, _sexe, _pays])
         pool.query(queries.createPublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays)], (error, results) => {
             if (error) {
                 console.log("Erreur service createPublic", error);
@@ -46,8 +49,9 @@ exports.createPublic = (prenom, nom, email, passwd, langue, age, sexe, pays,  ca
 
 
 // Swagger
-exports.deletePublic = (id, callback) => {
+exports.deletePublic = (_id, callback) => {
     try {
+        let id = popArray(_id)
         pool.query(queries.deleteUser, id, (error, results) => {
             if (results.rowCount === 0) {
                 return callback("Public avec id = " + id + " non trouvé");
@@ -67,8 +71,9 @@ exports.deletePublic = (id, callback) => {
 }
 
 
-exports.updatePublic = (id, prenom, nom, email, passwd, langue, age, sexe, pays, callback) => {
+exports.updatePublic = (_id, _prenom, _nom, _email, _passwd, _langue, _age, _sexe, _pays, callback) => {
     try {
+        let [id, prenom, nom, email, passwd, langue, age, sexe, pays] = popArray([_id, _prenom, _nom, _email, _passwd, _langue, _age, _sexe, _pays])
         pool.query(queries.updatePublic, [prenom, nom, email, passwd, parseInt(langue), parseInt(age), parseInt(sexe), parseInt(pays), id], (error, results) => {
             if (results.rowCount === 0) {
                 return callback("Public avec id = " + id + " non trouvé");

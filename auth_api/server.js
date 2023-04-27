@@ -8,6 +8,8 @@
  */
 const express = require("express");
 const app = express();
+const session = require("express-session");
+app.use(session({ secret: "sae2003", resave: false, saveUninitialized: true }));
 
 /**
  * Import a terminal string styling
@@ -42,16 +44,18 @@ if (port === undefined || port === null){
  */
 const cors = require('cors');
 const corsOptions ={
-    origin:process.env.LOCALHOST_PORT,
-    credentials:true,
-    optionSuccessStatus:200
+    origin: [process.env.LOCALHOST_PORT, process.env.LOCALHOST_PORT_WEB],
+    credentials: true,
+    optionSuccessStatus: 200,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
 }
 app.use(cors(corsOptions));
 
-//TODO: ...
-
 const routes = require("./routes/authentification_routes");
 app.use("/", routes);
+const routesTwitter = require("./routes/auth_twitter_routes");
+app.use("/auth", routesTwitter);
 
 /**
  * If path not found before then an error sent
@@ -68,3 +72,5 @@ app.use("*", (req, res, next) => {
 app.listen(port, () => {
     console.log(chalk.inverse.black.bold.bgGreen(`${chalkServer} Welcome, authentification api listen on ${port} port.`));
 });
+
+module.exports=app

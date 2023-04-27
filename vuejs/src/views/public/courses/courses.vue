@@ -59,6 +59,14 @@
               </b-col>
             </b-row>
           </b-col>
+          <b-col cols="auto">
+            <span v-if="userInfos.admin == 'organisateur'">
+            <b-button class="mx-1" @click="$refs['modal-edit-course'].show()"
+                      data-aos="flip-left" variant="outline-success"
+                      data-aos-anchor-placement="top-bottom"
+                      data-aos-duration="400">Ajouter</b-button>
+            </span>
+          </b-col>
         </b-row>
       </section>
 
@@ -101,7 +109,18 @@
                       </b-row>
                       <b-row class="my-3" align-h="center" align-v="center">
                         <b-col cols="auto">
-                          <span>
+                          <span v-if="userInfos.admin == 'organisateur'">
+                            <b-button class="button button-submit mx-1"
+                                      @click="setCurrentCourse(items)">
+                              Modifier la course </b-button>
+                            <b-button class="button button-decline mx-1"
+                                      @click="deleteCourse(items)">
+                              Supprimer la course </b-button>
+                            <b-button class="button button-decline mx-1"
+                                      @click="$router.replace({path: `/resultats/${items.title.toLowerCase().replaceAll(' ', '')}`})">
+                              Classement </b-button>
+                          </span>
+                          <span v-else>
                             <b-button class="button"
                                       @click="verifyAccount('account-error-modal', items.idCourse)">
                               Faire une réservation</b-button>
@@ -115,6 +134,73 @@
                 </b-card>
 
               </b-row>
+              <b-modal ref="modal-edit-course" hide-footer hide-backdrop hide-header-close no-fade no-stacking centered id="modal-presta"
+                       :title="currentEvent.id_course != -1 ? `Modifier la course ${currentEvent.title}` : 'Ajouter une nouvelle course'">
+                <b-form>
+                  <b-form-group class="mx-5 my-3" label="Nom de la course : " label-class="label"
+                                data-aos="fade-left"
+                                data-aos-anchor-placement="top-bottom"
+                                data-aos-duration="800">
+                    <b-form-input v-model="currentEvent.title" type="text" required></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group class="mx-5 my-3" label="Nombre de places : " label-class="label"
+                                data-aos="fade-left"
+                                data-aos-anchor-placement="top-bottom"
+                                data-aos-duration="800">
+                    <b-form-input v-model="currentEvent.nb_places" type="number" required></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group class="mx-5 my-3" label="Nombre de km : " label-class="label"
+                                data-aos="fade-left"
+                                data-aos-anchor-placement="top-bottom"
+                                data-aos-duration="800">
+                    <b-form-input v-model="currentEvent.nb_km" type="number" required></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group class="mx-5 my-3" label="Prix de l'inscription : " label-class="label"
+                                data-aos="fade-left"
+                                data-aos-anchor-placement="top-bottom"
+                                data-aos-duration="800">
+                    <b-form-input v-model="currentEvent.prix" type="number" step=".01" required></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group class="mx-5 my-3" label="Catégorie de la course : " label-class="label"
+                                data-aos="fade-left"
+                                data-aos-anchor-placement="top-bottom"
+                                data-aos-duration="800">
+                    <b-form-select v-model="currentEvent.libelle_sport" required>
+                      <b-form-select-option v-for="(sport, index) in sports" :key="index" :value="sport.libelle_sport"> {{sport.libelle_sport}} </b-form-select-option>
+                    </b-form-select>
+                  </b-form-group>
+
+                  <b-form-group class="mx-5 my-3" label="Lieu de la course : " label-class="label"
+                                data-aos="fade-left"
+                                data-aos-anchor-placement="top-bottom"
+                                data-aos-duration="800">
+                    <b-form-select v-model="currentEvent.libelle_lieu" :options="['Forêt', 'Lac', 'Routes']" style="width: 100%; margin-top: 5px" required></b-form-select >
+                  </b-form-group>
+
+                </b-form>
+
+                <b-row class="m-5" align-h="center" align-v="center">
+                  <b-col cols="auto">
+                    <b-button v-if="currentEvent.id_course != -1" class="mx-2 button-submit" @click="modifyCourse"
+                              data-aos="flip-left" variant="outline-success"
+                              data-aos-anchor-placement="top-bottom"
+                              data-aos-duration="400">Modifier</b-button>
+                    <b-button v-else class="mx-2 button-submit" @click="addCourse"
+                              data-aos="flip-left" variant="outline-success"
+                              data-aos-anchor-placement="top-bottom"
+                              data-aos-duration="400">Ajouter</b-button>
+                    <b-button class="mx-2 button-decline"
+                              data-aos="flip-right" variant="outline-secondary"
+                              data-aos-anchor-placement="top-bottom"
+                              data-aos-delay="400" @click="$refs['modal-edit-course'].hide(); resetCurrentCourse()"
+                              data-aos-duration="400">Fermer</b-button>
+                  </b-col>
+                </b-row>
+              </b-modal>
             </b-col>
           </b-row>
         </section>
@@ -143,6 +229,9 @@
       </b-modal>
     </section>
     <section v-else class="Loading">
+      <h4 data-aos="flip-left"
+          data-aos-anchor-placement="top-bottom"
+          data-aos-duration="800">Aucune course disponible</h4>
       <app-loading color="#6ec8cb" />
     </section>
   </b-container>
@@ -164,6 +253,16 @@ export default {
       alertCountDown: 0,
       alertMessage: null,
       alertVariant: null,
+      sports: [],
+      currentEvent: {
+        id_course: -1,
+        title: "",
+        nb_places: 0,
+        nb_km: 0,
+        prix: 0,
+        libelle_sport: "",
+        libelle_lieu: ""
+      }
     }
   },
   components: {appLoading},
@@ -237,22 +336,111 @@ export default {
     },
     hideLoginErrorModal(modal) {
       this.$refs[modal].hide()
+    },
+    async getCompetitions(){
+      await axios.get(`http://localhost:3000/competitions`)
+          .then(async result => {
+            this.data = result.data.data
+            this.filrs = []
+            for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
+              this.filrs.push("");
+            }
+          })
+          .catch((err) => {
+            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
+            console.warn("error", message);
+          });
+    }
+    ,
+    deleteCourse(course){
+      if (confirm(`Voulez-vous supprimer la course '${course.title}' ?`)) {
+        try {
+          let response = axios.delete(`http://localhost:3000/competitions/${course.idCourse}`)
+          this.getCompetitions()
+          if (this.alertCountDown > 0) this.alertCountDown = 0;
+          setTimeout(() => {
+            this.showAlert(`Vous avez supprimé la course "${course.title}"`, "success");
+            window.scrollTo(0,0);
+          }, "200")
+        } catch (e) {
+          console.warn("error deleteCourse", e)
+        }
+      }
+    },
+    setCurrentCourse(course){
+      this.currentEvent.id_course = course.idCourse
+      this.currentEvent.title = course.title
+      this.currentEvent.nb_places = course.filtres.body[1]
+      this.currentEvent.nb_km = course.filtres.body[0]
+      this.currentEvent.prix = course.filtres.body[2]
+      this.currentEvent.libelle_sport = course.filtres.body[3]
+      this.currentEvent.libelle_lieu = course.filtres.body[4]
+      this.$refs["modal-edit-course"].show()
+    },
+    getSports(){
+      axios.get(`http://localhost:3000/competitions/sports`)
+          .then(response => {
+            this.sports = response.data.data
+          })
+          .catch(e => {
+            console.log('err getSports : ', e)
+            this.sports = []
+          })
+    },
+    modifyCourse(){
+      try {
+        let response = axios.put(`http://localhost:3000/competitions/${this.currentEvent.id_course}?libelle=${this.currentEvent.title}&km=${this.currentEvent.nb_km}&places=${this.currentEvent.nb_places}&prix=${this.currentEvent.prix}&libelle_sport=${this.currentEvent.libelle_sport}&libelle_lieu=${this.currentEvent.libelle_lieu}`)
+        if (this.alertCountDown > 0) this.alertCountDown = 0;
+        setTimeout(() => {
+          this.showAlert(`Vous avez modifié la course "${this.currentEvent.title}"`, "success");
+          window.scrollTo(0,0);
+          this.resetCurrentCourse()
+        }, "200")
+        this.$refs['modal-edit-course'].hide()
+      } catch (e) {
+        console.warn("error modifyCourse", e)
+        if (this.alertCountDown > 0) this.alertCountDown = 0;
+        setTimeout(() => {
+          this.showAlert(`Erreur pendant la modification de la course "${this.currentEvent.title}"`, "danger");
+          window.scrollTo(0,0);
+        }, "200")
+        this.$refs['modal-edit-course'].hide()
+      }
+    },
+    resetCurrentCourse(){
+      this.currentEvent.id_course = -1
+      this.currentEvent.title= ""
+      this.currentEvent.nb_places= 0
+      this.currentEvent.nb_km= 0
+      this.currentEvent.prix= 0
+      this.currentEvent.libelle_sport= ""
+      this.currentEvent.libelle_lieu= ""
+    },
+    addCourse(){
+      try {
+        let response = axios.post(`http://localhost:3000/competitions?libelle=${this.currentEvent.title}&km=${this.currentEvent.nb_km}&places=${this.currentEvent.nb_places}&prix=${this.currentEvent.prix}&libelle_sport=${this.currentEvent.libelle_sport}&libelle_lieu=${this.currentEvent.libelle_lieu}`)
+        if (this.alertCountDown > 0) this.alertCountDown = 0;
+        this.getCompetitions()
+        setTimeout(() => {
+          this.showAlert(`Vous avez ajouté la course "${this.currentEvent.title}"`, "success");
+          window.scrollTo(0,0);
+          this.resetCurrentCourse()
+        }, "1000")
+        this.$refs['modal-edit-course'].hide()
+      } catch (e) {
+        console.warn("error modifyCourse", e)
+        if (this.alertCountDown > 0) this.alertCountDown = 0;
+        setTimeout(() => {
+          this.showAlert(`Erreur pendant l'ajout de la course`, "danger");
+          window.scrollTo(0,0);
+        }, "200")
+        this.$refs['modal-edit-course'].hide()
+      }
     }
   },
   async created() {
-    let self = this;
-    await axios.get(`http://localhost:3000/competitions`)
-        .then(async result => {
-          self.data = result.data.data
-          self.filrs = []
-          for (let i = 0; i < this.data.getFiltres.length + 1; i++) {
-            self.filrs.push("");
-          }
-        })
-        .catch((err) => {
-          let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
-          console.warn("error", message);
-        });
+    await this.getCompetitions()
+    this.getSports()
   }
 }
 </script>

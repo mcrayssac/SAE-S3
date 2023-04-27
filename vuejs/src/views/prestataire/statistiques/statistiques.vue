@@ -247,7 +247,7 @@ export default {
   },
   updated() {
     setTimeout(() => {
-      if (this.userInfos.admin !== 'prestataire') this.$router.push({name: 'home'});
+      if (!this.userInfos || this.userInfos.admin !== 'prestataire') this.$router.push({name: 'home'});
     }, "100")
   }
 }

@@ -4,9 +4,17 @@
       <app-loading/>
     </section>
     <section v-else class="Main">
+      <section class="Alert">
+        <b-alert :variant="alertVariant" :show="alertCountDown" @dismissed="alertCountDown=0" @dismiss-count-down="countDownChanged">
+          <h4 :class="'text-'+alertVariant+' mt-3 mb-4'">{{alertMessage}}</h4>
+          <b-progress :variant="alertVariant" :max="alertMax" :value="alertCountDown" height="4px"></b-progress>
+        </b-alert>
+      </section>
       <section class="Title">
         <b-row align-h="center">
-          <b-col class="mt-5 ms-5 me-5" cols="auto">
+          <b-col class="mt-5 ms-5 me-5" cols="1">
+          </b-col>
+          <b-col class="mt-5 ms-5 me-5" cols="8">
             <h1 data-aos="zoom-in-down"
                 data-aos-delay="200"
                 data-aos-duration="500"
@@ -16,6 +24,17 @@
               </b-link>
               {{data.nom_prestataire}}
             </h1>
+          </b-col>
+          <b-col class="mt-5 ms-5 me-5" cols="1" style="background-color: #1a265a;">
+            <h4 style="color: white; padding-top: 20px;">Affluence</h4>
+            <section v-if="userInfos.admin == 'prestataire' && this.userInfos.id == this.data.id_prestataire">
+              <b-form-select v-model="affluence" :options="['Faible', 'Moyenne', 'Elevée']" v-on:change="setAffluence" style="width: 100%; margin-top: 5px"></b-form-select>
+            </section>
+            <section v-else>
+              <svg viewBox="0 0 4 2.5" :style="colorAffluence">
+                <circle cx="2" cy="1" r="0.8"/>
+              </svg>
+            </section>
           </b-col>
         </b-row>
       </section>
@@ -229,7 +248,7 @@ import appLoading from "@/loading.vue"
 import Planning from "@/components/Planning";
 import TimeGridPlugin from "@fullcalendar/timegrid";
 import InteractionPlugin from "@fullcalendar/interaction";
-import {mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import resultats from "@/views/public/resultats/resultats";
 
 export default {
@@ -242,6 +261,8 @@ export default {
       commentaires: null,
       postCom: null,
       printFormulaire: false,
+      affluence: null,
+      colorAffluence: null,
       form: {
         commentaire: null,
         id: null,
@@ -276,7 +297,8 @@ export default {
         select: this.handleSelect,
         eventClick: this.handleEventClick,
         events: this.$store.getters.getInitiationsEvents,
-        nowIndicator: true
+        nowIndicator: true,
+        height: "740px",
       },
       optionsPublic: {
         plugins: [TimeGridPlugin, InteractionPlugin],
@@ -304,25 +326,41 @@ export default {
         editable: false,
         eventClick: this.handleEventClickPublic,
         events: this.$store.getters.getInitiationsEvents,
-        nowIndicator: true
+        nowIndicator: true,
+        height: "740px",
       },
       currentEvent: {
         title: "",
         nbPlaces: null
       },
       currentTime: null,
-      currentPlacesLeft : null
+      currentPlacesLeft : null,
+      alertMax: 20,
+      alertCountDown: 0,
+      alertMessage: null,
+      alertVariant: null
     }
   },
   methods: {
+    countDownChanged(dismissCountDown) {
+      this.alertCountDown = dismissCountDown
+    },
+    setAffluence(){
+      let id = -1
+      switch (this.affluence) {
+        case "Faible": id = 1; break;
+        case "Moyenne": id = 2; break;
+        case "Elevée": id = 3; break;
+      }
+      axios.put(`http://localhost:3000/affluence/${this.data.id_prestataire}?idAffluence=${id}`)
+          .then(res => console.log(res.data.data))
+          .catch(err => console.warn(err));
+    },
     peutPoster() {
       if (this.userInfos.id !== -1) {
         axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
             .then(result => {
-              console.log("testetst")
-              console.log(result.data)
               if (result.data == "") {
-                console.log("if")
                 this.form.id = this.userInfos.id;
                 this.form.idPresta = this.data.id_prestataire;
                 this.postCom = true;
@@ -334,7 +372,12 @@ export default {
               console.warn("error", message);
             });
       }
-      else alert("Connectez-vous pour poster un commentaire !");
+      else {
+        this.alertMessage = `Connectez-vous pour poster un commentaire !`;
+        this.alertVariant = "warning";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
+      }
     },
     ajouterCommentaire() {
       let self = this;
@@ -351,7 +394,10 @@ export default {
             });
       }
       else{
-        alert("note pas comprise entre 0 et 10");
+        this.alertMessage = `Mauvaise information saisie (la note doit être comprise entre 0 et 10)`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     },
     hideModal(){
@@ -367,11 +413,13 @@ export default {
 
       if(!isOverlap) {
         this.currentTime = selectTime
-        console.log(this.$refs['modal-presta'])
         this.$refs['modal-presta'].show()
       }
       else{
-        alert("Impossible de créer un évènement à cet endroit là")
+        this.alertMessage = `Impossible de créer un évènement à cet endroit là`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     },
     handleEventClick(clickInfo) {
@@ -388,7 +436,12 @@ export default {
           clickInfo.event.remove()
           this.optionsPresta.events = this.$store.getters.getInitiationsEvents
         }
-        else alert('Vous ne pouvez pas supprimer cet évènement')
+        else {
+          this.alertMessage = `Vous ne pouvez pas supprimer cet évènement`;
+          this.alertVariant = "danger";
+          this.alertCountDown = this.alertMax
+          window.scrollTo(0, 0);
+        }
       }
     },
     handleEventClickPublic(clickInfo) {
@@ -398,10 +451,9 @@ export default {
         this.currentEvent = clickInfo.event
         axios.get(`http://localhost:3000/initiations/` + clickInfo.event.id + '/number-places-left')
             .then(response => {
-              console.log(response.data.data)
               this.currentPlacesLeft = response.data.data.nb_places - response.data.data.total_reserv
             })
-            .catch(e => console.log('err get nbPlacesLeft : ', e))
+            .catch(e => console.warn('err get nbPlacesLeft : ', e))
         this.$refs['modal'].show()
       }
     },
@@ -417,10 +469,16 @@ export default {
         })
         this.currentPlacesLeft = null
         this.$refs['modal'].hide()
-        alert("Inscription réussie")
+        this.alertMessage = `Inscription réussie à l'évènement ${this.currentEvent.title}`;
+        this.alertVariant = "success";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
       else{
-        alert("Mauvaises informations saisies")
+        this.alertMessage = `Inscription annulée, mauvaises informations saisies`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     },
     async onSubmit(event) {
@@ -436,10 +494,16 @@ export default {
         })
         this.optionsPresta.events = this.$store.getters.getInitiationsEvents
         this.$refs['modal-presta'].hide()
-        alert("Evènement ajouté, en attente de validation des organisateurs")
+        this.alertMessage = `Evènement ${this.currentEvent.title} ajouté, en attente de validation des organisateurs`;
+        this.alertVariant = "success";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
       else{
-        alert("Mauvaises informations saisies")
+        this.alertMessage = `Ajout de l'évènement annulé, mauvaises informations saisies`;
+        this.alertVariant = "danger";
+        this.alertCountDown = this.alertMax
+        window.scrollTo(0,0);
       }
     }
   },
@@ -448,7 +512,6 @@ export default {
     ...mapState(['userInfos']),
     peutCommenter(){
       if(!this.postCom || this.userInfos.admin==="prestataire"){
-        console.log(this.postCom)
         return false
       }
       else if(this.userInfos.id==-1) return true;
@@ -459,6 +522,9 @@ export default {
   },
   async created() {
     let self = this;
+    if(Object.prototype.hasOwnProperty.call(this.userInfos, "data")){
+      this.$store.commit("userInfos", this.userInfos.data)
+    }
     await axios.get(`http://localhost:3000/prestataires/prestataire/${this.$route.params.nomPrestataire}`)
         .then(async (result) => {
           self.data = result.data.data;
@@ -467,6 +533,16 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
+    axios.get(`http://localhost:3000/affluence/${this.data.id_prestataire}`)
+        .then(res => {
+            this.affluence = res.data.data.libelle_affluence
+            switch (this.affluence) {
+              case "Faible": this.colorAffluence = "fill: green"; break;
+              case "Moyenne": this.colorAffluence = "fill: orange"; break;
+              case "Elevée": this.colorAffluence = "fill: red"; break;
+            }
+        })
+        .catch(err => console.warn(err))
     axios.get(`http://localhost:3000/prestataires/prestataire/getCommentaires/${this.data.id_prestataire}`)
         .then (com => {
           this.commentaires = com.data.data
@@ -476,18 +552,13 @@ export default {
           console.warn("error", message);
         });
     this.form.surname = this.userInfos.surname
-
     axios.get(`http://localhost:3000/prestataires/commentairesDejaPoste/${this.data.id_prestataire}/${this.userInfos.id}`)
         .then(result => {
-          console.log("testetst")
-          console.log(result.data)
           if (result.data == "" && this.userInfos.admin != "prestataire") {
-            console.log("true")
             this.form.id = this.userInfos.id;
             this.form.idPresta = this.data.id_prestataire;
             this.postCom = true;
           } else {
-            console.log('false')
             this.postCom = false;
           }
         })
@@ -495,7 +566,6 @@ export default {
           let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
           console.warn("error", message);
         });
-
 
     setTimeout(async () => {
       await this.$store.dispatch('setInitiations', this.data.id_prestataire)

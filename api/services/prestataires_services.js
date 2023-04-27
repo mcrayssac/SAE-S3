@@ -5,6 +5,7 @@ const {callback} = require("pg/lib/native/query");
 const pool = require("../database/db");
 const queries = require("../queries/prestataires_queries");
 const mapQueries = require("../queries/maps_queries")
+const {popArray} = require("../security/methods")
 
 const getOrganisateur = async (callback) => {
     try {
@@ -83,7 +84,8 @@ const getFiltresCourses = (type, callback) => {
     }
 }*/
 
-const getFiltres = (type, callback) => {
+const getFiltres = (_type, callback) => {
+    let type = popArray(_type)
     let getFiltres = null;
     if (type === "restaurants"){
         getFiltres = [["Spécialites", ["Nuggets", "Burger"]],
@@ -104,7 +106,8 @@ const getFiltres = (type, callback) => {
     }
 }
 
-const getPrestataire = (type, callback) => {
+const getPrestataire = (_type, callback) => {
+    let type = popArray(_type)
     let getPrestataire = null;
     if (type === "restaurants"){
         getPrestataire = [
@@ -179,7 +182,8 @@ const getPrestataire = (type, callback) => {
     }
 }
 
-const getClub = async (nomClub, callback) => {
+const getClub = async (_nomClub, callback) => {
+    let nomClub = popArray(_nomClub)
     let club, getClub = null, getClubs = null, c, n;
 
     await pool.query(queries.getAllClubs, (async (error, results) => {
@@ -213,7 +217,8 @@ const getClub = async (nomClub, callback) => {
     }));
 }
 
-    const getAllPrestataire = async (nomPresta, callback) => {
+    const getAllPrestataire = async (_nomPresta, callback) => {
+        let nomPresta = popArray(_nomPresta)
         let club, getPresta = null, getPrestas = null, c, n;
 
         await pool.query(mapQueries.getAllPrestataires, (async (error, results) => {
@@ -251,8 +256,8 @@ const getClub = async (nomClub, callback) => {
 
 }
 
-const getClubCommentaire = async (id, callback) => {
-    console.log("\n\tid : ", id,"\n")
+const getClubCommentaire = async (_id, callback) => {
+    let id = popArray(_id)
     await pool.query(queries.getClubCommentaire, [id], (error, result) => {
         if (error) {
             console.log(error);
@@ -262,7 +267,8 @@ const getClubCommentaire = async (id, callback) => {
     });
 }
 
-const authenticate = (data,callback) => {
+const authenticate = (_data,callback) => {
+    let data = popArray(_data)
     let users = loadUsers()
     users = users.users;
     const user = users.find((u) => u.username.toLowerCase() === data.email.toLowerCase())
@@ -296,7 +302,8 @@ const loadUsers = () => {
 
 
 // Swagger
-const getPrestataireById = (idPrestataire, callback) => {
+const getPrestataireById = (_idPrestataire, callback) => {
+    let idPrestataire = popArray(_idPrestataire)
     try {
         pool.query(queries.getPrestataireById, idPrestataire, (error, results) => {
             if (error) {
@@ -312,8 +319,9 @@ const getPrestataireById = (idPrestataire, callback) => {
 }
 
 // Swagger
-const createPrestataire = (nom, email, telephone, site_web, passwd, id_type,  callback) => {
+const createPrestataire = (_nom, _email, _telephone, _site_web, _passwd, _id_type,  callback) => {
     try {
+        let [nom, email, telephone, site_web, passwd, id_type] = popArray([_nom, _email, _telephone, _site_web, _passwd, _id_type])
         pool.query(queries.createPrestataire, [nom, email, telephone, site_web, passwd, parseInt(id_type)], (error, results) => {
             if (error) {
                 console.log("Erreur service createPrestataire", error);
@@ -328,7 +336,8 @@ const createPrestataire = (nom, email, telephone, site_web, passwd, id_type,  ca
 }
 
 
-const deletePrestataire = (id, callback) => {
+const deletePrestataire = (_id, callback) => {
+    let id = popArray(_id)
     try {
         pool.query(queries.deletePrestataire, id, (error, results) => {
             if (results.rowCount === 0) {
@@ -349,7 +358,8 @@ const deletePrestataire = (id, callback) => {
 }
 
 
-const updatePrestataire = (id, nom, email, telephone, site_web, passwd, id_type,  callback) => {
+const updatePrestataire = (_id, _nom, _email, _telephone, _site_web, _passwd, _id_type,  callback) => {
+    let [id, nom, email, telephone, site_web, passwd, id_type] = popArray([_id, _nom, _email, _telephone, _site_web, _passwd, _id_type])
     try {
         pool.query(queries.updatePrestataire, [nom, email, telephone, site_web, passwd, parseInt(id_type), id], (error, results) => {
             if (results.rowCount === 0) {
@@ -378,7 +388,8 @@ const updatePrestataire = (id, nom, email, telephone, site_web, passwd, id_type,
 
 
 
-const addCommentaire = async(form, callback) => {
+const addCommentaire = async(_form, callback) => {
+    let form = popArray(_form)
     const commentaire = form.commentaire, idPublic = form.id, idPresta = form.idPresta, note = form.note;
 
     await pool.query(queries.addCommentaire, [commentaire, idPresta, idPublic], (async (error, resultCom) => {
@@ -399,7 +410,8 @@ const addCommentaire = async(form, callback) => {
 }
 
 
-const aPosteCommentaire = async (idPresta, idPublic, callback) => {
+const aPosteCommentaire = async (_idPresta, _idPublic, callback) => {
+    let [idPresta, idPublic] = popArray([_idPresta, _idPublic])
     await pool.query(queries.aPosteCommentaire, [idPresta, idPublic], async (error, results) => {
         if (error) {
             console.log("error aPosteCommentaire");
@@ -407,6 +419,16 @@ const aPosteCommentaire = async (idPresta, idPublic, callback) => {
         }
         return callback(null, results.rows[0]);
     });
+}
+
+const getAllPrestataires = (callback) => {
+    pool.query(queries.getAllPrestataires, (error, results) => {
+        if (error) {
+            console.log("error getAllPrestataires");
+            return callback(error);
+        }
+        return callback(null, results.rows);
+    })
 }
 
 module.exports = {
@@ -424,5 +446,6 @@ module.exports = {
     addCommentaire,
     getClubCommentaire,
     aPosteCommentaire,
-    getAllPrestataire
+    getAllPrestataire,
+    getAllPrestataires
 }

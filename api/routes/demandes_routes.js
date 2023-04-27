@@ -12,4 +12,8 @@ router.get("/prestataires",cacheMiddlewares(200), controller.getDemandesPrestata
 
 router.post("/prestataires/:choice",cacheMiddlewares(200), controller.postDemandesPrestataires);
 
+router.get("/activites", controller.getDemandesActivites);
+
+router.post("/activites/:choice", controller.postDemandesActivites);
+
 module.exports = router;

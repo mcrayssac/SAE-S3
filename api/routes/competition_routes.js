@@ -26,5 +26,12 @@ router.get("/", cacheMiddlewares(200), controller.getCompetition);
  *              description: Bad request
  */
 
+router.delete("/:id", controller.deleteCompetition)
+
+router.put("/:id", controller.updateCompetition)
+
+router.post("/", controller.addCompetition)
+
+router.get("/sports", controller.getSports)
 
 module.exports = router;

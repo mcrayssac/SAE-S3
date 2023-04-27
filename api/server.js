@@ -10,6 +10,12 @@ const express = require("express");
 const app = express();
 
 /**
+ * Import and define helmet, used to add security in the headers
+ */
+const helmet = require("helmet")
+app.use(helmet())
+
+/**
  * Import a terminal string styling
  */
 const chalk = require("chalk");
@@ -60,8 +66,8 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  * Import and define Node.js body parsing middleware
  */
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: "50kb"}));
+app.use(bodyParser.urlencoded({ extended: false, limit: "20kb" }));
 
 /**
  * Environment and Port configuration
@@ -112,6 +118,16 @@ app.use(function(req, res, next) {
 
 
 /**
+ * Import and define limiter for requests
+ */
+const limit = require("express-rate-limit")
+const limiter = limit({
+    windowMs: 15*60*1000,
+    max: 100
+})
+app.use(limiter)
+
+/**
  * Import and define all routes
  */
 const routes = require("./routes/prestataires_routes");
@@ -130,6 +146,7 @@ const reservationRoutes = require("./routes/reservation_routes");
 const inscriptionRoutes = require("./routes/inscription_routes");
 const cagnotteRoutes = require("./routes/cagnotte_routes");
 const affluenceRoutes = require("./routes/affluence_routes")
+const basket = require("./big_datas/index")
 
 app.use("/api/", authRoutes);
 app.use("/", routes);
@@ -147,6 +164,18 @@ app.use("/reservation", reservationRoutes);
 app.use("/inscription", inscriptionRoutes);
 app.use("/cagnotte", cagnotteRoutes);
 app.use("/affluence", affluenceRoutes)
+
+/**
+ * Added route for big data service
+ */
+app.get("/basket", async (req, res) => {
+    const matches = await basket.getMatches();
+    if (matches) {
+        res.json(matches);
+    } else {
+        res.status(500).send("Error fetching races");
+    }
+})
 
 
 /**

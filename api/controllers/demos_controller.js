@@ -54,3 +54,22 @@ exports.addDemo = async(req, res) => {
         return res.status(200).send({success:1, data: results})
     })
 }
+
+exports.updateDemo = async(req, res) => {
+    console.log(chalk.green.inverse('Requête pour modifier une démonstration de la scène'));
+    await services.updateDemo( req.params.idDemo, req.query.dateDebut, req.query.dateFin, (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}
+exports.addOrgaDemo = async(req, res) => {
+    console.log(chalk.green.inverse('Requête pour ajouter une démo en orga'))
+    await services.addOrgaDemo( req.query.dateDebut, req.query.dateFin, req.query.nbPlaces, req.query.idPresta, req.query.title, (err, results) => {
+        if(err){
+            return res.status(400).send({success:0, data: err})
+        }
+        return res.status(200).send({success:1, data: results})
+    })
+}

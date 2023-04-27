@@ -56,6 +56,7 @@ export default new Vuex.Store({
     logUser: function (state, user){
       instanceAuth.defaults.headers.common['authorization'] = user.accessToken;
       localStorage.setItem('user', JSON.stringify(user));
+      //console.log(JSON.stringify(user))
       state.user = user;
     },
     userInfos: function (state, userInfos){
@@ -90,7 +91,6 @@ export default new Vuex.Store({
         if(events.type == 'demos') state.eventsScene.push(object)
         else state.eventsInitiations.push(object)
       })
-      console.log(state.eventsInitiations)
     },
     registerToEvent: (state, event) => {
       console.log(event)
@@ -109,7 +109,7 @@ export default new Vuex.Store({
         demo = state.eventsScene.filter(e => e.id == event.id)
       else
         demo = state.eventsInitiations.filter(e => e.id == event.id)
-      if(demo[0].id_prestataire == event.id_prestataire){
+      if(demo[0].id_prestataire == event.id_prestataire || event.admin){
         let date = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
         axios.delete(`http://localhost:3000/${event.type}/` + event.id + '?date=' + decodeURI(date))
             .then(function (response){
@@ -125,7 +125,6 @@ export default new Vuex.Store({
       }
     },
     addEvent: (state, event) => {
-      console.log(event)
       let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
       let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
       axios.post(`http://localhost:3000/${event.type}?dateDebut=` + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin) + '&nbPlaces=' + event.nbPlaces + '&idPresta=' + event.id_prestataire + '&title=' + event.title)
@@ -135,15 +134,64 @@ export default new Vuex.Store({
           }).catch(function (error){
         console.log("addEvent error : ",error)
       });
+    },
+    updateEvent: (state, event) => {
+      console.log(event)
+      let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+      let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
+      axios.put(`http://localhost:3000/demos/`+ event.id +`?dateDebut=` + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin))
+          .then(function (response){
+            console.log('updateEvent', response.data.data);
+            return "success"
+          }).catch(function (error){
+        console.log("updateEvent error : ",error)
+      });
+    },
+    addOrgaEvent: (state, event) => {
+      let dateDebut = event.start.getFullYear() + '-08-' + event.start.getDate() + ' ' + event.start.getHours()+ ':' + event.start.getMinutes() + ':00'
+      let dateFin = event.end.getFullYear() + '-08-' + event.end.getDate() + ' ' + event.end.getHours()+ ':' + event.end.getMinutes() + ':00'
+      axios.post(`http://localhost:3000/demos/orga?dateDebut=` + decodeURI(dateDebut) + '&dateFin=' + decodeURI(dateFin) + '&nbPlaces=' + event.nbPlaces + '&idPresta=' + event.id_prestataire + '&title=' + event.title)
+          .then(function (response){
+            console.log('addOrgaEvent', response);
+            state.eventsScene.push({
+              title: event.title, id: response.data.data,
+              start: new Date(dateDebut).toJSON(), end: new Date(dateFin).toJSON(),
+              id_prestataire: event.id_prestataire, nb_places: event.nbPlaces
+            })
+            return "success"
+          }).catch(function (error){
+        console.log("addEvent error : ",error)
+      });
     }
   },
   actions: {
+    loginTwitter: ({commit}, data) => {
+      //console.log(data)
+      commit('logUser', data);
+    },
+    getUserInfosTwitter: ({commit}) => {
+      const instanceAuth2 = axios.create({
+        baseURL: 'http://localhost:3003/auth'
+      });
+      instanceAuth2.defaults.headers.common['authorization'] = `${instanceAuth.defaults.headers.common['authorization']}`;
+      return new Promise((resolve, reject) => {
+        instanceAuth2.get('/user',)
+            .then(function (response){
+              //console.log("responseData: ", response.data);
+              commit('userInfos', response.data);
+              resolve(response);
+            }).catch(function (error){
+          commit('logout');
+          reject(error);
+        });
+      });
+    },
     login: ({commit}, user) => {
       commit('setStatus', 'loading');
       return new Promise((resolve, reject) => {
         instanceAuth.post('/login', user)
             .then(function (response){
-              console.log("data", response.data.data);
+              //console.log("data", response.data.data);
               commit('setStatus', '');
               commit('logUser', response.data.data);
               resolve(response);
@@ -155,12 +203,16 @@ export default new Vuex.Store({
     },
     getUserInfos: ({commit}) => {
       instanceAuth.defaults.headers.common['authorization'] = `Bearer ${instanceAuth.defaults.headers.common['authorization']}`;
-      instanceAuth.post('/user',)
-          .then(function (response){
-            commit('userInfos', response.data);
-          }).catch(function (error){
-            commit('logout')
-            console.log("Token error : ",error)
+      return new Promise((resolve, reject) => {
+        instanceAuth.post('/user',)
+            .then(function (response){
+              commit('userInfos', response.data.data);
+              resolve(response);
+            }).catch(function (error){
+          //commit('logout')
+          //console.log("Token error : ",error)
+          reject(error);
+        });
       });
     },
     createAccount: ({commit}, userInfos) => {

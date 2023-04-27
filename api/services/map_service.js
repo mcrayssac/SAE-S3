@@ -1,5 +1,6 @@
 const pool = require("../database/db");
 const mapQueries = require("../queries/maps_queries");
+const {popArray} = require("../security/methods")
 
 exports.getCourses = async (callback) => {
     await pool.query(mapQueries.getCourses, ((error, results)=>{
@@ -60,7 +61,8 @@ exports.getAllPrestataires = async (callback) => {
 }
 
 
-exports.updateStandId = async (idPresta, idStand, callback) => {
+exports.updateStandId = async (_idPresta, _idStand, callback) => {
+    let [idPresta, idStand] = popArray([_idPresta, _idStand])
     await pool.query(mapQueries.updateStandId, [idPresta, idStand], async (error, results) => {
         if (error) {
             console.log("error updateStand");

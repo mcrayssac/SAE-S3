@@ -1,5 +1,6 @@
 const express = require("express");
 const controller = require("../controllers/demos_controller");
+const prestaController = require("../controllers/prestataires_controllers")
 
 //Import module de session et cookies
 const expressSession = require("express-session");
@@ -18,5 +19,11 @@ router.post('/:idDemo/reservations', cacheMiddlewares(200), controller.addReserv
 router.delete('/:idDemo', cacheMiddlewares(200), controller.deleteDemo);
 
 router.post('/',cacheMiddlewares(200), controller.addDemo);
+
+router.put('/:idDemo', controller.updateDemo);
+
+router.get("/prestataires", prestaController.getAllPrestataires)
+
+router.post("/orga", controller.addOrgaDemo)
 
 module.exports = router;
